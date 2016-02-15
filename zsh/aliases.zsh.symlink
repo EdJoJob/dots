@@ -1,0 +1,45 @@
+# Push and pop directories on directory stack
+alias pu='pushd'
+alias po='popd'
+
+# Basic directory operations
+alias ...='cd ../..'
+alias -- -='cd -'
+
+# Show history
+alias history='fc -l 1'
+
+# List direcory contents
+alias ls='gls --color=auto -F --group-directories-first'
+alias lsa='ls -lah'
+alias l='ls -lhA'
+ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
+#alias ldot='ls -d $PWD/$1/.*' # list all hidden files and dirs
+alias ll='ls -lh'
+alias la='ls -lha'
+alias sl=ls # often screw this up
+
+alias rs="rsync -avzh --progress"
+
+alias :q='exit'
+if whence nvim &>/dev/null; then
+    alias vim='nvim'
+fi
+alias :vim='vim'
+alias .vimrc='vim ~/dots/vimrc'
+alias .zshrc='vim ~/dots/zshrc && exec zsh'
+alias .aliases='vim ~/dots/aliases.zsh && exec zsh'
+alias note='vim ~/note.rst'
+alias :e='vim'
+alias :make='make'
+alias :h='man'
+alias clc='clear'
+alias ZQ='exit'
+alias ZZ='exit'
+
+alias c='clear'
+
+alias t='todo.sh'
+
+# python debuging with q
+alias q='rm $TMPDIR/q && touch $TMPDIR/q && tail -f $TMPDIR/q'

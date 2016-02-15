@@ -1,0 +1,49 @@
+[user]
+	name = Edward Evans
+	email = edjojob@gmail.com
+[color]
+	ui = auto
+[gui]
+	fontui = -family \"liberation sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family \"liberation mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+[push]
+	default = current
+[core]
+	excludesfile = /Users/eevans43/.gitignore_global
+[alias]
+    f = checkout test-feature/330-vim-testing-plugin
+
+    blog = log --graph --date=relative --format=tformat:'%C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' HEAD ^master --no-merges
+    bdiff = diff HEAD ^master
+    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+
+    a = add
+    b = branch
+    c = commit -v
+    ca = commit -v -a
+    cm = checkout master
+    co = checkout
+    d = diff
+    db = !git branch -d $(git branch --merged=master | grep -v '\\*\\|master')
+    dv = !git diff -w "$@" | view -
+    lgg = log --graph --decorate
+    lgga = log --graph --decorate --all
+    glog = log --graph --date=relative --format=tformat:'%C(auto)%h -(%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' --all
+    p = push
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbi = rebase -i
+    rbm = rebase master
+    st = status
+    unwip = !git log -n 1 | grep -q -c "\\\\-\\\\-wip\\\\-\\\\-" && git reset HEAD~1
+    wip = !git add -A && git ls-files --deleted -z | gxargs -r0 git rm && git commit -m "--wip--"
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.1/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true

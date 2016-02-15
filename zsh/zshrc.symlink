@@ -1,0 +1,283 @@
+source ~/.antigen/antigen.zsh
+antigen use oh-my-zsh
+
+antigen bundles <<EOF
+    colored-man-pages
+    zsh-users/zsh-history-substring-search
+    mercurial
+    git
+    pylint
+    pip
+    python
+    olivierverdier/zsh-git-prompt
+    zsh-users/zsh-completions src
+    rimraf/k
+    brew
+    brew-cask
+    command-not-found
+EOF
+
+antigen apply
+source ~/.aliases.zsh
+
+export DYLD_INSERT_LIBRARIES="/Users/eevans43/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
+
+# todo.sh config
+export TODOTXT_DEFAULT_ACTION=list
+
+# bind UP and DOWN arrow keys
+zmodload zsh/terminfo
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+bindkey -M vicmd q push-line
+
+autoload -U compinit promptinit
+compinit
+promptinit
+
+# setting my history to work nicely
+unsetopt extended_history
+setopt hist_reduce_blanks
+setopt interactive_comments
+
+setopt extendedglob
+
+# Some common directories of mine
+agent=~/ws/agent
+cloud=~/ws/cloud
+internal=~/ws/internal
+netbox=~/ws/netbox
+safechat=~/ws/safechat
+dots=~/dots
+
+export XDG_CONFIG_HOME=$HOME/.config
+export NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+path=(
+    /usr/local/bin
+    /usr/local/sbin
+    /usr/bin
+    /bin
+    /usr/sbin
+    /sbin
+    ~/ws/internal/nb-devtools/bin
+)
+typeset -U path
+export path
+
+export LESS="-FXRM"
+export SHELL=$(whence zsh)
+export EDITOR=$(whence nvim || whence vim)
+
+
+# Color listing
+eval $(gdircolors ~/.dir_colors)
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Default values for the appearance of the prompt. Configure at will.
+ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{black}["
+ZSH_THEME_GIT_PROMPT_SUFFIX="%B%F{black}]"
+ZSH_THEME_GIT_PROMPT_SEPARATOR="%B%F{black}|"
+ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[green]%}"
+ZSH_THEME_GIT_PROMPT_MASTER="%{$fg_bold[red]%}"
+ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}%{●%G%}"
+ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{≠%G%}"
+ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[red]%}%{⚡%G%}"
+ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[red]↓%G%}"
+ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[green]↑%G%}"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[yellow]…%G%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
+ZSH_THEME_GIT_PROMPT_CACHE="true"
+
+# ↑ ✔ green
+# ↓ ⚡  red
+# ♦ … ≠ ":" yellow
+# [$branch|status|remote]
+
+function git_info() {
+    precmd_update_git_vars
+    if [ -n "$__CURRENT_GIT_STATUS" ]; then
+        if [[ "$GIT_BRANCH" == "master" ]]; then
+            STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_MASTER$GIT_BRANCH%{${reset_color}%}"
+        else
+            STATUS="$ZSH_THEME_GIT_PROMPT_PREFIX$ZSH_THEME_GIT_PROMPT_BRANCH$GIT_BRANCH%{${reset_color}%}"
+        fi
+        STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_SEPARATOR"
+        if [ "$GIT_STAGED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_STAGED%{${reset_color}%}$GIT_STAGED"
+        fi
+        if [ "$GIT_UNTRACKED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_UNTRACKED%{${reset_color}%}"
+        fi
+        if [ "$GIT_CONFLICTS" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CONFLICTS%{${reset_color}%}$GIT_CONFLICTS"
+        fi
+        if [ "$GIT_CHANGED" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CHANGED%{${reset_color}%}$GIT_CHANGED"
+        fi
+        if [ "$GIT_CHANGED" -eq "0" ] && [ "$GIT_CONFLICTS" -eq "0" ] && [ "$GIT_STAGED" -eq "0" ] && [ "$GIT_UNTRACKED" -eq "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CLEAN"
+        fi
+        STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_SEPARATOR"
+        if [ "$GIT_BEHIND" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_BEHIND%{${reset_color}%}$GIT_BEHIND"
+        fi
+        if [ "$GIT_AHEAD" -ne "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_AHEAD%{${reset_color}%}$GIT_AHEAD"
+        fi
+        if [ "$GIT_BEHIND" -eq "0" ] && [ "$GIT_AHEAD" -eq "0" ]; then
+            STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CLEAN%{${reset_color}%}"
+        fi
+        STATUS="$STATUS%{${reset_color}%}$ZSH_THEME_GIT_PROMPT_SUFFIX"
+        echo "$STATUS"
+    fi
+}
+
+
+hg-status() {
+    echo -n "$($internal/nb-devtools/fast-hg-prompt/fast-hg-status)"
+}
+
+hg-branch() {
+    here="$(realpath "$PWD")"
+    while [ -n "$here" -a / != "$here" ]; do
+        if [ -e "$here/.hg" ]; then
+            echo -n $(cat "$here/.hg/branch")
+            break
+        fi
+        here="$(dirname "$here")"
+    done
+}
+
+set-hg-branch() {
+    #BRANCH_COLOR=$fg_bold[green]
+    dirty_flag=
+    if [ "$(hg-status)" ]; then
+        #BRANCH_COLOR=$fg_bold[red]
+        dirty_flag="*"
+    fi
+    branch_name=$(hg-branch)
+    if [ "$branch_name" ]; then
+        echo " ${BRANCH_COLOR}[${dirty_flag}${branch_name}]%{${reset_color}%}"
+    fi
+}
+
+# Setup vim mode
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(git_info) $(set-hg-branch)"
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+export KEYTIMEOUT=1
+bindkey -v
+
+PYTHONPATH='/Users/eevans43/ws/internal/nb-devtools/modules'
+export PYTHONPATH
+
+#prompt elite2 red green
+prompt_adam2_setup () {
+    # Some can't be local
+    local prompt_gfx_tlc prompt_gfx_mlc prompt_gfx_blc
+
+    prompt_start=$'%{\e(0%}'
+    prompt_end=$'%{\e(B%}'
+    prompt_gfx_tlc=$prompt_start$'\x6c'$prompt_end
+    prompt_gfx_mlc=$prompt_start$'\x78'$prompt_end
+    prompt_gfx_blc=$prompt_start$'\x6d'$prompt_end
+    prompt_gfx_hyphen=$'\x71'
+    local phyph=$prompt_start$prompt_gfx_hyphen$prompt_end
+
+
+    case $HOST in #hyphens
+        (*C02QP6H2G8WN*|EdMac*|EdwardMacPro*)
+            prompt_adam2_color1=${1:-'blue'};; # blue
+        (*)
+            prompt_adam2_color1=${1:-'154'};; # lime
+    esac
+    # Colour scheme
+    prompt_adam2_color2=${2:-'green'}   # current directory
+    prompt_adam2_color3=${3:-'cyan'}    # user@host
+    prompt_adam2_color4=${4:-'white'}   # user input
+
+    local prompt_gfx_bbox
+    prompt_gfx_tbox="%B%F{$prompt_adam2_color1}${prompt_gfx_tlc}%b%F{$prompt_adam2_color1}${phyph}"
+    prompt_gfx_bbox="%B%F{$prompt_adam2_color1}${prompt_gfx_blc}%b%F{$prompt_adam2_color1}${phyph}"
+
+    # This is a cute hack.  Well I like it, anyway.
+
+    prompt_l_paren="%B%F{246}("
+    prompt_r_paren="%B%F{246})"
+    prompt_l_sqparen="%B%F{246}["
+    prompt_r_sqparen="%B%F{246}]"
+
+    prompt_user_host="%b%F{$prompt_adam2_color3}%n%B%F{$prompt_adam2_color3}@%b%F{$prompt_adam2_color3}%m"
+
+    prompt_line_1a="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%~$prompt_r_paren%b%F{$prompt_adam2_color1}"
+    prompt_line_1b="%B%F{246}[%B%F{yellow}%D{%H:%M}%B%F{246}|$prompt_user_host%B%F{246}|%B%F{yellow}lvl:$SHLVL%B%F{246}]%b%F{$prompt_adam2_color1}${phyph}"
+
+    prompt_line_2="$prompt_gfx_bbox$prompt_l_sqparen%b%F{white}%?$prompt_r_sqparen%b%F{$prompt_adam2_color1}${phyph}%b%F{white}"
+
+    prompt_char="%(!.#.>)"
+
+    prompt_opts=(cr subst percent)
+
+}
+
+precmd() {
+    local prompt_line_1
+
+    prompt_adam2_choose_prompt
+
+    print -rP "$prompt_line_1"
+    PS1="$prompt_line_2%b%F{white}$prompt_char %b%f%k"
+    PS2="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{white}%_> %b%f%k"
+    PS3="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{white}?# %b%f%k"
+
+    zle_highlight[(r)default:*]="default:fg=$prompt_adam2_color4"
+}
+
+prompt_adam2_choose_prompt () {
+    local prompt_line_1a_width=${#${(S%%)prompt_line_1a//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+    local prompt_line_1b_width=${#${(S%%)prompt_line_1b//(\%([KF1]|)\{*\}|\%[Bbkf])}}
+
+    local prompt_padding_size=$(( COLUMNS
+    - prompt_line_1a_width
+    - prompt_line_1b_width ))
+
+    # Try to fit in long path and user@host.
+    if (( prompt_padding_size > 0 )); then
+        local prompt_padding
+        eval "prompt_padding=\${(l:${prompt_padding_size}::${prompt_gfx_hyphen}:)_empty_zz}"
+        prompt_line_1="$prompt_line_1a$prompt_start$prompt_padding$prompt_end$prompt_line_1b"
+        return
+    fi
+
+    prompt_padding_size=$(( COLUMNS - prompt_line_1a_width ))
+
+    # Didn't fit; try to fit in just long path.
+    if (( prompt_padding_size > 0 )); then
+        local prompt_padding
+        eval "prompt_padding=\${(l:${prompt_padding_size}::${prompt_gfx_hyphen}:)_empty_zz}"
+        prompt_line_1="$prompt_line_1a$prompt_start$prompt_padding$prompt_end"
+        return
+    fi
+
+    # Still didn't fit; truncate
+    local prompt_pwd_size=$(( COLUMNS - 5 ))
+    prompt_line_1="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%$prompt_pwd_size<...<%~%<<$prompt_r_paren%b%F{$prompt_adam2_color1}$prompt_start$prompt_gfx_hyphen$prompt_end"
+}
+
+
+preexec() {
+    print -Pn "%B%F{}Start %D{%H:%M:%S}\n%b%f%k"
+}
+
+
+prompt_adam2_setup

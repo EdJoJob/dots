@@ -1,0 +1,9 @@
+$pdf_previewer = "evince %S";
+$pdf_update_method = 0;
+
+$pdf_mode = 1;
+$pdflatex = 'pdflatex --shell-escape -synctex=1 -file-line-error %O %S';
+
+$out_dir = "build";
+$aux_dir = "build";
+

@@ -1,0 +1,43 @@
+%include ~/ws/internal/nb-devtools/hg/nbhgrc
+
+[ui]
+username = eevans
+ignore = ~/.hgignore
+
+[alias]
+lg = glog
+branchstatus = status --rev "branch('$1')"
+bs = branchstatus .
+
+[defaults]
+addremove = --similarity 100
+qseries = -vs
+
+[trusted]
+users = *
+
+[extensions]
+nb= ~/ws/internal/nb-devtools/modules/nbhg.py
+color=
+crecord = ~/.hgext/crecord/crecord/
+mq=
+hgk=
+largefiles=
+histedit=
+pager=
+progress=
+purge=
+rebase=
+shelve=
+
+[pager]
+pager = LESS='FSRXM' less
+attend = cat, diff, glog, log, incoming, outgoing, lg, show, help, qcat, qdiff, qlog, annotate
+
+[diff]
+git=1
+nodates=1
+
+[mq]
+secret = True
+
