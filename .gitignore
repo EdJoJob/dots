@@ -1,0 +1,11 @@
+editor/vim.symlink/tmp/
+.hg
+.DS_Store
+.netrwhist
+editor/vim.symlink/
+tmux/tmux.symlink/plugins/*
+tmux/tmux.symlink/resurrect
+*.pyc
+notes
+todo.symlink/todo/
+irssi/saved_nick_colors
