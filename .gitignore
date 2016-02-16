@@ -8,4 +8,4 @@ tmux/tmux.symlink/resurrect
 *.pyc
 notes
 todo.symlink/todo/
-irssi/saved_nick_colors
+irssi.symlink/saved_nick_colors
