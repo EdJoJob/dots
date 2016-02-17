@@ -21,14 +21,15 @@ alias sl=ls # often screw this up
 
 alias rs="rsync -avzh --progress"
 
+alias e=$EDITOR
 alias :q='exit'
 if whence nvim &>/dev/null; then
     alias vim='nvim'
 fi
 alias :vim='vim'
-alias .vimrc='vim ~/dots/vimrc'
-alias .zshrc='vim ~/dots/zshrc && exec zsh'
-alias .aliases='vim ~/dots/aliases.zsh && exec zsh'
+alias .vimrc='vim ~/dots/editor/vimrc.symlink'
+alias .zshrc='vim ~/dots/zsh/zshrc.symlink && exec zsh'
+alias .aliases='vim ~/dots/zsh/aliases.zsh.symlink && exec zsh'
 alias note='vim ~/note.rst'
 alias :e='vim'
 alias :make='make'
