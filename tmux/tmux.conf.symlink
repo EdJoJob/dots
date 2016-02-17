@@ -65,9 +65,9 @@ tm_user="#[fg=green,bold]$USER#[fg=green,none]@#[fg=green,bold]#h#[fg=colour246,
 tm_session="#[fg=green,none]#S#[fg=colour246,none]"
 tm_battery="#[fg=green,none]#{battery_percentage}#[fg=colour246,none]"
 tm_tunes="#[fg=green,none]#(osascript ~/dots/applescripts/tunes.scpt)#[fg=colour246,none]"
-set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] ["$tm_battery"] ["$tm_tunes"]#{prefix_highlight}"
-set -g status-right ""
-set -g status-justify right
+set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] ["$tm_battery"] #{prefix_highlight}"
+set -g status-right "["$tm_tunes"]"
+set -g status-justify centre
 
 set -g window-status-format "#[fg=green,none]#I:#W#F"
 set -g window-status-current-format "#[fg=green,bold]#I:#W#F"
