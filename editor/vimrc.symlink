@@ -5,99 +5,94 @@
 " Preamble -----------------------{{{
 set nocompatible    " It's VIM, not VI
 set shell=/usr/local/bin/zsh
-
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/dots/editor/vim.symlink/bundle/')
+" Install vim-plug if we don't arlready have it
+if empty(glob("~/.vim/autoload/plug.vim"))
+    " Ensure all needed directories exist  (Thanks @kapadiamush)
+    execute '!mkdir -p ~/.vim/plugged'
+    execute '!mkdir -p ~/.vim/autoload'
+    " Download the actual plugin manager
+    execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
+endif
+call plug#begin('~/dots/editor/vim.symlink/bundle/')
 " Plugin listing {{{
-" manage plugins
-Plugin 'VundleVim/Vundle.vim'
 " colorscheme
-Plugin 'w0ng/vim-hybrid'
+Plug 'w0ng/vim-hybrid'
 " file browser
-Plugin 'tpope/vim-vinegar'
+Plug 'tpope/vim-vinegar'
 " get the output of shell commands in a new split buffer
-Plugin 'sjl/clam.vim'
+Plug 'sjl/clam.vim'
 " browse the undotree easily
-Plugin 'mbbill/undotree'
+Plug 'mbbill/undotree'
 " the pretty at the bottom of the buffer
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " change surrounding things
-Plugin 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 " mappings
-Plugin 'tpope/vim-unimpaired'
+Plug 'tpope/vim-unimpaired'
 " repeat macros with .
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 " syntax checking
 if has('nvim')
-    Plugin 'benekastah/neomake'
+    Plug 'benekastah/neomake'
     let s:neomake = 1
 else
-    Plugin 'scrooloose/syntastic'
+    Plug 'scrooloose/syntastic'
     let s:syntastic = 1
 endif
 " and completion
-"Plugin 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 " comment toggle
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 "lets work with latex
-Plugin 'LaTeX-Box-Team/LaTeX-Box'
-Plugin 'http://git.code.sf.net/p/vim-latex/vim-latex'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
+Plug 'http://git.code.sf.net/p/vim-latex/vim-latex'
 " use ag in vim like :grep
-Plugin 'rking/ag.vim'
+Plug 'rking/ag.vim'
 " Get lots of language settings
-Plugin 'EdJoJob/llvmir-vim'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'vim-jp/cpp-vim'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'gorodinskiy/vim-coloresque'
-Plugin 'chrisbra/csv.vim'
-Plugin 'NLKNguyen/c-syntax.vim'
-Plugin 'tpope/vim-git'
-Plugin 'othree/html5.vim'
-Plugin 'leshill/vim-json'
-Plugin 'tpope/vim-markdown'
-Plugin 'hdima/python-syntax'
+Plug 'EdJoJob/llvmir-vim'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'vim-jp/cpp-vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'gorodinskiy/vim-coloresque'
+Plug 'chrisbra/csv.vim'
+Plug 'NLKNguyen/c-syntax.vim'
+Plug 'tpope/vim-git'
+Plug 'othree/html5.vim'
+Plug 'leshill/vim-json'
+Plug 'tpope/vim-markdown'
+Plug 'hdima/python-syntax'
 " restructured text
-Plugin 'Rykka/riv.vim'
+Plug 'Rykka/riv.vim'
 " easily align things
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 " navigate tmux splits
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'kien/ctrlp.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'bkad/CamelCaseMotion'
-Plugin 'freitass/todo.txt-vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'kien/ctrlp.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'bkad/CamelCaseMotion'
+Plug 'freitass/todo.txt-vim'
 " Work with VimL
-Plugin 'ynkdir/vim-vimlparser'
-Plugin 'dbakker/vim-lint'
+Plug 'ynkdir/vim-vimlparser'
+Plug 'dbakker/vim-lint'
 " For presentations
-Plugin 'NLKNguyen/papercolor-theme'
+Plug 'NLKNguyen/papercolor-theme'
 "}}}
-" Slow Plugins {{{
+" Slow Plugs {{{
  " Git integration
- Plugin 'tpope/vim-fugitive'
+ Plug 'tpope/vim-fugitive'
  " Mecurial Integration
- Plugin 'ludovicchabant/vim-lawrencium'
+ Plug 'ludovicchabant/vim-lawrencium'
  " indicate changed lines from repo in gutter
- Plugin 'mhinz/vim-signify'
+ Plug 'mhinz/vim-signify'
 "}}}
-" Testing Plugins {{{
-Plugin 'gastonsimone/vim-dokumentary'
-Plugin 'mattn/emmet-vim'
-Plugin 'tpope/vim-obsession'
+" Testing Plugs {{{
+Plug 'gastonsimone/vim-dokumentary'
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-obsession'
 " }}}
-call vundle#end()
+call plug#end()
 
-" Bring filetype back after bundles
-syntax on
-filetype plugin indent on
-
-" this makes me happy
-"set background=dark
-"let s:molokai_original = 1
-"colorscheme molokai
 "}}}
 " Basic Config Settings ----------{{{
 set title                       " set the title of the terminal window
