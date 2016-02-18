@@ -2,7 +2,7 @@ editor/vim.symlink/tmp/
 .hg
 .DS_Store
 .netrwhist
-editor/vim.symlink/
+editor/vim.symlink/bundle/
 tmux/tmux.symlink/plugins/*
 tmux/tmux.symlink/resurrect
 *.pyc
