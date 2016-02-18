@@ -165,10 +165,10 @@ set nospell
 "}}}
 " Quick Editing ------------------{{{
 
-nnoremap <leader>ev :tabedit ~/dots/vimrc<cr>
-nnoremap <leader>et :tabedit ~/dots/todo/todo/todo.txt<cr>
-nnoremap <leader>sv :source ~/dots/vimrc<cr>
-nnoremap <leader>ez :tabedit ~/dots/zshrc<cr>
+nnoremap <leader>ev :tabedit ~/dots/editor/vimrc.symlink<cr>
+nnoremap <leader>sv :source ~/dots/editor/vimrc.symlink<cr>
+nnoremap <leader>et :tabedit ~/dots/todo.symlink/todo/todo.txt<cr>
+nnoremap <leader>ez :tabedit ~/dots/zsh/zshrc.symlink<cr>
 
 "}}}
 " Backup Settings ----------------{{{
