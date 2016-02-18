@@ -73,7 +73,7 @@ set -g window-status-format "#[fg=green,none]#I:#W#F"
 set -g window-status-current-format "#[fg=colour246,none][#[fg=green,bold]#I:#W#F#[fg=colour246,none]]"
 set -g status-interval 1
 
-set -g @batt_charged_icon ""
+set -g @batt_charged_icon " "
 set -g @batt_charging_icon "+"
 set -g @batt_discharging_icon "-"
 set -g @batt_attached_icon "…"
