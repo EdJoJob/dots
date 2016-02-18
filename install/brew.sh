@@ -90,3 +90,5 @@ brew cask install quicklook-csv
 brew cask install quicklook-json
 brew cask install suspicious-package
 
+# tiling window manager for OSX
+brew cask install amethyst
