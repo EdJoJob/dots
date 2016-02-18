@@ -507,8 +507,8 @@ let g:indent_guides_autocmds_enabled = 1
 let g:indent_guides_enable_on_vim_startup = 1
 augroup PERSONAL_INDENT_COLORS
     au!
-    au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#1d1f21   ctermbg=236
-    au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#373 ctermbg=240
+    au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3f2d3c ctermbg=236
+    au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2d363f ctermbg=240
 augroup END
 " }}}
 " dokumentary {{{
