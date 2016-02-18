@@ -70,7 +70,7 @@ set -g status-right "["$tm_tunes"]"
 set -g status-justify centre
 
 set -g window-status-format "#[fg=green,none]#I:#W#F"
-set -g window-status-current-format "#[fg=green,bold]#I:#W#F"
+set -g window-status-current-format "#[fg=colour246,none][#[fg=green,bold]#I:#W#F#[fg=colour246,none]]"
 set -g status-interval 1
 
 set -g @batt_charged_icon ""
