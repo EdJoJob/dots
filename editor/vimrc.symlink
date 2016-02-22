@@ -145,6 +145,7 @@ set linebreak                                           " wrap lines at &breakat
 " leader for linebreak lines
 set showbreak=↳
 set breakindent
+set breakindentopt=shift:2
 set smarttab
 set expandtab
 set softtabstop=4
