@@ -42,6 +42,7 @@ alias ZZ='exit'
 alias c='clear'
 
 alias t='todo.sh'
+alias start_day='t recur && t archive && t report'
 
 # python debuging with q
 alias q='rm $TMPDIR/q && touch $TMPDIR/q && tail -f $TMPDIR/q'
