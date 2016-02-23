@@ -25,6 +25,19 @@ export DYLD_INSERT_LIBRARIES="/Users/eevans43/src/stderred/build/libstderred.dyl
 
 # todo.sh config
 export TODOTXT_DEFAULT_ACTION=list
+export TODO_ROOT="$HOME/.todo"
+export TODO_DIR="$TODO_ROOT/todo"
+
+# Your todo/done/report.txt locations
+export TODO_FILE="$TODO_DIR/todo.txt"
+export DONE_FILE="$TODO_DIR/done.txt"
+export REPORT_FILE="$TODO_DIR/report.txt"
+
+# You can customize your actions directory location
+#export TODO_ACTIONS_DIR="$HOME/.todo.actions.d"
+export TODO_ACTIONS_DIR="$TODO_ROOT/actions"
+
+export TODO_NOTES_DIR="$TODO_ROOT/notes"
 
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
