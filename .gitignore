@@ -6,6 +6,8 @@ editor/vim.symlink/bundle/
 tmux/tmux.symlink/plugins/*
 tmux/tmux.symlink/resurrect
 *.pyc
-notes
+notes/
 todo.symlink/todo/
 irssi.symlink/saved_nick_colors
+firefox/vimperator.symlink/info/default/*
+!firefox/vimperator.symlink/info/default/ignored-keys

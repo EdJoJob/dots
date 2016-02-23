@@ -1,0 +1,20 @@
+"2.1 (created: 2009/05/21 13:13:06)
+map <C-d> :tabclose<CR>
+" Make nagigating tabs easier
+map s <C-S-Tab>
+map h <C-Tab>
+map e <C-6>
+" Make Ctrl+P work to print stuff
+map <C-p> :hardcopy<CR>
+nmap D :closefulltabtree<CR>
+nmap <C-d> :closetabtree<CR>
+"set gui=addons,
+vmap <C-d> :tabclose<CR>
+vmap d <C-w>
+set popups=tab
+"set popups=resized
+" set wildoptions=auto
+set titlestring=Firefox
+:set hlsearch
+" vim: set ft=vimperator:
+set! browser.zoom.full=true
