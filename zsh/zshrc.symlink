@@ -23,6 +23,9 @@ source ~/.aliases.zsh
 
 export DYLD_INSERT_LIBRARIES="/Users/eevans43/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
 
+# zsh-syntax-highlighting configuration
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
+
 # todo.sh config
 export TODOTXT_DEFAULT_ACTION=list
 export TODO_ROOT="$HOME/.todo"
@@ -91,6 +94,11 @@ export EDITOR=$(whence nvim || whence vim)
 # Color listing
 eval $(gdircolors ~/.dir_colors)
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Use gnu's ls so don't need these lscolors
+if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
+  unset LSCOLORS
+fi
 
 # Default values for the appearance of the prompt. Configure at will.
 ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{black}["
