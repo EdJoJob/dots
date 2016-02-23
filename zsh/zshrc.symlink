@@ -65,11 +65,17 @@ setopt extendedglob
 
 # Some common directories of mine
 agent=~/ws/agent
+: ~agent
 cloud=~/ws/cloud
+: ~cloud
 internal=~/ws/internal
+: ~internal
 netbox=~/ws/netbox
+: ~netbox
 safechat=~/ws/safechat
+: ~safechat
 dots=~/dots
+: ~dots
 
 export XDG_CONFIG_HOME=$HOME/.config
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
