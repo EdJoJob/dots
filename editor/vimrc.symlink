@@ -488,12 +488,13 @@ if exists('s:syntastic')
 endif
 "}}}
 " Neomake {{{
-augroup neomake
+augroup personal_neomake
     au!
     au BufWritePost,BufEnter * if exists('s:neomake') | Neomake | endif
     "This doesn't work, although I would like it to (should give lint as I type)
     "au TextChanged * if exists('s:neomake') | update | Neomake endif
 augroup END
+let g:neomake_open_list=2
 " }}}
 " jedi {{{
 let g:jedi#use_tabs_not_buffers = 0
