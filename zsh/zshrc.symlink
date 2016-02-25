@@ -1,24 +1,30 @@
-source ~/.antigen/antigen.zsh
-antigen use oh-my-zsh
+source ~/.zgen/zgen.zsh
+if ! zgen saved; then
+    echo "Creating a zgen save"
 
-antigen bundles <<EOF
-    colored-man-pages
-    zsh-users/zsh-history-substring-search
-    mercurial
-    git
-    pylint
-    pip
-    python
-    olivierverdier/zsh-git-prompt
-    zsh-users/zsh-completions src
-    rimraf/k
-    brew
-    brew-cask
-    command-not-found
-    zsh-users/zsh-syntax-highlighting
-EOF
+    zgen oh-my-zsh
 
-antigen apply
+    zgen oh-my-zsh plugins/colored-man-pages
+    zgen oh-my-zsh plugins/mercurial
+    zgen oh-my-zsh plugins/git
+    zgen oh-my-zsh plugins/pylint
+    zgen oh-my-zsh plugins/pip
+    zgen oh-my-zsh plugins/python
+    zgen oh-my-zsh plugins/brew
+    zgen oh-my-zsh plugins/brew-cask
+    zgen oh-my-zsh plugins/command-not-found
+
+    zgen load zsh-users/zsh-history-substring-search
+    zgen load olivierverdier/zsh-git-prompt
+    zgen load zsh-users/zsh-completions src
+    zgen load rimraf/k
+    zgen load zsh-users/zsh-syntax-highlighting
+
+    zgen save
+fi
+
+export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
+
 source ~/.aliases.zsh
 
 export DYLD_INSERT_LIBRARIES="/Users/eevans43/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"

@@ -16,3 +16,6 @@
 [submodule "todo.symlink/actions/todo-daily.repeat.upgrade"]
 	path = todo.symlink/actions/todo-daily.repeat.upgrade
 	url = https://github.com/drobertadams/todo.txt-cli-addons
+[submodule "zsh/zgen.symlink"]
+	path = zsh/zgen.symlink
+	url = https://github.com/tarjoilija/zgen.git
