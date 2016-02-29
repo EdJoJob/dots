@@ -45,3 +45,6 @@ nodates=1
 [mq]
 secret = True
 
+[auth]
+bb.prefix = https://hg.bb
+bb.username = eevans
