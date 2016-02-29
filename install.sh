@@ -16,12 +16,15 @@ if [ "$(uname)" == "Darwin" ]; then
     echo "Updating OSX settings"
     source install/osx.sh
 
-    "Running tmux movement fixes"
+    echo "Running tmux movement fixes"
     source tmux/tmux_fixes.sh
 fi
 
 echo "Enabling hg extentions"
 source install/mercurial.sh
+
+echo "Installing python modules"
+source install/python.sh
 
 echo "Configuring zsh as default shell"
 chsh -s $(which zsh)
