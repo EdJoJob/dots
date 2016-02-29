@@ -494,7 +494,6 @@ augroup personal_neomake
     "This doesn't work, although I would like it to (should give lint as I type)
     "au TextChanged * if exists('s:neomake') | update | Neomake endif
 augroup END
-let g:neomake_open_list=2
 " }}}
 " jedi {{{
 let g:jedi#use_tabs_not_buffers = 0
