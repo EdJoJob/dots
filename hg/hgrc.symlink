@@ -11,10 +11,11 @@ ignore = ~/.hgignore_global
 lg = glog
 branchstatus = status --rev "branch('$1')"
 bs = branchstatus .
-dlog = log --style=~/src/mercurial-cli-templates/map-cmdline.dlog
-nlog = log --style=~/src/mercurial-cli-templates/map-cmdline.nlog
-sglog= log --style=~/src/mercurial-cli-templates/map-cmdline.sglog
-slog = log --style=~/src/mercurial-cli-templates/map-cmdline.slog
+
+dlog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.dlog
+nlog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.nlog
+sglog = glog --style=$HOME/src/mercurial-cli-templates/map-cmdline.sglog
+slog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.slog
 
 [defaults]
 addremove = --similarity 100
@@ -40,7 +41,7 @@ shelve=
 
 [pager]
 pager = LESS='FSRXM' less
-attend = cat, diff, glog, log, incoming, outgoing, lg, show, help, qcat, qdiff, qlog, annotate
+attend = cat, diff, glog, log, incoming, outgoing, lg, show, help, qcat, qdiff, qlog, annotate, heads, show, dlog, nlog, sglog, slog
 
 [diff]
 git=1
