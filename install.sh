@@ -20,6 +20,9 @@ if [ "$(uname)" == "Darwin" ]; then
     source tmux/tmux_fixes.sh
 fi
 
+echo "Enabling hg extentions"
+source install/mercurial.sh
+
 echo "Configuring zsh as default shell"
 chsh -s $(which zsh)
 
