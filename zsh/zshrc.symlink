@@ -188,10 +188,10 @@ hg-branch() {
 }
 
 set-hg-branch() {
-    #BRANCH_COLOR=$fg_bold[green]
+    BRANCH_COLOR="%{$fg_bold[green]%}"
     dirty_flag=
     if [ "$(hg-status)" ]; then
-        #BRANCH_COLOR=$fg_bold[red]
+        BRANCH_COLOR="%{$fg_bold[red]%}"
         dirty_flag="*"
     fi
     branch_name=$(hg-branch)
