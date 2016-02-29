@@ -8,6 +8,8 @@ map e <C-6>
 map <C-p> :hardcopy<CR>
 nmap D :closefulltabtree<CR>
 nmap <C-d> :closetabtree<CR>
+nmap go :open google 
+nmap gt :tabopen google 
 "set gui=addons,
 vmap <C-d> :tabclose<CR>
 vmap d <C-w>
@@ -15,6 +17,7 @@ set popups=tab
 "set popups=resized
 " set wildoptions=auto
 set titlestring=Firefox
-:set hlsearch
+set hlsearch
 " vim: set ft=vimperator:
 set! browser.zoom.full=true
+
