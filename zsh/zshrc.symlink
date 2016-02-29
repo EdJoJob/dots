@@ -23,6 +23,8 @@ if ! zgen saved; then
     zgen save
 fi
 
+source $(whence pycd.sh)
+
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 
 source ~/.aliases.zsh
