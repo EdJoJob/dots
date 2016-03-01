@@ -9,7 +9,7 @@
 [push]
 	default = current
 [core]
-	excludesfile = /Users/eevans43/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [alias]
     f = checkout test-feature/330-vim-testing-plugin
 
