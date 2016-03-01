@@ -177,32 +177,21 @@ function git_info() {
     fi
 }
 
-
-hg-status() {
-    echo -n "$($internal/nb-devtools/fast-hg-prompt/fast-hg-status)"
-}
-
-hg-branch() {
-    here="$(realpath "$PWD")"
-    while [ -n "$here" -a / != "$here" ]; do
-        if [ -e "$here/.hg" ]; then
-            echo -n $(cat "$here/.hg/branch")
-            break
-        fi
-        here="$(dirname "$here")"
-    done
-}
-
 set-hg-branch() {
-    BRANCH_COLOR="%{$fg_bold[green]%}"
-    dirty_flag=
-    if [ "$(hg-status)" ]; then
-        BRANCH_COLOR="%{$fg_bold[red]%}"
-        dirty_flag="*"
-    fi
-    branch_name=$(hg-branch)
-    if [ "$branch_name" ]; then
-        echo " ${BRANCH_COLOR}[${dirty_flag}${branch_name}]%{${reset_color}%}"
+    local branch modified unknown remote hg stats
+    if [[ -n $(hg prompt "{branch}" 2> /dev/null) ]]; then
+        hg="hg"
+        branch=$(hg prompt --angle-brackets "<$ZSH_THEME_BRANCH<branch>%{$reset_color%}>" 2> /dev/null)
+        modified=$(hg prompt --angle-brackets "<$ZSH_THEME_CHANGED%{$reset_color%}<status|modified>>"  2> /dev/null | sed -e 's/!//')
+        unknown=$(hg prompt --angle-brackets "<$ZSH_THEME_UNTRACKED<status|unknown>>" 2> /dev/null | sed -e 's/?//')
+        if [[ -z $modified ]] && [[ -z $unknown ]]; then
+            stats=$ZSH_THEME_CLEAN
+        else
+            stats="$modified$unknown"
+        fi
+        remote=$(hg prompt --angle-brackets "<$ZSH_THEME_BEHIND%{$reset_color%}<incoming|count>><$ZSH_THEME_AHEAD%{$reset_color%}<outgoing|count>>" 2> /dev/null)
+
+        echo "$ZSH_THEME_PREFIX$ZSH_THEME_REPO$hg$ZSH_THEME_SEPARATOR$branch$ZSH_THEME_SEPARATOR$stats$ZSH_THEME_SEPARATOR$remote$ZSH_THEME_SUFFIX"
     fi
 }
 
