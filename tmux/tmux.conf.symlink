@@ -46,7 +46,7 @@ unbind %
 bind | split-window -h -c "#{pane_current_path}" # horizontal split
 unbind '"'
 bind \ split-window -v  -c "#{pane_current_path}" # vertical split
-bind c new-window -c "#{pane_current_path}" # new window
+bind c new-window -c "#{pane_current_path}" -n ""# new window
 set-window-option -g automatic-rename off # auto name
 set-window-option -g allow-rename off
 
