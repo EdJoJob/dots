@@ -11,6 +11,7 @@ echo "Installing homebrew packages..."
 
 brew tap caskroom/cask
 brew tap homebrew/command-not-found
+brew tap homebrew/python
 brew tap homebrew/dupes
 brew tap neovim/neovim
 
@@ -18,6 +19,7 @@ brew tap neovim/neovim
 brew install the_silver_searcher
 brew install tree
 brew install wget
+brew install sloccount
 
 # development tools
 brew install git
@@ -35,6 +37,8 @@ brew install curl
 brew install coreutils
 brew install gawk
 brew install gnu-getopt
+brew install homebrew/dupes/gpatch
+brew install homebrew/dupes/expect # Needed for tmux tests
 brew install gnu-indent
 brew install gnu-sed
 brew install gnu-tar
@@ -51,6 +55,7 @@ brew install htop-osx
 brew install irssi
 brew install todo-txt
 brew install highlight
+brew install pandoc
 
 # install neovim
 brew install neovim/neovim/neovim --HEAD
