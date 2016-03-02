@@ -89,7 +89,7 @@ Plug 'NLKNguyen/papercolor-theme'
 " Testing Plugs {{{
 Plug 'gastonsimone/vim-dokumentary'
 Plug 'mattn/emmet-vim'
-Plug 'tpope/vim-obsession'
+Plug 'SirVer/ultisnips'
 " }}}
 call plug#end()
 
@@ -513,6 +513,13 @@ augroup END
 " }}}
 " dokumentary {{{
 let g:dokumentary_docprgs = {'python': ''}
+" }}}
+" utilsnips {{{
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<c-b>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+
+let g:UltiSnipsEditSplit = 'context'
 " }}}
 "}}}
 " MiniPlugins --------------------{{{

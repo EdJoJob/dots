@@ -1,0 +1,138 @@
+snippet future
+from __future__ import (
+	absolute_import, division, unicode_literals, print_function)
+endsnippet
+
+snippet class
+class ${1:SomeClass}(${3:object}):
+	def __init__(self, ${2:*args, **kwargs}):
+		super($1, self).__init__($2)
+endsnippet
+
+snippet err
+print >>sys.stderr, '{$2:$1} = ' + repr(${1:locals()})  # noqa TODO
+endsnippet
+
+snippet out
+import pprint
+print('${2:$1} = ' + pprint.pformat(${1:locals()}))  # noqa TODO
+endsnippet
+
+snippet outl
+print('${2:$1} = [')  # TODO
+for _ in ${1:locals()}:
+	print('  '+repr(_)+',')
+print(']')
+endsnippet
+
+snippet outd
+print('${2:$1} = {')  # TODO
+for _ in ${1:locals()}.items():
+	print('  '+repr(_[0])+': '+repr(_[1])+',')
+print('}')
+endsnippet
+
+snippet lxml
+from lxml.html import tostring
+print('========== <${2:$1}> ==========\n%s\n========== </${2:$1}> =========' % tostring(${1:locals()}))  # noqa
+endsnippet
+
+snippet log
+with open('/tmp/q', 'a') as _f:  # TODO
+	_f.write('${2:$1} = %r\n' % (${1:locals()}, ))  # noqa
+endsnippet
+
+snippet logl
+with open('/tmp/q', 'a') as _f:  # TODO
+	_f.write('${2:$1} = [\n')
+	for _ in ${1:locals()}:
+		_f.write('  '+repr(_)+',\n')
+	_f.write(']\n')
+endsnippet
+
+snippet logd
+with open('/tmp/q', 'a') as _f:  # TODO
+	_f.write('${2:$1} = {\n')
+	for _ in ${1:locals()}.items():
+		_f.write('  '+repr(_[0])+': '+repr(_[1])+',\n')
+	_f.write('}\n')
+endsnippet
+
+snippet loge
+try:
+except:
+	with open('/tmp/q', 'a') as _f:  # TODO
+		import sys
+		import traceback
+		_f.write("".join(traceback.format_exception(*sys.exc_info())))
+
+endsnippet
+
+snippet dir
+__expr = ${1:locals()}  # TODO: remove this debug
+print('${2:$1} = %s:' % type(__expr))
+for _ in dir(__expr):
+	if not hasattr(__expr, _):
+		print('  .%s = <not set>' % _)
+	elif callable(getattr(__expr, _)):
+		print('  .%s()' % _)
+	else:
+		print('  .%s = %r' % (_, getattr(__expr, _)))
+print('}')
+del __expr  # TODO: remove this debug
+endsnippet
+
+snippet logdir
+with open('/tmp/q', 'a') as _f:  # TODO
+	__expr = ${1:locals()}  # TODO: remove this debug
+	_f.write('${2:$1} = %s:\n' % type(__expr))
+	for _ in dir(__expr):
+		if not hasattr(__expr, _):
+			_f.write('  .%s = <not set>\n' % _)
+		elif callable(getattr(__expr, _)):
+			_f.write('  .%s()\n' % _)
+		else:
+			_f.write('  .%s = %r\n' % (_, getattr(__expr, _)))
+	_f.write('}\n')
+	del __expr  # TODO: remove this debug
+endsnippet
+
+snippet q
+import q
+q(${1:locals()})
+endsnippet
+
+snippet qfake
+print('${2:$1} (simulated!):\n%s\n' % str(${1:query}.statement.compile(compile_kwargs={"literal_binds": True})))  # noqa TODO
+endsnippet
+
+snippet qreal
+print('${2:$1} (compiled):\n%s\n' % str(${1:query}.statement))  # noqa TODO
+endsnippet
+
+snippet qlog
+__query = ${1:str(query.statement)}
+with open('${2:/tmp/q}', 'a') as fp:  # TODO: remove this debug
+	fp.write('\n')
+	fp.write('=' * 79)
+	fp.write('\n')
+	for __phrase in ['GROUP BY', 'WHERE', 'FROM', 'HAVING', 'ORDER BY', '(INNER\s+|OUTER\s+|LEFT\s+)*JOIN']:  # noqa
+		__query = __query.replace(' '+__phrase, '\n'+__phrase)
+	__query = __query.replace(', ', ',\n   ')
+	#__query = __query % tuple(['VALUE1', 'VALUE2'])
+	fp.write(__query)
+	del __query
+endsnippet
+
+snippet notimpl "no implementation debug"
+raise NotImplementedError('TODO :${1:remove this}') # noqa
+endsnippet
+
+snippet #!
+#! /usr/bin/env python${1:2}
+endsnippet
+
+snippet main
+if __name__ == '__main__':
+	${1:main()}
+endsnippet
