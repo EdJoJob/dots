@@ -25,6 +25,11 @@ Edit the `[extensions]` section in your `~/.hgrc` file:
     prompt = (path to)/hg-prompt/prompt.py
 
 
+Enhancements
+------------
+Compared to the sjl original, I've added some code which ensures that the prompt never blocks while it fetches incoming and outgoing counts. It works for me and my repositories (including working over a VPN), but I cannot make promises about any other situations.
+
+
 Documentation
 -------------
 
