@@ -30,7 +30,7 @@ export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 
 source ~/.aliases.zsh
 
-export DYLD_INSERT_LIBRARIES="/Users/eevans43/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
+export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
 
 # zsh-syntax-highlighting configuration
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
@@ -208,7 +208,7 @@ zle -N zle-keymap-select
 export KEYTIMEOUT=1
 bindkey -v
 
-PYTHONPATH='/Users/eevans43/ws/internal/nb-devtools/modules'
+PYTHONPATH="${HOME}/ws/internal/nb-devtools/modules"
 export PYTHONPATH
 
 #prompt elite2 red green
