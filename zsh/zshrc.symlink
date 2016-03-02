@@ -191,6 +191,9 @@ set-hg-branch() {
             stats="$modified$unknown"
         fi
         remote=$(hg prompt --angle-brackets "<$ZSH_THEME_BEHIND%{$reset_color%}<incoming|count>><$ZSH_THEME_AHEAD%{$reset_color%}<outgoing|count>>" 2> /dev/null)
+        if [[ -z $remote ]]; then
+            remote=$ZSH_THEME_CLEAN
+        fi
 
         echo "$ZSH_THEME_PREFIX$ZSH_THEME_REPO$hg$ZSH_THEME_SEPARATOR$branch$ZSH_THEME_SEPARATOR$stats$ZSH_THEME_SEPARATOR$remote$ZSH_THEME_SUFFIX"
     fi
