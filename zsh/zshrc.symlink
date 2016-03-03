@@ -116,9 +116,9 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
 fi
 
 # Default values for the appearance of the prompt. Configure at will.
-ZSH_THEME_PREFIX="%B%F{black}["
-ZSH_THEME_SUFFIX="%B%F{black}]"
-ZSH_THEME_SEPARATOR="%B%F{black}|"
+ZSH_THEME_PREFIX="%{$fg_bold[black]%}%{[%G%}"
+ZSH_THEME_SUFFIX="%{$fg_bold[black]%}%{]%G%}"
+ZSH_THEME_SEPARATOR="%{$fg_bold[black]%}%{|%G%}"
 ZSH_THEME_BRANCH="%{$fg_bold[green]%}"
 ZSH_THEME_MASTER="%{$fg_bold[red]%}"
 ZSH_THEME_STAGED="%{$fg[green]%}%{●%G%}"
@@ -128,7 +128,7 @@ ZSH_THEME_BEHIND="%{$fg[red]↓%G%}"
 ZSH_THEME_AHEAD="%{$fg[green]↑%G%}"
 ZSH_THEME_UNTRACKED="%{$fg[yellow]…%G%}"
 ZSH_THEME_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
-ZSH_THEME_REPO="%b%F{53}%{$reset_color%}"
+ZSH_THEME_REPO_COLOR="%{$fg_bold[cyan]%}"
 
 # ↑ ✔ green
 # ↓ ⚡  red
@@ -139,8 +139,8 @@ function git_info() {
     precmd_update_git_vars
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
         local git
-        git="git"
-        STATUS="$ZSH_THEME_PREFIX$ZSH_THEME_REPO$git$ZSH_THEME_SEPARATOR"
+        git="±%{$reset_color%}"
+        STATUS="$ZSH_THEME_PREFIX$ZSH_THEME_REPO_COLOR$git$ZSH_THEME_SEPARATOR"
 
         if [[ "$GIT_BRANCH" == "master" ]]; then
             STATUS="$STATUS$ZSH_THEME_MASTER$GIT_BRANCH%{${reset_color}%}"
@@ -181,7 +181,7 @@ function git_info() {
 set-hg-branch() {
     local branch modified unknown remote hg stats
     if [[ -n $(hg prompt "{branch}" 2> /dev/null) ]]; then
-        hg="hg"
+        hg="☿%{$reset_color%}"
         branch=$(hg prompt --angle-brackets "<$ZSH_THEME_BRANCH<branch>%{$reset_color%}>" 2> /dev/null)
         modified=$(hg prompt --angle-brackets "<$ZSH_THEME_CHANGED%{$reset_color%}<status|modified>>"  2> /dev/null | sed -e 's/!//')
         unknown=$(hg prompt --angle-brackets "<$ZSH_THEME_UNTRACKED<status|unknown>>" 2> /dev/null | sed -e 's/?//')
@@ -195,7 +195,7 @@ set-hg-branch() {
             remote=$ZSH_THEME_CLEAN
         fi
 
-        echo "$ZSH_THEME_PREFIX$ZSH_THEME_REPO$hg$ZSH_THEME_SEPARATOR$branch$ZSH_THEME_SEPARATOR$stats$ZSH_THEME_SEPARATOR$remote$ZSH_THEME_SUFFIX"
+        echo "$ZSH_THEME_PREFIX$ZSH_THEME_REPO_COLOR$hg$ZSH_THEME_SEPARATOR$branch$ZSH_THEME_SEPARATOR$stats$ZSH_THEME_SEPARATOR$remote$ZSH_THEME_SUFFIX"
     fi
 }
 
