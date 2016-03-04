@@ -199,10 +199,16 @@ set-hg-branch() {
     fi
 }
 
+in-bone() {
+    if [[ -n $BONE_CONFLICT ]]; then
+        echo " %{$fg[red]%}BONES%{$reset_color%}"
+    fi
+}
+
 # Setup vim mode
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(git_info) $(set-hg-branch)"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(in-bone) $(git_info) $(set-hg-branch)"
     zle reset-prompt
 }
 
