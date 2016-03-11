@@ -14,6 +14,7 @@ bs = branchstatus .
 
 dlog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.dlog
 nlog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.nlog
+nglog = glog --style=$HOME/src/mercurial-cli-templates/map-cmdline.nglog
 sglog = glog --style=$HOME/src/mercurial-cli-templates/map-cmdline.sglog
 slog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.slog
 
@@ -42,7 +43,7 @@ shelve=
 
 [pager]
 pager = LESS='FSRXM' less
-attend = cat, diff, glog, log, incoming, outgoing, lg, show, help, qcat, qdiff, qlog, annotate, heads, show, dlog, nlog, sglog, slog
+attend = cat, diff, glog, log, incoming, outgoing, lg, show, help, qcat, qdiff, qlog, annotate, heads, show, dlog, nlog, sglog, slog, nglog
 
 [diff]
 git=1
