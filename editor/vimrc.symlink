@@ -128,8 +128,8 @@ set wildmenu                    " enable ctrl-n and ctrl-p to scroll thru matche
 set wildignore+=*.o,*.obj,*~    " stuff to ignore when tab completing
 set wildignore+=.\s+
 set scrolloff=5					" keep this number of lines on the screen when scrolling vertically
-set colorcolumn=81,100,101
-let localleader='|'
+set colorcolumn=80,100
+let maplocalleader='|'
 set suffixes+=.pyc,.pyo
 set suffixes+=.class
 " printing {{{
@@ -522,6 +522,9 @@ let g:UltiSnipsJumpForwardTrigger = '<c-b>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
 let g:UltiSnipsEditSplit = 'context'
+" }}}
+" CamelCaseMotion {{{
+call camelcasemotion#CreateMotionMappings('<localleader>')
 " }}}
 "}}}
 " MiniPlugins --------------------{{{
