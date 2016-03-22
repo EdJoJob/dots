@@ -130,6 +130,8 @@ set wildignore+=.\s+
 set scrolloff=5					" keep this number of lines on the screen when scrolling vertically
 set colorcolumn=81,100,101
 let localleader='|'
+set suffixes+=.pyc,.pyo
+set suffixes+=.class
 " printing {{{
 set printencoding=utf-8
 set printfont=Liberation\ Mono\ for\ Powerline
