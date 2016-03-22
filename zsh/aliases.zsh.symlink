@@ -44,5 +44,7 @@ alias c='clear'
 alias t='todo.sh'
 alias start_day='t recur && t archive && t report'
 
+alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
+
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
