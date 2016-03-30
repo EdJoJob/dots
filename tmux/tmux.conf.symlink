@@ -38,7 +38,7 @@ set-option -g utf8 on # utf8 support
 set-option -g status-utf8 on
 
 set-option -g main-pane-height 65
-set-option -g other-pane-width 80
+set-option -g other-pane-width 100
 
 # splitting and cycling
 set -g mouse on
