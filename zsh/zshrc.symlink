@@ -85,6 +85,8 @@ safechat=~/ws/safechat
 : ~safechat
 dots=~/dots
 : ~dots
+virtual_envs=~/virtual_envs/
+: ~virtual_envs
 
 export XDG_CONFIG_HOME=$HOME/.config
 export NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -201,14 +203,20 @@ set-hg-branch() {
 
 in-bone() {
     if [[ -n $BONE_CONFLICT ]]; then
-        echo " %{$fg[red]%}BONES%{$reset_color%}"
+        echo "$ZSH_THEME_PREFIX%{$fg[red]%}BONES%{$reset_color%}$ZSH_THEME_SUFFIX"
+    fi
+}
+
+in-virtualenv() {
+    if [[ -n $VIRTUAL_ENV ]]; then
+        echo "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[201]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 }
 
 # Setup vim mode
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(in-bone) $(git_info) $(set-hg-branch)"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)$(in-bone)$(git_info)$(set-hg-branch)"
     zle reset-prompt
 }
 
