@@ -69,8 +69,8 @@ set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] ["$tm_battery"] #{pre
 set -g status-right "["$tm_tunes"]"
 set -g status-justify centre
 
-set -g window-status-format "#[fg=green,none]#I:#W#F"
-set -g window-status-current-format "#[fg=colour246,none][#[fg=green,bold]#I:#W#F#[fg=colour246,none]]"
+set -g window-status-format "#[fg=green,bold]#I:#W#F"
+set -g window-status-current-format "#[fg=colour246,none][#[fg=green,none]#I:#W#F#[fg=colour246,none]]"
 set -g status-interval 1
 
 set -g @batt_charged_icon " "
