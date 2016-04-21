@@ -25,6 +25,7 @@ alias e=$EDITOR
 alias :q='exit'
 if whence nvim &>/dev/null; then
     alias vim='nvim'
+    alias vi='nvim'
 fi
 alias :vim='vim'
 alias .vimrc='e ~/dots/editor/vimrc.symlink'
