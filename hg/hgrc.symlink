@@ -44,7 +44,7 @@ shelve=
 
 [pager]
 pager = LESS='FSRXM' less
-attend = cat, diff, glog, log, incoming, outgoing, lg, show, help, qcat, qdiff, qlog, annotate, heads, show, dlog, nlog, sglog, slog, nglog
+attend = cat, diff, glog, log, incoming, outgoing, lg, help, qcat, qdiff, qlog, annotate, heads, show, dlog, nlog, sglog, slog, nglog
 
 [diff]
 git=1
