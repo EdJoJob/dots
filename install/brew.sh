@@ -63,9 +63,9 @@ brew install neovim/neovim/neovim --HEAD
 # casks (apps)
 brew cask install 1password
 brew cask install alfred
-brew cask install bettertouchtool
 brew cask install chicken
 brew cask install dropbox
+brew cask install dash
 brew cask install firefox
 brew cask install flash
 brew cask install github-desktop

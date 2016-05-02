@@ -91,6 +91,7 @@ Plug 'gastonsimone/vim-dokumentary'
 Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips'
 Plug 'pearofducks/ansible-vim'
+Plug 'rizzatti/dash.vim'
 " }}}
 call plug#end()
 
