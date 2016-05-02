@@ -7,9 +7,6 @@
 [submodule "todo-recur"]
 	path = todo.symlink/actions/todo-recur
 	url = https://github.com/paulroub/todo.txt-recurring-tasks.git
-[submodule "antigen"]
-	path = zsh/antigen.symlink
-	url = https://github.com/zsh-users/antigen.git
 [submodule "todo.symlink/actions/todo-daily.repeat.upgrade"]
 	path = todo.symlink/actions/todo-daily.repeat.upgrade
 	url = https://github.com/drobertadams/todo.txt-cli-addons
