@@ -46,8 +46,13 @@ rebase=
 shelve=
 
 [pager]
-pager = LESS='FSRXM' less
-attend = cat, diff, glog, log, incoming, outgoing, lg, help, qcat, qdiff, qlog, annotate, heads, show, dlog, nlog, sglog, slog, nglog
+pager = less -FSXRM
+# Page all commands where needed
+attend = 
+attend-commit = false
+attend-histedit = false
+attend-crecord = false
+attend-baup = false
 
 [diff]
 git=1
