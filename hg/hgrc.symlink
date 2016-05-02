@@ -13,11 +13,14 @@ lg = glog
 branchstatus = status --rev "branch('$1')"
 bs = branchstatus .
 
-dlog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.dlog
-nlog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.nlog
-nglog = glog --style=$HOME/src/mercurial-cli-templates/map-cmdline.nglog
-sglog = glog --style=$HOME/src/mercurial-cli-templates/map-cmdline.sglog
-slog = log --style=$HOME/src/mercurial-cli-templates/map-cmdline.slog
+dlog = log --style=$HOME/.hg_styles/map-cmdline.dlog
+nlog = log --style=$HOME/.hg_styles/map-cmdline.nlog
+nglog = glog --style=$HOME/.hg_styles/map-cmdline.nglog
+sglog = glog --style=$HOME/.hg_styles/map-cmdline.sglog
+slog = log --style=$HOME/.hg_styles/map-cmdline.slog
+sgincomming = in --graph --style=$HOME/.hg_styles/map-cmdline.sgin
+sincomming = in --style=$HOME/.hg_styles/map-cmdline.sin
+nincomming = in --style=$HOME/.hg_styles/map-cmdline.nin
 
 [defaults]
 addremove = --similarity 100
