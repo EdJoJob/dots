@@ -7,6 +7,7 @@ hg.bb = de:14:1a:60:11:e2:ad:3e:27:1a:a2:d0:eb:f5:52:ed:0f:d9:40:08
 username = eevans
 ignore = ~/.hgignore_global
 merge = internal:merge3
+interface = curses
 
 [alias]
 lg = glog
@@ -32,13 +33,11 @@ users = *
 [extensions]
 nb= ~/ws/internal/nb-devtools/modules/nbhg.py
 color=
-crecord = ~/.hgext/crecord/crecord/
 hg-prompt = ~/.hgext/hg-prompt/prompt.py
 hgk=
 histedit=
 largefiles=
 mercurial_keyring =
-mq=
 pager=
 progress=
 purge=
@@ -53,13 +52,12 @@ attend-commit = false
 attend-histedit = false
 attend-crecord = false
 attend-baup = false
+attend-feature = false
+attend-clone = false
 
 [diff]
 git=1
 nodates=1
-
-[mq]
-secret = True
 
 [auth]
 bb.prefix = https://hg.bb
