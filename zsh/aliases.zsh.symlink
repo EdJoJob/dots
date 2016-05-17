@@ -21,19 +21,20 @@ alias sl=ls # often screw this up
 
 alias rs="rsync -avzh --progress"
 
-alias e=$EDITOR
 alias :q='exit'
 if whence nvim &>/dev/null; then
     alias vim='nvim'
     alias vi='nvim'
+else
+    alias vi='vim'
 fi
-alias :vim='vim'
-alias .vimrc='e ~/dots/editor/vimrc.symlink'
-alias .zshrc='zgen reset && e ~/dots/zsh/zshrc.symlink && exec zsh'
-alias .aliases='e ~/dots/zsh/aliases.zsh.symlink && exec zsh'
-alias .tmux='e ~/dots/tmux/tmux.conf.symlink && tmux source-file ~/.tmux'
-alias note='e ~/note.rst'
-alias :e='e'
+alias :vim='vi'
+alias .vimrc='vi ~/dots/editor/vimrc.symlink'
+alias .zshrc='zgen reset && vi ~/dots/zsh/zshrc.symlink && exec zsh'
+alias .aliases='vi ~/dots/zsh/aliases.zsh.symlink && exec zsh'
+alias .tmux='vi ~/dots/tmux/tmux.conf.symlink && tmux source-file ~/.tmux'
+alias note='vi ~/note.rst'
+alias :e='vi'
 alias :make='make'
 alias :h='man'
 alias clc='clear'
