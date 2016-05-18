@@ -97,3 +97,6 @@ brew cask install suspicious-package
 
 # tiling window manager for OSX
 brew cask install amethyst
+
+# latex
+brew cask install mactex

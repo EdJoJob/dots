@@ -95,6 +95,7 @@ path=(
     /usr/local/bin
     /usr/local/sbin
     /usr/bin
+    /usr/bin/texbin/
     /bin
     /usr/sbin
     /sbin
