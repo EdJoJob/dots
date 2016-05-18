@@ -2,6 +2,7 @@
 
 [hostfingerprints]
 hg.bb = de:14:1a:60:11:e2:ad:3e:27:1a:a2:d0:eb:f5:52:ed:0f:d9:40:08
+hg.nbb.co = de:14:1a:60:11:e2:ad:3e:27:1a:a2:d0:eb:f5:52:ed:0f:d9:40:08
 
 [ui]
 username = eevans
@@ -62,3 +63,5 @@ nodates=1
 [auth]
 bb.prefix = https://hg.bb
 bb.username = eevans
+nbb.prefix = https://hg.nbb.co
+nbb.username = eevans
