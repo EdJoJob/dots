@@ -506,6 +506,8 @@ if exists('s:syntastic')
 endif
 "}}}
 " Neomake {{{
+" Make neomake far more quiet and only show errors
+let g:neomake_verbose = 0
 augroup personal_neomake
     au!
     au BufWritePost,BufEnter * if exists('s:neomake') | Neomake | endif
