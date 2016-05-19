@@ -24,7 +24,7 @@ brew install sloccount
 # development tools
 brew install git
 brew install reattach-to-user-namespace
-brew install tmux
+brew install tmux --HEAD
 brew install zsh
 brew install python
 brew install python3
