@@ -851,6 +851,9 @@ augroup END
 let g:airline_theme='hybrid'
 "}}}
 " Colours-------------------------{{{
+if has('nvim')
+    set termguicolors
+endif
 set background=dark
 colorscheme hybrid
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
