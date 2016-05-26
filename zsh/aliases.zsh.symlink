@@ -2,6 +2,18 @@
 alias pu='pushd'
 alias po='popd'
 
+activate_python2() {
+    deactivate &> /dev/null
+    source $virtual_envs/python2/bin/activate
+}
+activate_python3() {
+    deactivate  &> /dev/null
+    source $virtual_envs/python3/bin/activate
+}
+
+alias a2='activate_python2'
+alias a3='activate_python3'
+
 # Basic directory operations
 alias ...='cd ../..'
 alias -- -='cd -'
@@ -50,3 +62,5 @@ alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/
 
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
+
+# vim:ft=zsh
