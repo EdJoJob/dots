@@ -2,17 +2,14 @@
 alias pu='pushd'
 alias po='popd'
 
-activate_python2() {
+activate() {
     deactivate &> /dev/null
-    source $virtual_envs/python2/bin/activate
-}
-activate_python3() {
-    deactivate  &> /dev/null
-    source $virtual_envs/python3/bin/activate
+    source $virtual_envs/$1/bin/activate
 }
 
-alias a2='activate_python2'
-alias a3='activate_python3'
+alias a2='activate python2'
+alias a3='activate python3'
+alias c3='activate cloudcte3'
 
 # Basic directory operations
 alias ...='cd ../..'
