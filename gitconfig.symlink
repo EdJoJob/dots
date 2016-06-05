@@ -11,8 +11,6 @@
 [core]
 	excludesfile = ~/.gitignore_global
 [alias]
-    f = checkout test-feature/330-vim-testing-plugin
-
     blog = log --graph --date=relative --format=tformat:'%C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' HEAD ^master --no-merges
     bdiff = diff HEAD ^master
     up = !git pull --rebase --prune $@ && git submodule update --init --recursive
