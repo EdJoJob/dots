@@ -1,5 +1,4 @@
 "2.1 (created: 2009/05/21 13:13:06)
-map <C-d> :tabclose<CR>
 " Make nagigating tabs easier
 map s <C-S-Tab>
 map h <C-Tab>
