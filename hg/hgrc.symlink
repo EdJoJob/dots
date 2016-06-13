@@ -21,6 +21,7 @@ sglog = glog --style=$HOME/.hg_styles/map-cmdline.sglog
 slog = log --style=$HOME/.hg_styles/map-cmdline.slog
 sgincomming = in --graph --style=$HOME/.hg_styles/map-cmdline.sgin
 sincomming = in --style=$HOME/.hg_styles/map-cmdline.sin
+bin = sin -b .
 nincomming = in --style=$HOME/.hg_styles/map-cmdline.nin
 soutgoing = out --style=$HOME/.hg_styles/map-cmdline.sin
 noutgoing = out --style=$HOME/.hg_styles/map-cmdline.nin
