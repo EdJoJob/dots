@@ -88,7 +88,12 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'bkad/CamelCaseMotion'
         " make K more useful
         Plug 'gastonsimone/vim-dokumentary'
+        " Snippets
         Plug 'SirVer/ultisnips'
+        " Session management (mostly for making tmux continuum behave better)
+        Plug 'tpope/vim-obsession'
+        " swap arbitrary windows in a layout
+        Plug 'wesQ3/vim-windowswap'
     " }}}
     " Slow Plugs {{{
         " Git integration
