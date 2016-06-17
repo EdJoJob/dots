@@ -18,6 +18,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
 " Plugin listing {{{
     " Pretty {{{
         " colorscheme
+        Plug 'nanotech/jellybeans.vim'
         Plug 'w0ng/vim-hybrid'
         " the pretty at the bottom of the buffer
         Plug 'vim-airline/vim-airline'
@@ -853,14 +854,15 @@ augroup PERSONAL_AIRLINE
     au User AirlineAfterInit call AirlineInit()
 augroup END
 
-let g:airline_theme='hybrid'
+let g:airline_theme='jellybeans'
 "}}}
 " Colours-------------------------{{{
 if has('nvim')
     set termguicolors
 endif
 set background=dark
-colorscheme hybrid
+colorscheme jellybeans
+let g:jellybeans_use_term_italics = 1
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
 " Interesting Word Default Highlights {{{
 
