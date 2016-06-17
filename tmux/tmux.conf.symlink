@@ -60,7 +60,7 @@ set-environment -g INSCREEN yes
 set -g status-style bg=colour235
 set -g status-left-length 100
 tm_clock="#[fg=blue,bold]%a %d %h %R:%S#[fg=colour246,none]"
-tm_user="#[fg=green,bold]$USER#[fg=green,none]@#[fg=green,bold]#h#[fg=colour246,none]"
+tm_user="#[fg=green,none]$USER#[fg=green,bold]@#[fg=green,none]#h#[fg=colour246,none]"
 tm_session="#[fg=green,none]#S#[fg=colour246,none]"
 tm_battery="#[fg=green,none]#{battery_icon}#{battery_percentage}#[fg=colour246,none]"
 tm_tunes="#[fg=green,none]#(osascript ~/dots/applescripts/tunes.applescript)#[fg=colour246,none]"
@@ -68,8 +68,8 @@ set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] ["$tm_battery"] #{pre
 set -g status-right "["$tm_tunes"]"
 set -g status-justify centre
 
-set -g window-status-format "#[fg=green,bold]#I:#W#F"
-set -g window-status-current-format "#[fg=colour246,none][#[fg=green,none]#I:#W#F#[fg=colour246,none]]"
+set -g window-status-format "#[fg=green,none]#I:#W#F"
+set -g window-status-current-format "#[fg=colour246,bold][#[fg=green,bold]#I:#W#F#[fg=colour246,none]]"
 set -g status-interval 1
 
 set -g @batt_charged_icon " "
