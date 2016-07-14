@@ -101,7 +101,7 @@ chatnets = {
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
-  { name = "#nbstat"; chatnet = "NB"; autojoin = "yes"; }
+  { name = "#bbstat"; chatnet = "NB"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -344,7 +344,7 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#nbstat";
+        name = "#bbstat";
         tag = "NB";
       }
     );

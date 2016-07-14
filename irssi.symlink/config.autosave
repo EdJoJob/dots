@@ -37,7 +37,7 @@ servers = (
     port = "7000";
     use_ssl = "yes";
     ssl_verify = "yes";
-    ssl_capath = "/System/Library/OpenSSL/certs/";
+    ssl_capath = "/usr/local/etc/openssl/cert.pem";
   }
 );
 
@@ -101,7 +101,7 @@ chatnets = {
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
   { name = "silc"; chatnet = "silc"; autojoin = "No"; },
-  { name = "#nbstat"; chatnet = "NB"; autojoin = "yes"; }
+  { name = "#bbstat"; chatnet = "NB"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -336,7 +336,7 @@ settings = {
     awl_sort = "refnum";
   };
 };
-hilights = ( );
+hilights = ( { text = "bb-bne"; nick = "yes"; word = "yes"; } );
 windows = {
   1 = { immortal = "yes"; name = "(status)"; level = "ALL"; };
   2 = {
@@ -344,14 +344,15 @@ windows = {
       {
         type = "CHANNEL";
         chat_type = "IRC";
-        name = "#nbstat";
+        name = "#bbstat";
         tag = "NB";
+        nick = "eevans43";
       }
     );
   };
   3 = { name = "hilight"; sticky = "yes"; };
 };
 mainwindows = {
-  2 = { first_line = "10"; lines = "65"; };
-  3 = { first_line = "0"; lines = "10"; };
+  2 = { first_line = "5"; lines = "32"; };
+  3 = { first_line = "0"; lines = "5"; };
 };
