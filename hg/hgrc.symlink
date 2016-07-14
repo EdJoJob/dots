@@ -65,3 +65,5 @@ nodates=1
 [auth]
 nbb.prefix = https://hg.nbb.co
 nbb.username = eevans
+ch.prefix = https://hg.nb
+ch.username = eevans43
