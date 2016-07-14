@@ -53,6 +53,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'hynek/vim-python-pep8-indent'
         " restructured text
         Plug 'Rykka/riv.vim'
+        Plug 'vim-scripts/tracwiki'
     " }}}
     " Util {{{
         " file browser
