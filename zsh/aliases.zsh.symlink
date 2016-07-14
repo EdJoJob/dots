@@ -28,6 +28,10 @@ alias ll='ls -lh'
 alias la='ls -lha'
 alias sl=ls # often screw this up
 
+if which gfind &>/dev/null; then
+    alias find=gfind
+fi
+
 alias rs="rsync -avzh --progress"
 
 alias :q='exit'
