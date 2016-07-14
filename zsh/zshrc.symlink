@@ -83,6 +83,8 @@ netbox=~/ws/netbox
 : ~netbox
 safechat=~/ws/safechat
 : ~safechat
+external=~/ws/external
+: ~external
 dots=~/dots
 : ~dots
 virtual_envs=~/virtual_envs/
