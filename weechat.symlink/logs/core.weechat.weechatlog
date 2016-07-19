@@ -1,0 +1,611 @@
+2016-07-19 08:19:34		Plugins loaded: alias, charset, exec, fifo, irc, logger, relay, script, tcl, trigger, xfer
+2016-07-19 08:21:15		irc: server nbstat added
+2016-07-19 08:21:19		[irc]  /server  list|listfull [<server>]
+2016-07-19 08:21:19		                add <server> <hostname>[/<port>] [-temp] [-<option>[=<value>]] [-no<option>]
+2016-07-19 08:21:19		                copy|rename <server> <new_name>
+2016-07-19 08:21:19		                reorder <server> [<server>...]
+2016-07-19 08:21:19		                del|keep <server>
+2016-07-19 08:21:19		                deloutq|jump|raw
+2016-07-19 08:21:19		list, add or remove IRC servers
+2016-07-19 08:21:19		    list: list servers (without argument, this list is displayed)
+2016-07-19 08:21:19		listfull: list servers with detailed info for each server
+2016-07-19 08:21:19		     add: add a new server
+2016-07-19 08:21:19		  server: server name, for internal and display use
+2016-07-19 08:21:19		hostname: name or IP address of server, with optional port (default: 6667), many addresses can be separated by a comma
+2016-07-19 08:21:19		    temp: add a temporary server (not saved)
+2016-07-19 08:21:19		  option: set option for server (for boolean option, value can be omitted)
+2016-07-19 08:21:19		nooption: set boolean option to 'off' (for example: -nossl)
+2016-07-19 08:21:19		    copy: duplicate a server
+2016-07-19 08:21:19		  rename: rename a server
+2016-07-19 08:21:19		 reorder: reorder list of servers
+2016-07-19 08:21:19		    keep: keep server in config file (for temporary servers only)
+2016-07-19 08:21:19		     del: delete a server
+2016-07-19 08:21:19		 deloutq: delete messages out queue for all servers (all messages WeeChat is currently sending)
+2016-07-19 08:21:19		    jump: jump to server buffer
+2016-07-19 08:21:19		     raw: open buffer with raw IRC data
+2016-07-19 08:21:19		Examples:
+2016-07-19 08:21:19		  /server listfull
+2016-07-19 08:21:19		  /server add freenode chat.freenode.net
+2016-07-19 08:21:19		  /server add freenode chat.freenode.net/6697 -ssl -autoconnect
+2016-07-19 08:21:19		  /server add chatspike irc.chatspike.net/6667,irc.duckspike.net/6667
+2016-07-19 08:21:19		  /server copy freenode freenode-test
+2016-07-19 08:21:19		  /server rename freenode-test freenode2
+2016-07-19 08:21:19		  /server reorder freenode2 freenode
+2016-07-19 08:21:19		  /server del freenode
+2016-07-19 08:21:19		  /server deloutq
+2016-07-19 08:22:46		All servers:
+2016-07-19 08:22:46		   nbstat
+2016-07-19 08:23:52		Option changed: irc.server.nbstat.autoconnect = on  (default if null: off)
+2016-07-19 08:25:01	=!=	Error: option "irc.server_buffer" not found
+2016-07-19 08:25:17		Option changed: irc.look.server_buffer = independent  (default: merge_with_core)
+2016-07-19 08:32:54		Plugins loaded: alias, aspell, charset, exec, fifo, guile, irc, logger, lua, relay, ruby, script, tcl, trigger, xfer
+2016-07-19 08:33:33	=!=	No help available, "irc" is not a command or an option
+2016-07-19 08:36:16		fifo: removing old fifo pipe "/Users/eevans43/.weechat/weechat_fifo_26337"
+2016-07-19 08:36:16		Plugins loaded: alias, aspell, charset, exec, fifo, guile, irc, logger, lua, relay, ruby, script, tcl, trigger, xfer
+2016-07-19 08:36:47		script: downloading list of scripts...
+2016-07-19 08:36:50		script: 309 scripts for WeeChat 1.5
+2016-07-19 08:36:50		script: script "buffers.pl" can not be installed because plugin "perl" is not loaded
+2016-07-19 08:36:54		Mouse enabled
+2016-07-19 08:39:00		fifo: removing old fifo pipe "/Users/eevans43/.weechat/weechat_fifo_37917"
+2016-07-19 08:39:00		script: 309 scripts for WeeChat 1.5
+2016-07-19 08:39:00		Plugins loaded: alias, aspell, charset, exec, fifo, guile, irc, logger, lua, relay, ruby, script, tcl, trigger, xfer
+2016-07-19 08:39:17	=!=	Error: unknown command "/install" (type /help for help)
+2016-07-19 08:39:27		script: script "buffers.pl" can not be installed because plugin "perl" is not loaded
+2016-07-19 08:39:39	=!=	You can not write text in this buffer
+2016-07-19 08:41:21		fifo: removing old fifo pipe "/Users/eevans43/.weechat/weechat_fifo_49814"
+2016-07-19 08:41:21		script: 309 scripts for WeeChat 1.5
+2016-07-19 08:41:21		Plugins loaded: alias, aspell, charset, exec, fifo, guile, irc, logger, lua, perl, relay, ruby, script, tcl, trigger, xfer
+2016-07-19 08:41:33		perl: loading script "/Users/eevans43/.weechat/perl/buffers.pl"
+2016-07-19 08:41:33		perl: registered script "buffers", version 5.2 (Sidebar with list of buffers)
+2016-07-19 08:41:33		New key binding (context "mouse"): @bar(buffers):ctrl-wheeldown => hsignal:buffers_mouse
+2016-07-19 08:41:33		New key binding (context "mouse"): @bar(buffers):ctrl-wheelup => hsignal:buffers_mouse
+2016-07-19 08:41:33		New key binding (context "mouse"): @item(buffers):button2* => hsignal:buffers_mouse
+2016-07-19 08:41:33		New key binding (context "mouse"): @item(buffers):button1* => hsignal:buffers_mouse
+2016-07-19 08:43:23		[script]  /script  list [-o|-i]
+2016-07-19 08:43:23		                   search <text>
+2016-07-19 08:43:23		                   show <script>
+2016-07-19 08:43:23		                   load|unload|reload <script> [<script>...]
+2016-07-19 08:43:23		                   autoload|noautoload|toggleautoload <script> [<script>...]
+2016-07-19 08:43:23		                   install|remove|installremove|hold [-q] <script> [<script>...]
+2016-07-19 08:43:23		                   upgrade
+2016-07-19 08:43:23		                   update
+2016-07-19 08:43:23		WeeChat scripts manager
+2016-07-19 08:43:23		          list: list loaded scripts (all languages)
+2016-07-19 08:43:23		            -o: send list of loaded scripts to buffer
+2016-07-19 08:43:23		            -i: copy list of loaded scripts in command line (for sending to buffer)
+2016-07-19 08:43:23		        search: search scripts by tags, language (python, perl, ...), filename extension (py, pl, ...) or text; result is displayed on scripts buffer
+2016-07-19 08:43:23		          show: show detailed info about a script
+2016-07-19 08:43:23		          load: load script(s)
+2016-07-19 08:43:23		        unload: unload script(s)
+2016-07-19 08:43:23		        reload: reload script(s)
+2016-07-19 08:43:23		      autoload: autoload the script
+2016-07-19 08:43:23		    noautoload: do not autoload the script
+2016-07-19 08:43:23		toggleautoload: toggle autoload
+2016-07-19 08:43:23		       install: install/upgrade script(s)
+2016-07-19 08:43:23		        remove: remove script(s)
+2016-07-19 08:43:23		 installremove: install or remove script(s), depending on current state
+2016-07-19 08:43:23		          hold: hold/unhold script(s) (a script held will not be upgraded any more and cannot be removed)
+2016-07-19 08:43:23		            -q: quiet mode: do not display messages
+2016-07-19 08:43:23		       upgrade: upgrade all installed scripts which are obsolete (new version available)
+2016-07-19 08:43:23		        update: update local scripts cache
+2016-07-19 08:43:23		Without argument, this command opens a buffer with list of scripts.
+2016-07-19 08:43:23		On script buffer, the possible status for each script are:
+2016-07-19 08:43:23		  * i a H r N
+2016-07-19 08:43:23		  | | | | | |
+2016-07-19 08:43:23		  | | | | | obsolete (new version available)
+2016-07-19 08:43:23		  | | | | running (loaded)
+2016-07-19 08:43:23		  | | | held
+2016-07-19 08:43:23		  | | autoloaded
+2016-07-19 08:43:23		  | installed
+2016-07-19 08:43:23		  popular script
+2016-07-19 08:43:23		Keys on script buffer:
+2016-07-19 08:43:23		  alt+i  install script
+2016-07-19 08:43:23		  alt+r  remove script
+2016-07-19 08:43:23		  alt+l  load script
+2016-07-19 08:43:23		  alt+L  reload script
+2016-07-19 08:43:23		  alt+u  unload script
+2016-07-19 08:43:23		  alt+A  autoload script
+2016-07-19 08:43:23		  alt+h  (un)hold script
+2016-07-19 08:43:23		  alt+v  view script
+2016-07-19 08:43:23		Input allowed on script buffer:
+2016-07-19 08:43:23		  i/r/l/L/u/h  action on script (same as keys above)
+2016-07-19 08:43:23		  q            close buffer
+2016-07-19 08:43:23		  $            refresh buffer
+2016-07-19 08:43:23		  s:x,y        sort buffer using keys x and y (see /help script.look.sort)
+2016-07-19 08:43:23		  s:           reset sort (use default sort)
+2016-07-19 08:43:23		  word(s)      filter scripts: search word(s) in scripts (description, tags, ...)
+2016-07-19 08:43:23		  *            remove filter
+2016-07-19 08:43:23		Mouse actions on script buffer:
+2016-07-19 08:43:23		  wheel         scroll list
+2016-07-19 08:43:23		  left button   select script
+2016-07-19 08:43:23		  right button  install/remove script
+2016-07-19 08:43:23		Examples:
+2016-07-19 08:43:23		  /script search url
+2016-07-19 08:43:23		  /script install iset.pl buffers.pl
+2016-07-19 08:43:23		  /script remove iset.pl
+2016-07-19 08:43:23		  /script hold urlserver.py
+2016-07-19 08:43:23		  /script reload urlserver
+2016-07-19 08:43:23		  /script upgrade
+2016-07-19 08:44:17		Scripts loaded:
+2016-07-19 08:44:17		 * ia   buffers.pl 5.2 (Sidebar with list of buffers)
+2016-07-19 08:45:32		[irc]  /join  [-noswitch] [-server <server>] [<channel1>[,<channel2>...]] [<key1>[,<key2>...]]
+2016-07-19 08:45:32		join a channel
+2016-07-19 08:45:32		-noswitch: do not switch to new buffer
+2016-07-19 08:45:32		   server: send to this server (internal name)
+2016-07-19 08:45:32		  channel: channel name to join
+2016-07-19 08:45:32		      key: key to join the channel (channels with a key must be the first in list)
+2016-07-19 08:45:32		Examples:
+2016-07-19 08:45:32		  /join #weechat
+2016-07-19 08:45:32		  /join #protectedchan,#weechat key
+2016-07-19 08:45:32		  /join -server freenode #weechat
+2016-07-19 08:45:32		  /join -noswitch #weechat
+2016-07-19 08:48:30		Option changed: irc.server.nbstat.autojoin = "#bbstat"  (default if null: "")
+2016-07-19 09:26:52		script: script "colorize_nicks.py" can not be installed because plugin "python" is not loaded
+2016-07-19 09:29:34		script: script "notification_center.py" can not be installed because plugin "python" is not loaded
+2016-07-19 09:29:55		Plugins loaded:
+2016-07-19 09:29:55		  alias: Alias commands
+2016-07-19 09:29:55		  aspell: Spell checker for input (with Aspell)
+2016-07-19 09:29:55		  charset: Charset conversions
+2016-07-19 09:29:55		  exec: Execution of external commands in WeeChat
+2016-07-19 09:29:55		  fifo: FIFO pipe for remote control
+2016-07-19 09:29:55		  guile: Support of scheme scripts (with Guile)
+2016-07-19 09:29:55		  irc: IRC (Internet Relay Chat) protocol
+2016-07-19 09:29:55		  logger: Log buffers to files
+2016-07-19 09:29:55		  lua: Support of lua scripts
+2016-07-19 09:29:55		  perl: Support of perl scripts
+2016-07-19 09:29:55		  relay: Relay WeeChat data to remote application (irc/weechat protocols)
+2016-07-19 09:29:55		  ruby: Support of ruby scripts
+2016-07-19 09:29:55		  script: Scripts manager
+2016-07-19 09:29:55		  tcl: Support of tcl scripts
+2016-07-19 09:29:55		  trigger: Text replacement and command execution on events triggered by WeeChat/plugins
+2016-07-19 09:29:55		  xfer: DCC file transfer and direct chat
+2016-07-19 09:30:11		Plugins loaded:
+2016-07-19 09:30:11		  alias [v1.5]: Alias commands (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/alias.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /AAWAY (allserv /away)
+2016-07-19 09:30:11		      /alias (list, add or remove command aliases)
+2016-07-19 09:30:11		      /AME (allchan /me)
+2016-07-19 09:30:11		      /AMSG (allchan /msg *)
+2016-07-19 09:30:11		      /ANICK (allserv /nick)
+2016-07-19 09:30:11		      /BEEP (print -beep)
+2016-07-19 09:30:11		      /BYE (quit)
+2016-07-19 09:30:11		      /C (buffer clear)
+2016-07-19 09:30:11		      /CHAT (dcc chat)
+2016-07-19 09:30:11		      /CL (buffer clear)
+2016-07-19 09:30:11		      /CLOSE (buffer close)
+2016-07-19 09:30:11		      /EXIT (quit)
+2016-07-19 09:30:11		      /IG (ignore)
+2016-07-19 09:30:11		      /J (join)
+2016-07-19 09:30:11		      /K (kick)
+2016-07-19 09:30:11		      /KB (kickban)
+2016-07-19 09:30:11		      /LEAVE (part)
+2016-07-19 09:30:11		      /M (msg)
+2016-07-19 09:30:11		      /MSGBUF (command -buffer $1 * /input send $2-)
+2016-07-19 09:30:11		      /MUB (unban *)
+2016-07-19 09:30:11		      /N (names)
+2016-07-19 09:30:11		      /Q (query)
+2016-07-19 09:30:11		      /REDRAW (window refresh)
+2016-07-19 09:30:11		      /SAY (msg *)
+2016-07-19 09:30:11		      /SIGNOFF (quit)
+2016-07-19 09:30:11		      /T (topic)
+2016-07-19 09:30:11		      /UB (unban)
+2016-07-19 09:30:11		      /UMODE (mode $nick)
+2016-07-19 09:30:11		      /V (command core version)
+2016-07-19 09:30:11		      /W (who)
+2016-07-19 09:30:11		      /WC (window merge)
+2016-07-19 09:30:11		      /WI (whois)
+2016-07-19 09:30:11		      /WII (whois $1 $1)
+2016-07-19 09:30:11		      /WW (whowas)
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        alias
+2016-07-19 09:30:11		        alias_value
+2016-07-19 09:30:11		  aspell [v1.5]: Spell checker for input (with Aspell) (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/aspell.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /aspell (aspell plugin configuration)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: buffer_switch
+2016-07-19 09:30:11		      signal: window_switch
+2016-07-19 09:30:11		      signal: buffer_closed
+2016-07-19 09:30:11		      signal: debug_libs
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        aspell_langs
+2016-07-19 09:30:11		        aspell_dicts
+2016-07-19 09:30:11		    modifiers hooked:
+2016-07-19 09:30:11		        input_text_display
+2016-07-19 09:30:11		  charset [v1.5]: Charset conversions (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/charset.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /charset (change charset for current buffer)
+2016-07-19 09:30:11		    modifiers hooked:
+2016-07-19 09:30:11		        charset_decode
+2016-07-19 09:30:11		        charset_encode
+2016-07-19 09:30:11		  exec [v1.5]: Execution of external commands in WeeChat (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/exec.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /exec (execute external commands)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        exec_commands_ids
+2016-07-19 09:30:11		  fifo [v1.5]: FIFO pipe for remote control (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/fifo.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /fifo (fifo plugin configuration)
+2016-07-19 09:30:11		    fd hooked:
+2016-07-19 09:30:11		      5 (flags: 0x1: read)
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      plugins.var.fifo.fifo
+2016-07-19 09:30:11		  guile [v1.5]: Support of scheme scripts (with Guile) (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/guile.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /guile (list/load/unload scripts)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: debug_libs
+2016-07-19 09:30:11		      signal: guile_script_install
+2016-07-19 09:30:11		      signal: guile_script_remove
+2016-07-19 09:30:11		      signal: guile_script_autoload
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      plugins.var.guile.check_license
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        guile_script
+2016-07-19 09:30:11		  irc [v1.5]: IRC (Internet Relay Chat) protocol (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/irc.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /admin (find information about the administrator of the server)
+2016-07-19 09:30:11		      /allchan (execute a command on all channels of all connected servers)
+2016-07-19 09:30:11		      /allpv (execute a command on all private buffers of all connected servers)
+2016-07-19 09:30:11		      /allserv (execute a command on all connected servers)
+2016-07-19 09:30:11		      /ban (ban nicks or hosts)
+2016-07-19 09:30:11		      /cap (client capability negotiation)
+2016-07-19 09:30:11		      /connect (connect to IRC server(s))
+2016-07-19 09:30:11		      /ctcp (send a CTCP message (Client-To-Client Protocol))
+2016-07-19 09:30:11		      /cycle (leave and rejoin a channel)
+2016-07-19 09:30:11		      /dcc (start a DCC (file transfer or direct chat))
+2016-07-19 09:30:11		      /dehalfop (remove channel half-operator status from nick(s))
+2016-07-19 09:30:11		      /deop (remove channel operator status from nick(s))
+2016-07-19 09:30:11		      /devoice (remove voice from nick(s))
+2016-07-19 09:30:11		      /die (shutdown the server)
+2016-07-19 09:30:11		      /disconnect (disconnect from one or all IRC servers)
+2016-07-19 09:30:11		      /halfop (give channel half-operator status to nick(s))
+2016-07-19 09:30:11		      /ignore (ignore nicks/hosts from servers or channels)
+2016-07-19 09:30:11		      /info (get information describing the server)
+2016-07-19 09:30:11		      /invite (invite a nick on a channel)
+2016-07-19 09:30:11		      /ison (check if a nick is currently on IRC)
+2016-07-19 09:30:11		      /join (join a channel)
+2016-07-19 09:30:11		      /kick (kick a user out of a channel)
+2016-07-19 09:30:11		      /kickban (kick a user out of a channel and ban the host)
+2016-07-19 09:30:11		      /kill (close client-server connection)
+2016-07-19 09:30:11		      /links (list all servernames which are known by the server answering the query)
+2016-07-19 09:30:11		      /list (list channels and their topic)
+2016-07-19 09:30:11		      /lusers (get statistics about the size of the IRC network)
+2016-07-19 09:30:11		      /map (show a graphical map of the IRC network)
+2016-07-19 09:30:11		      /me (send a CTCP action to the current channel)
+2016-07-19 09:30:11		      /mode (change channel or user mode)
+2016-07-19 09:30:11		      /motd (get the "Message Of The Day")
+2016-07-19 09:30:11		      /msg (send message to a nick or channel)
+2016-07-19 09:30:11		      /names (list nicks on channels)
+2016-07-19 09:30:11		      /nick (change current nick)
+2016-07-19 09:30:11		      /notice (send notice message to user)
+2016-07-19 09:30:11		      /notify (add a notification for presence or away status of nicks on servers)
+2016-07-19 09:30:11		      /op (give channel operator status to nick(s))
+2016-07-19 09:30:11		      /oper (get operator privileges)
+2016-07-19 09:30:11		      /part (leave a channel)
+2016-07-19 09:30:11		      /ping (send a ping to server)
+2016-07-19 09:30:11		      /pong (answer to a ping message)
+2016-07-19 09:30:11		      /query (send a private message to a nick)
+2016-07-19 09:30:11		      /quiet (quiet nicks or hosts)
+2016-07-19 09:30:11		      /quote (send raw data to server without parsing)
+2016-07-19 09:30:11		      /reconnect (reconnect to server(s))
+2016-07-19 09:30:11		      /rehash (tell the server to reload its config file)
+2016-07-19 09:30:11		      /remove (force a user to leave a channel)
+2016-07-19 09:30:11		      /restart (tell the server to restart itself)
+2016-07-19 09:30:11		      /sajoin (force a user to join channel(s))
+2016-07-19 09:30:11		      /samode (change mode on channel, without having operator status)
+2016-07-19 09:30:11		      /sanick (force a user to use another nick)
+2016-07-19 09:30:11		      /sapart (force a user to leave channel(s))
+2016-07-19 09:30:11		      /saquit (force a user to quit server with a reason)
+2016-07-19 09:30:11		      /server (list, add or remove IRC servers)
+2016-07-19 09:30:11		      /service (register a new service)
+2016-07-19 09:30:11		      /servlist (list services currently connected to the network)
+2016-07-19 09:30:11		      /squery (deliver a message to a service)
+2016-07-19 09:30:11		      /squit (disconnect server links)
+2016-07-19 09:30:11		      /stats (query statistics about server)
+2016-07-19 09:30:11		      /summon (give users who are on a host running an IRC server a message asking them to please join IRC)
+2016-07-19 09:30:11		      /time (query local time from server)
+2016-07-19 09:30:11		      /topic (get/set channel topic)
+2016-07-19 09:30:11		      /trace (find the route to specific server)
+2016-07-19 09:30:11		      /unban (unban nicks or hosts)
+2016-07-19 09:30:11		      /unquiet (unquiet nicks or hosts)
+2016-07-19 09:30:11		      /userhost (return a list of information about nicks)
+2016-07-19 09:30:11		      /users (list of users logged into the server)
+2016-07-19 09:30:11		      /version (give the version info of nick or server (current or specified))
+2016-07-19 09:30:11		      /voice (give voice to nick(s))
+2016-07-19 09:30:11		      /wallchops (send a notice to channel ops)
+2016-07-19 09:30:11		      /wallops (send a message to all currently connected users who have set the 'w' user mode for themselves)
+2016-07-19 09:30:11		      /who (generate a query which returns a list of information)
+2016-07-19 09:30:11		      /whois (query information about user(s))
+2016-07-19 09:30:11		      /whowas (ask for information about a nick which no longer exists)
+2016-07-19 09:30:11		    command_run hooked:
+2016-07-19 09:30:11		      /away
+2016-07-19 09:30:11		    timers hooked:
+2016-07-19 09:30:11		      60 seconds (no call limit)
+2016-07-19 09:30:11		      300 seconds (no call limit)
+2016-07-19 09:30:11		      1 second (no call limit)
+2016-07-19 09:30:11		    fd hooked:
+2016-07-19 09:30:11		      16 (flags: 0x1: read)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: quit
+2016-07-19 09:30:11		      signal: upgrade
+2016-07-19 09:30:11		      signal: xfer_send_ready
+2016-07-19 09:30:11		      signal: xfer_resume_ready
+2016-07-19 09:30:11		      signal: xfer_send_accept_resume
+2016-07-19 09:30:11		      signal: irc_input_send
+2016-07-19 09:30:11		      signal: buffer_switch
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      weechat.look.nick_color_*
+2016-07-19 09:30:11		      weechat.color.chat_nick_colors
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        irc_server
+2016-07-19 09:30:11		        irc_server_nick
+2016-07-19 09:30:11		        irc_server_channels
+2016-07-19 09:30:11		        irc_server_privates
+2016-07-19 09:30:11		        irc_server_nicks
+2016-07-19 09:30:11		        irc_servers
+2016-07-19 09:30:11		        irc_channel
+2016-07-19 09:30:11		        nick
+2016-07-19 09:30:11		        irc_channel_nicks_hosts
+2016-07-19 09:30:11		        irc_channel_topic
+2016-07-19 09:30:11		        irc_channels
+2016-07-19 09:30:11		        irc_privates
+2016-07-19 09:30:11		        irc_msg_kick
+2016-07-19 09:30:11		        irc_msg_part
+2016-07-19 09:30:11		        irc_ignores_numbers
+2016-07-19 09:30:11		        irc_notify_nicks
+2016-07-19 09:30:11		    modifiers hooked:
+2016-07-19 09:30:11		        irc_color_decode
+2016-07-19 09:30:11		        irc_color_encode
+2016-07-19 09:30:11		        irc_color_decode_ansi
+2016-07-19 09:30:11		  logger [v1.5]: Log buffers to files (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/logger.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /logger (logger plugin configuration)
+2016-07-19 09:30:11		    timers hooked:
+2016-07-19 09:30:11		      120 seconds (no call limit)
+2016-07-19 09:30:11		    prints hooked:
+2016-07-19 09:30:11		      message: "(none)"
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: buffer_opened
+2016-07-19 09:30:11		      signal: buffer_closing
+2016-07-19 09:30:11		      signal: buffer_renamed
+2016-07-19 09:30:11		      signal: logger_backlog
+2016-07-19 09:30:11		      signal: logger_start
+2016-07-19 09:30:11		      signal: logger_stop
+2016-07-19 09:30:11		      signal: day_changed
+2016-07-19 09:30:11		  lua [v1.5]: Support of lua scripts (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/lua.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /lua (list/load/unload scripts)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: debug_libs
+2016-07-19 09:30:11		      signal: lua_script_install
+2016-07-19 09:30:11		      signal: lua_script_remove
+2016-07-19 09:30:11		      signal: lua_script_autoload
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      plugins.var.lua.check_license
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        lua_script
+2016-07-19 09:30:11		  perl [v1.5]: Support of perl scripts (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/perl.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /buffers_detach (add/del current buffer to/from buffers detach)
+2016-07-19 09:30:11		      /buffers_whitelist (add/del current buffer to/from buffers whitelist)
+2016-07-19 09:30:11		      /perl (list/load/unload scripts)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: debug_libs
+2016-07-19 09:30:11		      signal: perl_script_install
+2016-07-19 09:30:11		      signal: perl_script_remove
+2016-07-19 09:30:11		      signal: perl_script_autoload
+2016-07-19 09:30:11		      signal: quit
+2016-07-19 09:30:11		      signal: upgrade
+2016-07-19 09:30:11		      signal: buffer_opened
+2016-07-19 09:30:11		      signal: buffer_closed
+2016-07-19 09:30:11		      signal: buffer_merged
+2016-07-19 09:30:11		      signal: buffer_unmerged
+2016-07-19 09:30:11		      signal: buffer_moved
+2016-07-19 09:30:11		      signal: buffer_renamed
+2016-07-19 09:30:11		      signal: buffer_switch
+2016-07-19 09:30:11		      signal: buffer_hidden
+2016-07-19 09:30:11		      signal: buffer_unhidden
+2016-07-19 09:30:11		      signal: buffer_localvar_added
+2016-07-19 09:30:11		      signal: buffer_localvar_changed
+2016-07-19 09:30:11		      signal: window_switch
+2016-07-19 09:30:11		      signal: hotlist_changed
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      plugins.var.perl.check_license
+2016-07-19 09:30:11		      buffers.look.detach
+2016-07-19 09:30:11		      buffers.look.show_lag
+2016-07-19 09:30:11		      plugins.var.perl.colorize_lines.*
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        perl_script
+2016-07-19 09:30:11		    modifiers hooked:
+2016-07-19 09:30:11		        weechat_print
+2016-07-19 09:30:11		  relay [v1.5]: Relay WeeChat data to remote application (irc/weechat protocols) (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/relay.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /relay (relay control)
+2016-07-19 09:30:11		    timers hooked:
+2016-07-19 09:30:11		      1 second (no call limit)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: upgrade
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        relay_protocol_name
+2016-07-19 09:30:11		        relay_relays
+2016-07-19 09:30:11		        relay_free_port
+2016-07-19 09:30:11		  ruby [v1.5]: Support of ruby scripts (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/ruby.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /ruby (list/load/unload scripts)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: debug_libs
+2016-07-19 09:30:11		      signal: ruby_script_install
+2016-07-19 09:30:11		      signal: ruby_script_remove
+2016-07-19 09:30:11		      signal: ruby_script_autoload
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      plugins.var.ruby.check_license
+2016-07-19 09:30:11		      plugins.var.ruby.colorizer.*
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        ruby_script
+2016-07-19 09:30:11		    modifiers hooked:
+2016-07-19 09:30:11		        weechat_print
+2016-07-19 09:30:11		  script [v1.5]: Scripts manager (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/script.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /script (WeeChat scripts manager)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: window_scrolled
+2016-07-19 09:30:11		      signal: plugin_*
+2016-07-19 09:30:11		      signal: *_script_*
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        script_languages
+2016-07-19 09:30:11		        script_extensions
+2016-07-19 09:30:11		        script_scripts
+2016-07-19 09:30:11		        script_scripts_installed
+2016-07-19 09:30:11		        script_files
+2016-07-19 09:30:11		        script_tags
+2016-07-19 09:30:11		  tcl [v1.5]: Support of tcl scripts (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/tcl.so)
+2016-07-19 09:30:11		  written by "Dmitry Kobylin <fnfal@academ.tsc.ru>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /tcl (list/load/unload scripts)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		      signal: debug_libs
+2016-07-19 09:30:11		      signal: tcl_script_install
+2016-07-19 09:30:11		      signal: tcl_script_remove
+2016-07-19 09:30:11		      signal: tcl_script_autoload
+2016-07-19 09:30:11		    configuration options hooked:
+2016-07-19 09:30:11		      plugins.var.tcl.check_license
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        tcl_script
+2016-07-19 09:30:11		  trigger [v1.5]: Text replacement and command execution on events triggered by WeeChat/plugins (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/trigger.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /trigger (manage triggers, the Swiss Army knife for WeeChat)
+2016-07-19 09:30:11		    prints hooked:
+2016-07-19 09:30:11		      message: "(none)"
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        trigger_names
+2016-07-19 09:30:11		        trigger_names_default
+2016-07-19 09:30:11		        trigger_options
+2016-07-19 09:30:11		        trigger_option_value
+2016-07-19 09:30:11		        trigger_hooks
+2016-07-19 09:30:11		        trigger_hooks_filter
+2016-07-19 09:30:11		        trigger_hook_arguments
+2016-07-19 09:30:11		        trigger_hook_conditions
+2016-07-19 09:30:11		        trigger_hook_regex
+2016-07-19 09:30:11		        trigger_hook_command
+2016-07-19 09:30:11		        trigger_hook_rc
+2016-07-19 09:30:11		    modifiers hooked:
+2016-07-19 09:30:11		        input_text_display
+2016-07-19 09:30:11		        history_add
+2016-07-19 09:30:11		        irc_command_auth
+2016-07-19 09:30:11		        irc_message_auth
+2016-07-19 09:30:11		        input_text_display
+2016-07-19 09:30:11		        history_add
+2016-07-19 09:30:11		  xfer [v1.5]: DCC file transfer and direct chat (/usr/local/Cellar/weechat/1.5/lib/weechat/plugins/xfer.so)
+2016-07-19 09:30:11		  written by "Sébastien Helleu <flashcode@flashtux.org>", license: GPL3
+2016-07-19 09:30:11		    commands hooked:
+2016-07-19 09:30:11		      /me (send a CTCP action to remote host)
+2016-07-19 09:30:11		      /xfer (xfer control)
+2016-07-19 09:30:11		    signals hooked:
+2016-07-19 09:30:11		      signal: upgrade
+2016-07-19 09:30:11		      signal: xfer_add
+2016-07-19 09:30:11		      signal: xfer_start_resume
+2016-07-19 09:30:11		      signal: xfer_accept_resume
+2016-07-19 09:30:11		      signal: debug_dump
+2016-07-19 09:30:11		    completions hooked:
+2016-07-19 09:30:11		        nick
+2016-07-19 09:30:21	=!=	No help available, "plugion" is not a command or an option
+2016-07-19 09:30:23		[core]  /plugin  list|listfull [<name>]
+2016-07-19 09:30:23		                 load <filename> [<arguments>]
+2016-07-19 09:30:23		                 autoload [<arguments>]
+2016-07-19 09:30:23		                 reload [<name>|* [<arguments>]]
+2016-07-19 09:30:23		                 unload [<name>]
+2016-07-19 09:30:23		list/load/unload plugins
+2016-07-19 09:30:23		     list: list loaded plugins
+2016-07-19 09:30:23		 listfull: list loaded plugins (verbose)
+2016-07-19 09:30:23		     load: load a plugin
+2016-07-19 09:30:23		 autoload: autoload plugins in system or user directory
+2016-07-19 09:30:23		   reload: reload a plugin (if no name given, unload all plugins, then autoload plugins)
+2016-07-19 09:30:23		   unload: unload a plugin (if no name given, unload all plugins)
+2016-07-19 09:30:23		 filename: plugin (file) to load
+2016-07-19 09:30:23		     name: a plugin name
+2016-07-19 09:30:23		arguments: arguments given to plugin on load
+2016-07-19 09:30:23		Without argument, this command lists loaded plugins.
+2016-07-19 09:30:41	=!=	Error: unable to load plugin "python": dlopen(python, 10): image not found
+2016-07-19 09:30:41	=!=	If you're trying to load a script and not a C plugin, try command to load scripts (/perl, /python, ...)
+2016-07-19 09:32:10		ruby: scripts unloaded
+2016-07-19 09:32:10		perl: scripts unloaded
+2016-07-19 09:32:17		fifo: removing old fifo pipe "/Users/eevans43/.weechat/weechat_fifo_61040"
+2016-07-19 09:32:17		New key binding (context "mouse"): @bar(buffers):ctrl-wheeldown => hsignal:buffers_mouse
+2016-07-19 09:32:17		New key binding (context "mouse"): @bar(buffers):ctrl-wheelup => hsignal:buffers_mouse
+2016-07-19 09:32:17		New key binding (context "mouse"): @item(buffers):button2* => hsignal:buffers_mouse
+2016-07-19 09:32:17		New key binding (context "mouse"): @item(buffers):button1* => hsignal:buffers_mouse
+2016-07-19 09:32:17		perl scripts loaded: buffers, colorize_lines
+2016-07-19 09:32:17		ruby scripts loaded: colorizer
+2016-07-19 09:32:17		script: 309 scripts for WeeChat 1.5
+2016-07-19 09:32:17		Plugins loaded: alias, aspell, charset, exec, fifo, guile, irc, logger, lua, perl, python, relay, ruby, script, tcl, trigger, xfer
+2016-07-19 09:35:29		python: stdout/stderr: Traceback (most recent call last):
+2016-07-19 09:35:29		python: stdout/stderr:   File "/Users/eevans43/.weechat/python/notification_center.py", line 7, in <module>
+2016-07-19 09:35:29		python: stdout/stderr:     from pync import Notifier
+2016-07-19 09:35:29		python: stdout/stderr: ImportError: No module named pync
+2016-07-19 09:35:29	=!=	python: unable to parse file "/Users/eevans43/.weechat/python/notification_center.py"
+2016-07-19 09:36:02		script: script "notification_center.py" is already installed and up-to-date
+2016-07-19 09:40:09		python: stdout/stderr: Traceback (most recent call last):
+2016-07-19 09:40:09		python: stdout/stderr:   File "/Users/eevans43/.weechat/python/responsive_layout.py", line 82, in responsive_cb
+2016-07-19 09:40:09		python: stdout/stderr:     apply_layout = LAYOUT_LIST[-1][0]
+2016-07-19 09:40:09		python: stdout/stderr: IndexError: list index out of range
+2016-07-19 09:40:09	=!=	python: error in function "responsive_cb"
+2016-07-19 09:40:19		python: stdout/stderr: Traceback (most recent call last):
+2016-07-19 09:40:19		python: stdout/stderr:   File "/Users/eevans43/.weechat/python/responsive_layout.py", line 82, in responsive_cb
+2016-07-19 09:40:19		python: stdout/stderr:     apply_layout = LAYOUT_LIST[-1][0]
+2016-07-19 09:40:19		python: stdout/stderr: IndexError: list index out of range
+2016-07-19 09:40:19	=!=	python: error in function "responsive_cb"
+2016-07-19 09:40:24		python: stdout/stderr: Traceback (most recent call last):
+2016-07-19 09:40:24		python: stdout/stderr:   File "/Users/eevans43/.weechat/python/responsive_layout.py", line 82, in responsive_cb
+2016-07-19 09:40:24		python: stdout/stderr:     apply_layout = LAYOUT_LIST[-1][0]
+2016-07-19 09:40:24		python: stdout/stderr: IndexError: list index out of range
+2016-07-19 09:40:24	=!=	python: error in function "responsive_cb"
+2016-07-19 09:50:31		Scripts loaded:
+2016-07-19 09:50:31		 * ia   buffers.pl 5.2 (Sidebar with list of buffers)
+2016-07-19 09:50:31		   ia   colorize_lines.pl 3.4 (Colorize users' text in chat area with their nick color, including highlights)
+2016-07-19 09:50:31		   ia   colorize_nicks.py 21 (Use the weechat nick colors in the chat area)
+2016-07-19 09:50:31		   ia   responsive_layout.py 0.7 (Responsive layout will automatically apply layouts based on the terminals current size.)
+2016-07-19 09:50:31		   ia   colorizer.rb 0.1 (Colorize text in buffers based on rules.)
+2016-07-19 09:50:45		python: unloading script "responsive_layout"
+2016-07-19 09:50:45		python: script removed: /Users/eevans43/.weechat/python/autoload/responsive_layout.py
+2016-07-19 09:50:45		python: script removed: /Users/eevans43/.weechat/python/responsive_layout.py
+2016-07-19 09:58:16		ruby: scripts unloaded
+2016-07-19 09:58:16		python: scripts unloaded
+2016-07-19 09:58:16		perl: scripts unloaded
+2016-07-19 09:58:31		fifo: removing old fifo pipe "/Users/eevans43/.weechat/weechat_fifo_42789"
+2016-07-19 09:58:31		New key binding (context "mouse"): @bar(buffers):ctrl-wheeldown => hsignal:buffers_mouse
+2016-07-19 09:58:31		New key binding (context "mouse"): @bar(buffers):ctrl-wheelup => hsignal:buffers_mouse
+2016-07-19 09:58:31		New key binding (context "mouse"): @item(buffers):button2* => hsignal:buffers_mouse
+2016-07-19 09:58:31		New key binding (context "mouse"): @item(buffers):button1* => hsignal:buffers_mouse
+2016-07-19 09:58:31		perl scripts loaded: buffers, colorize_lines
+2016-07-19 09:58:31		python scripts loaded: colorize_nicks, notification_center
+2016-07-19 09:58:31		ruby scripts loaded: colorizer
+2016-07-19 09:58:31		script: 309 scripts for WeeChat 1.5
+2016-07-19 09:58:31		Plugins loaded: alias, aspell, charset, exec, fifo, guile, irc, logger, lua, perl, python, relay, ruby, script, tcl, trigger, xfer
+2016-07-20 06:40:09	=!=	irc: command "join" must be executed on connected irc server

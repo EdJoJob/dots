@@ -52,10 +52,12 @@ brew install findutils
 
 # utilities
 brew install htop-osx
-brew install irssi
 brew install todo-txt
 brew install highlight
 brew install pandoc
+
+brew install aspell --with-lang-en
+brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
 
 # install neovim
 brew install neovim/neovim/neovim --HEAD
