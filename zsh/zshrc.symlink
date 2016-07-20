@@ -331,3 +331,7 @@ preexec() {
 
 
 prompt_adam2_setup
+
+if [ -z $TMUX ]; then
+    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+fi
