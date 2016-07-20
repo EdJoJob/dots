@@ -9,5 +9,6 @@ tmux/tmux.symlink/resurrect
 notes/
 todo.symlink/todo/
 weechat.symlink/logs/
+weechat.symlink/*.log
 firefox/vimperator.symlink/info/default/*
 !firefox/vimperator.symlink/info/default/ignored-keys
