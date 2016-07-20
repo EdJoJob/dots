@@ -64,4 +64,14 @@ alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 
+alias start_day_time='tail -n1 $TODO_DIR/report.txt | cut -dT -f 2 | cut -d " " -f 1'
+
+time_since_start_day() {
+    start_time=`gdate +%s -d $(start_day_time)`
+    end_time=`gdate +%s -d $(gdate +%H:%M:%S)`
+
+    diff=$(($end_time - $start_time))
+    gdate +%H:%M:%S -ud @${diff}
+}
+
 # vim:ft=zsh
