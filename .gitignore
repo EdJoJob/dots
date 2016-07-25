@@ -10,5 +10,6 @@ notes/
 todo.symlink/todo/
 weechat.symlink/logs/
 weechat.symlink/*.log
+weechat.symlink/script/plugins.xml.gz
 firefox/vimperator.symlink/info/default/*
 !firefox/vimperator.symlink/info/default/ignored-keys
