@@ -50,7 +50,9 @@ shelve=
 [pager]
 pager = less -FSXRM
 # Page all commands where needed
-attend = 
+attend =
+attend-pull = false
+attend-push = false
 attend-commit = false
 attend-histedit = false
 attend-crecord = false
