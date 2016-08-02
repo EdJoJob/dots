@@ -29,6 +29,7 @@ source $(whence pycd.sh)
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 
 source ~/.aliases.zsh
+source ~/.local_plugin.zsh
 
 export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
 
@@ -89,6 +90,18 @@ dots=~/dots
 : ~dots
 virtual_envs=~/virtual_envs/
 : ~virtual_envs
+chagent=~/chws/agent
+: ~chagent
+chcloud=~/chws/cloud
+: ~chcloud
+chinternal=~/chws/internal
+: ~chinternal
+chnetbox=~/chws/netbox
+: ~chnetbox
+chsafechat=~/chws/safechat
+: ~chsafechat
+chexternal=~/chws/external
+: ~chexternal
 
 export XDG_CONFIG_HOME=$HOME/.config
 
@@ -215,10 +228,16 @@ in-virtualenv() {
     fi
 }
 
+have-vendor() {
+    if [[ -n $VENDOR_ENV ]]; then
+        echo "${ZSH_THEME_PREFIX}$VENDOR_ENV$ZSH_THEME_SUFFIX"
+    fi
+}
+
 # Setup vim mode
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)$(in-bone)$(git_info)$(set-hg-branch)"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)$(have-vendor)$(in-bone)$(git_info)$(set-hg-branch)"
     zle reset-prompt
 }
 

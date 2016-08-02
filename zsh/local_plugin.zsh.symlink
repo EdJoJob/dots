@@ -1,0 +1,109 @@
+# internals
+INTERNALS_CH=$HOME/chws/internal
+INTERNALS_BB=$HOME/ws/internal
+DEVTOOLS_BIN=/nb-devtools/bin
+DEVTOOLS_MODULES=/nb-devtools/modules
+
+SED=sed
+if which gsed &>/dev/null; then
+   SED=gsed
+fi
+
+export INTERNALS_CH
+export INTERNALS_BB
+export DEVTOOLS_BIN
+export DEVTOOLS_MODULES
+export PATH_TO_SWITCHER
+
+switch() {
+    # Switcher makes changes to environment variables according to 
+    # VENDOR_ENV value.
+    #
+    # To perform a switch between different environments,
+    # set desired VENDOR_ENV and make sure the following variables are in place:
+    # - INTERNALS_CH - absolute path to CyberHound internal
+    # - INTERNALS_BB - absolute path to Bloomberg internal
+    # - DEVTOOLS_BIN - "/nb-devtools/bin"
+    # - DEVTOOLS_MODULES - "/nb-devtools/modules"
+    #
+    # then source this file:
+    #
+    # VENDOR_ENV="bloomberg"
+    # export $VENDOR_ENV
+    # source switcher
+
+    # use gsed if it exists
+    if [[ -z "$INTERNALS_CH$INTERNALS_BB" ]]; then
+        echo "Please, provide INTERNALS_CH and INTERNALS_BB environment variables"
+        exit 1
+    fi
+
+    if [[ -z "$DEVTOOLS_BIN$DEVTOOLS_MODULES" ]]; then
+        echo "Please, provide DEVTOOLS_BIN and DEVTOOLS_MODULES environment variables"
+        exit 1
+    fi
+
+    if [[ -z "$VENDOR_ENV" ]]; then
+        echo "No VENDOR_ENV variable is set"
+        echo "Bloomberg environment will be used"
+
+        VENDOR_ENV='bloomberg'
+        export $VENDOR_ENV
+    fi
+
+    SEARCH_CH=$( echo "$PATH" | grep "$INTERNALS_CH" )
+    SEARCH_BB=$( echo "$PATH" | grep "$INTERNALS_BB" )
+
+    case "$VENDOR_ENV" in
+    bloomberg)
+        if ! [[ -z "$SEARCH_CH$SEARCH_BB" ]]; then
+            PATH=$( echo "$PATH" | $SED -e "s|$INTERNALS_CH|$INTERNALS_BB|g" )
+            PYTHONPATH=$( echo "$PYTHONPATH" | $SED -e "s|$INTERNALS_CH|$INTERNALS_BB|g" )
+            export PATH
+            export PYTHONPATH
+        else
+            PATH=$INTERNALS_BB$DEVTOOLS_BIN:$PATH
+            PYTHONPATH=$INTERNALS_BB$DEVTOOLS_MODULES:$PYTHONPATH
+            export PATH
+            export PYTHONPATH
+        fi
+        INTERNALS=$INTERNALS_BB
+        export INTERNALS
+        ;;
+    cyberhound)
+        if ! [[ -z "$SEARCH_CH$SEARCH_BB" ]]; then
+            PATH=$( echo "$PATH" | $SED -e "s|$INTERNALS_BB|$INTERNALS_CH|g" )
+            PYTHONPATH=$( echo "$PYTHONPATH" | $SED -e "s|$INTERNALS_BB|$INTERNALS_CH|g" )
+            export PATH
+            export PYTHONPATH
+        else
+            PATH=$INTERNALS_CH$DEVTOOLS_BIN:$PATH
+            PYTHONPATH=$INTERNALS_CH$DEVTOOLS_MODULES:$PYTHONPATH
+            export PATH
+            export PYTHONPATH
+        fi
+        INTERNALS=$INTERNALS_CH
+        export INTERNALS
+        ;;
+    *)
+        echo "Vendor $VENDOR_ENV is not supported!"
+        exit 1
+        ;;
+    esac
+}
+
+cyberhound() {
+    VENDOR_ENV='cyberhound'
+    export $VENDOR_ENV
+    switch
+}
+
+bloomberg() {
+    VENDOR_ENV='bloomberg'
+    export $VENDOR_ENV
+    switch
+}
+
+# setup bloomberg environment initially
+bloomberg
+

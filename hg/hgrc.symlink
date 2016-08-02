@@ -1,4 +1,4 @@
-%include ~/ws/internal/nb-devtools/hg/nbhgrc
+%include $INTERNALS/nb-devtools/hg/nbhgrc
 
 [hostfingerprints]
 hg.nbb.co = de:14:1a:60:11:e2:ad:3e:27:1a:a2:d0:eb:f5:52:ed:0f:d9:40:08
@@ -34,7 +34,7 @@ qseries = -vs
 users = *
 
 [extensions]
-nb= ~/ws/internal/nb-devtools/modules/nbhg.py
+nb= $INTERNALS/nb-devtools/modules/nbhg.py
 color=
 hg-prompt = ~/.hgext/hg-prompt/prompt.py
 hgk=
