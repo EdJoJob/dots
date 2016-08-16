@@ -46,6 +46,7 @@ progress=
 purge=
 rebase=
 shelve=
+strip=
 
 [pager]
 pager = less -FSXRM
