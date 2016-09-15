@@ -28,29 +28,34 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'nathanaelkane/vim-indent-guides'
     " }}}
     " Languages {{{
-        " Work with VimL
-        Plug 'ynkdir/vim-vimlparser'
-        Plug 'dbakker/vim-lint'
-        "lets work with latex
-        Plug 'LaTeX-Box-Team/LaTeX-Box'
-        Plug 'http://git.code.sf.net/p/vim-latex/vim-latex'
-        " Get lots of language settings
+        " Python magic {{{
+            Plug 'hdima/python-syntax'
+            Plug 'davidhalter/jedi-vim'
+            Plug 'tmhedberg/SimpylFold'
+            " Make the python indenting actually work
+            Plug 'hynek/vim-python-pep8-indent'
+        " }}}
+        " Work with VimL {{{
+            Plug 'ynkdir/vim-vimlparser'
+            Plug 'dbakker/vim-lint'
+        " }}}
+        "lets work with latex {{{
+            Plug 'LaTeX-Box-Team/LaTeX-Box'
+            Plug 'http://git.code.sf.net/p/vim-latex/vim-latex'
+        " }}}
+        " CPP {{{
+            Plug 'octol/vim-cpp-enhanced-highlight'
+            Plug 'vim-jp/cpp-vim'
+        " }}}
         Plug 'EdJoJob/llvmir-vim'
         Plug 'pearofducks/ansible-vim'
-        Plug 'octol/vim-cpp-enhanced-highlight'
-        Plug 'vim-jp/cpp-vim'
-        Plug 'davidhalter/jedi-vim'
         Plug 'gorodinskiy/vim-coloresque'
         Plug 'chrisbra/csv.vim'
         Plug 'NLKNguyen/c-syntax.vim'
-        Plug 'tpope/vim-git'
         Plug 'othree/html5.vim'
         Plug 'leshill/vim-json'
         Plug 'tpope/vim-markdown'
-        Plug 'hdima/python-syntax'
         Plug 'freitass/todo.txt-vim'
-        " Make the python indenting actually work
-        Plug 'hynek/vim-python-pep8-indent'
         " restructured text
         Plug 'Rykka/riv.vim'
         Plug 'vim-scripts/tracwiki'
@@ -99,6 +104,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " }}}
     " Slow Plugs {{{
         " Git integration
+        Plug 'tpope/vim-git'
         Plug 'tpope/vim-fugitive'
         " Mecurial Integration
         Plug 'ludovicchabant/vim-lawrencium'
@@ -279,6 +285,7 @@ augroup PERSONAL_PYTHON
     au Filetype python set shiftround    " round indent to multiple of 'shiftwidth'
     au Filetype python set autoindent    " align the new line indent with the previous line
     "au FileType python set foldmethod=indent
+    autocmd Filetype python set foldexpr=SimpylFold(v:lnum) foldmethod=expr
 augroup END
 " }}}
 " YAML {{{
