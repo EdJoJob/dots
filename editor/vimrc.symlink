@@ -47,7 +47,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
             Plug 'octol/vim-cpp-enhanced-highlight'
             Plug 'vim-jp/cpp-vim'
         " }}}
-        Plug 'EdJoJob/llvmir-vim'
         Plug 'pearofducks/ansible-vim'
         Plug 'gorodinskiy/vim-coloresque'
         Plug 'chrisbra/csv.vim'
