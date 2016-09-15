@@ -491,7 +491,7 @@ let g:ctrlp_custom_ignore='build'
 let g:netrw_liststyle=0 " get tree-style listing
 " }}}
 " riv.vim {{{
-let g:riv_highlight_code='lua,python,cpp,javascript,vim,sh,java'
+let g:riv_highlight_code='lua,python,cpp,javascript,vim,sh,java,xml,sql'
 " }}}
 " LatexBox {{{"
 let g:LatexBox_build_dir='build'
