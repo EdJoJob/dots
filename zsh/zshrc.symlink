@@ -28,6 +28,37 @@ source $(whence pycd.sh)
 
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 
+# Some common directories of mine
+agent=~/ws/agent
+: ~agent
+cloud=~/ws/cloud
+: ~cloud
+internal=~/ws/internal
+: ~internal
+netbox=~/ws/netbox
+: ~netbox
+safechat=~/ws/safechat
+: ~safechat
+external=~/ws/external
+: ~external
+dots=~/dots
+: ~dots
+virtual_envs=~/virtual_envs/
+: ~virtual_envs
+chagent=~/chws/agent
+: ~chagent
+chcloud=~/chws/cloud
+: ~chcloud
+chinternal=~/chws/internal
+: ~chinternal
+chnetbox=~/chws/netbox
+: ~chnetbox
+chsafechat=~/chws/safechat
+: ~chsafechat
+chexternal=~/chws/external
+: ~chexternal
+
+
 source ~/.aliases.zsh
 source ~/.local_plugin.zsh
 
@@ -72,36 +103,6 @@ setopt hist_reduce_blanks
 setopt interactive_comments
 
 setopt extendedglob
-
-# Some common directories of mine
-agent=~/ws/agent
-: ~agent
-cloud=~/ws/cloud
-: ~cloud
-internal=~/ws/internal
-: ~internal
-netbox=~/ws/netbox
-: ~netbox
-safechat=~/ws/safechat
-: ~safechat
-external=~/ws/external
-: ~external
-dots=~/dots
-: ~dots
-virtual_envs=~/virtual_envs/
-: ~virtual_envs
-chagent=~/chws/agent
-: ~chagent
-chcloud=~/chws/cloud
-: ~chcloud
-chinternal=~/chws/internal
-: ~chinternal
-chnetbox=~/chws/netbox
-: ~chnetbox
-chsafechat=~/chws/safechat
-: ~chsafechat
-chexternal=~/chws/external
-: ~chexternal
 
 export XDG_CONFIG_HOME=$HOME/.config
 
