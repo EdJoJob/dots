@@ -30,6 +30,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " Languages {{{
         " Python magic {{{
             Plug 'hdima/python-syntax'
+            Plug 'python-rope/ropevim', {'do': 'python setup.py install'}
             Plug 'davidhalter/jedi-vim'
             Plug 'tmhedberg/SimpylFold'
             " Make the python indenting actually work
