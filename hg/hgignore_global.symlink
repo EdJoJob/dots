@@ -6,4 +6,5 @@ syntax: glob
 *.egg-info
 .cache
 .eggs
+.ropeproject
 Session.vim
