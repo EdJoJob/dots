@@ -48,6 +48,9 @@ rebase=
 shelve=
 strip=
 
+[hooks]
+commit = pep8_commit_check
+
 [pager]
 pager = less -FSXRM
 # Page all commands where needed
