@@ -61,6 +61,7 @@ chexternal=~/chws/external
 
 source ~/.aliases.zsh
 source ~/.local_plugin.zsh
+source ~/.local_environment.zsh
 
 export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
 
