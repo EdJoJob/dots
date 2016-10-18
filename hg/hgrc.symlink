@@ -63,6 +63,7 @@ attend-crecord = false
 attend-baup = false
 attend-feature = false
 attend-clone = false
+attend-shelve = false
 
 [diff]
 git=1
