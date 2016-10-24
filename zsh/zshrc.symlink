@@ -225,7 +225,7 @@ in-bone() {
 
 in-virtualenv() {
     if [[ -n $VIRTUAL_ENV ]]; then
-        echo "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[201]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 }
 
@@ -273,7 +273,7 @@ prompt_adam2_setup () {
     # Colour scheme
     prompt_adam2_color2=${2:-'green'}   # current directory
     prompt_adam2_color3=${3:-'cyan'}    # user@host
-    prompt_adam2_color4=${4:-'white'}   # user input
+    prompt_adam2_color4=${4:-'243'}   # user input
 
     local prompt_gfx_bbox
     prompt_gfx_tbox="%B%F{$prompt_adam2_color1}${prompt_gfx_tlc}%b%F{$prompt_adam2_color1}${phyph}"
