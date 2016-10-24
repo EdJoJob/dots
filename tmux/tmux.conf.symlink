@@ -60,6 +60,9 @@ set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] ["$tm_battery"] #{pre
 set -g status-right "["$tm_tunes"]"
 set -g status-justify centre
 
+set -g message-command-style bg=black,fg=colour235
+set -g message-style bg=colour235,fg=black
+
 set -g window-status-format "#[fg=green,none]#I:#W#F"
 set -g window-status-current-format "#[fg=colour246,bold][#[fg=green,bold]#I:#W#F#[fg=colour246,none]]"
 set -g status-interval 1
