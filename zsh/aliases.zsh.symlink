@@ -2,6 +2,8 @@
 alias pu='pushd'
 alias po='popd'
 
+alias tmux='TERM=tmux-256color tmux'
+
 activate() {
     deactivate &> /dev/null
     source $virtual_envs/$1/bin/activate

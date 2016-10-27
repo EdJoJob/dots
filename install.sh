@@ -26,6 +26,9 @@ source install/mercurial.sh
 echo "Installing python modules"
 source install/python.sh
 
+echo "Installing tmux terminfo"
+tic tmux/tmux-256color.terminfo
+
 echo "Configuring zsh as default shell"
 chsh -s $(which zsh)
 
