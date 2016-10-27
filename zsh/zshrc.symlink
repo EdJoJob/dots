@@ -67,6 +67,10 @@ export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD
 # zsh-syntax-highlighting configuration
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
 
+typeset -A ZSH_HIGHLIGHT_STYLES
+
+ZSH_HIGHLIGHT_STYLES[line]='bold'
+
 # todo.sh config
 export TODOTXT_DEFAULT_ACTION=list
 export TODO_ROOT="$HOME/.todo"
