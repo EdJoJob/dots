@@ -1,22 +1,27 @@
 #!/usr/bin/env python
 
-"""get repository information for use in a shell prompt
+'''get repository information for use in a shell prompt
 
 Take a string, parse any special variables inside, and output the result.
 
 Useful mostly for putting information about the current repository into
 a shell prompt.
-"""
+'''
 
 from __future__ import with_statement
-from os.path import expanduser
+
 import re
 import os
 import subprocess
 from datetime import datetime, timedelta
+from contextlib import closing
 from os import path
 from mercurial import extensions, commands, cmdutil, help
+from mercurial.i18n import _
 from mercurial.node import hex, short
+
+cmdtable = {}
+command = cmdutil.command(cmdtable)
 
 # `revrange' has been moved into module `scmutil' since v1.9.
 try :
@@ -26,20 +31,36 @@ except :
     revrange = cmdutil.revrange
 
 CACHE_PATH = ".hg/prompt/cache"
-CACHE_TIMEOUT = timedelta(minutes=2)
+CACHE_TIMEOUT = timedelta(minutes=15)
 
 FILTER_ARG = re.compile(r'\|.+\((.*)\)')
 
-# This is kind of a hack and I feel a little bit dirty for doing it.
-IGNORE = open('NUL:','w') if subprocess.mswindows else open('/dev/null','w')
 
-# When we need to log
-LOG_FILE = expanduser( "~") + "/tmp/prompt.txt"
+def _cache_remote(repo, kind):
+    cache = path.join(repo.root, CACHE_PATH, kind)
+    c_tmp = cache + '.temp'
 
+    popenargs = ['hg', kind, '--quiet']
+    remote_path = repo.ui.config('prompt', 'remote')
+    if remote_path is not None:
+        popenargs.append(remote_path)
 
-def _cache_remote(repo, kind, force=False):
-    spawnDaemon( repo, 'both', force )
+    null_path = 'NUL:' if subprocess.mswindows else '/dev/null'
+    with open(null_path, 'w') as null_fp:
+        with open(c_tmp, 'w') as stdout_fp:
+            exit_code = subprocess.call(popenargs, stdout=stdout_fp, stderr=null_fp)
+
+    if exit_code not in (0, 1): # (changesets_found, changesets_not_found)
+        msg = "hg-prompt error: "
+        if remote_path: # Failure likely due to bad remote. Is 255 a valid check?
+            msg += "Can't access remote '%s'" % remote_path
+        else:
+            msg += "Error attempting 'hg %s'" % kind
+        print msg
+
+    os.rename(c_tmp, cache)
     return
+
 
 def _with_groups(groups, out):
     out_groups = [groups[0]] + [groups[-1]]
@@ -52,7 +73,7 @@ def _with_groups(groups, out):
                                   out_groups[1][1:] if out_groups[1] else '')
 
 def _get_filter(name, g):
-    """Return the filter with the given name, or None if it was not used."""
+    '''Return the filter with the given name, or None if it was not used.'''
     matching_filters = filter(lambda s: s and s.startswith('|%s' % name), g)
     if not matching_filters:
         return None
@@ -72,8 +93,13 @@ def _get_filter_arg(f):
     else:
         return None
 
+@command('prompt',
+         [('', 'angle-brackets', None, 'use angle brackets (<>) for keywords'),
+          ('', 'cache-incoming', None, 'used internally by hg-prompt'),
+          ('', 'cache-outgoing', None, 'used internally by hg-prompt')],
+         'hg prompt STRING')
 def prompt(ui, repo, fs='', **opts):
-    """get repository information for use in a shell prompt
+    '''get repository information for use in a shell prompt
 
     Take a string and output it for use in a shell prompt. You can use
     keywords in curly braces::
@@ -98,7 +124,14 @@ def prompt(ui, repo, fs='', **opts):
         currently at my-bookmark
 
     See 'hg help prompt-keywords' for a list of available keywords.
-    """
+
+    The format string may also be defined in an hgrc file::
+
+        [prompt]
+        template = {currently at {bookmark}}
+
+    This is used when no format string is passed on the command line.
+    '''
 
     def _basename(m):
         return _with_groups(m.groups(), path.basename(repo.root)) if repo.root else ''
@@ -269,15 +302,17 @@ def prompt(ui, repo, fs='', **opts):
             cache_time = (datetime.fromtimestamp(os.stat(cache).st_mtime)
                           if cache_exists else None)
             if not cache_exists or cache_time < datetime.now() - CACHE_TIMEOUT:
-                # Using ".pid" means we don't want to wait for the process to finish...
-                #noinspection PyUnusedLocal
-                pid = subprocess.Popen(['hg', 'prompt', '--cache-%s' % kind]).pid
+                if not cache_exists:
+                    open(cache, 'w').close()
+                subprocess.Popen(['hg', 'prompt', '--cache-%s' % kind])
 
             if cache_exists:
                 with open(cache) as c:
                     count = len(c.readlines())
-                    if g[1]:
-                        return _with_groups(g, str(count)) if count else ''
+                    if g[1] and count > 0:
+                        return _with_groups(g, str(count))
+                    elif g[2]:
+                        return _with_groups(g, '0') if not count else ''
                     else:
                         return _with_groups(g, '') if count else ''
             else:
@@ -298,21 +333,16 @@ def prompt(ui, repo, fs='', **opts):
         return _with_groups(m.groups(), repo.root) if repo.root else ''
 
     def _status(m):
-        from hgext.largefiles import lfutil
-
         g = m.groups()
 
         st = repo.status(unknown=True)[:5]
         modified = any(st[:4])
-        unknown = len(st[-1]) > 0
+        unknown_files = st[-1]
 
-        '''
-        largefiles break the unknown indicator, need to check that all the unknown files are not actually largefile files
-        '''
-        if lfutil.islfilesrepo(repo):
-            if unknown:
-                largefiles = set(lfutil.listlfiles(repo))
-                unknown = False if set(st[-1]).issubset(largefiles) else True
+        if len(st[-1]) > 0:
+            unknown = _check_for_large_files(repo, unknown_files)
+        else:
+            unknown = False
 
         flag = ''
         if '|modified' not in g and '|unknown' not in g:
@@ -324,6 +354,20 @@ def prompt(ui, repo, fs='', **opts):
                 flag += '?' if unknown else ''
 
         return _with_groups(g, flag) if flag else ''
+
+    def _check_for_large_files(repo, unknown_files):
+        '''Largefiles in a repo can break the unknown files indicator
+
+        use the largefiles module to ensure there are more unknown files than
+        just the largefiles, which are by definition known.
+        '''
+        try:
+            from hgext.largefiles import lfutil
+            if lfutil.islfilesrepo(repo):
+                largefiles = set(lfutils.listlfiles(repo))
+                return False if set(unknown_files).issubset(largefiles) else True
+        except ImportError:
+            pass
 
     def _tags(m):
         g = m.groups()
@@ -372,8 +416,7 @@ def prompt(ui, repo, fs='', **opts):
                 tip = head
                 break
 
-        return _with_groups(m.groups(), '^') if current_rev != repo[tip] else ''
-
+        return _with_groups(m.groups(), '^') if current_rev.children() else ''
 
     if opts.get("angle_brackets"):
         tag_start = r'\<([^><]*?\<)?'
@@ -429,72 +472,56 @@ def prompt(ui, repo, fs='', **opts):
             ')*': _tip,
         'update': _update,
 
-        'incoming(\|count)?': _remote('incoming'),
-        'outgoing(\|count)?': _remote('outgoing'),
+        'incoming(?:'
+            '(\|count)'
+            '|(\|zero)'
+            ')*': _remote('incoming'),
+        'outgoing(?:'
+            '(\|count)'
+            '|(\|zero)'
+            ')*': _remote('outgoing')
     }
 
     if opts.get("cache_incoming"):
-      _cache_remote(repo, 'incoming')
+        _cache_remote(repo, 'incoming')
 
     if opts.get("cache_outgoing"):
         _cache_remote(repo, 'outgoing')
+
+    if not fs:
+        fs = repo.ui.config("prompt", "template", "")
 
     for tag, repl in patterns.items():
         fs = re.sub(tag_start + tag + tag_end, repl, fs)
     ui.status(fs)
 
-
-def _remove_cache(repo, type):
-  cache = path.join( repo.root, CACHE_PATH, type )
-  if path.isfile( cache ):
-    os.remove( cache )
-
-  tmp_cache = cache + '.temp'
-  if path.isfile( tmp_cache ):
-    os.remove( tmp_cache )
-
-
 def _pull_with_cache(orig, ui, repo, *args, **opts):
     """Wrap the pull command to delete the incoming cache as well."""
     res = orig(ui, repo, *args, **opts)
-    _remove_cache( repo, 'incoming' )
-    _cache_remote(repo, 'outgoing')
+    cache = path.join(repo.root, CACHE_PATH, 'incoming')
+    if path.isfile(cache):
+        os.remove(cache)
     return res
 
 def _push_with_cache(orig, ui, repo, *args, **opts):
     """Wrap the push command to delete the outgoing cache as well."""
     res = orig(ui, repo, *args, **opts)
-    _remove_cache( repo, 'outgoing' )
-    _cache_remote(repo, 'incoming')
-    return res
-
-def _commit_with_cache(orig, ui, repo, *args, **opts):
-    """Wrap the commit command to update the outgoing cache as well."""
-    res = orig(ui, repo, *args, **opts)
-    _cache_remote(repo, 'outgoing', True)
+    cache = path.join(repo.root, CACHE_PATH, 'outgoing')
+    if path.isfile(cache):
+        os.remove(cache)
     return res
 
 def uisetup(ui):
     extensions.wrapcommand(commands.table, 'pull', _pull_with_cache)
     extensions.wrapcommand(commands.table, 'push', _push_with_cache)
-    extensions.wrapcommand(commands.table, 'commit', _commit_with_cache)
     try:
         extensions.wrapcommand(extensions.find("fetch").cmdtable, 'fetch', _pull_with_cache)
     except KeyError:
         pass
 
-cmdtable = {
-    "prompt":
-    (prompt, [
-        ('', 'angle-brackets', None, 'use angle brackets (<>) for keywords'),
-        ('', 'cache-incoming', None, 'used internally by hg-prompt'),
-        ('', 'cache-outgoing', None, 'used internally by hg-prompt'),
-    ],
-    'hg prompt STRING')
-}
 help.helptable += (
-    (['prompt-keywords', 'prompt-keywords'], ('Keywords supported by hg-prompt'),
-     (r'''hg-prompt currently supports a number of keywords.
+    (['prompt-keywords'], _('Keywords supported by hg-prompt'),
+     lambda _: r'''hg-prompt currently supports a number of keywords.
 
 Some keywords support filters.  Filters can be chained when it makes
 sense to do so.  When in doubt, try it!
@@ -534,6 +561,8 @@ incoming
 
      |count
          Display the number of incoming changesets (if greater than 0).
+     |zero
+         Display 0 if there are no incoming changesets.
 
 node
      Display the (full) changeset hash of the current parent.
@@ -557,6 +586,8 @@ outgoing
 
      |count
          Display the number of outgoing changesets (if greater than 0).
+     |zero
+         Display 0 if there are no incoming changesets.
 
 patch
      Display the topmost currently-applied patch (requires the mq
@@ -673,157 +704,5 @@ update
      Display `^` if the current parent is not the tip of the current branch,
      otherwise nothing.  In effect, this lets you see if running `hg update`
      would do something.
-''')),
+'''),
 )
-
-
-#myLogger = open( LOG_FILE, 'a+' )
-
-#
-# This method is taken from http://stackoverflow.com/questions/972362/spawning-process-from-python
-#   which in turn derived it from http://code.activestate.com/recipes/278731/
-#
-# noinspection PyRedundantParentheses
-def spawnDaemon( repo, kind, force ):
-  """Spawn a completely detached subprocess (i.e., a daemon).
-  """
-  #myLogger.write( ' [' + kind + '] spawning\n' )
-
-  # First check if the temp file already exists. If so, how old is it? If it's fairly recent,
-  #   then assume another operation is already in progress...
-  if kind == 'both':
-    inCache = ensureCache( repo, 'incoming', force )
-    outCache = ensureCache( repo, 'outgoing', force )
-
-    if inCache is None and outCache is None:
-      #myLogger.write( ' [' + kind + '] buh-bye\n' )
-      #myLogger.flush()
-      #myLogger.close()
-      return
-
-    if inCache is None:
-      kind = 'outgoing'
-      #myLogger.write( ' [' + kind + '] only out!\n' )
-    elif outCache is None:
-      kind = 'incoming'
-      #myLogger.write( ' [' + kind + '] only in!\n' )
-
-  else:
-    cache = ensureCache( repo, kind, force )
-    if cache is None:
-      #myLogger.flush()
-      #myLogger.close()
-      return
-
-    if kind == 'incoming':
-      inCache = cache
-    else:
-      outCache = cache
-
-  #myLogger.write( ' [' + kind + '] sok...\n')
-
-  # Fork a child process so the parent can exit.  This returns control to
-  # the command-line or shell.  It also guarantees that the child will not
-  # be a process group leader, since the child receives a new process ID
-  # and inherits the parent's process group ID.  This step is required
-  # to insure that the next call to os.setsid is successful.
-  try:
-    pid = os.fork()
-  except OSError, e:
-    #myLogger.write( ' [' + kind + '] 1st fork error: ' + e.__str__() + '\n' )
-    raise RuntimeError( "1st fork failed: %s [%d]" % (e.strerror, e.errno) )
-  if pid != 0:
-    # parent (calling) process is all done
-    #myLogger.write( ' [' + kind + '] forked\n' )
-    #myLogger.flush()
-    #myLogger.close()
-    return
-
-  # To become the session leader of this new session and the process group
-  # leader of the new process group, we call os.setsid().  The process is
-  # also guaranteed not to have a controlling terminal.
-  # detach from controlling terminal (to make child a session-leader)
-  #myLogger.write( ' [' + kind + '] becoming session leader...whatever...\n' )
-  os.setsid()
-
-  try:
-     # Fork a second child and exit immediately to prevent zombies.  This
-     # causes the second child process to be orphaned, making the init
-     # process responsible for its cleanup.  And, since the first child is
-     # a session leader without a controlling terminal, it's possible for
-     # it to acquire one by opening a terminal in the future (System V-
-     # based systems).  This second fork guarantees that the child is no
-     # longer a session leader, preventing the daemon from ever acquiring
-     # a controlling terminal.
-    pid = os.fork()
-  except OSError, e:
-    #myLogger.write( ' [' + kind + '] 2nd fork error: ' + e.__str__() + '\n' )
-    raise RuntimeError( "2nd fork failed: %s [%d]" % (e.strerror, e.errno) )
-  if pid != 0:
-    # child process is all done
-    #myLogger.write( ' [' + kind + '] child is done\n' )
-    #myLogger.flush()
-    #myLogger.close()
-    os._exit( 0 )
-
-  # grandchild process now non-session-leader, detached from parent
-  # grandchild process must now close all open files
-  try:
-    maxfd = os.sysconf( "SC_OPEN_MAX" )
-  except (AttributeError, ValueError):
-    maxfd = 1024
-  os.closerange(0, maxfd)
-
-
-  if inCache is not None:
-    runForCache( 'incoming', inCache )
-
-  if outCache is not None:
-    runForCache( 'outgoing', outCache )
-
-
-
-def ensureCache( repo, kind, force ):
-  cache = path.join(repo.root, CACHE_PATH, kind)
-  #myLogger.writelines( ' [' + kind + '] checking ' + cache + '\n' )
-
-  cache_exists = path.isfile(cache)
-  if not cache_exists:
-    open(cache, 'w').close()
-
-  c_tmp = cache + '.temp'
-
-  if os.path.exists( c_tmp ):
-    created = datetime.fromtimestamp( os.stat( c_tmp ).st_ctime )
-    now = datetime.now()
-    maxAge = now - CACHE_TIMEOUT
-    if ( created > maxAge ) and not force:
-      cache = None
-    else:
-      os.remove( c_tmp )
-
-  #myLogger.write( ' [' + kind + '] ensureCache: ' + cache.__str__( ) + '\n' )
-  return cache
-
-
-def runForCache( kind, cache ):
-
-  #myLogger = open( LOG_FILE, 'a+' )
-
-  c_tmp = cache + '.temp'
-  #myLogger.write( ' [' + kind + '] invoking into ' + c_tmp.__str__() + '\n')
-
-  try:
-    subprocess.call(['hg', kind, '--quiet'], stdout=file(c_tmp, 'w'), stderr=None)
-    #myLogger.write( ' [' + kind + '] renaming ' + c_tmp + ' to ' + cache + '\n' )
-    os.rename(c_tmp, cache)
-    #myLogger.write( ' [' + kind + '] renamed ' + c_tmp + ' to ' + cache + '\n' )
-  except Exception, e:
-    # oops, we're cut off from the world, let's just give up
-    #myLogger.write( ' [' + kind + '] uh oh...' + e.__str__() + '\n' )
-    os.remove(c_tmp)
-    os.remove(cache)
-    # os._exit( 255 )
-
-  #myLogger.flush()
-  #myLogger.close()
