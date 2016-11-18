@@ -59,7 +59,7 @@ alias ZZ='exit'
 alias c='clear'
 
 alias t='todo.sh'
-alias start_day='t recur && t archive && t report'
+alias start_day='t recur && t archive && t report && clear && t'
 
 alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 
