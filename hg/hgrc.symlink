@@ -42,6 +42,7 @@ histedit=
 largefiles=
 mercurial_keyring =
 pager=
+mq=
 progress=
 purge=
 rebase=
