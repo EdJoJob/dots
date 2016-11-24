@@ -65,6 +65,8 @@ attend-baup = false
 attend-feature = false
 attend-clone = false
 attend-shelve = false
+attend-mergeto = false
+attend-mergeforwards = false
 
 [diff]
 git=1
