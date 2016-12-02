@@ -24,6 +24,8 @@ if ! zgen saved; then
 fi
 
 source $(whence pycd.sh)
+source $(brew --prefix)/etc/profile.d/z.sh
+
 
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 
