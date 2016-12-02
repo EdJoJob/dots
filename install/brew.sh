@@ -20,12 +20,15 @@ brew install the_silver_searcher
 brew install tree
 brew install wget
 brew install sloccount
+brew install keybase
 
 # development tools
 brew install git
 brew install reattach-to-user-namespace
-brew install tmux --HEAD
+brew install tmux
 brew install zsh
+brew install z
+brew install watch
 brew install python
 brew install python3
 
@@ -49,12 +52,15 @@ brew install iproute2mac
 brew install less
 brew install unar
 brew install findutils
+brew install ssh-copy-id
 
 # utilities
 brew install htop-osx
 brew install todo-txt
 brew install highlight
 brew install pandoc
+brew install m-cli  # Help with macOS magic commands
+brew install nmap
 
 brew install aspell --with-lang-en
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
@@ -63,7 +69,6 @@ brew install weechat --with-aspell --with-curl --with-python --with-perl --with-
 brew install neovim/neovim/neovim --HEAD
 
 # casks (apps)
-brew cask install 1password
 brew cask install alfred
 brew cask install chicken
 brew cask install dropbox
@@ -72,15 +77,15 @@ brew cask install firefox
 brew cask install flash
 brew cask install github-desktop
 brew cask install google-chrome
-brew cask install google-drive
-brew cask install google-hangouts
 brew cask install pycharm
 brew cask install skim
 brew cask install skype
 brew cask install sourcetree
-brew cask install spotify
-brew cask install spotify-notifications
 brew cask install wireshark
+
+# network
+brew cask install little-snitch
+brew cask install micro-snitch
 
 # Keybind editors
 brew cask install karabiner
