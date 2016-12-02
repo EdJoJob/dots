@@ -34,6 +34,14 @@ if which gfind &>/dev/null; then
     alias find=gfind
 fi
 
+if which gdate &>/dev/null; then
+    alias date=gdate
+fi
+
+if which gcal &>/dev/null; then
+    alias cal=gcal
+fi
+
 alias rs="rsync -avzh --progress"
 
 alias :q='exit'
