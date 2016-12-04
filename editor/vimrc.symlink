@@ -876,7 +876,7 @@ let g:jellybeans_use_term_italics = 1
 let g:monokai_term_italic = 1
 set t_ZH=[3m
 set t_ZR=[23m
-if $ITERM_PROFILE == 'SashaPair'
+if $ITERM_PROFILE == 'Sasha Pair'
    set background=dark
    colorscheme despacio
    let g:airline_theme='distinguished'
