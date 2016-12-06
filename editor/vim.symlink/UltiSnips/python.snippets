@@ -138,8 +138,12 @@ snippet #!
 endsnippet
 
 snippet main
-if __name__ == '__main__':
-	${1:main()}
+def ${1:$1}(${3:$2}):
+	${4:pass}
+
+
+if __name__ == "__main__":
+	${1:main}(${2})
 endsnippet
 
 snippet pdb
