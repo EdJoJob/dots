@@ -85,7 +85,7 @@ time_since_start_day() {
 }
 
 owner() {
-    hg annotate -u $1 | cut -f 1 -d ':' | sort | guniq -c | head -n 1 | gsed -re 's/[[:space:]]+/:/g' | cut -f 3 -d ':'
+    hg annotate -u $1 | cut -f 1 -d ':' | sort | guniq -c | sort -nr | head -n 1 | gsed -re 's/[[:space:]]+/:/g' | cut -f 3 -d ':'
 }
 
 # vim:ft=zsh
