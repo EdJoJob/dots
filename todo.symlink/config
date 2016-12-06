@@ -48,7 +48,7 @@ export PRI_B=$LIGHT_CYAN               # color for B priority
 export PRI_C=$LIGHT_BLUE         # color for C priority
 # export PRI_D=...            # define your own
 export PRI_L=$CYAN
-export PRI_S=$LIGHT_PURPLE
+export PRI_P=$LIGHT_PURPLE
 export PRI_W=$DARK_GREY
 export PRI_X=$DEFAULT         # color unless explicitly defined
 
