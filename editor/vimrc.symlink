@@ -868,25 +868,28 @@ augroup END
 
 "}}}
 " Colours-------------------------{{{
-if has('nvim')
-    set termguicolors
-endif
 let g:despacio_Twilight = 1
 let g:jellybeans_use_term_italics = 1
 let g:monokai_term_italic = 1
 set t_ZH=[3m
 set t_ZR=[23m
 if $ITERM_PROFILE == 'Sasha Pair'
+    if has('nvim')
+        set termguicolors
+    endif
    set background=dark
    colorscheme despacio
    let g:airline_theme='distinguished'
-elseif  $ITERM_PROFILE == 'LargeText'
+elseif  $ITERM_PROFILE == 'LargeText'|| $ITERM_PROFILE == 'RemotePair'
    set background=light
    colorscheme solarized
 else
    set background=dark
    let g:airline_theme='base16_monokai'
    colorscheme monokai
+    if has('nvim')
+        set termguicolors
+    endif
 endif
 "colorscheme despacio
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
