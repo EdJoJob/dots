@@ -35,6 +35,7 @@ agent=~/ws/agent
 cloud=~/ws/cloud
 : ~cloud
 internal=~/ws/internal
+export INTERNALS=$internal
 : ~internal
 netbox=~/ws/netbox
 : ~netbox
@@ -46,18 +47,6 @@ dots=~/dots
 : ~dots
 virtual_envs=~/virtual_envs/
 : ~virtual_envs
-chagent=~/chws/agent
-: ~chagent
-chcloud=~/chws/cloud
-: ~chcloud
-chinternal=~/chws/internal
-: ~chinternal
-chnetbox=~/chws/netbox
-: ~chnetbox
-chsafechat=~/chws/safechat
-: ~chsafechat
-chexternal=~/chws/external
-: ~chexternal
 
 
 source ~/.aliases.zsh
@@ -235,16 +224,10 @@ in-virtualenv() {
     fi
 }
 
-have-vendor() {
-    if [[ -n $VENDOR_ENV ]]; then
-        echo "${ZSH_THEME_PREFIX}$VENDOR_ENV$ZSH_THEME_SUFFIX"
-    fi
-}
-
 # Setup vim mode
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)$(have-vendor)$(in-bone)$(git_info)$(set-hg-branch)"
+    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)$(in-bone)$(git_info)$(set-hg-branch)"
     zle reset-prompt
 }
 
