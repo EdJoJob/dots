@@ -302,6 +302,20 @@ augroup PERSONAL_YAML
     au FileType yaml set autoindent
 augroup END
 " }}}
+" ANSIBLE {{{
+let g:ansible_extra_keywords_highlight = 1
+let g:ansible_name_highlight = 'b'
+"let g:ansible_extra_syntaxes = 'json.vim'
+augroup PERSONAL_ANSIBLE
+    au!
+    au FileType ansible set shiftwidth=2
+    au FileType ansible set tabstop=2
+    au FileType ansible set softtabstop=2
+    au FileType ansible set shiftround
+    au FileType ansible set expandtab
+    au FileType ansible set autoindent
+augroup END
+" }}}
 " Java {{{
 augroup PERSONAL_JAVA
     au!
