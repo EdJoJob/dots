@@ -13,6 +13,7 @@ interface = curses
 lg = glog
 branchstatus = status --rev "branch('$1')"
 bs = branchstatus .
+st = !hg status --color=yes $($HG root) $HG_ARGS
 
 dlog = log --style=$HOME/.hg_styles/map-cmdline.dlog
 nlog = log --style=$HOME/.hg_styles/map-cmdline.nlog
