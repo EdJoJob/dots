@@ -2718,13 +2718,13 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 590 620 392 0 0 1920 1178 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>256 323 599 502 0 0 1920 1178 </string>
+	<string>256 391 599 388 0 0 1920 1178 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>588 633 796 473 0 0 1920 1178 </string>
+	<string>588 700 796 473 0 0 1920 1178 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>-720 -934 720 1280 -1440 -934 1440 2538 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>960 15 954 1163 0 0 1920 1178 </string>
+	<string>1920 -919 1434 2523 1920 -934 1440 2538 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>10 13 2554 1404 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -3802,17 +3802,19 @@
 			<true/>
 			<key>Background Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.070588238537311554</real>
+				<real>0.43625348806381226</real>
+				<key>Color Space</key>
+				<string>Calibrated</string>
 				<key>Green Component</key>
-				<real>0.070588238537311554</real>
+				<real>0.15173427760601044</real>
 				<key>Red Component</key>
-				<real>0.070588238537311554</real>
+				<real>0.095769815146923065</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
-			<key>Background Image Location</key>
-			<string>/Users/eevans43/Pictures/12688012_10153572866124118_5734186080267029676_n.jpg</string>
 			<key>Badge Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -8133,7 +8135,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-12-06T00:16:19Z</date>
+	<date>2016-12-19T22:43:47Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -8185,7 +8187,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.12</string>
+	<string>3.0.13</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

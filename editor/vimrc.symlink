@@ -896,6 +896,14 @@ if $ITERM_PROFILE == 'Sasha Pair'
 elseif  $ITERM_PROFILE == 'LargeText'|| $ITERM_PROFILE == 'RemotePair'
    set background=light
    colorscheme solarized
+elseif  $ITERM_PROFILE == 'Hotkey Window'
+   set background=dark
+   let g:airline_theme='base16_monokai'
+   colorscheme monokai
+   hi Normal ctermbg=NONE guibg=NONE
+    if has('nvim')
+        set termguicolors
+    endif
 else
    set background=dark
    let g:airline_theme='base16_monokai'
