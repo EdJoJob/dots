@@ -65,7 +65,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " file browser
         Plug 'tpope/vim-vinegar'
         " get the output of shell commands in a new split buffer
-        Plug 'sjl/clam.vim'
+        Plug 'phodge/vim-shell-command'
         " browse the undotree easily
         Plug 'mbbill/undotree'
         " change surrounding things
