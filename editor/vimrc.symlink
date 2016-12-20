@@ -306,6 +306,7 @@ let g:ansible_name_highlight = 'b'
 "let g:ansible_extra_syntaxes = 'json.vim'
 augroup PERSONAL_ANSIBLE
     au!
+    au BufNewFile,BufRead *ansible/*.yml set filetype=ansible
     au FileType ansible set shiftwidth=2
     au FileType ansible set tabstop=2
     au FileType ansible set softtabstop=2
