@@ -88,4 +88,16 @@ owner() {
     hg annotate -u $1 | cut -f 1 -d ':' | sort | guniq -c | sort -nr | head -n 1 | gsed -re 's/[[:space:]]+/:/g' | cut -f 3 -d ':'
 }
 
+n() {
+    if [[ -n $cluster ]]; then
+        if [[ "x" != "x$2" ]]; then
+            ss $1-$2.$cluster.bne.nbb.co
+        else
+            ss $1.$cluster.bne.nbb.co
+        fi
+    else
+        echo 'you need to set $cluster'
+    fi
+}
+
 # vim:ft=zsh
