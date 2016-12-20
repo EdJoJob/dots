@@ -32,8 +32,6 @@ fpath=( ~/dots/zsh/func "${fpath[@]}" )
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 
 # Some common directories of mine
-agent=~/ws/agent
-: ~agent
 cloud=~/ws/cloud
 : ~cloud
 internal=~/ws/internal
