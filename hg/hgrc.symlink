@@ -62,6 +62,7 @@ attend-push = false
 attend-commit = false
 attend-histedit = false
 attend-crecord = false
+attend-qrecord = false
 attend-baup = false
 attend-backout = false
 attend-feature = false
