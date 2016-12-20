@@ -88,6 +88,10 @@ owner() {
     hg annotate -u $1 | cut -f 1 -d ':' | sort | guniq -c | sort -nr | head -n 1 | gsed -re 's/[[:space:]]+/:/g' | cut -f 3 -d ':'
 }
 
+next() {
+    hg resolve -l | grep '^U' | cut -f 2 -d ' ' | head -n 1
+}
+
 n() {
     if [[ -n $cluster ]]; then
         if [[ "x" != "x$2" ]]; then
