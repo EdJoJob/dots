@@ -1,4 +1,5 @@
 #compdef n
 
 _arguments "1:duty:(twitter-web-internal twitter-web-public twitter-streamer twitter-poller slack-web slack-poller cloud-postgresql consul cte reverse-proxy ccs)"\
-    "2:instance:(1 2 3 4 5)"
+    "2:cluster:(eevans)"\
+    "3:instance:(1 2 3 4)"
