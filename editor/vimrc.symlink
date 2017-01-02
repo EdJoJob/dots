@@ -517,17 +517,6 @@ let g:LatexBox_build_dir='build'
 " UndoTree {{{
 nnoremap <F2> :UndotreeToggle<CR>
 "}}}
-" LaTeX Suite {{{"
-let g:tex_flavor='latex'
-set grepprg=grep\ -nH\ $*
-nmap <C-space> <Plug>IMAP_JumpForward
-imap <S-Space> <Plug>IMAP_JumpBack
-nmap <S-Space> <Plug>IMAP_JumpBack
-"let g:Tex_CompileRule_pdf="pdflatex -output-directory build -interaction=nonstopmode -file-line-error-style $*"
-" Use the update script in the directory
-let g:Tex_CompileRule_pdf='%:p:h/update.sh'
-let g:Tex_DefaultTargetFormat='pdf'
-"}}}
 " Signify {{{"
 let g:signify_vcs_list = [ 'git', 'hg' ]
 "}}}
