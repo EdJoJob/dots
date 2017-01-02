@@ -1,0 +1,4 @@
+[flake8]
+banned-modules = mock = Use unittest.mock
+max-line-length = 90
+# vim:filetype=cfg
