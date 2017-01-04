@@ -40,6 +40,8 @@ bind c new-window -c "#{pane_current_path}" -n ""# new window
 set-window-option -g automatic-rename off # auto name
 set-window-option -g allow-rename off
 
+set-option -g focus-events on
+
 set-option -g pane-active-border-style fg=colour235,bg=colour235
 
 # Create an environment that zsh can make sense of
