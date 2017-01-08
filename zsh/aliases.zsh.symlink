@@ -42,6 +42,10 @@ if which gcal &>/dev/null; then
     alias cal=gcal
 fi
 
+if whence hub &>/dev/null; then
+    alias g=hub
+fi
+
 alias rs="rsync -avzh --progress"
 
 alias :q='exit'

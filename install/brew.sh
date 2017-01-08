@@ -24,6 +24,7 @@ brew install keybase
 
 # development tools
 brew install git
+brew install hub
 brew install reattach-to-user-namespace
 brew install tmux
 brew install zsh
