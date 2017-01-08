@@ -82,6 +82,8 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
             Plug 'scrooloose/syntastic'
             let s:syntastic = 1
         endif
+        " Get the differnces between line ranges
+        Plug 'AndrewRadev/linediff.vim'
         " use ag in vim like :grep
         Plug 'mileszs/ack.vim'
         " and completion
