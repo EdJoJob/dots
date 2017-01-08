@@ -65,7 +65,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " file browser
         Plug 'tpope/vim-vinegar'
         " get the output of shell commands in a new split buffer
-        Plug 'phodge/vim-shell-command'
+        Plug 'EdJoJob/vim-shell-command'
         " browse the undotree easily
         Plug 'mbbill/undotree'
         " change surrounding things
@@ -573,6 +573,12 @@ let g:UltiSnipsEditSplit = 'context'
 " }}}
 " CamelCaseMotion {{{
 call camelcasemotion#CreateMotionMappings('<localleader>')
+" }}}
+" vim-shell-command {{{
+augroup PERSONAL_SHELL_COMMAND
+    au!
+    au FileType shell-command IndentGuidesDisable
+augroup END
 " }}}
 "}}}
 " MiniPlugins --------------------{{{
