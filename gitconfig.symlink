@@ -1,15 +1,15 @@
 [user]
-	name = Edward Evans
-	email = edjojob@gmail.com
+    name = Edward Evans
+    email = edjojob@gmail.com
 [color]
-	ui = auto
+    ui = auto
 [gui]
-	fontui = -family \"liberation sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family \"liberation mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+    fontui = -family \"liberation sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+    fontdiff = -family \"liberation mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
-	default = current
+    default = current
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
 [alias]
     blog = log --graph --date=relative --format=tformat:'%C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' HEAD ^master --no-merges
     bdiff = diff HEAD ^master
@@ -29,7 +29,7 @@
     lgg = log --graph --decorate
     lgga = log --graph --decorate --all
     glog = log --graph --date=relative --format=tformat:'%C(auto)%h -(%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' --all
-    p = push
+    p = push --prune
     rba = rebase --abort
     rbc = rebase --continue
     rbi = rebase -i
@@ -44,8 +44,8 @@
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
