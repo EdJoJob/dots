@@ -113,6 +113,11 @@ path=(
 typeset -U path
 export path
 
+export PYENV_ROOT=/usr/local/var/pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if [[ -e $PYENV_ROOT/completions/pyenv.zsh ]]; then source $PYENV_ROOT/completions/pyenv.zsh; fi
+
 export LESS="-FXRM"
 export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)

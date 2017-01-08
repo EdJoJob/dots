@@ -29,6 +29,9 @@ brew install tmux
 brew install zsh
 brew install z
 brew install watch
+
+brew install pyenv
+brew install pyenv-virtualenv
 brew install python
 brew install python3
 
