@@ -317,6 +317,7 @@ augroup PERSONAL_ANSIBLE
     au FileType ansible set shiftround
     au FileType ansible set expandtab
     au FileType ansible set autoindent
+    au FileType ansible set foldmethod=indent
 augroup END
 " }}}
 " Java {{{
