@@ -64,6 +64,7 @@ attend-histedit = false
 attend-crecord = false
 attend-qrecord = false
 attend-qrefresh = false
+attend-qnew = false
 attend-qpush = false
 attend-qpop = false
 attend-baup = false
