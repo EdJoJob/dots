@@ -7,4 +7,5 @@ syntax: glob
 .cache
 .eggs
 .ropeproject
+.python-version
 Session.vim
