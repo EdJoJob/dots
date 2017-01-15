@@ -17,6 +17,7 @@ set popups=tab
 " set wildoptions=auto
 set titlestring=Firefox
 set hlsearch
-" vim: set ft=vimperator:
+colorscheme darkness
 set! browser.zoom.full=true
 
+" vim: set ft=vimperator:
