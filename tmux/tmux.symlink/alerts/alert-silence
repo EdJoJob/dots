@@ -1,0 +1,2 @@
+#!/usr/bin/env zsh
+reattach-to-user-namespace terminal-notifier -message "activity in ${@}" -title 'TMUX' -subtitle 'alert-silence' -group 'tmux' -timeout 5 &>/dev/null
