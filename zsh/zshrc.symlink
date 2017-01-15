@@ -1,3 +1,5 @@
+# vim: fdm=marker
+# zenv ---------------------------------{{{
 source ~/.zgen/zgen.zsh
 if ! zgen saved; then
     echo "Creating a zgen save"
@@ -30,8 +32,8 @@ fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
 
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
-
-# Some common directories of mine
+#}}}
+# Common Directories -------------------{{{
 cloud=~/ws/cloud
 : ~cloud
 internal=~/ws/internal
@@ -47,21 +49,20 @@ dots=~/dots
 : ~dots
 virtual_envs=~/virtual_envs/
 : ~virtual_envs
-
-
+pyenv_root=/usr/local/var/pyenv
+: ~pyenv_root
+#}}}
+# Other files --------------------------{{{
 source ~/.aliases.zsh
 source ~/.local_plugin.zsh
-
-export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
-
-# zsh-syntax-highlighting configuration
+#}}}
+# Plugins Settings ---------------------{{{
+# zsh-syntax-highlighting {{{
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
-
 typeset -A ZSH_HIGHLIGHT_STYLES
-
 ZSH_HIGHLIGHT_STYLES[line]='bold'
-
-# todo.sh config
+# }}}
+# todo.sh {{{
 export TODOTXT_DEFAULT_ACTION=list
 export TODO_ROOT="$HOME/.todo"
 export TODO_DIR="$TODO_ROOT/todo"
@@ -76,7 +77,10 @@ export REPORT_FILE="$TODO_DIR/report.txt"
 export TODO_ACTIONS_DIR="$TODO_ROOT/actions"
 
 export TODO_NOTES_DIR="$TODO_ROOT/notes"
-
+#}}}
+#}}}
+# zsh core settings --------------------{{{
+# editor {{{
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
@@ -86,12 +90,13 @@ bindkey -M vicmd 'j' history-substring-search-down
 autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 bindkey -M vicmd q push-line
+#}}}
 
 autoload -U compinit promptinit
 compinit
 promptinit
 
-# setting my history to work nicely
+# history {{{
 setopt append_history
 setopt extended_history # have timestamps
 setopt hist_expire_dups_first
@@ -102,16 +107,18 @@ setopt hist_verify
 setopt inc_append_history
 setopt interactive_comments
 unsetopt share_history
+# }}}
 
 setopt extendedglob
-
+#}}}
+# PATH ---------------------------------{{{
 export XDG_CONFIG_HOME=$HOME/.config
 
 path=(
     /usr/local/bin
     /usr/local/sbin
     /usr/bin
-    /Library/TeX/texbin/
+    /Library/TeX/texbin
     /bin
     /usr/sbin
     /sbin
@@ -120,17 +127,22 @@ path=(
 typeset -U path
 export path
 
-export PYENV_ROOT=/usr/local/var/pyenv
+# pyenv activation {{{
+export PYENV_ROOT=$pyenv_root
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 if [[ -e $PYENV_ROOT/completions/pyenv.zsh ]]; then source $PYENV_ROOT/completions/pyenv.zsh; fi
-
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+# }}}
+PYTHONPATH="${HOME}/ws/internal/nb-devtools/modules"
+export PYTHONPATH
+#}}}
+# Default programs ---------------------{{{
 export LESS="-FXRM"
 export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)
-
-
-# Color listing
+#}}}
+# Colors -------------------------------{{{
 eval $(gdircolors ~/.dir_colors)
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
@@ -139,6 +151,10 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
   unset LSCOLORS
 fi
 
+export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
+#}}}
+# THEME --------------------------------{{{
+# theme vars {{{
 # Default values for the appearance of the prompt. Configure at will.
 ZSH_THEME_PREFIX="%{$fg_bold[black]%}%{[%G%}"
 ZSH_THEME_SUFFIX="%{$fg_bold[black]%}%{]%G%}"
@@ -153,13 +169,14 @@ ZSH_THEME_AHEAD="%{$fg[green]↑%G%}"
 ZSH_THEME_UNTRACKED="%{$fg[yellow]…%G%}"
 ZSH_THEME_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
 ZSH_THEME_REPO_COLOR="%{$fg_bold[cyan]%}"
+# }}}
 
 # ↑ ✔ green
 # ↓ ⚡  red
 # ♦ … ≠ ":" yellow
 # [$branch|status|remote]
 
-function git_info() {
+function git_info() { # {{{
     precmd_update_git_vars
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
         local git
@@ -200,9 +217,8 @@ function git_info() {
         STATUS="$STATUS%{${reset_color}%}$ZSH_THEME_SUFFIX"
         echo "$STATUS"
     fi
-}
-
-set-hg-branch() {
+} #}}}
+set-hg-branch() { # {{{
     local branch modified unknown remote hg stats
     if [[ -n $(hg prompt "{branch}" 2> /dev/null) ]]; then
         hg="☿%{$reset_color%}"
@@ -221,27 +237,23 @@ set-hg-branch() {
 
         echo "$ZSH_THEME_PREFIX$ZSH_THEME_REPO_COLOR$hg$ZSH_THEME_SEPARATOR$branch$ZSH_THEME_SEPARATOR$stats$ZSH_THEME_SEPARATOR$remote$ZSH_THEME_SUFFIX"
     fi
-}
-
-in-bone() {
+} #}}}
+in-bone() { # {{{
     if [[ -n $BONE_CONFLICT ]]; then
         echo "$ZSH_THEME_PREFIX%{$fg[red]%}BONES%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
-}
-
-has-cluster() {
+} #}}}
+has-cluster() { #{{{
     if [[ -n $cluster ]]; then
         echo "$ZSH_THEME_PREFIX%{$fg[cyan]%}☣$ZSH_THEME_SEPARATOR%{$fg[cyan]%}${cluster}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
-}
-
-in-virtualenv() {
+} #}}}
+in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
         echo "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
-}
-
-# Setup vim mode
+} #}}}
+# Setup vim mode and rprompt {{{
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
     RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(has-cluster)$(in-virtualenv)$(in-bone)$(git_info)$(set-hg-branch)"
@@ -252,12 +264,9 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 export KEYTIMEOUT=1
 bindkey -v
-
-PYTHONPATH="${HOME}/ws/internal/nb-devtools/modules"
-export PYTHONPATH
-
-#prompt elite2 red green
-prompt_adam2_setup () {
+#}}}
+#prompt {{{
+prompt_adam2_setup () { #{{{
     # Some can't be local
     local prompt_gfx_tlc prompt_gfx_mlc prompt_gfx_blc
 
@@ -304,9 +313,8 @@ prompt_adam2_setup () {
 
     prompt_opts=(cr subst percent)
 
-}
-
-precmd() {
+} #}}}
+precmd() { #{{{
     local prompt_line_1
 
     prompt_adam2_choose_prompt
@@ -317,9 +325,8 @@ precmd() {
     PS3="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{white}?# %b%f%k"
 
     zle_highlight[(r)default:*]="default:fg=$prompt_adam2_color4"
-}
-
-prompt_adam2_choose_prompt () {
+} #}}}
+prompt_adam2_choose_prompt () { #{{{
     local prompt_line_1a_width=${#${(S%%)prompt_line_1a//(\%([KF1]|)\{*\}|\%[Bbkf])}}
     local prompt_line_1b_width=${#${(S%%)prompt_line_1b//(\%([KF1]|)\{*\}|\%[Bbkf])}}
 
@@ -348,18 +355,17 @@ prompt_adam2_choose_prompt () {
     # Still didn't fit; truncate
     local prompt_pwd_size=$(( COLUMNS - 5 ))
     prompt_line_1="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%$prompt_pwd_size<...<%~%<<$prompt_r_paren%b%F{$prompt_adam2_color1}$prompt_start$prompt_gfx_hyphen$prompt_end"
-}
-
-
-preexec() {
+} #}}}
+preexec() { #{{{
     print -Pn "%B%F{}Start %D{%H:%M:%S}\n%b%f%k"
-}
-
-
+} #}}}
 prompt_adam2_setup
-
+#}}}
+#}}}
+# Tmux detection -----------------------{{{
 if [ -z $TMUX ]; then
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
+#}}}
 
 source ~/.local_environment.zsh
