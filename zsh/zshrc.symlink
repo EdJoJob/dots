@@ -26,10 +26,10 @@ if ! zgen saved; then
 fi
 
 source $(whence pycd.sh)
-source $(brew --prefix)/etc/profile.d/z.sh
+
+eval "$(fasd --init auto)"
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
-
 
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 #}}}

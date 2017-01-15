@@ -28,7 +28,7 @@ brew install hub
 brew install reattach-to-user-namespace
 brew install tmux
 brew install zsh
-brew install z
+brew install fasd
 brew install watch
 
 brew install pyenv

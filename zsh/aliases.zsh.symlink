@@ -52,8 +52,10 @@ alias :q='exit'
 if whence nvim &>/dev/null; then
     alias vim='nvim'
     alias vi='nvim'
+    alias v='fasd -f -e vi -b shada'
 else
     alias vi='vim'
+    alias v='fasd -f -e vi -b viminfo'
 fi
 alias :vim='vi'
 alias .vimrc='vi ~/dots/editor/vimrc.symlink'
