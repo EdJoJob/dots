@@ -246,11 +246,23 @@ nnoremap <silent> <leader>? :AckFromSearch!<CR>
 
 "}}}
 " Filetype Specific --------------{{{
+" terminal {{{
+augroup PERSONAL_TERMINAL
+    au!
+    au Filetype terminal setlocal colorcolumn=
+augroup END
+" }}}
 " Vim {{{
 augroup PERSONAL_VIM
     au!
     au FileType vim setlocal foldmethod=marker
     au FileType vim setlocal iskeyword+=:
+augroup END
+" }}}
+" vim-shell-command {{{
+augroup PERSONAL_SHELL_COMMAND
+    au!
+    au FileType shell-command setlocal colorcolumn=
 augroup END
 " }}}
 " tex {{{
@@ -576,12 +588,6 @@ let g:UltiSnipsEditSplit = 'context'
 " }}}
 " CamelCaseMotion {{{
 call camelcasemotion#CreateMotionMappings('<localleader>')
-" }}}
-" vim-shell-command {{{
-augroup PERSONAL_SHELL_COMMAND
-    au!
-    au FileType shell-command IndentGuidesDisable
-augroup END
 " }}}
 "}}}
 " MiniPlugins --------------------{{{
