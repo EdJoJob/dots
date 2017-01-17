@@ -1,4 +1,5 @@
 [flake8]
 banned-modules = mock = Use unittest.mock
 max-line-length = 90
+exclude = .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg,*.spec,.filesdst,*.yml
 # vim:filetype=cfg
