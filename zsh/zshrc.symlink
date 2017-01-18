@@ -7,13 +7,8 @@ if ! zgen saved; then
     zgen oh-my-zsh
 
     zgen oh-my-zsh plugins/colored-man-pages
-    zgen oh-my-zsh plugins/mercurial
     zgen oh-my-zsh plugins/git
-    zgen oh-my-zsh plugins/pylint
     zgen oh-my-zsh plugins/pip
-    zgen oh-my-zsh plugins/python
-    zgen oh-my-zsh plugins/brew
-    zgen oh-my-zsh plugins/command-not-found
 
     zgen load zsh-users/zsh-history-substring-search
     zgen load olivierverdier/zsh-git-prompt
