@@ -570,6 +570,7 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_autocmds_enabled = 1
 let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_exclude_filetypes = ['shell-command', 'terminal', 'man']
 augroup PERSONAL_INDENT_COLORS
     au!
     au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3f2d3c ctermbg=236
