@@ -79,6 +79,9 @@ attend-mergeforwards = false
 git=1
 nodates=1
 
+[mq]
+secret = True
+
 [auth]
 nbb.prefix = https://hg.nbb.co
 nbb.username = eevans
