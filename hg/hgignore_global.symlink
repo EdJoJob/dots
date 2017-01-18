@@ -9,3 +9,4 @@ syntax: glob
 .ropeproject
 .python-version
 Session.vim
+.isort.cfg
