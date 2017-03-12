@@ -1,4 +1,4 @@
-$pdf_previewer = "evince %S";
+$pdf_previewer = "open -a Skim.app %S";
 $pdf_update_method = 0;
 
 $pdf_mode = 1;
