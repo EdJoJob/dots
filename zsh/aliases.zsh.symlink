@@ -101,36 +101,39 @@ next() {
 
 # Remember ${var:-str} means $var if not null else str
 # Remember [[ -n str ]] is true if str is non-zero length
-n() {
+cluster-node() {
     local l_cluster l_instance
     if [[ ${+3} -eq 1 ]]; then
         # we have 3 args these are duty, cluster, instance
         l_cluster=${2:-${cluster}}
-        ss $1-$3.$l_cluster.bne.nbb.co
+        print $1-$3.$l_cluster.bne.nbb.co
         return
     fi
     if [[ ${+2} -eq 1 ]]; then
         if typset -i l_instance="$2" 2>/dev/null; then
             # $2 is numeric therefore the instance #
             if [[ -n $cluster ]]; then
-                ss $1-$l_instance.$cluster.bne.nbb.co
+                print $1-$l_instance.$cluster.bne.nbb.co
             else
                 echo 'You need to specify the $cluster'
             fi
             return
         else
             # $ 2 in non-numeric and therefore the cluster
-            ss $1.$2.bne.nbb.co
+            print $1.$2.bne.nbb.co
             return
         fi
     fi
     # assuming only 1 as duty
     if [[ -n $cluster ]]; then
-        ss $1.$cluster.bne.nbb.co
+        print $1.$cluster.bne.nbb.co
     else
-        echo 'You need to specify the $cluster'
+        print 'You need to specify the $cluster'
     fi
+}
 
+n() {
+    ss $(cluster-node $@)
 }
 
 alert() {

@@ -1,5 +1,5 @@
-#compdef n
+#compdef n cluster-node
 
-_arguments "1:duty:(twitter-web-internal twitter-web-public twitter-streamer twitter-poller slack-web slack-poller cloud-postgresql consul cte reverse-proxy ccs cloud-test)"\
-    "2:cluster:(eevans)"\
+_arguments "1:duty:(twitter-web-internal twitter-web-public twitter-streamer twitter-poller slack-web slack-poller cloud-postgresql consul cte reverse-proxy ccs cloud-test icinga)"\
+    "2:cluster:(eevans blue-dot-10 blue-dot-20)"\
     "3:instance:(1 2 3 4)"
