@@ -69,9 +69,10 @@ def nvim_oldfiles(shada_path):
 
     # 7 (GlobalMark)
     # 8 (Jump)
+    # 9 (BufferList)
     # 10 (LocalMark)
     # 11 (Change)
-    valid_types = [7, 8, 10, 11]
+    valid_types = [7, 8, 9, 10, 11]
 
     recent_files = dict()
 
