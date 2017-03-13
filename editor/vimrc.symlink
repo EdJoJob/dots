@@ -449,6 +449,14 @@ augroup PERSONAL_RESIZE
     au VimResized * :wincmd =
 augroup END
 "}}}
+" Get the name of the current tmux session {{{
+function! TmuxSessionName() "{{{
+    if (exists("$TMUX"))
+        return system('tmux display-message -p "#S"')
+    endif
+    return ''
+endfunction "}}}
+" }}}
 "}}}
 " Mappings -----------------------{{{
 
