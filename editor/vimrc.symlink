@@ -33,7 +33,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " Languages {{{
         " Python magic {{{
             Plug 'hdima/python-syntax'
-            Plug 'davidhalter/jedi-vim'
+            Plug 'davidhalter/jedi-vim', { 'do': 'git submodule deinit jedi' }
             Plug 'tmhedberg/SimpylFold'
             " Make the python indenting actually work
             Plug 'hynek/vim-python-pep8-indent'
