@@ -47,6 +47,7 @@ mq=
 progress=
 purge=
 rebase=
+share=
 shelve=
 strip=
 
@@ -87,3 +88,5 @@ nbb.prefix = https://hg.nbb.co
 nbb.username = eevans
 ch.prefix = https://hg.nb
 ch.username = eevans43
+
+# vim:ft=cfg
