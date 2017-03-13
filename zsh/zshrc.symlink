@@ -297,10 +297,11 @@ prompt_adam2_setup () { #{{{
     prompt_r_sqparen="%B%F{246}]"
 
     prompt_user_host="%b%F{$prompt_adam2_color3}%n%B%F{$prompt_adam2_color3}@%b%F{$prompt_adam2_color3}%m"
-    prompt_shell_level="%B%F{yellow}lvl:$SHLVL%B%F{246}"
+    prompt_shell_level="%B%F{yellow}l:$SHLVL%B%F{246}"
+    prompt_jobs="%B%F{yellow}j:%j%B%F{246}"
 
     prompt_line_1a="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%~$prompt_r_paren%b%F{$prompt_adam2_color1}"
-    prompt_line_1b="%B%F{246}[%B%F{yellow}%D{%H:%M}%B%F{246}|$prompt_user_host%B%F{246}|$prompt_shell_level]%b%F{$prompt_adam2_color1}${phyph}"
+    prompt_line_1b="%B%F{246}[%B%F{yellow}%D{%H:%M}%B%F{246}|$prompt_user_host%B%F{246}|$prompt_shell_level $prompt_jobs]%b%F{$prompt_adam2_color1}${phyph}"
 
     prompt_line_2="$prompt_gfx_bbox$prompt_l_sqparen%b%F{white}%?$prompt_r_sqparen%b%F{$prompt_adam2_color1}${phyph}%b%F{white}"
 
