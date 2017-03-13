@@ -901,16 +901,19 @@ augroup END
 let g:despacio_Twilight = 1
 let g:jellybeans_use_term_italics = 1
 let g:monokai_term_italic = 1
+let g:monokai_gui_italic = 1
 set t_ZH=[3m
 set t_ZR=[23m
-if $ITERM_PROFILE == 'Sasha Pair'
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+if TmuxSessionName() =~? 'Sasha' || $ITERM_PROFILE == 'Sasha Pair'
     if has('nvim')
         set termguicolors
     endif
    set background=dark
    colorscheme despacio
    let g:airline_theme='distinguished'
-elseif  $ITERM_PROFILE == 'LargeText'|| $ITERM_PROFILE == 'RemotePair'
+elseif  $ITERM_PROFILE == 'LargeText'|| $ITERM_PROFILE == 'RemotePair' || TmuxSessionName() =~? 'pair'
    set background=light
    colorscheme solarized
 elseif  $ITERM_PROFILE == 'Hotkey Window'
