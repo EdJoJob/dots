@@ -36,7 +36,8 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
             Plug 'davidhalter/jedi-vim', { 'do': 'git submodule deinit jedi' }
             Plug 'tmhedberg/SimpylFold'
             " Make the python indenting actually work
-            Plug 'hynek/vim-python-pep8-indent'
+            Plug 'EdJoJob/vim-python-pep8-indent', {'branch': 'Make-maxoff-user-configurable'}
+            "Plug 'hynek/vim-python-pep8-indent'
         " }}}
         " Work with VimL {{{
             Plug 'ynkdir/vim-vimlparser'
@@ -598,6 +599,9 @@ let g:UltiSnipsEditSplit = 'context'
 " CamelCaseMotion {{{
 call camelcasemotion#CreateMotionMappings('<localleader>')
 " }}}
+" vim-python-pep8-indent {{{
+let g:python_pep_8_indent_max_back_search = 500
+"}}}
 "}}}
 " MiniPlugins --------------------{{{
 " Highlight Word {{{
