@@ -100,6 +100,11 @@ next() {
     hg resolve -l | grep '^U' | cut -f 2 -d ' ' | head -n 1
 }
 
+last-days-merges() {
+    hg slog -r 'date(">yesterday") and merge() and not user("packaging-build7.bb")'
+}
+
+
 # Remember ${var:-str} means $var if not null else str
 # Remember [[ -n str ]] is true if str is non-zero length
 cluster-node() {
