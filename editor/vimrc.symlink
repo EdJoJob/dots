@@ -69,8 +69,8 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'EdJoJob/vim-shell-command'
         " browse the undotree easily
         Plug 'mbbill/undotree'
-        " change surrounding things
-        Plug 'tpope/vim-surround'
+        " A better surround plugin
+        Plug 'machakann/vim-sandwich'
         " mappings
         Plug 'tpope/vim-unimpaired'
         " repeat macros with .
