@@ -29,21 +29,19 @@ fpath=( ~/dots/zsh/func "${fpath[@]}" )
 export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
 #}}}
 # Common Directories -------------------{{{
-cloud=~/ws/cloud
+cloud=~/ws/local/cloud
 : ~cloud
-internal=~/ws/internal
+internal=~/ws/local/internal
 export INTERNALS=$internal
 : ~internal
-netbox=~/ws/netbox
+netbox=~/ws/local/netbox
 : ~netbox
-safechat=~/ws/safechat
+safechat=~/ws/local/safechat
 : ~safechat
-external=~/ws/external
+external=~/ws/local/external
 : ~external
 dots=~/dots
 : ~dots
-virtual_envs=~/virtual_envs/
-: ~virtual_envs
 pyenv_root=/usr/local/var/pyenv
 : ~pyenv_root
 #}}}
@@ -117,7 +115,7 @@ path=(
     /bin
     /usr/sbin
     /sbin
-    ~/ws/internal/nb-devtools/bin
+    $internal/nb-devtools/bin
 )
 typeset -U path
 export path
@@ -129,7 +127,7 @@ if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -
 if [[ -e $PYENV_ROOT/completions/pyenv.zsh ]]; then source $PYENV_ROOT/completions/pyenv.zsh; fi
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 # }}}
-PYTHONPATH="${HOME}/ws/internal/nb-devtools/modules"
+PYTHONPATH="${internal}/nb-devtools/modules"
 export PYTHONPATH
 #}}}
 # Default programs ---------------------{{{
