@@ -4,7 +4,6 @@
 "
 " Preamble -----------------------{{{
 set nocompatible    " It's VIM, not VI
-set shell=/usr/local/bin/zsh
 " Install vim-plug if we don't already have it {{{
 if empty(glob("~/.vim/autoload/plug.vim"))
     " Ensure all needed directories exist  (Thanks @kapadiamush)
@@ -956,3 +955,4 @@ hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 " }}}
 "}}}
+source ~/.local_vimrc
