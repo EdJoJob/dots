@@ -20,6 +20,11 @@ if [ "$(uname)" == "Darwin" ]; then
     source tmux/tmux_fixes.sh
 fi
 
+echo "Making untracked local config files"
+touch ~/.local_environment.zsh
+touch ~/.local_vimrc
+touch ~/.local_tmux.conf
+
 echo "Enabling hg extentions"
 source install/mercurial.sh
 
