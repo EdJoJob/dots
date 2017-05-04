@@ -354,6 +354,18 @@ augroup crontab
     au FileType crontab setlocal nobackup nowritebackup
 augroup END
 " }}}
+" chef {{{
+augroup PERSONAL_CHEF
+    au!
+    au FileType ruby,eruby set filetype=ruby.eruby.chef
+    au FileType ruby,eruby,ruby.eruby.chef set shiftwidth=2
+    au FileType ruby,eruby,ruby.eruby.chef set tabstop=2
+    au FileType ruby,eruby,ruby.eruby.chef set softtabstop=2
+    au FileType ruby,eruby,ruby.eruby.chef set shiftround
+    au FileType ruby,eruby,ruby.eruby.chef set expandtab
+    au FileType ruby,eruby,ruby.eruby.chef set autoindent
+augroup END
+" }}}
 "}}}
 " Folding ------------------------{{{
 " "Focus" the current line.{{{
