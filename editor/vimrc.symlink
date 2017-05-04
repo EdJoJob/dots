@@ -203,6 +203,10 @@ set nospell
 
 nnoremap <leader>ev :tabedit ~/dots/editor/vimrc.symlink<cr>
 nnoremap <leader>sv :source ~/dots/editor/vimrc.symlink<cr>
+augroup MY_VIMRC
+    au!
+    au BufWritePost .vimrc,vimrc.symlink source %
+augroup END
 nnoremap <leader>et :tabedit ~/dots/todo.symlink/todo/todo.txt<cr>
 nnoremap <leader>ez :tabedit ~/dots/zsh/zshrc.symlink<cr>
 
