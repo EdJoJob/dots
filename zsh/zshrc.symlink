@@ -20,13 +20,16 @@ if ! zgen saved; then
     zgen save
 fi
 
-source $(whence pycd.sh)
+if $(whence pycd.sh &>/dev/null); then
+    source $(whence pycd.sh)
+fi
 
 eval "$(fasd --init auto)"
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
-export ZGEN_RESET_ON_CHANGE=(~/dots/zsh/zshrc.symlink)
+ZGEN_RESET_ON_CHANGE=(${HOME}/dots/zsh/zshrc.symlink ${HOME}/.zshrc)
+export ZGEN_RESET_ON_CHANGE
 #}}}
 # Common Directories -------------------{{{
 cloud=~/ws/local/cloud
@@ -51,7 +54,8 @@ source ~/.local_plugin.zsh
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
-export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
+export ZSH_HIGHLIGHT_HIGHLIGHTERS
 typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[line]='bold'
 # }}}
@@ -122,8 +126,8 @@ export path
 
 # pyenv activation {{{
 export PYENV_ROOT=$pyenv_root
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
-if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+if which pyenv &> /dev/null; then eval "$(pyenv init -)"; fi
+if which pyenv-virtualenv-init &> /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
 if [[ -e $PYENV_ROOT/completions/pyenv.zsh ]]; then source $PYENV_ROOT/completions/pyenv.zsh; fi
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 # }}}
@@ -136,7 +140,11 @@ export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)
 #}}}
 # Colors -------------------------------{{{
-eval $(gdircolors ~/.dir_colors)
+if $(whence gdircolors &>/dev/null); then
+    eval $(gdircolors ~/.dir_colors)
+else
+    eval $(dircolors ~/.dir_colors)
+fi
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Use gnu's ls so don't need these lscolors
