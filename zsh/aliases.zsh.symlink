@@ -21,7 +21,12 @@ alias -- -='cd -'
 alias history='fc -l 1'
 
 # List direcory contents
-alias ls='gls --color=auto -F --group-directories-first'
+if $(whence gls &>/dev/null); then
+    alias ls='gls --color=auto -F --group-directories-first'
+else
+    alias ls='ls --color=auto -F --group-directories-first'
+fi
+
 alias lsa='ls -lah'
 alias l='ls -lhA'
 ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
