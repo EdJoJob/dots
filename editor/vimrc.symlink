@@ -178,8 +178,10 @@ set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:· " set the spaci
 set linebreak                                           " wrap lines at &breakat when nolist
 " leader for linebreak lines
 set showbreak=↳
-set breakindent
-set breakindentopt=shift:2
+if exists('&breakindent')
+    set breakindent
+    set breakindentopt=shift:2
+endif
 set smarttab
 set expandtab
 set softtabstop=4
@@ -911,8 +913,10 @@ let g:monokai_term_italic = 1
 let g:monokai_gui_italic = 1
 set t_ZH=[3m
 set t_ZR=[23m
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+if exists('&t_8f') && exists('&t_8b')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 if TmuxSessionName() =~? 'Sasha' || $ITERM_PROFILE == 'Sasha Pair'
     if has('nvim')
         set termguicolors
