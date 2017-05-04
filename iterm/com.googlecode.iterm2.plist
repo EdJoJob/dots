@@ -2722,11 +2722,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>256 253 599 502 0 0 1920 1178 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>66 396 796 473 0 0 1920 1178 </string>
+	<string>-552 1890 796 473 -640 1200 2560 1418 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>-720 -934 720 1280 -1440 -934 1440 2538 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 810 1178 0 0 1920 1178 </string>
+	<string>-640 1205 2558 1413 -640 1200 2560 1418 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>10 13 2554 1404 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -4251,7 +4251,7 @@
 			<key>Rows</key>
 			<integer>25</integer>
 			<key>Screen</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>Scrollback Lines</key>
 			<integer>1000</integer>
 			<key>Scrollback With Status Bar</key>
@@ -5357,11 +5357,11 @@
 			<key>Background Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.0</real>
 				<key>Green Component</key>
-				<real>1</real>
+				<real>0.0</real>
 				<key>Red Component</key>
-				<real>1</real>
+				<real>0.0</real>
 			</dict>
 			<key>Background Image Is Tiled</key>
 			<false/>
@@ -5391,11 +5391,11 @@
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>1</real>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>1</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>1</real>
 			</dict>
 			<key>Bound Hosts</key>
 			<array/>
@@ -5410,11 +5410,11 @@
 			<key>Cursor Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>0.73333334922790527</real>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.73333334922790527</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>0.73333334922790527</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
@@ -5457,11 +5457,11 @@
 			<key>Foreground Color</key>
 			<dict>
 				<key>Blue Component</key>
-				<real>0.0</real>
+				<real>0.73333334922790527</real>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.73333334922790527</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>0.73333334922790527</real>
 			</dict>
 			<key>Guid</key>
 			<string>9FFDD0F5-F5EA-4399-BF6D-70A4F9EBD573</string>
@@ -6075,7 +6075,7 @@
 			<key>Thin Strokes</key>
 			<integer>2</integer>
 			<key>Transparency</key>
-			<real>0.35139607988165683</real>
+			<real>0.0</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -7308,7 +7308,7 @@
 			<key>Columns</key>
 			<integer>80</integer>
 			<key>Command</key>
-			<string>/usr/local/bin/tmux -L pair new</string>
+			<string>/usr/local/bin/tmux -L pair</string>
 			<key>Cursor Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -8017,7 +8017,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>9737D72F-7E00-4D46-9D9F-693864A33DB0</string>
 	<key>NoSyncLastTipTime</key>
-	<real>490597572.50471199</real>
+	<real>512007730.47058499</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -8064,6 +8064,23 @@
 		<string>0025</string>
 		<string>0025</string>
 		<string>0025</string>
+		<string>0025</string>
+		<string>0026</string>
+		<string>0027</string>
+		<string>0028</string>
+		<string>0029</string>
+		<string>0030</string>
+		<string>0029</string>
+		<string>0030</string>
+		<string>0031</string>
+		<string>0032</string>
+		<string>0033</string>
+		<string>0034</string>
+		<string>0035</string>
+		<string>0036</string>
+		<string>0037</string>
+		<string>0038</string>
+		<string>0039</string>
 	</array>
 	<key>NoSyncTurnOffMouseReportingOnHostChange</key>
 	<false/>
@@ -8137,7 +8154,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-03-10T02:50:42Z</date>
+	<date>2017-05-03T19:07:21Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
