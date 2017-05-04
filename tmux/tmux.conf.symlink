@@ -1,7 +1,6 @@
 set-option -g prefix `
 bind-key ` send-prefix
 
-set -g default-command "/usr/local/bin/reattach-to-user-namespace -l /usr/local/bin/zsh"
 set -g history-limit 1000000
 
 set-window-option -g mode-keys vi
@@ -9,9 +8,6 @@ set-option -g status-keys vi
 set -g default-terminal "screen-256color"
 set -ga terminal-overrides ',screen*:Tc'
 set -ga terminal-overrides ',xterm*:Tc'
-
-
-set-hook -g alert-silence "run '~/.tmux/alerts/alert-silence #S-#I:#W'"
 
 set-window-option -g aggressive-resize on
 set -g escape-time 0
@@ -96,6 +92,8 @@ set -g @resurrect-processes 'weechat watch ssh ss'
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 set -g @continuum-boot-options 'iterm'
+
+source-file ~/.local_tmux.conf
 
 # Other examples:
 # github_username/plugin_name    \
