@@ -82,6 +82,9 @@ alias c='clear'
 alias t='todo.sh'
 alias start_day='t recur && t archive && t report && clear && t'
 
+# Chef
+alias tk='kitchen' # test kitchen
+
 alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 
 # python debuging with q
