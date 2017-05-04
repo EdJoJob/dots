@@ -32,21 +32,8 @@ ZGEN_RESET_ON_CHANGE=(${HOME}/dots/zsh/zshrc.symlink ${HOME}/.zshrc)
 export ZGEN_RESET_ON_CHANGE
 #}}}
 # Common Directories -------------------{{{
-cloud=~/ws/local/cloud
-: ~cloud
-internal=~/ws/local/internal
-export INTERNALS=$internal
-: ~internal
-netbox=~/ws/local/netbox
-: ~netbox
-safechat=~/ws/local/safechat
-: ~safechat
-external=~/ws/local/external
-: ~external
 dots=~/dots
 : ~dots
-pyenv_root=/usr/local/var/pyenv
-: ~pyenv_root
 #}}}
 # Other files --------------------------{{{
 source ~/.aliases.zsh
@@ -110,29 +97,6 @@ setopt extendedglob
 #}}}
 # PATH ---------------------------------{{{
 export XDG_CONFIG_HOME=$HOME/.config
-
-path=(
-    /usr/local/bin
-    /usr/local/sbin
-    /usr/bin
-    /Library/TeX/texbin
-    /bin
-    /usr/sbin
-    /sbin
-    $internal/nb-devtools/bin
-)
-typeset -U path
-export path
-
-# pyenv activation {{{
-export PYENV_ROOT=$pyenv_root
-if which pyenv &> /dev/null; then eval "$(pyenv init -)"; fi
-if which pyenv-virtualenv-init &> /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
-if [[ -e $PYENV_ROOT/completions/pyenv.zsh ]]; then source $PYENV_ROOT/completions/pyenv.zsh; fi
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-# }}}
-PYTHONPATH="${internal}/nb-devtools/modules"
-export PYTHONPATH
 #}}}
 # Default programs ---------------------{{{
 export LESS="-FXRM"
@@ -152,8 +116,6 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
   unset LSCOLORS
 fi
 
-export DYLD_INSERT_LIBRARIES="${HOME}/src/stderred/build/libstderred.dylib${DYLD_INSERT_LIBRARIES:+:$DYLD_INSERT_LIBRARIES}"
-#}}}
 #}}}
 source $dots/zsh/zsh_theme
 # Tmux detection -----------------------{{{
