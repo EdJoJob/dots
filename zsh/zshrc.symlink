@@ -37,7 +37,6 @@ dots=~/dots
 #}}}
 # Other files --------------------------{{{
 source ~/.aliases.zsh
-source ~/.local_plugin.zsh
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
