@@ -80,7 +80,6 @@ alias ZZ='exit'
 alias c='clear'
 
 alias t='todo.sh'
-alias start_day='t recur && t archive && t report && clear && t'
 
 # Chef
 alias tk='kitchen' # test kitchen
@@ -89,10 +88,22 @@ alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/
 
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
+# DAY MANAGEMENT {{{
+alias start_day='t recur && t archive && t report && gdate +S%Y-%m-%dT%T >> ~/.start_time && clear && t'
+alias end_day='gdate +E%Y-%m-%dT%T >> ~/.start_time'
+check_start_day() {
+    if [[ $(tail -n1 ~/.start_time) == E* ]]; then
+        start_day
+    fi
+}
 
-alias start_day_time='tail -n1 $TODO_DIR/report.txt | cut -dT -f 2 | cut -d " " -f 1'
+start_day_time() {
+    check_start_day
+    tail -n1 ~/.start_time| cut -dT -f 2 | cut -d " " -f 1
+}
 
 time_since_start_day() {
+    check_start_day
     start_time=`gdate +%s -d $(start_day_time)`
     end_time=`gdate +%s -d $(gdate +%H:%M:%S)`
 
