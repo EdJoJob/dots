@@ -12,12 +12,6 @@ if [ "$(uname)" == "Darwin" ]; then
 
     echo "Brewing all the things"
     source install/brew.sh
-
-    echo "Updating OSX settings"
-    source install/osx.sh
-
-    echo "Running tmux movement fixes"
-    source tmux/tmux_fixes.sh
 fi
 
 echo "Making untracked local config files"
