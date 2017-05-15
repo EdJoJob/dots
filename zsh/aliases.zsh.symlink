@@ -1,17 +1,7 @@
+# vim: fdm=marker
 # Push and pop directories on directory stack
 alias pu='pushd'
 alias po='popd'
-
-alias tmux='TERM=tmux-256color tmux'
-
-activate() {
-    deactivate &> /dev/null
-    source $virtual_envs/$1/bin/activate
-}
-
-alias a2='activate python2'
-alias a3='activate python3'
-alias c3='activate cloudcte3'
 
 # Basic directory operations
 alias ...='cd ../..'
@@ -19,8 +9,7 @@ alias -- -='cd -'
 
 # Show history
 alias history='fc -l 1'
-
-# List direcory contents
+# LS TOOLS {{{
 if $(whence gls &>/dev/null); then
     alias ls='gls --color=auto -F --group-directories-first'
 else
@@ -34,6 +23,9 @@ ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
 alias ll='ls -lh'
 alias la='ls -lha'
 alias sl=ls # often screw this up
+# }}}
+# TOOL REPLACEMENT {{{
+alias tmux='TERM=tmux-256color tmux'
 
 if which gfind &>/dev/null; then
     alias find=gfind
@@ -51,9 +43,6 @@ if whence hub &>/dev/null; then
     alias g=hub
 fi
 
-alias rs="rsync -avzh --progress"
-
-alias :q='exit'
 if whence nvim &>/dev/null; then
     alias vim='nvim'
     alias vi='nvim'
@@ -62,7 +51,9 @@ else
     alias vi='vim'
     alias v='fasd -f -e vi -b viminfo'
 fi
-alias :vim='vi'
+# }}}
+alias rs="rsync -avzh --progress"
+# QUICK FILE ACCESS {{{
 alias .vimrc='vi ~/dots/editor/vimrc.symlink'
 alias .zshrc='zgen reset && vi ~/dots/zsh/zshrc.symlink && exec zsh'
 alias .aliases='vi ~/dots/zsh/aliases.zsh.symlink && exec zsh'
@@ -70,22 +61,22 @@ alias .tmux='vi ~/dots/tmux/tmux.conf.symlink && tmux source-file ~/.tmux'
 alias .hg='vi ~/dots/hg/hgrc.symlink'
 alias note='vi ~/Dropbox/note.rst'
 alias diary='emacsclient -nc ~/Dropbox/org/diary.org &'
+# }}}
+# VIM MEMORY {{{
+alias :vim='vi'
+alias :q='exit'
 alias :e='vi'
 alias :make='make'
 alias :h='man'
 alias clc='clear'
 alias ZQ='exit'
 alias ZZ='exit'
-
+# }}}
 alias c='clear'
-
 alias t='todo.sh'
-
-# Chef
+# Chef {{{
 alias tk='kitchen' # test kitchen
-
-alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
-
+# }}}
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 # DAY MANAGEMENT {{{
@@ -110,7 +101,8 @@ time_since_start_day() {
     diff=$(($end_time - $start_time))
     gdate +%H:%M:%S -ud @${diff}
 }
-
+# }}}
+# MERCURIAL AIDS {{{
 owner() {
     hg annotate -u $1 | cut -f 1 -d ':' | sort | guniq -c | sort -nr | head -n 1 | gsed -re 's/[[:space:]]+/:/g' | cut -f 3 -d ':'
 }
@@ -122,11 +114,11 @@ next() {
 last-days-merges() {
     hg slog -r 'date(">yesterday") and merge() and not user("packaging-build7.bb")'
 }
-
-
-# Remember ${var:-str} means $var if not null else str
-# Remember [[ -n str ]] is true if str is non-zero length
+# }}}
+# CLUSTER ACCESS {{{
 cluster-node() {
+    # Remember ${var:-str} means $var if not null else str
+    # Remember [[ -n str ]] is true if str is non-zero length
     local l_cluster l_instance
     if [[ ${+3} -eq 1 ]]; then
         # we have 3 args these are duty, cluster, instance
@@ -160,7 +152,8 @@ cluster-node() {
 n() {
     ss $(cluster-node $@)
 }
-
+# }}}
+# ALERT IN OSX {{{
 alert() {
     terminal-notifier -remove 'alert'
     local message exit_status
@@ -179,9 +172,8 @@ alert() {
 }
 
 alias alert-clear='terminal-notifier -remove "alert"'
-
-
-lastcommand(){
+# }}}
+lastcommand() {
     fc -l -LI -n '-1' | xargs echo -n | pbcopy
 }
 
