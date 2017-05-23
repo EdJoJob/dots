@@ -77,6 +77,9 @@ alias t='todo.sh'
 # Chef {{{
 alias tk='kitchen' # test kitchen
 # }}}
+# Docker {{{
+alias dm=docker-machine
+# }}}
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 # DAY MANAGEMENT {{{
