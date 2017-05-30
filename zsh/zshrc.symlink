@@ -20,13 +20,6 @@ if ! zgen saved; then
     zgen save
 fi
 
-if $(whence pycd.sh &>/dev/null); then
-    source $(whence pycd.sh)
-fi
-
-eval "$(fasd --init auto)"
-
-fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
 ZGEN_RESET_ON_CHANGE=(${HOME}/dots/zsh/zshrc.symlink ${HOME}/.zshrc)
 export ZGEN_RESET_ON_CHANGE

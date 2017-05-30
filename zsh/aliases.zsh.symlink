@@ -16,6 +16,7 @@ else
     alias ls='ls --color=auto -F --group-directories-first'
 fi
 
+# List direcory contents
 alias lsa='ls -lah'
 alias l='ls -lhA'
 ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }

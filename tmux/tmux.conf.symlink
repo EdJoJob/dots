@@ -24,14 +24,13 @@ bind - resize-pane -D 2
 bind + resize-pane -U 2
 
 unbind -t vi-copy Enter
-bind-key -t vi-copy Enter copy-pipe "reattach-to-user-namespace pbcopy"
+bind-key -t vi-copy Enter copy-pipe "xsel"
 
 set-option -g main-pane-height 45
 set-option -g other-pane-height 20
 set-option -g other-pane-width 80
 
 # splitting and cycling
-set -g mouse on
 unbind %
 bind | split-window -h -c "#{pane_current_path}" # horizontal split
 unbind '"'
