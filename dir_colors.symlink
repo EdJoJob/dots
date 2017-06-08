@@ -159,6 +159,7 @@ EXEC 48;5;236;01;38;5;034
 
 # Build Files
 *Makefile        04;38;5;242
+*Dockerfile      04;38;5;242
 *makefile        04;38;5;242
 *Rakefile        04;38;5;242
 *build.xml       04;38;5;242
@@ -180,6 +181,8 @@ EXEC 48;5;236;01;38;5;034
 *readme.txt      01;38;5;36
 .md              01;38;5;36
 *README.markdown 01;38;5;36
+
+.html 00;38;5;125
 
 # Config and use files
 *tags            01;38;5;242
