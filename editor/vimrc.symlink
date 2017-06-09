@@ -312,6 +312,7 @@ augroup PERSONAL_YAML
     au FileType yaml set shiftround
     au FileType yaml set expandtab
     au FileType yaml set autoindent
+    au FileType yaml set foldmethod=indent
 augroup END
 " }}}
 " ANSIBLE {{{
