@@ -75,13 +75,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " repeat macros with .
         Plug 'tpope/vim-repeat'
         " syntax checking
-        if has('nvim')
-            Plug 'benekastah/neomake'
-            let s:neomake = 1
-        else
-            Plug 'scrooloose/syntastic'
-            let s:syntastic = 1
-        endif
+        Plug 'w0rp/ale'
         " Get the differnces between line ranges
         Plug 'AndrewRadev/linediff.vim'
         " use ag in vim like :grep
@@ -561,32 +555,6 @@ nnoremap <F2> :UndotreeToggle<CR>
 " Signify {{{"
 let g:signify_vcs_list = [ 'git', 'hg' ]
 "}}}
-" Syntastic {{{"
-if exists('s:syntastic')
-    " Shorter Error Line
-    let g:syntastic_stl_format = '[%E{Er:%fe #%e}%B{, }%W{Wa:%fw #%w}]'
-    let g:syntastic_cpp_no_default_include_dirs = 1
-    let g:syntastic_cpp_remove_include_errors = 1
-    let g:syntastic_cpp_compiler = 'g++'
-    let g:syntastic_aggregate_errors = 1
-    " Syntax Checkers
-    let g:syntastic_python_checkers =  ['python', 'pylint']
-    let g:syntastic_vim_checkers = ['vint', 'vim-lint']
-endif
-"}}}
-" Neomake {{{
-" Make neomake far more quiet and only show errors
-let g:neomake_verbose = 0
-augroup personal_neomake
-    au!
-    au BufWritePost,BufEnter * if exists('s:neomake') | Neomake | endif
-    "This doesn't work, although I would like it to (should give lint as I type)
-    "au TextChanged * if exists('s:neomake') | update | Neomake endif
-    autocmd ColorScheme *
-        \ hi link NeomakeError SpellBad |
-        \ hi link NeomakeWarning SpellCap
-augroup END
-" }}}
 " jedi {{{
 let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#use_splits_not_buffers = 'right'
@@ -892,7 +860,6 @@ endif
 let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
 let g:airline#extensions#quickfix#location_text = 'Location'
 let g:airline#extensions#bufferline#enabled = 0
-let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#eclim#enabled = 1
 " shorter whitespace errors
