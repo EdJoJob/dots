@@ -907,8 +907,11 @@ if TmuxSessionName() =~? 'Sasha' || $ITERM_PROFILE == 'Sasha Pair'
    set background=dark
    colorscheme despacio
    let g:airline_theme='distinguished'
-elseif  $ITERM_PROFILE == 'LargeText'|| $ITERM_PROFILE == 'RemotePair' || TmuxSessionName() =~? 'pair' || TmuxSessionName() =~? 'big'
+elseif  $ITERM_PROFILE == 'LargeText' ||  TmuxSessionName() =~? 'big'
    set background=light
+   colorscheme solarized
+elseif TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
+   set background=dark
    colorscheme solarized
 elseif  $ITERM_PROFILE == 'Hotkey Window'
    set background=dark
