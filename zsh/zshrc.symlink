@@ -7,6 +7,7 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     setopt xtrace prompt_subst
 fi
 # zenv ---------------------------------{{{
+DISABLE_AUTO_UPDATE='true'
 source ~/.zgen/zgen.zsh
 if ! zgen saved; then
     echo "Creating a zgen save"
