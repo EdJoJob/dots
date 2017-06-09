@@ -19,6 +19,7 @@
     a = add
     b = branch
     c = commit -v
+    ci = commit -v
     ca = commit -v -a
     cm = checkout master
     co = checkout
