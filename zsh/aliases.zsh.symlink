@@ -56,10 +56,17 @@ fi
 alias rs="rsync -avzh --progress"
 # QUICK FILE ACCESS {{{
 alias .vimrc='vi ~/dots/editor/vimrc.symlink'
-alias .zshrc='zgen reset && vi ~/dots/zsh/zshrc.symlink && exec zsh'
-alias .aliases='vi ~/dots/zsh/aliases.zsh.symlink && exec zsh'
+alias .local_vimrc='vi ~/.local_vimrc'
+
+alias .zshrc='zgen reset && vi ~/dots/zsh/zshrc.symlink && exec zsh -l'
+alias .aliases='vi ~/dots/zsh/aliases.zsh.symlink && exec zsh -l'
+alias .local_zsh='vi ~/.local_environment.zsh && exec zsh -l'
+
 alias .tmux='vi ~/dots/tmux/tmux.conf.symlink && tmux source-file ~/.tmux'
+alias .local_tmux='vi ~/.local_tmux.conf'
+
 alias .hg='vi ~/dots/hg/hgrc.symlink'
+
 alias note='vi ~/Dropbox/note.rst'
 alias diary='emacsclient -nc ~/Dropbox/org/diary.org &'
 # }}}
