@@ -15,7 +15,6 @@ if ! zgen saved; then
     zgen oh-my-zsh
 
     zgen oh-my-zsh plugins/colored-man-pages
-    zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/pip
 
     zgen load olivierverdier/zsh-git-prompt
@@ -28,6 +27,7 @@ if ! zgen saved; then
     zgen save
 fi
 
+fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
 ZGEN_RESET_ON_CHANGE=(${HOME}/dots/zsh/zshrc.symlink ${HOME}/.zshrc)
 export ZGEN_RESET_ON_CHANGE
