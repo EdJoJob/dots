@@ -8,7 +8,7 @@
 [core]
     excludesfile = ~/.gitignore_global
 [include]
-    path = ~/.local_git_config
+    path = ~/.local_gitconfig
 [alias]
     blog = log --graph --date=relative --format=tformat:'%C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' HEAD ^master --no-merges
     bdiff = diff HEAD ^master
