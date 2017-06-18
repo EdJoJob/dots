@@ -471,6 +471,9 @@ endfunction "}}}
 "}}}
 " Mappings -----------------------{{{
 
+" Double esc in term to get to normal mode
+tnoremap <Esc><Esc> <C-\><C-n>
+
 " Moving blocks{{{
 vnoremap < <gv
 vnoremap > >gv
