@@ -472,7 +472,9 @@ endfunction "}}}
 " Mappings -----------------------{{{
 
 " Double esc in term to get to normal mode
-tnoremap <Esc><Esc> <C-\><C-n>
+if has('nvim')
+    tnoremap <Esc><Esc> <C-\><C-n>
+endif
 
 " Moving blocks{{{
 vnoremap < <gv
