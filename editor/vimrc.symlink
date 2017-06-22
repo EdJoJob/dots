@@ -918,7 +918,7 @@ elseif  $ITERM_PROFILE == 'LargeText' ||  TmuxSessionName() =~? 'big'
 elseif TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
    set background=dark
    colorscheme solarized
-elseif  $ITERM_PROFILE == 'Hotkey Window'
+elseif  $ITERM_PROFILE =~? 'Hotkey Window'
    set background=dark
    let g:airline_theme='base16_monokai'
    colorscheme monokai
