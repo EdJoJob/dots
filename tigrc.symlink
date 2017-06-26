@@ -4,3 +4,5 @@ set main-view = \
     date:relative-compact \
     author:email-user \
     commit-title:graph=v2,refs=yes
+
+source ~/dots/tigcol
