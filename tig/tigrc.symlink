@@ -5,4 +5,5 @@ set main-view = \
     author:email-user \
     commit-title:graph=v2,refs=yes
 
-source ~/dots/tigcol
+source ~/dots/tig/tigcol
+source ~/dots/tig/vimtig
