@@ -91,7 +91,7 @@ alias dm=docker-machine
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 # DAY MANAGEMENT {{{
-alias start_day='t recur && t archive && t report && gdate +S%Y-%m-%dT%T >> ~/.start_time && clear && t'
+alias start_day='t recur && t archive && t report && gdate +S%Y-%m-%dT%T >> ~/.start_time && clear && t && fortune ~/Dropbox/fortunes'
 alias end_day='gdate +E%Y-%m-%dT%T >> ~/.start_time'
 check_start_day() {
     if [[ $(tail -n1 ~/.start_time) == E* ]]; then
