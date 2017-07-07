@@ -26,7 +26,7 @@ DIR 1;34;4;27 # directory 01;34
 LINK 01;38;5;37 # symbolic link. (If you set this to 'target' instead of a
 # numerical value, the color is as for the file pointed to.)
 RESET 0 # reset to "normal" color
-MULTIHARDLINK 00 # regular file with more than one link
+MULTIHARDLINK  44;38;5;15 # regular file with more than one link
 FIFO 48;5;230;38;5;136;01 # pipe
 SOCK 48;5;230;38;5;136;01 # socket
 DOOR 48;5;230;38;5;136;01 # door
