@@ -1,0 +1,17 @@
+Include config.d/*
+Host github
+    Hostname github.com
+    User git
+    IdentityFile ~/.ssh/github_rsa
+    IdentitiesOnly yes
+    Port 22
+Host *
+    AddKeysToAgent yes
+    UseKeychain yes
+    ControlMaster auto
+    ControlPath ~/.ssh/control/%r@%h:%p
+    ControlPersist 3600
+
+    ServerAliveInterval 60
+    ConnectTimeout 30
+    ForwardAgent yes
