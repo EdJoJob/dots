@@ -246,75 +246,6 @@ nnoremap <silent> <leader>? :AckFromSearch!<CR>
 
 "}}}
 " Filetype Specific --------------{{{
-" terminal {{{
-augroup PERSONAL_TERMINAL
-    au!
-    au Filetype terminal setlocal colorcolumn=
-augroup END
-" }}}
-" Vim {{{
-augroup PERSONAL_VIM
-    au!
-    au FileType vim setlocal foldmethod=marker
-    au FileType vim setlocal iskeyword+=:
-augroup END
-" }}}
-" vim-shell-command {{{
-augroup PERSONAL_SHELL_COMMAND
-    au!
-    au FileType shell-command setlocal colorcolumn=
-augroup END
-" }}}
-" tex {{{
-augroup TEX
-    au!
-    au FileType tex set tw=79
-augroup END
-" }}}
-" rst {{{
-augroup reStructured
-    au!
-    au Filetype rst set softtabstop=3
-    au Filetype rst set shiftwidth=3
-    au Filetype rst set tabstop=3
-    if has('nvim')
-        au Filetype rst command! -buffer Preview call jobstart(['restview', '--css=/Users/eevans43/src/rhythm.css/dist/css/rhythm.css', '--css=/Users/eevans43/src/rhythm.css/syntax/molokai.css', expand('%:p')])
-    endif
-augroup END
-" }}}
-" Git {{{
-"Spellcheck when writing git logs
-augroup PERSONAL_GIT
-    au!
-    autocmd FileType gitcommit setlocal spell
-augroup END
-" }}}
-" Python {{{
-let g:python_version_2 = 1
-let g:python_highlight_all = 1
-augroup PERSONAL_PYTHON
-    au!
-    au Filetype python set textwidth=79  " lines longer than 79 columns will be broken
-    au Filetype python set shiftwidth=4  " operation >> indents 4 columns; << unindents 4 columns
-    au Filetype python set tabstop=4     " a hard TAB displays as 4 columns
-    au Filetype python set expandtab     " insert spaces when hitting TABs
-    au Filetype python set softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
-    au Filetype python set shiftround    " round indent to multiple of 'shiftwidth'
-    au Filetype python set autoindent    " align the new line indent with the previous line
-augroup END
-" }}}
-" YAML {{{
-augroup PERSONAL_YAML
-    au!
-    au FileType yaml set shiftwidth=2
-    au FileType yaml set tabstop=2
-    au FileType yaml set softtabstop=2
-    au FileType yaml set shiftround
-    au FileType yaml set expandtab
-    au FileType yaml set autoindent
-    au FileType yaml set foldmethod=indent
-augroup END
-" }}}
 " ANSIBLE {{{
 let g:ansible_extra_keywords_highlight = 1
 let g:ansible_name_highlight = 'b'
@@ -331,6 +262,31 @@ augroup PERSONAL_ANSIBLE
     au FileType ansible set foldmethod=indent
 augroup END
 " }}}
+" chef {{{
+augroup PERSONAL_CHEF
+    au!
+    au FileType ruby,eruby set filetype=ruby.eruby.chef
+    au FileType ruby,eruby,ruby.eruby.chef set shiftwidth=2
+    au FileType ruby,eruby,ruby.eruby.chef set tabstop=2
+    au FileType ruby,eruby,ruby.eruby.chef set softtabstop=2
+    au FileType ruby,eruby,ruby.eruby.chef set shiftround
+    au FileType ruby,eruby,ruby.eruby.chef set expandtab
+    au FileType ruby,eruby,ruby.eruby.chef set autoindent
+augroup END
+" }}}
+" crontab {{{
+augroup crontab
+    au!
+    au FileType crontab setlocal nobackup nowritebackup
+augroup END
+" }}}
+" Git {{{
+"Spellcheck when writing git logs
+augroup PERSONAL_GIT
+    au!
+    autocmd FileType gitcommit setlocal spell
+augroup END
+" }}}
 " Java {{{
 augroup PERSONAL_JAVA
     au!
@@ -343,22 +299,66 @@ augroup PERSONAL_JAVA
     au BufEnter,BufRead *.java syntax sync fromstart
 augroup END
 " }}}
-" crontab {{{
-augroup crontab
+" Python {{{
+let g:python_version_2 = 1
+let g:python_highlight_all = 1
+augroup PERSONAL_PYTHON
     au!
-    au FileType crontab setlocal nobackup nowritebackup
+    au Filetype python set textwidth=79  " lines longer than 79 columns will be broken
+    au Filetype python set shiftwidth=4  " operation >> indents 4 columns; << unindents 4 columns
+    au Filetype python set tabstop=4     " a hard TAB displays as 4 columns
+    au Filetype python set expandtab     " insert spaces when hitting TABs
+    au Filetype python set softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
+    au Filetype python set shiftround    " round indent to multiple of 'shiftwidth'
+    au Filetype python set autoindent    " align the new line indent with the previous line
 augroup END
 " }}}
-" chef {{{
-augroup PERSONAL_CHEF
+" rst {{{
+augroup reStructured
     au!
-    au FileType ruby,eruby set filetype=ruby.eruby.chef
-    au FileType ruby,eruby,ruby.eruby.chef set shiftwidth=2
-    au FileType ruby,eruby,ruby.eruby.chef set tabstop=2
-    au FileType ruby,eruby,ruby.eruby.chef set softtabstop=2
-    au FileType ruby,eruby,ruby.eruby.chef set shiftround
-    au FileType ruby,eruby,ruby.eruby.chef set expandtab
-    au FileType ruby,eruby,ruby.eruby.chef set autoindent
+    au Filetype rst set softtabstop=3
+    au Filetype rst set shiftwidth=3
+    au Filetype rst set tabstop=3
+    if has('nvim')
+        au Filetype rst command! -buffer Preview call jobstart(['restview', '--css=/Users/eevans43/src/rhythm.css/dist/css/rhythm.css', '--css=/Users/eevans43/src/rhythm.css/syntax/molokai.css', expand('%:p')])
+    endif
+augroup END
+" }}}
+" terminal {{{
+augroup PERSONAL_TERMINAL
+    au!
+    au Filetype terminal setlocal colorcolumn=
+augroup END
+" }}}
+" tex {{{
+augroup TEX
+    au!
+    au FileType tex set tw=79
+augroup END
+" }}}
+" vim-shell-command {{{
+augroup PERSONAL_SHELL_COMMAND
+    au!
+    au FileType shell-command setlocal colorcolumn=
+augroup END
+" }}}
+" Vim {{{
+augroup PERSONAL_VIM
+    au!
+    au FileType vim setlocal foldmethod=marker
+    au FileType vim setlocal iskeyword+=:
+augroup END
+" }}}
+" YAML {{{
+augroup PERSONAL_YAML
+    au!
+    au FileType yaml set shiftwidth=2
+    au FileType yaml set tabstop=2
+    au FileType yaml set softtabstop=2
+    au FileType yaml set shiftround
+    au FileType yaml set expandtab
+    au FileType yaml set autoindent
+    au FileType yaml set foldmethod=indent
 augroup END
 " }}}
 "}}}
