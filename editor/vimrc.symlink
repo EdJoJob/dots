@@ -470,77 +470,69 @@ endfunction "}}}
 " }}}
 "}}}
 " Mappings -----------------------{{{
-
-" Double esc in term to get to normal mode
+" Double esc in term to get to normal mode {{{
 if has('nvim')
     tnoremap <Esc><Esc> <C-\><C-n>
 endif
-
+"}}}
 " Moving blocks{{{
 vnoremap < <gv
 vnoremap > >gv
 "}}}
-
 " make Y work more like D and C
 nnoremap Y y$
-
 " move up and down screen lines rather than file lines{{{
 nnoremap j gj
 nnoremap k gk
 noremap gj j
 noremap gk k
 "}}}
-
-" switch tick and inv comma as going back to actual position is far more useful
+" switch tick and inv comma as going back to actual position is far more useful {{{
 noremap ` '
 noremap ' `
-
+" }}}
 " dp and do automatically jump to the next change {{{
 nnoremap <silent> dp dp]c
 nnoremap <silent> do do]c
 "}}}
-" Source selection / line of vimscript
+" Source selection / line of vimscript {{{
 vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
-
-" Get all TODO tags in files above current directory
+"}}}
+" Get all TODO tags in files above current directory {{{
 noremap <Leader>to :Ack! '\b(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|NOTE\|INFO\|IDEA)\b' <CR>
 noremap <Leader>ti :Ack! \b(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|NOTE\|INFO\|IDEA\) % <CR>
-
+" }}}
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
 nnoremap vv ^vg_
-
 " Sudo to write
 cabbr w!! w !sudo tee % >/dev/null
-
 " Don't move on * {{{
 " I'd use a function for this but Vim clobbers the last search when you're in
 " a function so fuck it, practicality beats purity.
 nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*<c-o>:call winrestview(stay_star_view)<cr>
 "}}}
-
-" Keep search matches in the middle of the window.
+" Keep search matches in the middle of the window. {{{
 nnoremap n nzzzv
 nnoremap N Nzzzv
-
-" Same when jumping around
+"}}}
+" Same when jumping around {{{
 nnoremap g; g;zz
 nnoremap g, g,zz
 nnoremap <c-o> <c-o>zz
-
-" Easier to type, and I never use the default behaviour.
+" }}}
+" Easier to type, and I never use the default behaviour. "{{{
 noremap H ^
 noremap L $
 vnoremap L g_
-
+"}}}
 " List navigation {{{
 nnoremap <left>  :cprev<cr>zvzz
 nnoremap <right> :cnext<cr>zvzz
 nnoremap <up>    :lprev<cr>zvzz
 nnoremap <down>  :lnext<cr>zvzz
 "}}}
-
 "}}}
 " Plugins ------------------------{{{
 " ack.vim {{{
