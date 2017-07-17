@@ -10,7 +10,7 @@
 [include]
     path = ~/.local_gitconfig
 [alias]
-    blog = log --graph --date=relative --format=tformat:'%C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' HEAD ^master --no-merges
+    blog = log --graph --date=relative --format=eevans HEAD ^master --no-merges
     bdiff = diff HEAD ^master
     up = !git pull --rebase --prune $@ && git submodule update --init --recursive
     out = !git fetch && git log origin/master..
@@ -28,7 +28,7 @@
     dv = !git diff -w "$@" | view -
     lgg = log --graph --decorate
     lgga = log --graph --decorate --all
-    glog = log --graph --date=relative --format=tformat:'%C(auto)%h -(%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d' --all
+    glog = log --graph --date=relative --format=eevans --all
     p = push --prune
     rba = rebase --abort
     rbc = rebase --continue
@@ -42,3 +42,5 @@
     required = true
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
+[pretty]
+    eevans = %C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d
