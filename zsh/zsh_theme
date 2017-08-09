@@ -129,7 +129,7 @@ prompt_adam2_setup () { #{{{
     case $HOST in #hyphens
         (*C02QP6H2G8WN*|EdMac*|EdwardMacPro*)
             prompt_adam2_color1=${1:-'blue'};; # blue
-        (raspberrypi)
+        (raspberrypi|black-pearl)
             prompt_adam2_color1=${1:-'198'};; # pink
         (*)
             prompt_adam2_color1=${1:-'154'};; # lime
