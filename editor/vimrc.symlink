@@ -299,6 +299,18 @@ augroup PERSONAL_JAVA
     au BufEnter,BufRead *.java syntax sync fromstart
 augroup END
 " }}}
+" JSON {{{
+augroup PERSONAL_JSON
+    au!
+    au FileType yaml set shiftwidth=2
+    au FileType yaml set tabstop=2
+    au FileType yaml set softtabstop=2
+    au FileType yaml set shiftround
+    au FileType yaml set expandtab
+    au FileType yaml set autoindent
+    au filetype json set foldmethod=indent
+augroup END
+" }}}
 " Python {{{
 let g:python_version_2 = 1
 let g:python_highlight_all = 1
