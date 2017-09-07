@@ -1,7 +1,7 @@
 %include $INTERNALS/nb-devtools/hg/nbhgrc
 
-[hostfingerprints]
-hg.nbb.co = 54:ec:5a:6f:e8:62:a0:08:34:38:64:60:b4:e4:1a:12:34:07:e7:50
+[hostsecurity]
+hg.nbb.co:fingerprints=sha256:30:4e:bb:3f:d7:04:4b:19:e6:12:fc:57:37:a7:78:8e:b9:b2:e0:f0:6e:16:89:8a:5b:44:16:2f:84:a8:a4:d4
 
 [ui]
 username = eevans
