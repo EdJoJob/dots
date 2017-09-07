@@ -18,25 +18,6 @@ snippet err
 print >>sys.stderr, '{$2:$1} = ' + repr(${1:locals()})  # noqa TODO
 endsnippet
 
-snippet out
-import pprint
-print('${2:$1} = ' + pprint.pformat(${1:locals()}))  # noqa TODO
-endsnippet
-
-snippet outl
-print('${2:$1} = [')  # TODO
-for _ in ${1:locals()}:
-	print('  '+repr(_)+',')
-print(']')
-endsnippet
-
-snippet outd
-print('${2:$1} = {')  # TODO
-for _ in ${1:locals()}.items():
-	print('  '+repr(_[0])+': '+repr(_[1])+',')
-print('}')
-endsnippet
-
 snippet lxml
 from lxml.html import tostring
 print('========== <${2:$1}> ==========\n%s\n========== </${2:$1}> =========' % tostring(${1:locals()}))  # noqa
@@ -45,14 +26,6 @@ endsnippet
 snippet log
 with open('/tmp/q', 'a') as _f:  # TODO
 	_f.write('${2:$1} = %r\n' % (${1:locals()}, ))  # noqa
-endsnippet
-
-snippet logl
-with open('/tmp/q', 'a') as _f:  # TODO
-	_f.write('${2:$1} = [\n')
-	for _ in ${1:locals()}:
-		_f.write('  '+repr(_)+',\n')
-	_f.write(']\n')
 endsnippet
 
 snippet logd
