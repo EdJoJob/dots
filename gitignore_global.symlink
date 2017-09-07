@@ -4,3 +4,4 @@
 Session.vim
 .python-version
 .isort.cfg
+.mypy_cache
