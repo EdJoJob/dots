@@ -26,6 +26,7 @@
     d = diff
     db = !git branch -d $(git branch --merged=master | grep -v '\\*\\|master')
     dv = !git diff -w "$@" | view -
+    fap = fetch --all --prune
     lgg = log --graph --decorate
     lgga = log --graph --decorate --all
     glog = log --graph --date=relative --format=eevans --all
