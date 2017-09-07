@@ -547,6 +547,13 @@ nnoremap <down>  :lnext<cr>zvzz
 "}}}
 "}}}
 " Plugins ------------------------{{{
+" ALE {{{
+let g:ale_sign_column_always = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%:%severity%] %s'
+let g:ale_python_mypy_options = '--silent-imports'
+" }}}
 " ack.vim {{{
 let g:ackhighlight=1
 let g:ackprg = 'ag --vimgrep --smart-case'
@@ -954,5 +961,10 @@ hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
 
 " }}}
+highlight ALEError term=bold,italic gui=bold,italic guibg=#bd1701
+highlight ALEStyleError term=italic gui=italic guibg=#bd3601
+highlight ALEWarning guibg=#bd7400
+highlight ALEStyleWarning guibg=#ec7400
+highlight ALEInfo guibg=#008900
 "}}}
 source ~/.local_vimrc
