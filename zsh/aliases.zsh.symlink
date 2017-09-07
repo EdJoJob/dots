@@ -21,7 +21,11 @@ alias lsa='ls -lah'
 alias l='ls -lhA'
 ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
 #alias ldot='ls -d $PWD/$1/.*' # list all hidden files and dirs
-alias ll='ls -lh'
+if $(whence exa &>/dev/null); then
+    alias ll='exa --group-directories-first --git --long --extended'
+else
+    alias ll='ls -lh'
+fi
 alias la='ls -lha'
 alias sl=ls # often screw this up
 # }}}
