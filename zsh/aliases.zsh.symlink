@@ -46,6 +46,8 @@ fi
 
 if whence hub &>/dev/null; then
     alias g=hub
+else
+    alias g=git
 fi
 
 if whence nvim &>/dev/null; then
