@@ -21,8 +21,8 @@
     c = commit -v
     ci = commit -v
     ca = commit -v -a
-    cm = checkout master
-    co = checkout
+    cm = checkout master --ignore-other-worktrees
+    co = checkout --ignore-other-worktrees
     d = diff
     db = !git branch -d $(git branch --merged=master | grep -v '\\*\\|master')
     dv = !git diff -w "$@" | view -
@@ -36,6 +36,7 @@
     rbm = rebase master
     st = status
     unwip = !git log -n 1 | grep -q -c "\\\\-\\\\-wip\\\\-\\\\-" && git reset HEAD~1
+    w = worktree
     wip = !git add -A && git ls-files --deleted -z | gxargs -r0 git rm && git commit -m "--wip--"
 [filter "lfs"]
     process = git-lfs filter-process
