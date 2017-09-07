@@ -51,7 +51,6 @@ else
 fi
 
 if whence nvim &>/dev/null; then
-    alias vim='nvim'
     alias vi='nvim'
     alias v='fasd -f -e nvim -b shada'
 else
