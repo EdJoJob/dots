@@ -46,6 +46,12 @@ except:
 
 endsnippet
 
+snippet jq
+with open('/tmp/${2:q}', 'a') as _f:  # TODO: remove the debug
+	import json
+	json.dump(${1:locals()}, _f)  # TODO: remove this debug
+endsnippet
+
 snippet dir
 __expr = ${1:locals()}  # TODO: remove this debug
 print('${2:$1} = %s:' % type(__expr))
