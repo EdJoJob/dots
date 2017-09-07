@@ -27,6 +27,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " For presentations
         Plug 'NLKNguyen/papercolor-theme'
         Plug 'altercation/vim-colors-solarized'
+        " See indentation as highlights
         Plug 'nathanaelkane/vim-indent-guides'
     " }}}
     " Languages {{{
