@@ -18,9 +18,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " Pretty {{{
         " colorscheme
         Plug 'nanotech/jellybeans.vim'
-        Plug 'w0ng/vim-hybrid'
         Plug 'crusoexia/vim-monokai'
-        Plug 'alessandroyorba/despacio'
         " the pretty at the bottom of the buffer
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
