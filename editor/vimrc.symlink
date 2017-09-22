@@ -560,7 +560,9 @@ let g:ackhighlight=1
 let g:ackprg = 'ag --vimgrep --smart-case'
 " }}}
 " CtrlP {{{
-let g:ctrlp_custom_ignore='build'
+let g:ctrlp_custom_ignore= {
+            \ 'dir': '\vbuild$',
+            \ }
 " }}}
 " netrw {{{
 let g:netrw_liststyle=0 " get tree-style listing
