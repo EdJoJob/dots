@@ -2726,15 +2726,15 @@
 	<key>NSWindow Frame Preferences</key>
 	<string>276 251 606 456 0 0 1920 1177 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>2290 1953 700 622 1920 516 1440 2538 </string>
+	<string>610 417 700 622 0 0 1920 1178 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>256 577 606 469 0 0 1920 1178 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>669 1860 796 473 -640 1200 2560 1418 </string>
+	<string>669 1908 1018 447 -640 1200 2560 1418 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>-720 -934 720 1280 -1440 -934 1440 2538 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>1110 1200 810 1418 -640 1200 2560 1418 </string>
+	<string>0 0 1920 1178 0 0 1920 1178 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>10 13 2554 1404 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -8931,6 +8931,8 @@
 	<false/>
 	<key>PasteTabToStringTabStopSize</key>
 	<integer>4</integer>
+	<key>PerformDNSLookups</key>
+	<false/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -8985,7 +8987,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-09-07T18:47:14Z</date>
+	<date>2017-09-20T21:21:29Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -9043,7 +9045,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.1.beta.9</string>
+	<string>3.1.beta.10</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
