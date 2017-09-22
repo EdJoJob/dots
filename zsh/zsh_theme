@@ -115,14 +115,13 @@ bindkey -v
 #prompt {{{
 prompt_adam2_setup () { #{{{
     # Some can't be local
-    local prompt_gfx_tlc prompt_gfx_mlc prompt_gfx_blc
+    local prompt_gfx_tlc prompt_gfx_blc
 
     prompt_start=$'%{\e(0%}'
     prompt_end=$'%{\e(B%}'
-    prompt_gfx_tlc=$prompt_start$'\x6c'$prompt_end
-    prompt_gfx_mlc=$prompt_start$'\x78'$prompt_end
-    prompt_gfx_blc=$prompt_start$'\x6d'$prompt_end
-    prompt_gfx_hyphen=$'\x71'
+    prompt_gfx_tlc=$prompt_start┌$prompt_end
+    prompt_gfx_blc=$prompt_start└$prompt_end
+    prompt_gfx_hyphen=─
     local phyph=$prompt_start$prompt_gfx_hyphen$prompt_end
 
 
