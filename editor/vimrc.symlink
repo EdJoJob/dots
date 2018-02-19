@@ -313,7 +313,6 @@ augroup PERSONAL_JSON
 augroup END
 " }}}
 " Python {{{
-let g:python_version_2 = 1
 let g:python_highlight_all = 1
 augroup PERSONAL_PYTHON
     au!
