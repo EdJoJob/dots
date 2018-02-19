@@ -922,31 +922,32 @@ if exists('&t_8f') && exists('&t_8b')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-if TmuxSessionName() =~? 'Sasha' || $ITERM_PROFILE == 'Sasha Pair'
+if  $ITERM_PROFILE == 'LargeText' ||  TmuxSessionName() =~? 'big'
+    set background=light
+    colorscheme solarized
+elseif TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
+    set background=dark
+    colorscheme solarized
+elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
+    set background=dark
+    let g:airline_theme='base16_monokai'
+    colorscheme monokai
+    hi Normal ctermbg=NONE guibg=NONE
     if has('nvim')
         set termguicolors
     endif
-   set background=dark
-   colorscheme despacio
-   let g:airline_theme='distinguished'
-elseif  $ITERM_PROFILE == 'LargeText' ||  TmuxSessionName() =~? 'big'
-   set background=light
-   colorscheme solarized
-elseif TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
-   set background=dark
-   colorscheme solarized
-elseif  $ITERM_PROFILE =~? 'Hotkey Window'
-   set background=dark
-   let g:airline_theme='base16_monokai'
-   colorscheme monokai
-   hi Normal ctermbg=NONE guibg=NONE
+elseif  $ITERM_PROFILE =~? 'Hotkey Window Left'
+    set background=light
+    let g:airline_theme='solarized'
+    colorscheme solarized
+    hi Normal ctermbg=NONE guibg=NONE
     if has('nvim')
         set termguicolors
     endif
 else
-   set background=dark
-   let g:airline_theme='base16_monokai'
-   colorscheme monokai
+    set background=dark
+    let g:airline_theme='base16_monokai'
+    colorscheme monokai
     if has('nvim')
         set termguicolors
     endif
