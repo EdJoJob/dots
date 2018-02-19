@@ -59,6 +59,8 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " restructured text
         Plug 'Rykka/riv.vim'
         Plug 'vim-scripts/tracwiki'
+        Plug 'chr4/nginx.vim'
+        Plug 'crazy-canux/icinga2.vim'
     " }}}
     " Util {{{
         " file browser
