@@ -561,7 +561,7 @@ let g:ackprg = 'ag --vimgrep --smart-case'
 " }}}
 " CtrlP {{{
 let g:ctrlp_custom_ignore= {
-            \ 'dir': '\vbuild$',
+            \ 'dir': '\v^build$',
             \ }
 " }}}
 " netrw {{{
