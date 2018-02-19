@@ -587,17 +587,12 @@ let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#use_splits_not_buffers = 'right'
 " }}}
 " vim-indent-guides {{{
-let g:indent_guides_auto_colors = 0
+let g:indent_guides_auto_colors = 1
 let g:indent_guides_guide_size = 0
 let g:indent_guides_start_level = 1
 let g:indent_guides_autocmds_enabled = 1
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_exclude_filetypes = ['shell-command', 'terminal', 'man']
-augroup PERSONAL_INDENT_COLORS
-    au!
-    au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#3f2d3c ctermbg=236
-    au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#2d363f ctermbg=240
-augroup END
 " }}}
 " dokumentary {{{
 let g:dokumentary_docprgs = {'python': ''}
