@@ -316,6 +316,7 @@ augroup END
 let g:python_highlight_all = 1
 augroup PERSONAL_PYTHON
     au!
+    au BufReadCmd *.whl call zip#Browse(expand("<amatch>")) " open python wheels like zip files
     au Filetype python set textwidth=79  " lines longer than 79 columns will be broken
     au Filetype python set shiftwidth=4  " operation >> indents 4 columns; << unindents 4 columns
     au Filetype python set tabstop=4     " a hard TAB displays as 4 columns
