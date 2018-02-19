@@ -62,6 +62,9 @@ export TODO_ACTIONS_DIR="$TODO_ROOT/actions"
 
 export TODO_NOTES_DIR="$TODO_ROOT/notes"
 #}}}
+#  zsh-git-prompt {{{
+export GIT_PROMPT_EXECUTABLE='haskell'
+#}}}
 #}}}
 # zsh core settings --------------------{{{
 # editor {{{

@@ -25,6 +25,7 @@ ZSH_THEME_REPO_COLOR="%{$fg_bold[cyan]%}"
 
 function git_info() { # {{{
     precmd_update_git_vars
+
     if [ -n "$__CURRENT_GIT_STATUS" ]; then
         local git
         git="±%{$reset_color%}"
