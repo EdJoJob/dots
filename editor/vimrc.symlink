@@ -324,6 +324,7 @@ augroup PERSONAL_PYTHON
     au Filetype python set softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
     au Filetype python set shiftround    " round indent to multiple of 'shiftwidth'
     au Filetype python set autoindent    " align the new line indent with the previous line
+    au Filetype python set foldmethod=expr " actually use SimpylFold
 augroup END
 " }}}
 " rst {{{
