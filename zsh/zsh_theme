@@ -78,7 +78,7 @@ has-cluster() { #{{{
 } #}}}
 in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
-        echo "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 # Setup vim mode and rprompt {{{
