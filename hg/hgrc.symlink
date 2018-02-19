@@ -37,7 +37,6 @@ users = *
 [extensions]
 nb= $INTERNALS/nb-devtools/modules/nbhg.py
 color=
-hg-prompt = ~/.hgext/hg-prompt/prompt.py
 hgk=
 histedit=
 largefiles=
