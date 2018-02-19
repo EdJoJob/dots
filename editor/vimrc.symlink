@@ -555,7 +555,8 @@ nnoremap <down>  :lnext<cr>zvzz
 let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%:%severity%] %s'
+let g:ale_echo_msg_info_str = 'I'
+let g:ale_echo_msg_format = '[%linter%:%severity%%code%] %s'
 let g:ale_python_mypy_options = '--silent-imports'
 " }}}
 " ack.vim {{{
