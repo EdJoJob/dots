@@ -63,6 +63,10 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'crazy-canux/icinga2.vim'
     " }}}
     " Util {{{
+        " local wiki {{{
+        Plug 'vimwiki/vimwiki', {'branch': 'dev'}
+        Plug 'mattn/calendar-vim'
+        " }}
         " file browser
         Plug 'tpope/vim-vinegar'
         " get the output of shell commands in a new split buffer
@@ -617,6 +621,19 @@ let g:python_pep_8_indent_max_back_search = 500
 " vim-tmux-navigator {{{
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
+" }}}
+" vimwiki {{{
+nmap <leader>www <Plug>VimwikiIndex
+nmap -- <Plug>VimwikiRemoveHeaderLevel
+let g:vimwiki_list = [
+            \{},
+            \]
+let g:vimwiki_folding='list'
+augroup PERSONAL_VIMWIKI
+    au!
+    au FileType vimwiki set foldmethod=expr
+augroup END
+let g:vimwiki_listsyms=' ▖▌▙✓'
 " }}}
 "}}}
 " MiniPlugins --------------------{{{
