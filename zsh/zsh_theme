@@ -72,8 +72,8 @@ in-bone() { # {{{
     fi
 } #}}}
 has-cluster() { #{{{
-    if [[ -n $cluster ]]; then
-        echo "$ZSH_THEME_PREFIX%{$fg[cyan]%}☣$ZSH_THEME_SEPARATOR%{$fg[cyan]%}${cluster}%{$reset_color%}$ZSH_THEME_SUFFIX"
+    if [[ -n $CLUSTER ]]; then
+        echo "$ZSH_THEME_PREFIX%{$fg[cyan]%}☣$ZSH_THEME_SEPARATOR%{$fg[cyan]%}${CLUSTER}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 in-virtualenv() { #{{{
