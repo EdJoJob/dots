@@ -10,7 +10,7 @@
 [include]
     path = ~/.local_gitconfig
 [alias]
-    blog = log --graph --date=relative --format=eevans HEAD ^master --no-merges
+    blog = !git log --graph --date=relative --format=eevans HEAD $(git merge-base master HEAD) --no-merges
     bdiff = !git diff $(git merge-base master HEAD)
     up = !git pull --rebase --prune $@ && git submodule update --init --recursive
     out = !git fetch && git log origin/master..
