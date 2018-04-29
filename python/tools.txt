@@ -1,0 +1,10 @@
+q
+neovim
+flake8
+flake8-builtins
+flake8-tidy-imports
+flake8-todo
+isort
+jedi
+ptpython
+proselint
