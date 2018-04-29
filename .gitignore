@@ -16,3 +16,5 @@ firefox/vimperator.symlink/info/default/*
 
 editor/vim.symlink/init.vim
 todo.symlink/todo
+
+editor/vim.symlink/spell/
