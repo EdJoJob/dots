@@ -21,5 +21,11 @@ ln -s ~/Dropbox/todo ~/.todo/todo
 mkdir -p ~/.config
 ln -s ~/.vim ~/.config/nvim
 
+rm ~/.config/nvim/init.vim
+ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+rm ~/.todo/todo
+ln -s ~/Dropbox/todo ~/.todo/todo
+
 mkdir -m 700  ~/.ssh
 ln -s ~/.ssh/config ~/dots/sshconfig
