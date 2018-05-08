@@ -97,8 +97,13 @@ alias dm=docker-machine
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 # DAY MANAGEMENT {{{
-alias start_day='t recur && t archive && t report && gdate +S%Y-%m-%dT%T >> ~/.start_time && clear && t && fortune ~/Dropbox/fortunes'
-alias end_day='time_since_start_day && gdate +E%Y-%m-%dT%T >> ~/.start_time'
+if whence gdate &> /dev/null; then
+    alias my_date=gdate
+else
+    alias my_date=date
+fi
+alias start_day='t recur && t archive && t report && my_date +S%Y-%m-%dT%T >> ~/.start_time && clear && t && fortune ~/Dropbox/fortunes'
+alias end_day='time_since_start_day && my_date +E%Y-%m-%dT%T >> ~/.start_time'
 check_start_day() {
     if [[ $(tail -n1 ~/.start_time) == E* ]]; then
         start_day
@@ -112,11 +117,11 @@ start_day_time() {
 
 time_since_start_day() {
     check_start_day
-    start_time=`gdate +%s -d $(start_day_time)`
-    end_time=`gdate +%s -d $(gdate +%H:%M:%S)`
+    start_time=`my_date +%s -d $(start_day_time)`
+    end_time=`my_date +%s -d $(my_date +%H:%M:%S)`
 
     diff=$(($end_time - $start_time))
-    gdate +%H:%M:%S -ud @${diff}
+    my_date +%H:%M:%S -ud @${diff}
 }
 # }}}
 # MERCURIAL AIDS {{{
