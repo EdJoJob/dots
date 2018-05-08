@@ -204,4 +204,8 @@ lastcommand() {
     fc -l -LI -n '-1' | xargs echo -n | pbcopy
 }
 
+if whence http &> /dev/null; then
+    alias https='http --default-scheme=https'
+fi
+
 # vim:ft=zsh
