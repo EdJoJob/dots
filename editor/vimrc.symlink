@@ -34,8 +34,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
             Plug 'davidhalter/jedi-vim', { 'do': 'git submodule deinit jedi' }
             Plug 'tmhedberg/SimpylFold'
             " Make the python indenting actually work
-            Plug 'EdJoJob/vim-python-pep8-indent', {'branch': 'Make-maxoff-user-configurable'}
-            "Plug 'hynek/vim-python-pep8-indent'
+            Plug 'hynek/vim-python-pep8-indent'
         " }}}
         " Work with VimL {{{
             Plug 'ynkdir/vim-vimlparser'
