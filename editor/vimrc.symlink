@@ -56,7 +56,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'tpope/vim-markdown'
         Plug 'freitass/todo.txt-vim'
         " restructured text
-        Plug 'Rykka/riv.vim'
+        Plug 'gu-fan/riv.vim'
         Plug 'vim-scripts/tracwiki'
         Plug 'chr4/nginx.vim'
         Plug 'crazy-canux/icinga2.vim'
