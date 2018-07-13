@@ -35,9 +35,6 @@ export ZGEN_RESET_ON_CHANGE
 dots=~/dots
 : ~dots
 #}}}
-# Other files --------------------------{{{
-source ~/.aliases.zsh
-#}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
@@ -119,14 +116,17 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
 fi
 
 #}}}
-source $dots/zsh/zsh_theme
 # Tmux detection -----------------------{{{
 if [ -z $TMUX ]; then
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 #}}}
-
+# Other files --------------------------{{{
 source ~/.local_environment.zsh
+source $dots/zsh/zsh_theme
+source ~/.aliases.zsh
+#}}}
+
 
 if [[ "$PROFILE_STARTUP" == true ]]; then
     unsetopt xtrace
