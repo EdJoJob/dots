@@ -47,3 +47,7 @@
     smudge = git-lfs smudge -- %f
 [pretty]
     eevans = %C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d
+[mergetool "fugitive"]
+	cmd = vi -c \"Gvdiff\" \"$MERGED\"
+[merge]
+	tool = fugitive
