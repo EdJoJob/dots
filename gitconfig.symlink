@@ -29,7 +29,7 @@
     fap = fetch --all --prune
     lgg = log --graph --decorate
     lgga = log --graph --decorate --all
-    glog = log --graph --date=relative --format=eevans --all
+    glog = log --graph --date=relative --format=eevans
     p = push --prune
     rba = rebase --abort
     rbc = rebase --continue
