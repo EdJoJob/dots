@@ -16,6 +16,11 @@
     out = !git fetch && git log origin/master..
     in = !git fetch && git log ..origin/master
 
+    # Adapted from: https://harrow.io/blog/effortlessly-maintain-a-high-quality-change-log-with-little-known-git-tricks/
+    changelog = notes --ref=changelog append
+    logchanges = log --pretty='format:%N(%h)%n' --show-notes=changelog
+    changelog-init = !git config --add remote.origin.push '+refs/notes/changelog:refs/notes/changelog' && git config --add remote.origin.fetch '+refs/notes/changelog:refs/notes/changelog'
+
     a = add
     b = branch
     c = commit -v
