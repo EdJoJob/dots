@@ -244,7 +244,7 @@ set gdefault
 set incsearch
 set showmatch
 set hlsearch
-nnoremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
+nnoremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>:IndentGuidesEnable<cr>
 
 " Open a Quickfix window for the last search.
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/gj %'<CR>:copen<CR>
