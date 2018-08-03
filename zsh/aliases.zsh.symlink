@@ -137,44 +137,6 @@ last-days-merges() {
     hg slog -r 'date(">yesterday") and merge() and not user("packaging-build7.bb")'
 }
 # }}}
-# CLUSTER ACCESS {{{
-cluster-node() {
-    # Remember ${var:-str} means $var if not null else str
-    # Remember [[ -n str ]] is true if str is non-zero length
-    local l_cluster l_instance
-    if [[ ${+3} -eq 1 ]]; then
-        # we have 3 args these are duty, cluster, instance
-        l_cluster=${2:-${CLUSTER}}
-        print $1-$3.$l_cluster.bne.nbb.co
-        return
-    fi
-    if [[ ${+2} -eq 1 ]]; then
-        if typset -i l_instance="$2" 2>/dev/null; then
-            # $2 is numeric therefore the instance #
-            if [[ -n $CLUSTER ]]; then
-                print $1-$l_instance.$CLUSTER.bne.nbb.co
-            else
-                echo 'You need to specify the $CLUSTER'
-            fi
-            return
-        else
-            # $ 2 in non-numeric and therefore the cluster
-            print $1.$2.bne.nbb.co
-            return
-        fi
-    fi
-    # assuming only 1 as duty
-    if [[ -n $CLUSTER ]]; then
-        print $1.$CLUSTER.bne.nbb.co
-    else
-        print 'You need to specify the $CLUSTER'
-    fi
-}
-
-n() {
-    ss $(cluster-node $@)
-}
-# }}}
 # ALERT IN OSX {{{
 alert() {
     terminal-notifier -remove 'alert'

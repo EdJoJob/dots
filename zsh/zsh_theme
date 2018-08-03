@@ -66,16 +66,6 @@ function git_info() { # {{{
         echo -n "$STATUS"
     fi
 } #}}}
-in-bone() { # {{{
-    if [[ -n $BONE_CONFLICT ]]; then
-        echo "$ZSH_THEME_PREFIX%{$fg[red]%}BONES%{$reset_color%}$ZSH_THEME_SUFFIX"
-    fi
-} #}}}
-has-cluster() { #{{{
-    if [[ -n $CLUSTER ]]; then
-        echo "$ZSH_THEME_PREFIX%{$fg[cyan]%}☣$ZSH_THEME_SEPARATOR%{$fg[cyan]%}${CLUSTER}%{$reset_color%}$ZSH_THEME_SUFFIX"
-    fi
-} #}}}
 in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
         echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
@@ -84,7 +74,12 @@ in-virtualenv() { #{{{
 # Setup vim mode and rprompt {{{
 function zle-line-init zle-keymap-select {
     VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-    RPROMPT="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(has-cluster)$(in-virtualenv)$(in-bone)$(git_info)"
+    prompt="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)"
+    if (( ${+RPROMPT_CMDS} )); then
+        for cmd in $RPROMPT_CMDS:
+            prompt+="$(cmd)"
+    fi
+    RPROMPT="$prompt$(git_info)"
     zle reset-prompt
 }
 
