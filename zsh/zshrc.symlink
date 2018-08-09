@@ -103,7 +103,7 @@ export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)
 #}}}
 # Colors -------------------------------{{{
-if $(whence gdircolors &>/dev/null); then
+if whence gdircolors &>/dev/null; then
     eval $(gdircolors ~/.dir_colors)
 else
     eval $(dircolors ~/.dir_colors)
