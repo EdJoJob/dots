@@ -45,6 +45,7 @@
     unpushed = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git log origin/$GIT_CURRENT_BRANCH..$GIT_CURRENT_BRANCH --pretty=eevans
     w = worktree
     wip = !git add -A && git ls-files --deleted -z | gxargs -r0 git rm && git commit -m "--wip--" --no-verify
+    serve = !git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
 [filter "lfs"]
     process = git-lfs filter-process
     required = true
