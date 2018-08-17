@@ -1,0 +1,21 @@
+/* Show title of unread tabs with red and italic font */
+.tab.unread .label {
+  font-style: italic !important;
+  color: dark-red;
+}
+
+/* Hide close buttons on tabs. */
+.tab .closebox {
+    visibility: collapse;
+}
+/* Change styling of pending (unloaded) tabs */
+.tab.discarded {
+  opacity: 0.75;
+}
+
+.tab.discarded .label {
+  color: grey;
+}
+.tab:hover .closebox {
+    visibility: initial;
+}
