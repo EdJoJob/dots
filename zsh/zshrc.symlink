@@ -43,7 +43,6 @@ typeset -A ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[line]='bold'
 # }}}
 # todo.sh {{{
-export TODOTXT_DEFAULT_ACTION=list
 export TODO_ROOT="$HOME/.todo"
 export TODO_DIR="$TODO_ROOT/todo"
 

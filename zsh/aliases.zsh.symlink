@@ -87,7 +87,13 @@ alias ZQ='exit'
 alias ZZ='exit'
 # }}}
 alias c='clear'
-alias t='todo.sh'
+function t() {
+    if [[ "$#" -eq 0 ]]; then
+        todo.sh list '-(T)'
+    else
+        todo.sh $@
+    fi
+}
 # Chef {{{
 alias tk='kitchen' # test kitchen
 # }}}
