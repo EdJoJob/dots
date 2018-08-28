@@ -20,7 +20,6 @@ brew install the_silver_searcher
 brew install tree
 brew install wget
 brew install sloccount
-brew install keybase
 
 # development tools
 brew install git
@@ -73,6 +72,7 @@ brew install weechat --with-aspell --with-curl --with-python --with-perl --with-
 brew install neovim/neovim/neovim --HEAD
 
 # casks (apps)
+brew cask install keybase
 brew cask install alfred
 brew cask install chicken
 brew cask install dropbox
