@@ -57,3 +57,6 @@
 	cmd = vi -c \"Gvdiff\" \"$MERGED\"
 [merge]
 	tool = fugitive
+	ff = false
+[pull]
+	ff = true
