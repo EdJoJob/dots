@@ -20,6 +20,7 @@ brew install the_silver_searcher
 brew install tree
 brew install wget
 brew install sloccount
+brew install fortune
 
 # development tools
 brew install git
