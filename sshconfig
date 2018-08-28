@@ -1,3 +1,4 @@
+HashKnownHosts yes
 Include config.d/*
 Host github
     Hostname github.com
@@ -5,6 +6,7 @@ Host github
     IdentityFile ~/.ssh/github_rsa
     IdentitiesOnly yes
     Port 22
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512
 Host *
     AddKeysToAgent yes
     UseKeychain yes
@@ -14,4 +16,8 @@ Host *
 
     ServerAliveInterval 60
     ConnectTimeout 30
+    # security from https://cipherli.st
+    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
     ForwardAgent yes
