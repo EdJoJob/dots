@@ -51,6 +51,10 @@ else
     alias g=git
 fi
 
+if whence rg &>/dev/null; then
+    alias rg=$(whence rg) --smart-case
+fi
+
 if whence nvim &>/dev/null; then
     alias vi='nvim'
     alias v='fasd -f -e nvim -b shada'
