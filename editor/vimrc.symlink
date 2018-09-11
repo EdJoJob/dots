@@ -41,8 +41,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
             Plug 'ynkdir/vim-vimlparser'
             Plug 'dbakker/vim-lint'
         " }}}
-        " See colors as colors
-        Plug 'gorodinskiy/vim-coloresque'
         Plug 'chrisbra/csv.vim'
         Plug 'NLKNguyen/c-syntax.vim'
         Plug 'freitass/todo.txt-vim'
