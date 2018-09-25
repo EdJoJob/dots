@@ -370,6 +370,12 @@ augroup PERSONAL_YAML
     au FileType yaml set foldmethod=indent
 augroup END
 " }}}
+" Help {{{
+augroup PERSONAL_HELP
+    au!
+    au FileType help IndentGuidesDisable
+augroup END
+" }}}
 "}}}
 " Folding ------------------------{{{
 " "Focus" the current line.{{{
