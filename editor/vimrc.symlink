@@ -96,6 +96,9 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'luochen1990/rainbow'
         " respect .editorconfig
         Plug 'editorconfig/editorconfig'
+        " Enable fuzzy-finder
+        Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+        Plug 'junegunn/fzf.vim'
     " }}}
     " Slow Plugs {{{
         " Git integration

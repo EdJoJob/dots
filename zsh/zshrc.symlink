@@ -124,6 +124,7 @@ fi
 source ~/.local_environment.zsh
 source $dots/zsh/zsh_theme
 source ~/.aliases.zsh
+source $dots/zsh/fzf.zsh
 #}}}
 
 
