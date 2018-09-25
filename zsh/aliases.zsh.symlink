@@ -52,7 +52,7 @@ else
 fi
 
 if whence rg &>/dev/null; then
-    alias rg=$(whence rg) --smart-case
+    alias rg="$(whence rg) --smart-case"
 fi
 
 if whence nvim &>/dev/null; then
