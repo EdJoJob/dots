@@ -21,7 +21,6 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-completions src
     zgen load srijanshetty/zsh-pandoc-completion
     zgen load zsh-users/zsh-syntax-highlighting
-    zgen load zsh-users/zsh-history-substring-search
 
     zgen save
 fi
@@ -65,10 +64,10 @@ export GIT_PROMPT_EXECUTABLE='haskell'
 # editor {{{
 # bind UP and DOWN arrow keys
 zmodload zsh/terminfo
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
+bindkey "$terminfo[kcuu1]" fzf-history-widget
+bindkey "$terminfo[kcud1]" fzf-history-widget
+bindkey -M vicmd 'k' fzf-history-widget
+bindkey -M vicmd 'j' fzf-history-widget
 autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 bindkey -M vicmd q push-line
