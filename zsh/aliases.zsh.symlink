@@ -90,6 +90,7 @@ alias clc='clear'
 alias ZQ='exit'
 alias ZZ='exit'
 # }}}
+
 alias c='clear'
 function t() {
     if [[ "$#" -eq 0 ]]; then
@@ -98,6 +99,7 @@ function t() {
         todo.sh $@
     fi
 }
+
 # Chef {{{
 alias tk='kitchen' # test kitchen
 # }}}
@@ -106,6 +108,7 @@ alias dm=docker-machine
 # }}}
 # python debuging with q
 alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
+
 # DAY MANAGEMENT {{{
 if whence gdate &> /dev/null; then
     alias my_date=gdate
@@ -172,6 +175,7 @@ alert() {
 
 alias alert-clear='terminal-notifier -remove "alert"'
 # }}}
+
 lastcommand() {
     fc -l -LI -n '-1' | xargs echo -n | pbcopy
 }
