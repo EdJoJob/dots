@@ -54,9 +54,9 @@
 [pretty]
     eevans = %C(auto)%h - (%ar) %C(white)%s%C(auto) %C(bold blue)<%an>%C(auto)%d
 [mergetool "fugitive"]
-	cmd = vi -c \"Gvdiff\" \"$MERGED\"
+    cmd = vi -c \"Gvdiff\" \"$MERGED\"
 [merge]
-	tool = fugitive
-	ff = false
+    tool = fugitive
+    ff = false
 [pull]
-	ff = true
+    ff = true
