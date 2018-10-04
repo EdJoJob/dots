@@ -6,7 +6,7 @@
 	url = https://github.com/civrot/todo_txt_actions.git
 [submodule "todo-recur"]
 	path = todo.symlink/actions/todo-recur
-	url = https://github.com/paulroub/todo.txt-recurring-tasks.git
+	url = https://github.com/EdJoJob/todo.txt-recurring-tasks.git
 [submodule "todo.symlink/actions/todo-daily.repeat.upgrade"]
 	path = todo.symlink/actions/todo-daily.repeat.upgrade
 	url = https://github.com/drobertadams/todo.txt-cli-addons
