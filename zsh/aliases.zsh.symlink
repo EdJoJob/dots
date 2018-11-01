@@ -99,6 +99,7 @@ function t() {
         todo.sh $@
     fi
 }
+compdef _todo.sh t
 
 # Chef {{{
 alias tk='kitchen' # test kitchen
