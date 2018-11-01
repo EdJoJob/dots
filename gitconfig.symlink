@@ -38,7 +38,7 @@
     p = push --prune
     rba = rebase --abort
     rbc = rebase --continue
-    rbi = rebase -i
+    rbi = rebase -i --autosquash
     rbm = rebase master
     st = status
     unwip = !git log -n 1 | grep -q -c "\\\\-\\\\-wip\\\\-\\\\-" && git reset HEAD~1
