@@ -101,6 +101,8 @@ function t() {
 }
 compdef _todo.sh t
 
+alias ssh='TERM=${TERM/tmux/screen} ssh'
+
 # Chef {{{
 alias tk='kitchen' # test kitchen
 # }}}
