@@ -8,6 +8,8 @@ set-option -g status-keys vi
 set -g default-terminal "tmux-256color"
 set -ga terminal-overrides ',screen*:Tc'
 set -ga terminal-overrides ',xterm*:Tc'
+set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+
 
 set-window-option -g aggressive-resize on
 set -g escape-time 0
