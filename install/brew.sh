@@ -8,107 +8,110 @@ fi
 echo "Installing homebrew packages..."
 
 # Add taps
+taps=(
+    danielbayley/alfred
+    caskroom/cask
+    homebrew/dupes
+    homebrew/python
+)
+typeset -U taps
+brew tap $taps
 
-brew tap caskroom/cask
-brew tap homebrew/command-not-found
-brew tap homebrew/python
-brew tap homebrew/dupes
-brew tap neovim/neovim
+formulae=(
+    # cli tools
+    exa
+    fortune
+    sloccount
+    the_silver_searcher
+    wget
 
-# cli tools
-brew install the_silver_searcher
-brew install tree
-brew install wget
-brew install sloccount
-brew install fortune
+    # development tools
+    git
+    hub
+    reattach-to-user-namespace
+    tmux
+    vim
+    watch
+    zsh
 
-# development tools
-brew install git
-brew install hub
-brew install reattach-to-user-namespace
-brew install tmux
-brew install zsh
-brew install fasd
-brew install watch
+    pyenv
+    pyenv-virtualenv
+    python
+    python3
 
-brew install pyenv
-brew install pyenv-virtualenv
-brew install python
-brew install python3
+    # gnu replacements
+    autoconf
+    automake
+    cmake
+    coreutils
+    curl
+    findutils
+    gawk
+    gnu-getopt
+    gnu-indent
+    gnu-sed
+    gnu-tar
+    gnupg
+    gnutls
+    grep
+    homebrew/dupes/expect # Needed for tmux tests
+    homebrew/dupes/gpatch
+    iproute2mac
+    less
+    ssh-copy-id
+    unar
 
-# gnu replacements
-brew install autoconf
-brew install automake
-brew install cmake
-brew install curl
-brew install coreutils
-brew install gawk
-brew install gnu-getopt
-brew install homebrew/dupes/gpatch
-brew install homebrew/dupes/expect # Needed for tmux tests
-brew install gnu-indent
-brew install gnu-sed
-brew install gnu-tar
-brew install gnupg
-brew install gnutls
-brew install grep
-brew install iproute2mac
-brew install less
-brew install unar
-brew install findutils
-brew install ssh-copy-id
+    # utilities
+    htop-osx
+    m-cli  # Help with macOS magic commands
+    nmap
+    pandoc
+    todo-txt
+)
+typeset -U formulae
 
-# utilities
-brew install htop-osx
-brew install todo-txt
-brew install highlight
-brew install pandoc
-brew install m-cli  # Help with macOS magic commands
-brew install nmap
+brew install $formulae 2>&1 | tee ~/brewed_formulae
 
-brew install aspell --with-lang-en
-brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile
-
-# install neovim
-brew install neovim/neovim/neovim --HEAD
+brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell
+brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile 2>&1 | tee ~/brewed_weechat
 
 # casks (apps)
-brew cask install keybase
-brew cask install alfred
-brew cask install chicken
-brew cask install dropbox
-brew cask install dash
-brew cask install firefox
-brew cask install flash
-brew cask install github-desktop
-brew cask install google-chrome
-brew cask install pycharm
-brew cask install skim
-brew cask install skype
-brew cask install sourcetree
-brew cask install wireshark
+casks=(
+    alfred
+    alfred-numi
+    bartender
+    chicken
+    dropbox
+    firefox
+    flux
+    google-chrome
+    istat-menus
+    iterm2
+    joplin
+    keybase
+    numi
+    skim
+    spotify
+    synergy
+    wireshark
 
-# network
-brew cask install little-snitch
-brew cask install micro-snitch
+    # Quicklook extentions
+    qlcolorcode
+    qlimagesize
+    qlmarkdown
+    qlprettypatch
+    qlstephen
+    quicklook-csv
+    quicklook-json
+    suspicious-package
 
-# Keybind editors
-brew cask install karabiner
-brew cask install seil
+    # tiling window manager for OSX
+    amethyst
+)
 
-# Quicklook extentions
-brew cask install betterzipql
-brew cask install qlcolorcode
-brew cask install qlimagesize
-brew cask install qlmarkdown
-brew cask install qlprettypatch
-brew cask install qlstephen
-brew cask install quicklook-csv
-brew cask install quicklook-json
-brew cask install suspicious-package
+typeset -U casks
 
-# tiling window manager for OSX
-brew cask install amethyst
+brew cask install $cask 2>&1 | tee ~/brewed_casks
 
 # latex
-brew cask install mactex
+brew cask install mactex & &> ~/brewed_mactex
