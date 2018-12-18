@@ -31,7 +31,7 @@ function git_info() { # {{{
         git="±%{$reset_color%}"
         STATUS="$ZSH_THEME_PREFIX$ZSH_THEME_REPO_COLOR$git$ZSH_THEME_SEPARATOR"
 
-        if [[ "$GIT_BRANCH" == "master" ]]; then
+        if [[ "$GIT_BRANCH" =~ "master" || "$GIT_BRANCH" =~ "^[0-9]+\.[0-9]+$" ]]; then
             STATUS="$STATUS$ZSH_THEME_MASTER$GIT_BRANCH%{${reset_color}%}"
         else
             STATUS="$STATUS$ZSH_THEME_BRANCH$GIT_BRANCH%{${reset_color}%}"
