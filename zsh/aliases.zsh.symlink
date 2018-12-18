@@ -57,10 +57,8 @@ fi
 
 if whence nvim &>/dev/null; then
     alias vi='nvim'
-    alias v='fasd -f -e nvim -b shada'
 else
     alias vi='vim'
-    alias v='fasd -f -e vi -b viminfo'
 fi
 # }}}
 alias rs="rsync -avzh --progress"
