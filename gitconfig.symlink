@@ -6,7 +6,7 @@
 [push]
     default = current
 [core]
-    excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore_global
     crlf = input
 [include]
     path = ~/.local_gitconfig
