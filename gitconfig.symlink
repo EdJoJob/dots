@@ -61,3 +61,7 @@
     ff = false
 [pull]
     ff = true
+[transfer]
+	fsckObjects = true
+[protocol]
+	version = 2
