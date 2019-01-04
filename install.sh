@@ -18,7 +18,7 @@ echo "Making untracked local config files"
 touch ~/.local_environment.zsh
 touch ~/.local_vimrc
 touch ~/.local_tmux.conf
-touch ~/.local_git_config
+touch ~/.local_gitconfig
 
 echo "Enabling hg extentions"
 source install/mercurial.sh
