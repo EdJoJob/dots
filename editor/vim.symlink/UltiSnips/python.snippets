@@ -125,3 +125,8 @@ snippet pdb
 import pdb
 pdb.set_trace()
 endsnippet
+
+snippet ptpy
+from ptpython.repl import embed, run_config  # noqa: E501 TODO: REMOVE DEBUG
+embed(globals(), locals(), lambda repl: run_config(repl, '~/.ptpython/config.py'))  # noqa: E501 TODO: REMOVE DEBUG
+endsnippet
