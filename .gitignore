@@ -20,3 +20,7 @@ editor/vim.symlink/init.vim
 todo.symlink/todo
 
 editor/vim.symlink/spell/
+
+gnupg.symlink/*
+!gnupg.symlink/gpg-agent.conf
+!gnupg.symlink/gpg.conf
