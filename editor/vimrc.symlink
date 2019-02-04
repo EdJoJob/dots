@@ -191,6 +191,7 @@ set formatoptions+=j                                    " when joining comment l
 set dictionary=/usr/dict/words
 set spelllang=en_au
 set nospell
+set spellfile=~/.vimspell.add,~/dots/editor/vim.symlink/spell/en.utf-8.add
 "}}}
 " Quick Editing ------------------{{{
 
@@ -202,6 +203,7 @@ augroup MY_VIMRC
 augroup END
 nnoremap <leader>et :tabedit ~/dots/todo.symlink/todo/todo.txt<cr>
 nnoremap <leader>ez :tabedit ~/dots/zsh/zshrc.symlink<cr>
+nnoremap <leader>es :tabedit ~/dots/editor/vim.symlink/spell/en.utf-8.add<cr>:vsplit ~/.vimspell.add<cr>
 
 "}}}
 " Backup Settings ----------------{{{
@@ -245,6 +247,12 @@ nnoremap <silent> <leader>? :AckFromSearch!<CR>
 
 "}}}
 " Filetype Specific --------------{{{
+" Spell-lists {{{
+augroup PERSONAL_SPELL_FILES
+    au!
+    au BufWritePost ~/dots/editor/vim.symlink/spell/en.utf-8.add,~/.vimspell.add silent mkspell! %
+augroup END
+" }}}
 " ANSIBLE {{{
 let g:ansible_extra_keywords_highlight = 1
 let g:ansible_name_highlight = 'b'
