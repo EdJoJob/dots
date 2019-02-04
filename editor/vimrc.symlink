@@ -339,6 +339,7 @@ augroup reStructured
     au Filetype rst set softtabstop=3
     au Filetype rst set shiftwidth=3
     au Filetype rst set tabstop=3
+    au Filetype rst set spell
     if has('nvim')
         au Filetype rst command! -buffer Preview call jobstart(['restview', '--css=/Users/eevans43/src/rhythm.css/dist/css/rhythm.css', '--css=/Users/eevans43/src/rhythm.css/syntax/molokai.css', expand('%:p')])
     endif
