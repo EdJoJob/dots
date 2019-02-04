@@ -79,7 +79,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " easily align things
         Plug 'godlygeek/tabular'
         " navigate tmux splits
-        Plug 'christoomey/vim-tmux-navigator'
+        Plug 'christoomey/vim-tmux-navigator', { 'branch': 'indicator' }
         " Get focus events when running in tmux
         Plug 'tmux-plugins/vim-tmux-focus-events'
         " Session management (mostly for making tmux continuum behave better)
