@@ -259,26 +259,26 @@ let g:ansible_name_highlight = 'b'
 "let g:ansible_extra_syntaxes = 'json.vim'
 augroup PERSONAL_ANSIBLE
     au!
-    au BufNewFile,BufRead *ansible/*.yml set filetype=ansible
-    au FileType ansible set shiftwidth=2
-    au FileType ansible set tabstop=2
-    au FileType ansible set softtabstop=2
-    au FileType ansible set shiftround
-    au FileType ansible set expandtab
-    au FileType ansible set autoindent
-    au FileType ansible set foldmethod=indent
+    au BufNewFile,BufRead *ansible/*.yml setlocal filetype=ansible
+    au FileType ansible setlocal shiftwidth=2
+    au FileType ansible setlocal tabstop=2
+    au FileType ansible setlocal softtabstop=2
+    au FileType ansible setlocal shiftround
+    au FileType ansible setlocal expandtab
+    au FileType ansible setlocal autoindent
+    au FileType ansible setlocal foldmethod=indent
 augroup END
 " }}}
 " chef {{{
 augroup PERSONAL_CHEF
     au!
-    au FileType ruby,eruby set filetype=ruby.eruby.chef
-    au FileType ruby,eruby,ruby.eruby.chef set shiftwidth=2
-    au FileType ruby,eruby,ruby.eruby.chef set tabstop=2
-    au FileType ruby,eruby,ruby.eruby.chef set softtabstop=2
-    au FileType ruby,eruby,ruby.eruby.chef set shiftround
-    au FileType ruby,eruby,ruby.eruby.chef set expandtab
-    au FileType ruby,eruby,ruby.eruby.chef set autoindent
+    au FileType ruby,eruby setlocal filetype=ruby.eruby.chef
+    au FileType ruby,eruby,ruby.eruby.chef setlocal shiftwidth=2
+    au FileType ruby,eruby,ruby.eruby.chef setlocal tabstop=2
+    au FileType ruby,eruby,ruby.eruby.chef setlocal softtabstop=2
+    au FileType ruby,eruby,ruby.eruby.chef setlocal shiftround
+    au FileType ruby,eruby,ruby.eruby.chef setlocal expandtab
+    au FileType ruby,eruby,ruby.eruby.chef setlocal autoindent
 augroup END
 " }}}
 " crontab {{{
@@ -309,13 +309,13 @@ augroup END
 " JSON {{{
 augroup PERSONAL_JSON
     au!
-    au FileType yaml set shiftwidth=2
-    au FileType yaml set tabstop=2
-    au FileType yaml set softtabstop=2
-    au FileType yaml set shiftround
-    au FileType yaml set expandtab
-    au FileType yaml set autoindent
-    au filetype json set foldmethod=indent
+    au FileType yaml setlocal shiftwidth=2
+    au FileType yaml setlocal tabstop=2
+    au FileType yaml setlocal softtabstop=2
+    au FileType yaml setlocal shiftround
+    au FileType yaml setlocal expandtab
+    au FileType yaml setlocal autoindent
+    au filetype json setlocal foldmethod=indent
 augroup END
 " }}}
 " Python {{{
@@ -323,23 +323,23 @@ let g:python_highlight_all = 1
 augroup PERSONAL_PYTHON
     au!
     au BufReadCmd *.whl call zip#Browse(expand("<amatch>")) " open python wheels like zip files
-    au Filetype python set textwidth=79  " lines longer than 79 columns will be broken
-    au Filetype python set shiftwidth=4  " operation >> indents 4 columns; << unindents 4 columns
-    au Filetype python set tabstop=4     " a hard TAB displays as 4 columns
-    au Filetype python set expandtab     " insert spaces when hitting TABs
-    au Filetype python set softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
-    au Filetype python set shiftround    " round indent to multiple of 'shiftwidth'
-    au Filetype python set autoindent    " align the new line indent with the previous line
-    au Filetype python set foldmethod=expr " actually use SimpylFold
+    au Filetype python setlocal textwidth=79  " lines longer than 79 columns will be broken
+    au Filetype python setlocal shiftwidth=4  " operation >> indents 4 columns; << unindents 4 columns
+    au Filetype python setlocal tabstop=4     " a hard TAB displays as 4 columns
+    au Filetype python setlocal expandtab     " insert spaces when hitting TABs
+    au Filetype python setlocal softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
+    au Filetype python setlocal shiftround    " round indent to multiple of 'shiftwidth'
+    au Filetype python setlocal autoindent    " align the new line indent with the previous line
+    au Filetype python setlocal foldmethod=expr " actually use SimpylFold
 augroup END
 " }}}
 " rst {{{
 augroup reStructured
     au!
-    au Filetype rst set softtabstop=3
-    au Filetype rst set shiftwidth=3
-    au Filetype rst set tabstop=3
-    au Filetype rst set spell
+    au Filetype rst setlocal softtabstop=3
+    au Filetype rst setlocal shiftwidth=3
+    au Filetype rst setlocal tabstop=3
+    au Filetype rst setlocal spell
     if has('nvim')
         au Filetype rst command! -buffer Preview call jobstart(['restview', '--css=/Users/eevans43/src/rhythm.css/dist/css/rhythm.css', '--css=/Users/eevans43/src/rhythm.css/syntax/molokai.css', expand('%:p')])
     endif
@@ -354,7 +354,7 @@ augroup END
 " tex {{{
 augroup TEX
     au!
-    au FileType tex set tw=79
+    au FileType tex setlocal tw=79
 augroup END
 " }}}
 " vim-shell-command {{{
@@ -373,13 +373,13 @@ augroup END
 " YAML {{{
 augroup PERSONAL_YAML
     au!
-    au FileType yaml set shiftwidth=2
-    au FileType yaml set tabstop=2
-    au FileType yaml set softtabstop=2
-    au FileType yaml set shiftround
-    au FileType yaml set expandtab
-    au FileType yaml set autoindent
-    au FileType yaml set foldmethod=indent
+    au FileType yaml setlocal shiftwidth=2
+    au FileType yaml setlocal tabstop=2
+    au FileType yaml setlocal softtabstop=2
+    au FileType yaml setlocal shiftround
+    au FileType yaml setlocal expandtab
+    au FileType yaml setlocal autoindent
+    au FileType yaml setlocal foldmethod=indent
 augroup END
 " }}}
 " Help {{{
