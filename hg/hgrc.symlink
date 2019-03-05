@@ -1,7 +1,5 @@
-%include $INTERNALS/nb-devtools/hg/nbhgrc
 
 [hostsecurity]
-hg.nbb.co:fingerprints=sha256:30:4e:bb:3f:d7:04:4b:19:e6:12:fc:57:37:a7:78:8e:b9:b2:e0:f0:6e:16:89:8a:5b:44:16:2f:84:a8:a4:d4
 
 [ui]
 username = eevans
@@ -35,7 +33,6 @@ qseries = -vs
 users = *
 
 [extensions]
-nb= $INTERNALS/nb-devtools/modules/nbhg.py
 color=
 hgk=
 histedit=
