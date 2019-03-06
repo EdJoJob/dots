@@ -10,7 +10,7 @@ ZSH_THEME_BRANCH="%{$fg_bold[green]%}"
 ZSH_THEME_MASTER="%{$fg_bold[red]%}"
 ZSH_THEME_STAGED="%{$fg[green]%}%{●%G%}"
 ZSH_THEME_CONFLICTS="%{$fg[red]%}%{≠%G%}"
-ZSH_THEME_CHANGED="%{$fg[red]%}%{⚡%G%}"
+ZSH_THEME_CHANGED="%{$fg[red]%}%{%G%}"
 ZSH_THEME_BEHIND="%{$fg[red]↓%G%}"
 ZSH_THEME_AHEAD="%{$fg[green]↑%G%}"
 ZSH_THEME_UNTRACKED="%{$fg[yellow]…%G%}"
@@ -19,7 +19,7 @@ ZSH_THEME_REPO_COLOR="%{$fg_bold[cyan]%}"
 # }}}
 
 # ↑ ✔ green
-# ↓ ⚡  red
+# ↓  red
 # ♦ … ≠ ":" yellow
 # [$branch|status|remote]
 
@@ -36,6 +36,7 @@ function git_info() { # {{{
         else
             STATUS="$STATUS$ZSH_THEME_BRANCH$GIT_BRANCH%{${reset_color}%}"
         fi
+
         STATUS="$STATUS$ZSH_THEME_SEPARATOR"
         if [ "$GIT_STAGED" -ne "0" ]; then
             STATUS="$STATUS$ZSH_THEME_STAGED%{${reset_color}%}$GIT_STAGED"
