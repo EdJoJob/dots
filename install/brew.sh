@@ -135,7 +135,7 @@ casks=(
 
 typeset -U casks
 
-brew cask install $cask 2>&1 | tee ~/brewed_casks
+brew cask install $casks 2>&1 | tee ~/brewed_casks
 
 # latex
-brew cask install mactex & &> ~/brewed_mactex
+brew cask install mactex &> ~/brewed_mactex & 
