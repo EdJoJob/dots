@@ -21,18 +21,34 @@ formulae=(
     # cli tools
     exa
     fortune
+    lolcat
+    toilet
     sloccount
+    ripgrep
+    sift
     the_silver_searcher
     wget
 
     # development tools
     git
+    git-lfs
+    pinentry
     hub
     reattach-to-user-namespace
     tmux
+    neovim
+    jq
     vim
     watch
     zsh
+
+    # haskell for git-status
+    ghc
+    haskell-stack
+
+    # Plaintext Conversion
+    graphviz
+    pandoc
 
     pyenv
     pyenv-virtualenv
@@ -58,6 +74,7 @@ formulae=(
     homebrew/dupes/gpatch
     iproute2mac
     less
+    rsync
     ssh-copy-id
     unar
 
@@ -65,7 +82,7 @@ formulae=(
     htop-osx
     m-cli  # Help with macOS magic commands
     nmap
-    pandoc
+    mrt 
     todo-txt
 )
 typeset -U formulae
@@ -81,15 +98,20 @@ casks=(
     alfred-numi
     bartender
     chicken
+    docker
     dropbox
     firefox
     flux
+    gimp
     google-chrome
+    gpg-suite-pinentry
+    intellij-idea-ce
     istat-menus
     iterm2
     joplin
     keybase
     numi
+    pycharm
     skim
     spotify
     synergy
@@ -99,7 +121,9 @@ casks=(
     qlcolorcode
     qlimagesize
     qlmarkdown
+    qlmobi
     qlprettypatch
+    qlrest
     qlstephen
     quicklook-csv
     quicklook-json
