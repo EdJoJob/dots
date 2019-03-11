@@ -54,6 +54,7 @@ set-option -g pane-active-border-style fg=colour235,bg=colour235
 # Create an environment that zsh can make sense of
 set-environment -g tmuxTERM $TERM
 set-environment -g INSCREEN yes
+set-option -g update-environment SSH_CONNECTION
 # set-environment TMUX_TITLE yes
 
 # theme
