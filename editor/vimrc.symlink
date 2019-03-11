@@ -84,7 +84,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'tmux-plugins/vim-tmux-focus-events'
         " Session management (mostly for making tmux continuum behave better)
         Plug 'tpope/vim-obsession'
-        Plug 'kien/ctrlp.vim'
         Plug 'bkad/CamelCaseMotion'
         " make K more useful
         Plug 'gastonsimone/vim-dokumentary'
@@ -562,6 +561,9 @@ nnoremap <down>  :lnext<cr>zvzz
 "}}}
 "}}}
 " Plugins ------------------------{{{
+" vim-fzf {{{
+nnoremap <c-p> :Files<cr>
+" }}}
 " ALE {{{
 let g:ale_sign_column_always = 1
 let g:ale_echo_msg_error_str = 'E'
@@ -573,11 +575,6 @@ let g:ale_python_mypy_options = '--silent-imports'
 " ack.vim {{{
 let g:ackhighlight=1
 let g:ackprg = 'ag --vimgrep --smart-case'
-" }}}
-" CtrlP {{{
-let g:ctrlp_custom_ignore= {
-            \ 'dir': '\v^build$',
-            \ }
 " }}}
 " netrw {{{
 let g:netrw_liststyle=0 " get tree-style listing
