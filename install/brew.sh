@@ -20,6 +20,7 @@ brew tap $taps
 formulae=(
     # cli tools
     exa
+    bat
     fortune
     lolcat
     toilet
