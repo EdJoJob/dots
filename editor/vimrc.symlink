@@ -809,10 +809,7 @@ if exists('&t_8f') && exists('&t_8b')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-if  $ITERM_PROFILE == 'LargeText' ||  TmuxSessionName() =~? 'big'
-    set background=light
-    colorscheme solarized
-elseif TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
+if TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
     set background=dark
     colorscheme solarized
 elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
@@ -823,7 +820,7 @@ elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
     if has('nvim')
         set termguicolors
     endif
-elseif  $ITERM_PROFILE =~? 'Hotkey Window Left'
+elseif  $ITERM_PROFILE =~? 'Hotkey Window Left' || $ITERM_PROFILE =~? 'Personal' || TmuxSessionName() =~? 'personal'
     set background=light
     let g:airline_theme='solarized'
     colorscheme solarized
