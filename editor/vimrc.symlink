@@ -348,6 +348,8 @@ augroup END
 augroup PERSONAL_TERMINAL
     au!
     au Filetype terminal setlocal colorcolumn=
+    au FileType terminal setlocal nonumber
+    au TermOpen term://* startinsert
 augroup END
 " }}}
 " tex {{{
