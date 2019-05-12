@@ -1,5 +1,5 @@
 q
-neovim
+pynvim
 flake8
 flake8-builtins
 flake8-tidy-imports
