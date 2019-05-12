@@ -116,7 +116,26 @@ if whence gdate &> /dev/null; then
 else
     alias my_date=date
 fi
-alias start_day='t recur && t archive && t report && my_date +S%Y-%m-%dT%T >> ~/.start_time && clear && t && t lf later && fortune ~/Dropbox/fortunes'
+start_day() {
+    local fortune_dir
+    t recur
+    t archive
+    t report
+    my_date +S%Y-%m-%dT%T >> ~/.start_time
+    clear
+    t
+    t lf later
+    if [[ -d ~/Dropbox/fortunes ]]; then
+        fortune_dir=~/Dropbox/fortunes
+    fi
+
+    if [[ $(uname) == 'Darwin' ]]; then
+        fortune $fortune_dir | tee /dev/tty | pbcopy
+    else
+        fortune $fortune_dir
+    fi
+}
+
 alias end_day='time_since_start_day && my_date +E%Y-%m-%dT%T >> ~/.start_time'
 check_start_day() {
     if [[ $(tail -n1 ~/.start_time) == E* ]]; then
