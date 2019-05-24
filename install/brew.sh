@@ -22,7 +22,11 @@ formulae=(
     exa
     bat
     fortune
+    httpie
     lolcat
+    md5sha1sum
+    mtr
+    ncdu
     toilet
     sloccount
     ripgrep
@@ -31,6 +35,7 @@ formulae=(
     wget
 
     # development tools
+    entr
     git
     git-lfs
     pinentry
@@ -39,8 +44,8 @@ formulae=(
     tmux
     neovim
     jq
-    vim
     watch
+    weechat
     zsh
 
     # haskell for git-status
@@ -52,9 +57,6 @@ formulae=(
     pandoc
 
     pyenv
-    pyenv-virtualenv
-    python
-    python3
 
     # gnu replacements
     autoconf
@@ -63,16 +65,14 @@ formulae=(
     coreutils
     curl
     findutils
+    fd
     gawk
     gnu-getopt
     gnu-indent
     gnu-sed
     gnu-tar
-    gnupg
     gnutls
     grep
-    homebrew/dupes/expect # Needed for tmux tests
-    homebrew/dupes/gpatch
     iproute2mac
     less
     rsync
@@ -80,10 +80,9 @@ formulae=(
     unar
 
     # utilities
-    htop-osx
+    htop
     m-cli  # Help with macOS magic commands
     nmap
-    mrt 
     todo-txt
 )
 typeset -U formulae
@@ -98,6 +97,7 @@ casks=(
     alfred
     alfred-numi
     bartender
+    charles
     chicken
     docker
     dropbox
@@ -115,8 +115,7 @@ casks=(
     pycharm
     skim
     spotify
-    synergy
-    wireshark
+    vlc
 
     # Quicklook extentions
     qlcolorcode
