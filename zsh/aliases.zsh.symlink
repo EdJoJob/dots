@@ -33,8 +33,20 @@ alias sl=ls # often screw this up
 # TOOL REPLACEMENT {{{
 alias tmux='TERM=tmux-256color tmux'
 
-if which gfind &>/dev/null; then
-    alias find=gfind
+if which fd &>/dev/null; then
+    if which gfind &>/dev/null; then
+        alias find=">&2 echo 'Consider using fd'; gfind"
+    else
+        alias find=">&2 echo 'Consider using fd'; $(which find)"
+    fi
+else
+    if which gfind &>/dev/null; then
+        alias find=gfind
+    fi
+fi
+
+if which ncdu &>/dev/null; then
+    alias du=">&2 echo 'Consider using ncdu'; $(which du)"
 fi
 
 if which gdate &>/dev/null; then
@@ -172,7 +184,9 @@ last-days-merges() {
 # }}}
 # ALERT IN OSX {{{
 alert() {
-    terminal-notifier -remove 'alert'
+    if whence terminal-notifier &> /dev/null; then
+        terminal-notifier -remove 'alert'
+    fi
     local message exit_status
     message='has finished'
     if [[ -n $TMUX ]]; then
@@ -185,11 +199,11 @@ alert() {
     else
         exit_status=""
     fi
-    terminal-notifier -title "${1}" -subtitle "${exit_status}" -message "${message}" -group 'alert'
+    if whence terminal-notifier &> /dev/null; then
+        terminal-notifier -title "${1}" -subtitle "${exit_status}" -message "${message}" -group 'alert'
+    fi
     if which it2attention > /dev/null; then
-        while true; do
-            it2attention fireworks
-        done
+        it2attention fireworks &
     fi
 }
 
