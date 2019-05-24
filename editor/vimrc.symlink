@@ -345,12 +345,15 @@ augroup reStructured
 augroup END
 " }}}
 " terminal {{{
-augroup PERSONAL_TERMINAL
-    au!
-    au Filetype terminal setlocal colorcolumn=
-    au FileType terminal setlocal nonumber
-    au TermOpen term://* startinsert
-augroup END
+if has('nvim')
+    augroup PERSONAL_TERMINAL
+        au!
+        au TermOpen term://* setlocal colorcolumn=
+        au TermOpen term://* setlocal nonumber
+        au TermOpen term://* IndentGuidesDisable
+        au TermOpen term://* startinsert
+    augroup END
+endif
 " }}}
 " tex {{{
 augroup TEX
