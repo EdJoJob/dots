@@ -23,9 +23,6 @@ touch ~/.local_gitconfig
 echo "Enabling hg extentions"
 source install/mercurial.sh
 
-echo "Installing python modules"
-source install/python.sh
-
 echo "Enabling hg extentions"
 source install/mercurial.sh
 
