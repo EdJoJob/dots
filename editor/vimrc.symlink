@@ -648,6 +648,9 @@ augroup PERSONAL_VIMWIKI
 augroup END
 let g:vimwiki_listsyms=' ▖▌▙✓'
 " }}}
+" vim-polyglot {{{
+let g:polyglot_disabled = ['markdown']
+" }}}
 "}}}
 " MiniPlugins --------------------{{{
 " Highlight Word {{{
