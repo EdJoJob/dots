@@ -1,5 +1,9 @@
 # vim: fdm=marker
 
+# bat THEME {{{
+export BAT_THEME="Monokai Extended"
+# }}}
+
 # THEME --------------------------------{{{
 # theme vars {{{
 # Default values for the appearance of the prompt. Configure at will.
