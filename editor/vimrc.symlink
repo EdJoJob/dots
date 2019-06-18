@@ -546,7 +546,7 @@ cabbr w!! w !sudo tee % >/dev/null
 " Don't move on * {{{
 " I'd use a function for this but Vim clobbers the last search when you're in
 " a function so fuck it, practicality beats purity.
-nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*<c-o>:call winrestview(stay_star_view)<cr>
+nnoremap <silent> * :let stay_star_view = winsaveview()<cr>*:call winrestview(stay_star_view)<cr>
 "}}}
 " Keep search matches in the middle of the window. {{{
 nnoremap n nzzzv
