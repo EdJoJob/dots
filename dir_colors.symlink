@@ -4,6 +4,7 @@
 TERM screen-256color
 TERM xterm-256color
 TERM xterm-color
+TERM tmux-256color
 
 # Below are the color init strings for the basic file types. A color init
 # string consists of one or more of the following numeric codes:
