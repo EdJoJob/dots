@@ -15,6 +15,8 @@ taps=(
     homebrew/python
 )
 typeset -U taps
+
+echo "brew tap $taps" >> ~/brew_commands
 brew tap $taps
 
 formulae=(
@@ -87,9 +89,12 @@ formulae=(
 )
 typeset -U formulae
 
+echo "brew install $formulae 2>&1 | tee ~/brewed_formulae" >> ~/brew_commands
 brew install $formulae 2>&1 | tee ~/brewed_formulae
 
+echo "brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell" >> ~/brew_commands
 brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell
+echo "brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile 2>&1 | tee ~/brewed_weechat" >> ~/brew_commands
 brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile 2>&1 | tee ~/brewed_weechat
 
 # casks (apps)
@@ -135,7 +140,9 @@ casks=(
 
 typeset -U casks
 
+echo "brew cask install $casks 2>&1 | tee ~/brewed_casks" >> ~/brew_commands
 brew cask install $casks 2>&1 | tee ~/brewed_casks
 
 # latex
-brew cask install mactex &> ~/brewed_mactex & 
+echo "brew cask install mactex &> ~/brewed_mactex &"
+brew cask install mactex &> ~/brewed_mactex &
