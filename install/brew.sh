@@ -26,7 +26,6 @@ formulae=(
     fortune
     httpie
     lolcat
-    md5sha1sum
     mtr
     ncdu
     toilet
@@ -101,6 +100,7 @@ brew install weechat --with-aspell --with-curl --with-python --with-perl --with-
 casks=(
     alfred
     alfred-numi
+    authy
     bartender
     charles
     chicken
@@ -116,6 +116,7 @@ casks=(
     iterm2
     joplin
     keybase
+    lastpass
     numi
     pycharm
     skim
