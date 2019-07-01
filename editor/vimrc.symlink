@@ -47,7 +47,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'freitass/todo.txt-vim'
         " restructured text
         Plug 'gu-fan/riv.vim'
-        Plug 'vim-scripts/tracwiki'
         Plug 'crazy-canux/icinga2.vim'
     " }}}
     " Util {{{
