@@ -96,7 +96,7 @@ set -g @resurrect-save 'S'
 set -g @resurrect-restore 'R'
 
 set -g @resurrect-capture-pane-contents 'on'
-set -g @resurrect-processes 'weechat watch ssh ss'
+set -g @resurrect-processes 'weechat watch ssh'
 
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
