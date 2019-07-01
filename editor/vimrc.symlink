@@ -41,6 +41,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
             Plug 'ynkdir/vim-vimlparser'
             Plug 'dbakker/vim-lint'
         " }}}
+        Plug 'pearofducks/ansible-vim'
         Plug 'chrisbra/csv.vim'
         Plug 'NLKNguyen/c-syntax.vim'
         Plug 'freitass/todo.txt-vim'
@@ -258,7 +259,7 @@ let g:ansible_name_highlight = 'b'
 "let g:ansible_extra_syntaxes = 'json.vim'
 augroup PERSONAL_ANSIBLE
     au!
-    au BufNewFile,BufRead *ansible/*.yml setlocal filetype=ansible
+    au BufNewFile,BufRead *ansible/*.yml setlocal filetype=yaml.ansible
     au FileType ansible setlocal shiftwidth=2
     au FileType ansible setlocal tabstop=2
     au FileType ansible setlocal softtabstop=2
