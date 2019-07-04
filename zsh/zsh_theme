@@ -1,7 +1,11 @@
 # vim: fdm=marker
 
 # bat THEME {{{
-export BAT_THEME="Monokai Extended"
+if [[ $ITERM_PROFILE == "Hotkey Window Left" ]]; then
+    export BAT_THEME="Monokai Extended Light"
+else
+    export AT_THEME="Monokai Extended"
+fi
 # }}}
 
 # THEME --------------------------------{{{
