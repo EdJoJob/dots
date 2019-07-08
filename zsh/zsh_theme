@@ -1,5 +1,14 @@
 # vim: fdm=marker
 
+CMD_NOTIFY_THRESHOLD=10
+IGNORED_LONG_CMD=(
+    vi
+    vim
+    ssh
+    tmux
+    docker
+)
+
 # bat THEME {{{
 if [[ $ITERM_PROFILE == "Hotkey Window Left" ]]; then
     export BAT_THEME="Monokai Extended Light"
@@ -161,6 +170,26 @@ prompt_adam2_setup () { #{{{
 
 } #}}}
 precmd() { #{{{
+    EXIT_CODE=$?
+    if ! [[ -z $CMD_START_DATE ]]; then
+        CMD_END_DATE=$(date +%s)
+        # altered from https://stackoverflow.com/questions/5203665/zsh-check-if-string-is-in-array
+        if ! [[ $IGNORED_LONG_CMD[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
+            CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
+            unset CMD_START_DATE
+            if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
+
+                RES=$(python -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
+                result="${CMD_ARRAY[1]} completed. Time, $RES. Exit code, $EXIT_CODE."
+                echo -e "\n⏰  $result"
+                (
+                    if [[ $(uname) == 'Darwin' ]]; then
+                        say $result 2>&1 > /dev/null &
+                    fi
+                )
+            fi
+        fi
+    fi
     local prompt_line_1
 
     prompt_adam2_choose_prompt
@@ -204,6 +233,9 @@ prompt_adam2_choose_prompt () { #{{{
 } #}}}
 preexec() { #{{{
     print -Pn "%B%F{}Start %D{%H:%M:%S}\n%b%f%k"
+    CMD_NAME=$1
+    echo $1 | read -A CMD_ARRAY
+    CMD_START_DATE=$(date +%s)
 } #}}}
 prompt_adam2_setup
 #}}}
