@@ -1,0 +1,15 @@
+# vim set ft=zsh
+# from https://glasnt.com/blog/2018/09/17/on-audible-notification-of-long-running-commands.html
+START=$(date +%s.%N)
+$*
+EXIT_CODE=$?
+END=$(date +%s.%N)
+DIFF=$(echo "$END - $START" | bc)
+RES=$(python -c "diff = $DIFF; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
+result="$1 completed. Time, $RES. Exit code, $EXIT_CODE."
+echo -e "\n⏰  $result"
+(
+    if [[ $(uname) == 'Darwin' ]]; then 
+        say -r 1800 $result 2>&1 > /dev/null & 
+    fi
+)

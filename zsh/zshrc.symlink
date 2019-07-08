@@ -23,6 +23,10 @@ fi
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
+for f in ~/dots/zsh/func/*(*); do
+    autoload -Uz $f
+done
+
 ZGEN_RESET_ON_CHANGE=(${HOME}/dots/zsh/zshrc.symlink ${HOME}/.zshrc)
 export ZGEN_RESET_ON_CHANGE
 #}}}
