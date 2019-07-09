@@ -9,7 +9,6 @@ echo "Installing homebrew packages..."
 
 # Add taps
 taps=(
-    danielbayley/alfred
     caskroom/cask
     homebrew/dupes
     homebrew/python
@@ -99,7 +98,6 @@ brew install weechat --with-aspell --with-curl --with-python --with-perl --with-
 # casks (apps)
 casks=(
     alfred
-    alfred-numi
     authy
     bartender
     charles
