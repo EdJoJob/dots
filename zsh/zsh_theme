@@ -7,6 +7,10 @@ IGNORED_LONG_CMD=(
     ssh
     tmux
     docker
+    man
+    less
+    fg
+    tail
 )
 
 # bat THEME {{{
