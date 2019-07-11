@@ -1,7 +1,7 @@
 # vim: fdm=marker
 
-CMD_NOTIFY_THRESHOLD=10
-IGNORED_LONG_CMD=(
+export CMD_NOTIFY_THRESHOLD=10
+IGNORED_LONG_CMD+=(
     vi
     vim
     ssh
@@ -12,6 +12,8 @@ IGNORED_LONG_CMD=(
     fg
     tail
 )
+
+typeset -U IGNORED_LONG_CMD
 
 # bat THEME {{{
 if [[ $ITERM_PROFILE == "Hotkey Window Left" ]]; then
