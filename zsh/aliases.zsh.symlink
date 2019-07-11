@@ -23,6 +23,22 @@ function man() {
             man "$@"
 }
 
+if [[ $(uname) == 'Darwin' ]]; then
+    # version test from https://coderwall.com/p/4yz8dq/determine-os-x-version-from-the-command-line
+    if [[ $(defaults read loginwindow SystemVersionStampAsString) == '10.14.5' ]]; then
+        # from https://apple.stackexchange.com/a/332226/166420
+        alias last-successful-login='\
+            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 1d \
+            | grep "LUIAuthenticationServiceProvider deactivateWithContext:]_block_invoke" \
+            | grep "2019-07-12" \
+            | awk "{print $2}" \
+            | cut -f 1 -d . \
+            | sort -u \
+            | tail -n 1'
+    fi
+fi
+
+
 # Show history
 alias history='fc -l 1'
 # LS TOOLS {{{
