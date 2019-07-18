@@ -116,6 +116,20 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
 fi
 
 #}}}
+# Default Path -------------------------{{{
+path=(
+    /usr/local/bin
+    /usr/bin
+    /bin
+    /usr/sbin
+    /sbin
+    ${HOME}/.fzf/bin
+    ${HOME}/.local/bin
+    ${HOME}/.bin
+)
+typeset -U path
+export path
+# }}}
 # Other files --------------------------{{{
 source ~/.local_environment.zsh
 source $dots/zsh/zsh_theme
@@ -123,6 +137,14 @@ source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
 #}}}
 
+# Pyenv --------------------------------{{{
+if command -v pyenv &>/dev/null; then
+    eval "$(pyenv init - )"
+fi
+if command -v pyenv-virtualenv-init > /dev/null; then
+    eval "$(pyenv virtualenv-init -)"
+fi
+# }}}
 # Tmux detection -----------------------{{{
 if [ -z $TMUX ]; then
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
