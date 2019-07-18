@@ -116,16 +116,17 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
 fi
 
 #}}}
-# Tmux detection -----------------------{{{
-if [ -z $TMUX ]; then
-    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-fi
-#}}}
 # Other files --------------------------{{{
 source ~/.local_environment.zsh
 source $dots/zsh/zsh_theme
 source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
+#}}}
+
+# Tmux detection -----------------------{{{
+if [ -z $TMUX ]; then
+    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+fi
 #}}}
 
 
