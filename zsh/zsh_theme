@@ -4,6 +4,7 @@ export CMD_NOTIFY_THRESHOLD=10
 IGNORED_LONG_CMD+=(
     vi
     vim
+    nvim
     ssh
     tmux
     docker
@@ -11,6 +12,8 @@ IGNORED_LONG_CMD+=(
     less
     fg
     tail
+    cat
+    bat
 )
 
 typeset -U IGNORED_LONG_CMD
