@@ -2,18 +2,18 @@
 
 export CMD_NOTIFY_THRESHOLD=10
 IGNORED_LONG_CMD+=(
-    vi
-    vim
+    bat
+    cat
+    docker
+    fg
+    less
+    man
     nvim
     ssh
-    tmux
-    docker
-    man
-    less
-    fg
     tail
-    cat
-    bat
+    tmux
+    vi
+    vim
 )
 
 typeset -U IGNORED_LONG_CMD
