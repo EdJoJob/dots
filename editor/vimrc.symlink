@@ -570,6 +570,9 @@ nnoremap <down>  :lnext<cr>zvzz
 "}}}
 "}}}
 " Plugins ------------------------{{{
+" NERDCommenter {{{
+let g:NERDSpaceDelims=1
+" }}}
 " vim-fzf {{{
 nnoremap <c-p> :Files<cr>
 " }}}
