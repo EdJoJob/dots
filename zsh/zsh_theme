@@ -186,7 +186,11 @@ precmd() { #{{{
             if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
 
                 RES=$(python -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
-                result="${CMD_ARRAY[1]} completed. Time, $RES. Exit code, $EXIT_CODE."
+                if [[ $EXIT_CODE == 0 ]]; then
+                    result="${CMD_ARRAY[1]} completed. Time, $RES. Exit code, $EXIT_CODE."
+                else
+                    result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
+                fi
                 echo -e "\n⏰  $result"
                 (
                     if [[ $(uname) == 'Darwin' ]]; then
