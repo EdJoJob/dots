@@ -131,10 +131,11 @@ typeset -U path
 export path
 # }}}
 # Other files --------------------------{{{
-source ~/.local_environment.zsh
+[ -f ~/.local_environment.zsh ] && source ~/.local_environment.zsh
 source $dots/zsh/zsh_theme
 source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #}}}
 
 # Pyenv --------------------------------{{{
