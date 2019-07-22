@@ -135,7 +135,7 @@ export path
 source $dots/zsh/zsh_theme
 source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r '^T' && bindkey '^P' fzf-file-widget
 #}}}
 
 # Pyenv --------------------------------{{{
