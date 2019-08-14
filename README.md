@@ -22,6 +22,7 @@ _because otherwise **I** forget_
 * Markdown Preview for GitHub: `grip`
 * Normal Regex Searching: `rg` for rip-grep
 * Fancier-searching: `sift` because context often matters
+* HoRNDIS: for USB internet for android (`brew cask install horndis`)
 
 
 ## TODO
