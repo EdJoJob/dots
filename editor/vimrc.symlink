@@ -48,6 +48,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " restructured text
         Plug 'gu-fan/riv.vim'
         Plug 'crazy-canux/icinga2.vim'
+        Plug 'tpope/vim-markdown'
     " }}}
     " Util {{{
         " local wiki {{{
