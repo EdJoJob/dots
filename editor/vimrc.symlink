@@ -259,13 +259,13 @@ let g:ansible_name_highlight = 'b'
 augroup PERSONAL_ANSIBLE
     au!
     au BufNewFile,BufRead *ansible/*.yml setlocal filetype=yaml.ansible
-    au FileType ansible setlocal shiftwidth=2
-    au FileType ansible setlocal tabstop=2
-    au FileType ansible setlocal softtabstop=2
-    au FileType ansible setlocal shiftround
-    au FileType ansible setlocal expandtab
-    au FileType ansible setlocal autoindent
-    au FileType ansible setlocal foldmethod=indent
+    au FileType yaml.ansible setlocal shiftwidth=2
+    au FileType yaml.ansible setlocal tabstop=2
+    au FileType yaml.ansible setlocal softtabstop=2
+    au FileType yaml.ansible setlocal shiftround
+    au FileType yaml.ansible setlocal expandtab
+    au FileType yaml.ansible setlocal autoindent
+    au FileType yaml.ansible setlocal foldmethod=indent
 augroup END
 " }}}
 " chef {{{
