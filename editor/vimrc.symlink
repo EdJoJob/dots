@@ -643,7 +643,7 @@ let g:tmux_navigator_disable_when_zoomed = 1
 nmap <leader>www <Plug>VimwikiIndex
 nmap -- <Plug>VimwikiRemoveHeaderLevel
 let g:vimwiki_list = [
-            \{},
+            \{'path': '~/Dropbox/wiki',},
             \]
 let g:vimwiki_folding='list'
 augroup PERSONAL_VIMWIKI
