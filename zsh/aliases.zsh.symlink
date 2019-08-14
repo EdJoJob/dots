@@ -30,7 +30,7 @@ if [[ $(uname) == 'Darwin' ]]; then
         alias last-successful-login='\
             log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 1d \
             | grep "LUIAuthenticationServiceProvider deactivateWithContext:]_block_invoke" \
-            | grep "2019-07-12" \
+            | grep $(date +%Y-%m-%d) \
             | awk "{print $2}" \
             | cut -f 1 -d . \
             | sort -u \
