@@ -7,7 +7,7 @@
 [push]
     default = current
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
     crlf = input
 [include]
     path = ~/.local_gitconfig
@@ -64,6 +64,6 @@
 [pull]
     ff = true
 [transfer]
-	fsckObjects = true
+    fsckObjects = true
 [protocol]
-	version = 2
+    version = 2
