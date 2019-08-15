@@ -5,7 +5,7 @@
     fontui = -family \"liberation sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
     fontdiff = -family \"liberation mono\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
-    default = current
+    default = upstream
 [core]
     excludesfile = ~/.gitignore_global
     crlf = input
