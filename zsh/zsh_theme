@@ -194,7 +194,7 @@ precmd() { #{{{
                 else
                     result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
                 fi
-                echo -e "\n⏰  $result"
+                echo -e "\n⏰  $result" >&2
                 (
                     if [[ $(uname) == 'Darwin' ]]; then
                         say $result 2>&1 > /dev/null &
