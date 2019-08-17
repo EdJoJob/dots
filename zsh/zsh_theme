@@ -180,26 +180,28 @@ prompt_adam2_setup () { #{{{
 } #}}}
 precmd() { #{{{
     EXIT_CODE=$?
-    if ! [[ -z $CMD_START_DATE ]]; then
-        CMD_END_DATE=$(date +%s)
-        # altered from https://stackoverflow.com/questions/5203665/zsh-check-if-string-is-in-array
-        if ! [[ $IGNORED_LONG_CMD[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
-            CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
-            unset CMD_START_DATE
-            if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
+    if [[ -z $SSH_CONNECTION ]]; then
+        if ! [[ -z $CMD_START_DATE ]]; then
+            CMD_END_DATE=$(date +%s)
+            # altered from https://stackoverflow.com/questions/5203665/zsh-check-if-string-is-in-array
+            if ! [[ $IGNORED_LONG_CMD[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
+                CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
+                unset CMD_START_DATE
+                if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
 
-                RES=$(python -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
-                if [[ $EXIT_CODE == 0 ]]; then
-                    result="${CMD_ARRAY[1]} completed. Time, $RES. Exit code, $EXIT_CODE."
-                else
-                    result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
-                fi
-                echo -e "\n⏰  $result" >&2
-                (
-                    if [[ $(uname) == 'Darwin' ]]; then
-                        say $result 2>&1 > /dev/null &
+                    RES=$(python -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
+                    if [[ $EXIT_CODE == 0 ]]; then
+                        result="${CMD_ARRAY[1]} completed. Time, $RES. Exit code, $EXIT_CODE."
+                    else
+                        result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
                     fi
-                )
+                    echo -e "\n⏰  $result" >&2
+                    (
+                        if [[ $(uname) == 'Darwin' ]]; then
+                            say $result 2>&1 > /dev/null &
+                        fi
+                    )
+                fi
             fi
         fi
     fi
