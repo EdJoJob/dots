@@ -23,8 +23,6 @@ touch ~/.local_gitconfig
 echo "Enabling hg extentions"
 source install/mercurial.sh
 
-echo "Enabling hg extentions"
-source install/mercurial.sh
 
 echo "Installing tmux terminfo"
 tic tmux/tmux-256color.terminfo
