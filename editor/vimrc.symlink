@@ -54,6 +54,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " local wiki {{{
         Plug 'vimwiki/vimwiki', {'branch': 'dev'}
         Plug 'mattn/calendar-vim'
+        Plug 'vim-voom/VOoM'
         " }}}
         " file browser
         Plug 'tpope/vim-vinegar'
