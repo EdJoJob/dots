@@ -650,6 +650,7 @@ augroup PERSONAL_VIMWIKI
     au!
     au FileType vimwiki set foldmethod=expr
     au FileType vimwiki setlocal spell
+    au FileType vimwiki setlocal formatoptions-=t
 augroup END
 let g:vimwiki_listsyms=' ▖▌▙✓'
 " }}}
