@@ -111,7 +111,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'mhinz/vim-signify'
     "}}}
     " Out of tree {{{
-        Plug '~/bb-plugin'
     " }}}
     " Testing Plugs {{{
     " }}}
