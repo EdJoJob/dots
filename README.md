@@ -23,6 +23,8 @@ _because otherwise **I** forget_
 * Normal Regex Searching: `rg` for rip-grep
 * Fancier-searching: `sift` because context often matters
 * HoRNDIS: for USB internet for android (`brew cask install horndis`)
+* ngrok: for ad-hoc port-forwarding and/or NAT punch-through
+* `gh-auth`: getting public keys from github (github-auth gem)
 
 
 ## TODO
