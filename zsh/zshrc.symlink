@@ -132,7 +132,7 @@ typeset -U path
 export path
 # }}}
 # Other files --------------------------{{{
-[ -f ~/.local_environment.zsh ] && source ~/.local_environment.zsh
+[ -f ~/.local_zshrc ] && source ~/.local_zshrc
 source $dots/zsh/zsh_theme
 source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
