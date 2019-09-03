@@ -25,9 +25,9 @@
 
     a = add
     b = branch
-    c = commit -v
-    ci = commit -v
-    ca = commit -v -a
+    c = commit --signoff --verbose
+    ci = commit --signoff --verbose
+    ca = commit --signoff --verbose --all
     cm = checkout master --ignore-other-worktrees
     co = checkout --ignore-other-worktrees
     d = diff
@@ -40,7 +40,7 @@
     p = push --prune
     rba = rebase --abort
     rbc = rebase --continue
-    rbi = rebase -i --autosquash
+    rbi = rebase --interactive --autosquash
     rbm = rebase master
     st = status
     unwip = !git log -n 1 | grep -q -c "\\\\-\\\\-wip\\\\-\\\\-" && git reset HEAD~1
