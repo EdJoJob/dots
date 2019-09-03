@@ -642,9 +642,16 @@ let g:tmux_navigator_disable_when_zoomed = 1
 " vimwiki {{{
 nmap <leader>www <Plug>VimwikiIndex
 nmap -- <Plug>VimwikiRemoveHeaderLevel
+nmap <C-Left> <Plug>VimwikiDiaryPrevDay
+nmap <C-Right> <Plug>VimwikiDiaryNextDay
 let g:vimwiki_list = [
-            \{'path': '~/Dropbox/wiki',},
-            \]
+            \{
+                \'path': '~/Dropbox/wiki',
+                \'auto_tags': 1,
+                \'auto_diary_index': 1,
+                \'auto_generate_links': 1,
+            \},
+        \]
 let g:vimwiki_folding='list'
 augroup PERSONAL_VIMWIKI
     au!
