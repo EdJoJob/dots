@@ -38,6 +38,7 @@ formulae=(
     entr
     git
     git-lfs
+    github-keygen
     pinentry
     hub
     reattach-to-user-namespace
