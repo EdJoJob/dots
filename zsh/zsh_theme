@@ -99,14 +99,16 @@ in-virtualenv() { #{{{
     fi
 } #}}}
 # Setup vim mode and rprompt {{{
+RPROMPT_CMDS=( in-virtualenv )
 function zle-line-init zle-keymap-select {
     case $CONTEXT {
         ('start')
             VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-            local_prompt="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$(in-virtualenv)"
+            local_prompt="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}"
             if (( ${+RPROMPT_CMDS} )); then
-                for cmd in $RPROMPT_CMDS:
-                    local_prompt+="$(cmd)"
+                for cmd in $RPROMPT_CMDS; do
+                    local_prompt+="$($cmd)"
+                done
             fi
             RPROMPT="$local_prompt$(git_info)"
             zle reset-prompt
