@@ -1,0 +1,31 @@
+{
+	"gitlens.defaultDateFormat": "hh:mm, DD MMM YYYY",
+	"gitlens.defaultDateShortFormat": "DD MMM YYYY",
+	"editor.fontFamily": "mononoki Nerd Font",
+	"editor.renderWhitespace": "boundary",
+	"terminal.external.osxExec": "iTerm2.app",
+	"window.zoomLevel": 1,
+	"vim.cursorStylePerMode.insert": "line",
+	"vim.cursorStylePerMode.normal": "block",
+	"vim.cursorStylePerMode.replace": "underline",
+	"vim.cursorStylePerMode.visual": "block",
+	"vim.cursorStylePerMode.visualblock": "block",
+	"vim.cursorStylePerMode.visualline": "block",
+	"vim.gdefault": true,
+	"vim.hlsearch": true,
+	"vim.neovimPath": "/usr/local/bin/nvim",
+	"vim.useSystemClipboard": true,
+	"vim.enableNeovim": true,
+	"vim.normalModeKeyBindingsNonRecursive": [
+		{ "before": ["j"], "after": ["g", "j"] },
+		{ "before": ["k"], "after": ["g", "k"] },
+		{ "before": ["g", "k"], "after": ["k"] },
+		{ "before": ["g", "j"], "after": ["j"] },
+		{ "before": ["L"], "after": ["$"] },
+		{ "before": ["H"], "after": ["^"] }
+	],
+	"vim.visualModeKeyBindingsNonRecursive": [
+		{ "before": ["L"], "after": ["g", "_"]}
+	],
+	"azureResourceManagerTools.languageServer.traceLevel": "Error"
+}
