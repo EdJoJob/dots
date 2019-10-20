@@ -269,6 +269,11 @@ fe() {
 }
 # }}}
 # }}}
+# Azure {{{
+prepare_az() {
+    autoload -U +X bashcompinit && bashcompinit
+    source /usr/local/etc/bash_completion.d/az
+}
 # }}}
 
 # vim:ft=zsh
