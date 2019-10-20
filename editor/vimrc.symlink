@@ -652,7 +652,7 @@ let g:vimwiki_list = [
                 \'auto_generate_links': 1,
             \},
         \]
-let g:vimwiki_folding='list'
+let g:vimwiki_folding='expr'
 augroup PERSONAL_VIMWIKI
     au!
     au FileType vimwiki set foldmethod=expr
