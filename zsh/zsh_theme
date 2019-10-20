@@ -95,7 +95,12 @@ function git_info() { # {{{
 } #}}}
 in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${${(s:/:)VIRTUAL_ENV}[-1]}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        local venv
+        venv=${${(s:/:)VIRTUAL_ENV}[-1]}
+        if [[ $venv == 'env' ]]; then
+            venv=${${(s:/:)VIRTUAL_ENV}[-2]}
+        fi
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}§$ZSH_THEME_SEPARATOR%{$FG[009]%}${venv}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 aws-profile() { #{{{
