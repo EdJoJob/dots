@@ -14,7 +14,7 @@
 [alias]
     blog = !git log --graph --date=relative --format=eevans $(git merge-base master HEAD)..HEAD
     bdiff = !git diff $(git merge-base master HEAD)..HEAD
-    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+    up = !git pull --all --rebase --prune $@ && git submodule update --init --recursive
     out = !git fetch && git log origin/master..
     in = !git fetch && git log ..origin/master
 
