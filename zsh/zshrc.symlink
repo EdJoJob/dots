@@ -35,6 +35,8 @@ dots=~/dots
 : ~dots
 keybase=/keybase/private/edjojob
 : ~keybase
+keybasepub=/keybase/public/edjojob
+: ~keybasepub
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
