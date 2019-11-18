@@ -108,8 +108,16 @@ aws-profile() { #{{{
         echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[214]$BG[000]%}${AWS_PROFILE}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
+nvm-version() { #{{{
+    if [[ -n $NVM_BIN ]]; then
+        local nvm_ver
+        nvm_ver=${${(s:/:)NVM_BIN}[-2]}
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[112]$bg[000]%}$nvm_ver%{$reset_color%}$ZSH_THEME_SUFFIX"
+    fi
+}
+#}}}
 # Setup vim mode and rprompt {{{
-RPROMPT_CMDS=( aws-profile in-virtualenv )
+RPROMPT_CMDS=( aws-profile in-virtualenv nvm-version )
 function zle-line-init zle-keymap-select {
     case $CONTEXT {
         ('start')
