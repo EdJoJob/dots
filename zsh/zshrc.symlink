@@ -33,9 +33,9 @@ export ZGEN_RESET_ON_CHANGE
 # Common Directories -------------------{{{
 dots=~/dots
 : ~dots
-keybase=/keybase/private/edjojob
+keybase=/Volumes/Keybase/private/edjojob
 : ~keybase
-keybasepub=/keybase/public/edjojob
+keybasepub=/Volumes/Keybase/public/edjojob
 : ~keybasepub
 #}}}
 # Plugins Settings ---------------------{{{
