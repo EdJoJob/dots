@@ -25,16 +25,21 @@ function man() {
 
 if [[ $(uname) == 'Darwin' ]]; then
     # version test from https://coderwall.com/p/4yz8dq/determine-os-x-version-from-the-command-line
-    if [[ $(defaults read loginwindow SystemVersionStampAsString) == '10.14.5' ]]; then
+    version_stamp=$(defaults read loginwindow SystemVersionStampAsString)
+    if [[ $version_stamp == '10.14.5' || $version_stamp == '10.14.6' ]]; then
         # from https://apple.stackexchange.com/a/332226/166420
-        alias last-successful-login='\
+        alias last-successful-logins='\
             log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 1d \
             | grep "LUIAuthenticationServiceProvider deactivateWithContext:]_block_invoke" \
             | grep $(date +%Y-%m-%d) \
             | awk "{print $2}" \
-            | cut -f 1 -d . \
-            | sort -u \
-            | tail -n 1'
+            | cut -f 1 -d . '
+    elif [[ $version_stamp == '10.15.1' ]]; then
+        alias last-successful-logins='\
+            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 1d \
+            | grep -E "user is active" \
+            | awk "{print $2}" \
+            | cut -d . -f 1'
     fi
 fi
 
