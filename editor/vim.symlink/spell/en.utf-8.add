@@ -6,7 +6,6 @@ refactoring
 Ansible
 RPM's
 OAuth2
-jirabot
 Jira
 RabbitMQ
 DevOps
@@ -17,7 +16,6 @@ changesets
 kubernetes
 entrypoints
 cron
-Deconstructed
 deconstructed
 docker
 k8s
@@ -31,3 +29,5 @@ Admin
 podcasts
 inclusivity
 halloumi
+ethereum
+caliper
