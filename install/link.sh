@@ -29,3 +29,5 @@ ln -s ~/Dropbox/todo ~/.todo/todo
 
 mkdir -m 700  ~/.ssh
 ln -s ~/.ssh/config ~/dots/sshconfig
+mkdir -p ~/.ssh/config.d
+ln -s /Volumes/Keybase/private/edjojob/sshconfig ~/.ssh/config.d/personal
