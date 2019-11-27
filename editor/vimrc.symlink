@@ -103,8 +103,8 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " }}}
     " Slow Plugs {{{
         " Git integration
-        Plug 'tpope/vim-git'
-        Plug 'tpope/vim-fugitive'
+        Plug 'tpope/vim-git' " Syntax etc for git
+        Plug 'tpope/vim-fugitive' " :Git comands
         " Mecurial Integration
         Plug 'ludovicchabant/vim-lawrencium'
         " indicate changed lines from repo in gutter
