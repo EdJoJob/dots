@@ -13,7 +13,7 @@ if ! zgen saved; then
     echo "Creating a zgen save"
     zgen oh-my-zsh
 
-    zgen load olivierverdier/zsh-git-prompt
+    zgen load zsh-git-prompt/zsh-git-prompt
     zgen load zsh-users/zsh-completions src
     zgen load srijanshetty/zsh-pandoc-completion
     zgen load zsh-users/zsh-syntax-highlighting
@@ -61,7 +61,7 @@ export TODO_ACTIONS_DIR="$TODO_ROOT/actions"
 export TODO_NOTES_DIR="$TODO_ROOT/notes"
 #}}}
 #  zsh-git-prompt {{{
-export GIT_PROMPT_EXECUTABLE='haskell'
+export ZSH_GIT_PROMPT_SHOW_UPSTREAM=2
 #}}}
 #}}}
 # zsh core settings --------------------{{{
