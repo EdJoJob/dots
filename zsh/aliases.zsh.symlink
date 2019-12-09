@@ -29,14 +29,14 @@ if [[ $(uname) == 'Darwin' ]]; then
     if [[ $version_stamp == '10.14.5' || $version_stamp == '10.14.6' ]]; then
         # from https://apple.stackexchange.com/a/332226/166420
         alias last-successful-logins='\
-            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 1d \
+            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 2h \
             | grep "LUIAuthenticationServiceProvider deactivateWithContext:]_block_invoke" \
             | grep $(date +%Y-%m-%d) \
             | awk "{print $2}" \
             | cut -f 1 -d . '
     elif [[ $version_stamp == '10.15.1' ]]; then
         alias last-successful-logins='\
-            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 1d \
+            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 2h \
             | grep -E "user is active" \
             | awk "{print $2}" \
             | cut -d . -f 1'
