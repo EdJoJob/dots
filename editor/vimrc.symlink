@@ -96,7 +96,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " Rainbows for all the brackets, makes it easier to see mismatches
         Plug 'luochen1990/rainbow'
         " respect .editorconfig
-        Plug 'editorconfig/editorconfig'
+        Plug 'editorconfig/editorconfig-vim'
         " Enable fuzzy-finder
         Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
         Plug 'junegunn/fzf.vim'
@@ -574,6 +574,9 @@ nnoremap <down>  :lnext<cr>zvzz
 " Plugins ------------------------{{{
 " NERDCommenter {{{
 let g:NERDSpaceDelims=1
+" }}}
+" editorconfig {{{
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " }}}
 " vim-fzf {{{
 nnoremap <c-p> :Files<cr>
