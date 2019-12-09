@@ -47,6 +47,7 @@ ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[green]↑%G%}"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[yellow]…%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
 ZSH_THEME_GIT_PROMPT_REPO_COLOR="%{$fg_bold[cyan]%}"
+ZSH_THEME_GIT_PROMPT_LOCAL=" %{$fg_bold[yellow]%}{L}%{$reset_color%}"
 # }}}
 
 # ↑ ✔ green
