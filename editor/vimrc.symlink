@@ -294,6 +294,15 @@ augroup PERSONAL_GIT
     autocmd FileType gitcommit setlocal spell
 augroup END
 " }}}
+" Groovy {{{
+augroup PERSONAL_GROOVY
+    au!
+    autocmd FileType groovy set shiftwidth=2
+    autocmd FileType groovy set softtabstop=2
+    autocmd FileType groovy set tabstop=2
+augroup END
+
+" }}}
 " Java {{{
 augroup PERSONAL_JAVA
     au!
