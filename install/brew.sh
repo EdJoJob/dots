@@ -91,6 +91,10 @@ typeset -U formulae
 echo "brew install $formulae 2>&1 | tee ~/brewed_formulae" >> ~/brew_commands
 brew install $formulae 2>&1 | tee ~/brewed_formulae
 
+# See https://github.com/github/hub/pull/1962
+# We need to remove the gitcontrib git completion function to allow the _hub completion to work
+rm $(brew ---prefix)/share/zsh/site-functions/_git
+
 echo "brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell" >> ~/brew_commands
 brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell
 echo "brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile 2>&1 | tee ~/brewed_weechat" >> ~/brew_commands

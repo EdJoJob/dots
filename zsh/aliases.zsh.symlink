@@ -96,10 +96,8 @@ fi
 
 if whence hub &>/dev/null; then
     alias g=hub
-    compdef _hub g
 else
     alias g=git
-    compdef _git g
 fi
 
 if whence rg &>/dev/null; then
