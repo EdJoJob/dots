@@ -636,7 +636,7 @@ let g:indent_guides_exclude_filetypes = ['shell-command', 'terminal', 'man']
 let g:dokumentary_docprgs = {'python': ''}
 " }}}
 " utilsnips {{{
-let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsExpandTrigger = '<M-Space>'
 let g:UltiSnipsJumpForwardTrigger = '<c-b>'
 let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
