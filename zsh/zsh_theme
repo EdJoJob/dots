@@ -62,19 +62,19 @@ in-virtualenv() { #{{{
         if [[ $venv == 'env' ]]; then
             venv=${${(s:/:)VIRTUAL_ENV}[-2]}
         fi
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[027]$BG[000]%}${venv}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[027]%}${venv}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 aws-profile() { #{{{
     if [[ -n $AWS_PROFILE ]]; then
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[214]$BG[000]%}${AWS_PROFILE}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[214]%}${AWS_PROFILE}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 nvm-version() { #{{{
     if [[ -n $NVM_BIN ]]; then
         local nvm_ver
         nvm_ver=${${(s:/:)NVM_BIN}[-2]}
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[112]$bg[000]%}$nvm_ver%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[112]%}$nvm_ver%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 }
 #}}}
