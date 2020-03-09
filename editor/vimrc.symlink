@@ -596,7 +596,9 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_info_str = 'I'
 let g:ale_echo_msg_format = '[%linter%:%severity%%code%] %s'
+
 let g:ale_python_mypy_options = '--silent-imports'
+let g:ale_markdown_vale_options = '--config .vale.ini'
 " }}}
 " ack.vim {{{
 let g:ackhighlight=1
