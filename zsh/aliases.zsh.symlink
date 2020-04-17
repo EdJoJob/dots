@@ -110,7 +110,7 @@ else
     alias vi='vim'
 fi
 # }}}
-alias rs="rsync -avzh --progress"
+alias rs="rsync --archive --verbose --address --human-readable --progress"
 # QUICK FILE ACCESS {{{
 alias .vimrc='vi ~/dots/editor/vimrc.symlink'
 alias .local_vimrc='vi ~/.local_vimrc'
