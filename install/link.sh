@@ -17,7 +17,6 @@ done
 
 echo -e "\nLinking 'special' files"
 echo "==========================="
-ln -s ~/Dropbox/todo ~/.todo/todo
 mkdir -p ~/.config
 ln -s ~/.vim ~/.config/nvim
 
@@ -28,6 +27,8 @@ rm ~/.todo/todo
 ln -s ~/Dropbox/todo ~/.todo/todo
 
 mkdir -m 700  ~/.ssh
-ln -s ~/.ssh/config ~/dots/sshconfig
+ln -s  ~/dots/sshconfig ~/.ssh/config
 mkdir -p ~/.ssh/config.d
-ln -s /Volumes/Keybase/private/edjojob/sshconfig ~/.ssh/config.d/personal
+if [[ -d /Volumes/Keybase ]]; then
+    ln -s /Volumes/Keybase/private/edjojob/sshconfig ~/.ssh/config.d/personal
+fi
