@@ -24,3 +24,8 @@ editor/vim.symlink/spell/
 gnupg.symlink/*
 !gnupg.symlink/gpg-agent.conf
 !gnupg.symlink/gpg.conf
+
+xmonad.symlink/*.o
+xmonad.symlink/*.hi
+xmonad.symlink/*.errors
+xmonad.symlink/xmonad-x86_64-linux
