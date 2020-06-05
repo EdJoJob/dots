@@ -20,6 +20,10 @@ echo "==========================="
 mkdir -p ~/.config
 ln -s ~/.vim ~/.config/nvim
 
+for f in $(ls $DOTFILES/config); do
+    ln -s $f ~/.config/
+done
+
 rm ~/.config/nvim/init.vim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 
