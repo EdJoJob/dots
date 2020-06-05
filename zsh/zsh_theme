@@ -164,6 +164,7 @@ precmd() { #{{{
     EXIT_CODE=$?
     if [[ -z $SSH_CONNECTION ]]; then
         if ! [[ -z $CMD_START_DATE ]]; then
+            # The idea for this comes from https://glasnt.com/blog/on-audible-notification-of-long-running-commands
             CMD_END_DATE=$(date +%s)
             # altered from https://stackoverflow.com/questions/5203665/zsh-check-if-string-is-in-array
             if ! [[ $IGNORED_LONG_CMD[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
@@ -181,6 +182,8 @@ precmd() { #{{{
                     (
                         if [[ $(uname) == 'Darwin' ]]; then
                             say $result 2>&1 > /dev/null &
+                        elif [[ $(uname) == 'Linux' ]] && whence espeak &>/dev/null; then
+                            espeak $result 2>&1 > /dev/null &
                         fi
                     )
                 fi
