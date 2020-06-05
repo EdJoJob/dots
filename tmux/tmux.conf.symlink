@@ -58,6 +58,8 @@ set-environment -g INSCREEN yes
 set-option -g update-environment SSH_CONNECTION
 # set-environment TMUX_TITLE yes
 
+set -g update-environment "SSH_AUTH_SOCK DISPLAY SSH_ASKPASS SSH_AGENT_PID"
+
 # theme
 set -g status-style bg=colour235
 set -g status-left-length 100
