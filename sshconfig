@@ -57,6 +57,7 @@ IdentityFile ~/.ssh/id_edjojob-test@github
 # -- github-keygen - end --
 
 Host *
+    IgnoreUnknown UseKeyChain
     AddKeysToAgent yes
     UseKeychain yes
     ControlMaster auto
