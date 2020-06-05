@@ -59,7 +59,7 @@ alias l='ls -lhA'
 ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
 #alias ldot='ls -d $PWD/$1/.*' # list all hidden files and dirs
 if whence exa &>/dev/null; then
-    alias ll='exa --group-directories-first --git --long'
+    alias ll='exa --group-directories-first --git --long --group'
     alias tree='ll --tree'
 else
     alias ll='ls -lh'
@@ -139,6 +139,9 @@ alias ZZ='exit'
 # }}}
 
 alias c='clear'
+if whence todo-txt &> /dev/null; then
+    alias todo.sh=todo-txt
+fi
 function t() {
     if [[ "$#" -eq 0 ]]; then
         todo.sh list '-(T)'
@@ -166,7 +169,7 @@ alias tk='kitchen' # test kitchen
 alias dm=docker-machine
 # }}}
 # python debuging with q
-alias q='rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
+alias q='TMPDIR=${TMPDIR:-/tmp} && rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 
 # DAY MANAGEMENT {{{
 if whence gdate &> /dev/null; then
@@ -263,6 +266,16 @@ lastcommand() {
 if whence http &> /dev/null; then
     alias https='http --default-scheme=https'
 fi
+
+
+fixssh() {
+    for key in SSH_AUTH_SOCK SSH_CONNECTION SSH_CLIENT; do
+        if (tmux show-environment | grep "^${key}" > /dev/null); then
+            value=`tmux show-environment | grep "^${key}" | sed -e "s/^[A-Z_]*=//"`
+            export ${key}="${value}"
+        fi
+    done
+}
 
 # FZF {{{
 # FindEdit {{{
