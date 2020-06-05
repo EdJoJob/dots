@@ -171,6 +171,10 @@ alias dm=docker-machine
 # python debuging with q
 alias q='TMPDIR=${TMPDIR:-/tmp} && rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 
+if whence xclip &>/dev/null && ! whence pbcopy &>/dev/null; then
+    alias pbcopy='xclip -selection clipboard'
+fi
+
 # DAY MANAGEMENT {{{
 if whence gdate &> /dev/null; then
     alias my_date=gdate
@@ -192,6 +196,8 @@ start_day() {
 
     if [[ $(uname) == 'Darwin' ]]; then
         fortune $fortune_dir | tee /dev/tty | pbcopy
+    elif [[ $(uname) == 'Linux' ]]; then
+        fortune $fortune_dir | tee /dev/tty | xclip -selection clipboard
     else
         fortune $fortune_dir
     fi
