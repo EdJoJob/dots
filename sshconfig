@@ -56,6 +56,9 @@ IdentityFile ~/.ssh/id_edjojob-test@github
 
 # -- github-keygen - end --
 
+Host bitbucket.org bitbucket.com
+    ControlMaster no
+
 Host *
     IgnoreUnknown UseKeyChain
     AddKeysToAgent yes
