@@ -1,5 +1,5 @@
 -- vim: ft=haskell
-Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
+Config { font = "xft:mononoki-Regular Nerf Font Complete Mono:pixelsize=12"
        , bgColor = "black"
        , fgColor = "grey"
        , position = TopW L 90
