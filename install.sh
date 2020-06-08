@@ -14,8 +14,15 @@ if [ "$(uname)" == "Darwin" ]; then
     source install/brew.sh
 fi
 
+if [ "$(uname)" == "Linux" ]; then
+    if which apt &>/dev/null; then
+        source install/apt.sh
+    fi
+    source install/rust.sh
+fi
+
 echo "Making untracked local config files"
-touch ~/.local_environment.zsh
+touch ~/.local_zshrc
 touch ~/.local_vimrc
 touch ~/.local_tmux.conf
 touch ~/.local_gitconfig
