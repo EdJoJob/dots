@@ -6,5 +6,6 @@ xsetroot -solid midnightblue
 
 redshift-gtk &
 caffeine-indicator &
+nautilus --no-desktop --no-default-window &
 
-dropbox start&
+dropbox start &
