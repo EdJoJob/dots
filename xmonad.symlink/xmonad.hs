@@ -117,7 +117,7 @@ myLayout = onWorkspace "5:gimp" gimp $
     avoidStruts $ toggleLayouts (noBorders Full)
     ( tiled ||| Full ||| mosaic 2 [3,2] ||| Mirror tiled)
     where
-        tiled   =  ResizableTall nmaster delta ratio []
+        tiled   = avoidStruts $ResizableTall nmaster delta ratio []
         nmaster = 1
         delta   = 2/100
         ratio   = 1/2
