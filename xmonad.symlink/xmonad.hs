@@ -4,6 +4,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Actions.CycleWS
+import XMonad.Hooks.FadeInactive
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import System.IO
@@ -134,17 +135,40 @@ myManageHook = composeAll
       , className =? "Slack"         --> doF (W.shift "9:im")
     ]
 
+myLogHook xmproc = do
+    dynamicLogWithPP xmobarPP
+                    { ppOutput = hPutStrLn xmproc
+                    , ppTitle = xmobarColor "green" "" . shorten 50
+                    }
+    fadeInactiveLogHook 0.8
+
+{- startup command for window effects
+
+"-cfF" "c" is for soft shadows and transparency support,
+       "f" for fade in & fade out when creating and closing windows,
+       and "F" for fade when changing a window's transparency.
+"-t-9 -l-11" shadows are offset 9 pixels from top of the window
+             and 11 pixels from the left edge
+"-r9" shadow radius is 9 pixels
+"-o.95" shadow opacity is set to 0.95
+"-D6" the time between each step when fading windows is set to 6 milliseconds.
+-}
+
+myStartupHook        = do
+  startupHook defaultConfig
+  spawn "compton -cfF -t-9 -l-11 -r9 -o.95 -D6 &"
+  setWMName "LG3D"
+
 main = do
     xmproc <- spawnPipe "xmobar"
     xmonad $ docks myBaseConfig
         { manageHook = manageDocks <+> myManageHook
                         <+> manageHook myBaseConfig
           , layoutHook = myLayout
+          , borderWidth = 3
+          , startupHook = myStartupHook
           , workspaces = myWorkspaces
           , modMask = (mod1Mask .|. controlMask)
-          , logHook = dynamicLogWithPP xmobarPP
-                    { ppOutput = hPutStrLn xmproc
-                    , ppTitle = xmobarColor "green" "" . shorten 50
-                    }
+          , logHook = myLogHook xmproc
           , keys = myKeys
         }
