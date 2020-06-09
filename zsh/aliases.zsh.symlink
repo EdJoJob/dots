@@ -171,9 +171,16 @@ alias dm=docker-machine
 # python debuging with q
 alias q='TMPDIR=${TMPDIR:-/tmp} && rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 
+# OSX to Linux Compat {{{
 if whence xclip &>/dev/null && ! whence pbcopy &>/dev/null; then
     alias pbcopy='xclip -selection clipboard'
 fi
+if whence xdg-open &>/dev/null && ! whence open &>/dev/null; then
+    open() {
+        xdg-open $1 &>/dev/null &
+    }
+fi
+# }}}
 
 # DAY MANAGEMENT {{{
 if whence gdate &> /dev/null; then
