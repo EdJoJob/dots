@@ -818,25 +818,6 @@ let g:airline#extensions#whitespace#mixed_indent_format = 'id[%s]'
 " disable branch label
 "let g:airline#extensions#branch#enabled = 0
 
-function! AutoAUP()
-    if exists('*AutoAUPActive') && AutoAUPActive()
-        return '[AUP]'
-    else
-        return ''
-    endif
-endfunction
-
-function! AirlineInit()
-    call airline#parts#define_function('auto_aup', 'AutoAUP')
-    call airline#parts#define_accent('auto_aup', 'red')
-    let g:airline_section_c = airline#section#create(['auto_aup', 'file'])
-endfunction
-
-augroup PERSONAL_AIRLINE
-    au!
-    au User AirlineAfterInit call AirlineInit()
-augroup END
-
 "}}}
 " Colours-------------------------{{{
 let g:despacio_Twilight = 1
