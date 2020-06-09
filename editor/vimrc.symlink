@@ -817,6 +817,8 @@ let g:airline#extensions#whitespace#trailing_format = 'tr[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'id[%s]'
 " disable branch label
 "let g:airline#extensions#branch#enabled = 0
+"Shorter branch label
+let g:airline#extensions#branch#displayed_head_limit = 20
 
 "}}}
 " Colours-------------------------{{{
