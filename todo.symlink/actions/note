@@ -6,6 +6,17 @@ TODO_NOTE_TEMPLATE="XXX"
 TODO_NOTE_EXT=".rst"
 TODO_NOTE_ARCHIVE="$TODO_NOTES_DIR/archive$TODO_NOTE_EXT"
 
+if hash gsed &>/dev/null; then
+    sed=gsed
+else
+    sed=sed
+fi
+if hash gmktemp &>/dev/null; then
+    mktemp=gmktemp
+else
+    mktemp=mktemp
+fi
+
 usage() {
     echo $TODO_NOTES_DIR
     echo "    $(basename $0) add|a ITEM#"
@@ -96,13 +107,13 @@ case "$TODO_NOTE_ACTION" in
     [ -d "$TODO_NOTES_DIR" ]  || mkdir -p "$TODO_NOTES_DIR" 2> /dev/null || die "Error: $TODO_NOTES_DIR is not a directory"
 
     # Create file
-    filename=$(gmktemp "$TODO_NOTES_DIR/${TODO_NOTE_TEMPLATE}${TODO_NOTE_EXT}")
+    filename=$($mktemp "$TODO_NOTES_DIR/${TODO_NOTE_TEMPLATE}${TODO_NOTE_EXT}")
     notename=$(basename "$filename")
-    title=$(echo "$todo" | gsed -e "s/^\(x ....-..-.. \)\?//" -e "s/^(.) \?//")
+    title=$(echo "$todo" | $sed -e "s/^\(x ....-..-.. \)\?//" -e "s/^(.) \?//")
     echo \# $title > "$TODO_NOTES_DIR/${notename}"
 
     # Append note tag to task
-    gsed -i $item" s/$/ ${TODO_NOTE_TAG}:$notename/" "$TODO_FILE"
+    $sed -i $item" s/$/ ${TODO_NOTE_TAG}:$notename/" "$TODO_FILE"
 
     getTodo "$item"
     echo $item $todo
