@@ -27,7 +27,6 @@ import XMonad.Layout.ToggleLayouts
     -- }}}
     -- Layouts {{{
 import XMonad.Layout.IM
-import XMonad.Layout.Mosaic
 import XMonad.Layout.ResizableTile
     -- }}}
     -- Utilities {{{
@@ -155,7 +154,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
 -- workspaces{{{
 myLayoutHook = avoidStruts $ toggleLayouts (noBorders Full)
-    ( tiled ||| Full ||| mosaic 2 [3,2] ||| Mirror tiled)
+    ( tiled ||| Full |||  Mirror tiled)
     where
         tiled   = avoidStruts $ ResizableTall nmaster delta ratio []
         nmaster = 1
