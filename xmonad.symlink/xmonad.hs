@@ -59,53 +59,72 @@ myFocusedBorderColor = "#ffff00"
 
 -- KEYS {{{
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
-  -- launching and killing programs
-    [ ((modMask .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf) -- %! Launch terminal
-    , ((mod4Mask .|. shiftMask, xK_z), spawn "slock")
+      -- launching and killing programs
+    [ ((modMask .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
 
-    , ((modMask,               xK_p     ), spawn $ printf "exe=`dmenu_path | dmenu -sf '#ffffff' -sb '#008800' -nb '#333333' -nf '#aaaaaa' -fn %s` && eval \"exec $exe\"" (show myFont)) -- %! Launch dmenu
-    , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun") -- %! Launch gmrun
-    , ((modMask .|. shiftMask, xK_c     ), kill) -- %! Close the focused window
+      -- %! Launch dmenu
+    , ((modMask,               xK_p     ), spawn $ printf "exe=`dmenu_path | dmenu -sf '#ffffff' -sb '#008800' -nb '#333333' -nf '#aaaaaa' -fn %s` && eval \"exec $exe\"" (show myFont))
 
-    , ((modMask,               xK_space ), sendMessage NextLayout) -- %! Rotate through the available layout algorithms
-    , ((modMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf) -- %!  Reset the layouts on the current workspace to default
+     -- %! Close the focused window
+    , ((modMask .|. shiftMask, xK_c     ), kill)
 
-    , ((modMask,               xK_n     ), refresh) -- %! Resize viewed windows to the correct size
+    -- Layouts {{{
+     -- %! Rotate through the available layout algorithms
+    , ((modMask,               xK_space ), sendMessage NextLayout)
+ -- %!  Reset the layouts on the current workspace to default
+    , ((modMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
 
-    -- move focus up or down the window stack
-    , ((mod1Mask,               xK_Tab   ), windows W.focusDown) -- %! Move focus to the next window
-    , ((mod1Mask .|. shiftMask, xK_Tab   ), windows W.focusUp  ) -- %! Move focus to the previous window
+     -- %! Resize viewed windows to the correct size
+    , ((modMask,               xK_n     ), refresh)
+    -- }}}
 
-    , ((modMask,               xK_j     ), windows W.focusDown) -- %! Move focus to the next window
-    , ((modMask,               xK_k     ), windows W.focusUp  ) -- %! Move focus to the previous window
-    , ((modMask .|. shiftMask,               xK_m     ), windows W.focusMaster  ) -- %! Move focus to the master window
+    -- move focus up or down the window stack {{{
+    , ((mod1Mask,               xK_Tab   ), windows W.focusDown   )
+    , ((modMask,                xK_j     ), windows W.focusDown   )
 
-    -- modifying the window order
-    , ((modMask,               xK_Return), windows W.swapMaster) -- %! Swap the focused window and the master window
-    , ((modMask .|. shiftMask, xK_j     ), windows W.swapDown  ) -- %! Swap the focused window with the next window
-    , ((modMask .|. shiftMask, xK_k     ), windows W.swapUp    ) -- %! Swap the focused window with the previous window
+    , ((mod1Mask .|. shiftMask, xK_Tab   ), windows W.focusUp     )
+    , ((modMask,                xK_k     ), windows W.focusUp     )
 
-    -- resizing the master/slave ratio
-    , ((modMask,               xK_h     ), sendMessage Shrink) -- %! Shrink the master area
-    , ((modMask,               xK_l     ), sendMessage Expand) -- %! Expand the master area
+    , ((modMask .|. shiftMask,   xK_m     ), windows W.focusMaster)
+    -- }}}
 
+    -- modifying the window order {{{
+    , ((modMask,               xK_Return), windows W.swapMaster)
+    , ((modMask .|. shiftMask, xK_j     ), windows W.swapDown  )
+    , ((modMask .|. shiftMask, xK_k     ), windows W.swapUp    )
+    -- }}}
+
+    -- resizing the master/slave ratio {{{
+    , ((modMask,               xK_h     ), sendMessage Shrink)
+    , ((modMask,               xK_l     ), sendMessage Expand)
+    -- }}}
+
+    -- floating layer support {{{
+    -- Push window back into tiling
+    , ((modMask,               xK_t     ), withFocused $ windows . W.sink)
+    -- }}}
+
+    -- increase or decrease number of windows in the master area {{{
+    , ((modMask              , xK_comma ), sendMessage (IncMasterN 1))
+    , ((modMask              , xK_period), sendMessage (IncMasterN (-1)))
+    -- }}}
+
+    -- toggle the status bar gap {{{
+    , ((modMask              , xK_b     ), sendMessage $ ToggleStruts)
+    -- }}}
+
+    -- quit, or restart {{{
+    , ((modMask              , xK_q     ), spawn "xmonad --recompile && xmonad --restart")
+    , ((modMask .|. shiftMask, xK_q     ), io (exitSuccess))
+    -- }}}
+
+    -- NON-DEFAULT MOD Combinations {{{
     -- kill long running command announcement
     , (( mod1Mask .|. controlMask, xK_z ), spawn "killall espeak")
 
-    -- floating layer support
-    , ((modMask,               xK_t     ), withFocused $ windows . W.sink) -- %! Push window back into tiling
 
-    -- increase or decrease number of windows in the master area
-    , ((modMask              , xK_comma ), sendMessage (IncMasterN 1)) -- %! Increment the number of windows in the master area
-    , ((modMask              , xK_period), sendMessage (IncMasterN (-1))) -- %! Deincrement the number of windows in the master area
-
-    -- toggle the status bar gap
-    , ((modMask              , xK_b     ), sendMessage $ ToggleStruts) -- %! Toggle the status bar gap
-
-    -- quit, or restart
-    , ((modMask .|. shiftMask, xK_q     ), io (exitSuccess)) -- %! Quit xmonad
-    , ((modMask              , xK_q     ), spawn "xmonad --recompile && xmonad --restart") -- %! Restart xmonad
-
+    -- Lock the screen
+    , (( mod1Mask .|. controlMask, xK_l), spawn "slock")
 
     -- Movements
     , (( controlMask .|. mod4Mask, xK_l ), nextWS)
@@ -113,31 +132,20 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , (( controlMask .|. mod4Mask .|. mod1Mask, xK_l), shiftToNext >> nextWS)
     , (( controlMask .|. mod4Mask .|. mod1Mask, xK_h), shiftToPrev >> prevWS)
 
-    -- layout screens
-
-    --1920 X 1080
-
-    -- , ((modMask .|. shiftMask, xK_space), layoutScreens 3 $ fixedLayout [Rectangle 0 0 1920 (1080), Rectangle 1920 0 1224 1080, Rectangle (1920 + 1224) 0 (1920 - 1224) 1080])
-    --, ((modMask .|. shiftMask, xK_space), layoutScreens 3 $ fixedLayout [Rectangle 0 0 1224 (1080), Rectangle 1224 0 (1920 - 1224) 1080, Rectangle 1920 0 1224 1080, Rectangle (1920 + 1224) 0 (1920 - 1224) 1080])
-    --, ((modMask .|. shiftMask, xK_space), layoutScreens 3 $ fixedLayout [Rectangle 0 0 (screenWidth) (screenHeight), Rectangle screenWidth 0 midScreenWidth screenHeight, Rectangle (screenWidth + midScreenWidth) 0 (screenWidth - midScreenWidth) screenHeight])
-    , ((modMask .|. controlMask .|. shiftMask, xK_space), rescreen)
-
-    -- misc control
-    , ((modMask, xK_x     ), spawn "nautilus") -- %! open nautilus
-
     ]
     ++
-    -- mod-[1..9] %! Switch to workspace N
-    -- mod-shift-[1..9] %! Move client to workspace N
+    -- CTRL-META-[1..9] %! Switch to workspace N
+    -- CTRL-META-SHIFT-[1..9] %! Move client to workspace N
     [((m .|. controlMask .|. mod4Mask, k), windows $ f i)
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.greedyView, 0), (liftM2 (.) W.greedyView W.shift, mod1Mask)]]
     ++
-    -- mod-{w,e,r} %! Switch to physical/Xinerama screens 1, 2, or 3
-    -- mod-shift-{w,e,r} %! Move client to screen 1, 2, or 3
+    -- CTRL-META-{w,e,r} %! Switch to physical/Xinerama screens 1, 2, or 3
+    -- CTRL-META-SHIFT-{w,e,r} %! Move client to screen 1, 2, or 3
     [((m .|. controlMask .|. mod4Mask, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, mod1Mask)]]
+    -- }}}
 -- }}}
 
 -- workspaces{{{
