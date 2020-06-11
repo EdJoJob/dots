@@ -31,6 +31,7 @@ import XMonad.Layout.Mosaic
 import XMonad.Layout.ResizableTile
     -- }}}
     -- Utilities {{{
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.SpawnOnce
     -- }}}
@@ -121,6 +122,11 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- kill long running command announcement
     , (( mod1Mask .|. controlMask, xK_z ), spawn "killall espeak")
 
+    -- Scratchpads {{{
+    , ((mod4Mask .|. mod1Mask, xK_Return), namedScratchpadAction myScratchPads "terminal")
+    , ((controlMask .|. mod1Mask .|. mod4Mask, xK_Return), namedScratchpadAction myScratchPads "wiki")
+    , ((modMask, xK_m), namedScratchpadAction myScratchPads "music")
+    -- }}}
 
     -- Lock the screen
     , (( mod1Mask .|. controlMask, xK_l), spawn "slock")
@@ -157,12 +163,45 @@ myLayoutHook = avoidStruts $ toggleLayouts (noBorders Full)
         ratio   = 1/2
 --- }}}
 
+-- scratchPads {{{
+myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
+                , NS "wiki" spawnWiki findWiki manageWiki
+                , NS "music" spawnMusic findMusic manageMusic
+                ]
+    where
+    spawnTerm = "alacritty --class scratchpad"
+    findTerm = resource =? "scratchpad"
+    manageTerm = customFloating $ W.RationalRect l t w h
+        where
+            h = 0.9
+            w = 0.9
+            t = 0.95 - h
+            l = 0.95 - w
+    spawnWiki = "alacritty --working-directory ~/Dropbox/wiki --class wiki --command /usr/bin/nvim +VimwikiIndex &"
+    findWiki = resource =? "wiki"
+    manageWiki = customFloating $ W.RationalRect l t w h
+        where
+            h = 0.5
+            w = 0.5
+            t = 0
+            l = 0.25
+    spawnMusic = "spotify"
+    findMusic = resource =? "spotify"
+    manageMusic = customFloating $ W.RationalRect l t w h
+        where
+            h = 0.9
+            w = 0.9
+            t = 0.95 - h
+            l = 0.95 - w
+
+-- }}}
+
 -- manageHook {{{
 myManageHook = manageDocks <+> composeAll
       [ className =? "Vncviewer"     --> doFloat
         , className =? "Thunderbird"   --> doF (W.shift "4:mail")
         , className =? "Slack"         --> doF (W.shift "9:im")
-      ]
+      ] <+> namedScratchpadManageHook myScratchPads
 -- }}}
 
 -- logHook {{{
