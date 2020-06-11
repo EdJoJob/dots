@@ -30,9 +30,7 @@ import XMonad.Layout.IM
 import XMonad.Layout.Mosaic
 import XMonad.Layout.ResizableTile
     -- }}}
-
-    --Utilities {{{
-import XMonad.Util.EZConfig(additionalKeys)
+    -- Utilities {{{
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.SpawnOnce
     -- }}}
