@@ -1,42 +1,68 @@
-import Control.Monad (liftM2)
+-- vim: foldmethod=marker
+-- IMPORTS {{{
+    -- Base {{{
 import XMonad
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
-import XMonad.Actions.CycleWS
-import XMonad.Hooks.FadeInactive
+import System.IO (hPutStrLn)
+import System.Exit (exitSuccess)
+import Control.Monad (liftM2)
+import Text.Printf (printf)
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
-import System.IO
-import System.Exit
-import XMonad.Layout.Gaps
+    -- }}}
+    -- Actions {{{
+import XMonad.Actions.CycleWS
+    -- }}}
+    -- Hooks {{{
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.FadeInactive
+import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
-import XMonad.Layout.LayoutScreens
-import XMonad.Layout.IM
-import XMonad.Layout.Reflect
-import XMonad.Layout.TwoPane
-import XMonad.Layout.PerWorkspace
-import XMonad.Layout.LayoutHints
+    -- }}}
+    -- Layout modifiers {{{
 import XMonad.Layout.NoBorders
-import XMonad.Layout.ResizableTile
-import XMonad.Layout.Tabbed
+import XMonad.Layout.PerWorkspace
+import XMonad.Layout.Reflect
 import XMonad.Layout.ToggleLayouts
-import XMonad.Layout.WindowArranger
+    -- }}}
+    -- Layouts {{{
+import XMonad.Layout.IM
 import XMonad.Layout.Mosaic
+import XMonad.Layout.ResizableTile
+    -- }}}
+
+    --Utilities {{{
+import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.Run(spawnPipe)
+    -- }}}
+-- }}}
+
+-- VARIABLES {{{
 
 myBaseConfig = defaultConfig
+myFont :: [Char]
+myFont = "xft:mononoki-Regular Nerd Font Complete Mono:pixelsize=12"
+
+myModMask :: KeyMask
+myModMask = (mod4Mask) -- Sets mod to super
+
+myTerminal :: [Char]
+myTerminal = "gnome-terminal" -- Set default terminal
+
+myBorderWidth :: Dimension
+myBorderWidth = 2          -- Sets border width for windows
 
 myWorkspaces = ["1:code", "2:web", "3:term", "4:mail", "5:gimp", "6:misc", "7:junk", "8:fullscreen", "9:im"]
 myNormalBorderColor = "#dddddd"
 myFocusedBorderColor = "#ffff00"
+-- }}}
 
+-- KEYS {{{
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- launching and killing programs
     [ ((modMask .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf) -- %! Launch terminal
     , ((mod4Mask .|. shiftMask, xK_z), spawn "slock")
 
-    , ((modMask,               xK_p     ), spawn "exe=`dmenu_path | dmenu -sf '#ffffff' -sb '#008800' -nb '#333333' -nf '#aaaaaa' -fn '-*-fixed-*-*-*-*-18-*-*-*-*-*-*-*'` && eval \"exec $exe\"") -- %! Launch dmenu
+    , ((modMask,               xK_p     ), spawn $ printf "exe=`dmenu_path | dmenu -sf '#ffffff' -sb '#008800' -nb '#333333' -nf '#aaaaaa' -fn %s` && eval \"exec $exe\"" (show myFont)) -- %! Launch dmenu
     , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun") -- %! Launch gmrun
     , ((modMask .|. shiftMask, xK_c     ), kill) -- %! Close the focused window
 
@@ -76,7 +102,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask              , xK_b     ), sendMessage $ ToggleStruts) -- %! Toggle the status bar gap
 
     -- quit, or restart
-    , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess)) -- %! Quit xmonad
+    , ((modMask .|. shiftMask, xK_q     ), io (exitSuccess)) -- %! Quit xmonad
     , ((modMask              , xK_q     ), spawn "xmonad --recompile && xmonad --restart") -- %! Restart xmonad
 
 
@@ -111,7 +137,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [((m .|. controlMask .|. mod4Mask, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, mod1Mask)]]
+-- }}}
 
+-- workspaces{{{
 myLayout = onWorkspace "5:gimp" gimp $
            onWorkspace "3:term"  tiled $
            onWorkspace "9:im"  tiled $
@@ -126,21 +154,27 @@ myLayout = onWorkspace "5:gimp" gimp $
         gimp    =  withIM (0.11) (Role "gimp-toolbox") $
                    reflectHoriz $
                    withIM (0.15) (Role "gimp-dock") Full
+--- }}}
 
+-- manageHook {{{
 myManageHook = composeAll
     [
         className =? "Vncviewer"     --> doFloat
       , className =? "Thunderbird"   --> doF (W.shift "4:mail")
       , className =? "Slack"         --> doF (W.shift "9:im")
     ]
+-- }}}
 
+-- logHook {{{
 myLogHook xmproc = do
     dynamicLogWithPP xmobarPP
                     { ppOutput = hPutStrLn xmproc
                     , ppTitle = xmobarColor "green" "" . shorten 50
                     }
     fadeInactiveLogHook 0.8
+-- }}}
 
+-- startupHook {{{
 {- startup command for window effects
 
 "-cfF" "c" is for soft shadows and transparency support,
@@ -157,7 +191,9 @@ myStartupHook        = do
   startupHook defaultConfig
   spawn "compton -cfF -t-9 -l-11 -r9 -o.95 -D6 &"
   setWMName "LG3D"
+-- }}}
 
+-- MAIN {{{
 main = do
     xmproc <- spawnPipe "xmobar"
     xmonad $ docks myBaseConfig
@@ -167,7 +203,9 @@ main = do
           , borderWidth = 3
           , startupHook = myStartupHook
           , workspaces = myWorkspaces
-          , modMask = (mod1Mask .|. controlMask)
+          , modMask = myModMask
           , logHook = myLogHook xmproc
           , keys = myKeys
+          , terminal = myTerminal
         }
+-- }}}
