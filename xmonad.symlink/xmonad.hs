@@ -11,6 +11,7 @@ import qualified Data.Map as M
     -- }}}
     -- Actions {{{
 import XMonad.Actions.CycleWS
+import XMonad.Actions.UpdatePointer
     -- }}}
     -- Hooks {{{
 import XMonad.Hooks.DynamicLog
@@ -205,6 +206,7 @@ myManageHook = manageDocks <+> composeAll
 
 -- logHook {{{
 myLogHook xmproc = do
+    updatePointer (0.5, 0.5) (0, 0)
     dynamicLogWithPP xmobarPP
                     { ppOutput = hPutStrLn xmproc
                     , ppTitle = xmobarColor "green" "" . shorten 50
@@ -228,6 +230,7 @@ myLogHook xmproc = do
 myStartupHook        = do
   startupHook defaultConfig
   spawnOnce "compton -cfF -t-9 -l-11 -r9 -o.95 -D6 &"
+  spawnOnce "unclutter --ignore-scrolling --fork --timeout 1"
   setWMName "LG3D"
 -- }}}
 
