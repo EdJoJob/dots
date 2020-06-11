@@ -34,6 +34,7 @@ import XMonad.Layout.ResizableTile
     --Utilities {{{
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.SpawnOnce
     -- }}}
 -- }}}
 
@@ -197,7 +198,7 @@ myLogHook xmproc = do
 
 myStartupHook        = do
   startupHook defaultConfig
-  spawn "compton -cfF -t-9 -l-11 -r9 -o.95 -D6 &"
+  spawnOnce "compton -cfF -t-9 -l-11 -r9 -o.95 -D6 &"
   setWMName "LG3D"
 -- }}}
 
