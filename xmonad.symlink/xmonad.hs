@@ -130,9 +130,7 @@ myLayout = onWorkspace "5:gimp" gimp $
 myManageHook = composeAll
     [
         className =? "Vncviewer"     --> doFloat
-      , className =? "Banshee"       --> doF (W.shift "6:misc")
-      , className =? "Skype"         --> doF (W.shift "9:im")
-      , className =? "Pidgin"        --> doF (W.shift "9:im")
+      , className =? "Thunderbird"   --> doF (W.shift "4:mail")
       , className =? "Slack"         --> doF (W.shift "9:im")
     ]
 
