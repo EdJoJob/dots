@@ -46,7 +46,7 @@ myModMask :: KeyMask
 myModMask = (mod4Mask) -- Sets mod to super
 
 myTerminal :: [Char]
-myTerminal = "gnome-terminal" -- Set default terminal
+myTerminal = "alacritty" -- Set default terminal
 
 myBorderWidth :: Dimension
 myBorderWidth = 2          -- Sets border width for windows
@@ -168,7 +168,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "music" spawnMusic findMusic manageMusic
                 ]
     where
-    spawnTerm = "alacritty --class scratchpad"
+    spawnTerm = myTerminal ++ " --class scratchpad --live-config-reload"
     findTerm = resource =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
         where
@@ -176,7 +176,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
             w = 0.9
             t = 0.95 - h
             l = 0.95 - w
-    spawnWiki = "alacritty --working-directory ~/Dropbox/wiki --class wiki --command /usr/bin/nvim +VimwikiIndex &"
+    spawnWiki = myTerminal ++ " --working-directory ~/Dropbox/wiki --class wiki --command /usr/bin/nvim +VimwikiIndex &"
     findWiki = resource =? "wiki"
     manageWiki = customFloating $ W.RationalRect l t w h
         where
