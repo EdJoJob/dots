@@ -14,6 +14,7 @@ import XMonad.Actions.CycleWS
     -- }}}
     -- Hooks {{{
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
@@ -140,28 +141,27 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- }}}
 
 -- workspaces{{{
-myLayout = onWorkspace "5:gimp" gimp $
-           onWorkspace "3:term"  tiled $
-           onWorkspace "9:im"  tiled $
-           onWorkspace "8:fullscreen"  (noBorders Full) $
-    avoidStruts $ toggleLayouts (noBorders Full)
+myLayoutHook = onWorkspace "5:gimp" gimp $
+    onWorkspace "3:term"  tiled $
+        onWorkspace "9:im"  tiled $
+            onWorkspace "8:fullscreen"  (noBorders Full) $
+                avoidStruts $ toggleLayouts (noBorders Full)
     ( tiled ||| Full ||| mosaic 2 [3,2] ||| Mirror tiled)
-    where
-        tiled   = avoidStruts $ResizableTall nmaster delta ratio []
-        nmaster = 1
-        delta   = 2/100
-        ratio   = 1/2
-        gimp    =  withIM (0.11) (Role "gimp-toolbox") $
-                   reflectHoriz $
-                   withIM (0.15) (Role "gimp-dock") Full
+        where
+            tiled   = avoidStruts $ResizableTall nmaster delta ratio []
+            nmaster = 1
+            delta   = 2/100
+            ratio   = 1/2
+            gimp    =  withIM (0.11) (Role "gimp-toolbox") $
+                        reflectHoriz $
+                        withIM (0.15) (Role "gimp-dock") Full
 --- }}}
 
 -- manageHook {{{
 myManageHook = composeAll
-    [
-        className =? "Vncviewer"     --> doFloat
-      , className =? "Thunderbird"   --> doF (W.shift "4:mail")
-      , className =? "Slack"         --> doF (W.shift "9:im")
+    [ className =? "Vncviewer"     --> doFloat
+    , className =? "Thunderbird"   --> doF (W.shift "4:mail")
+    , className =? "Slack"         --> doF (W.shift "9:im")
     ]
 -- }}}
 
@@ -196,10 +196,9 @@ myStartupHook        = do
 -- MAIN {{{
 main = do
     xmproc <- spawnPipe "xmobar"
-    xmonad $ docks myBaseConfig
-        { manageHook = manageDocks <+> myManageHook
-                        <+> manageHook myBaseConfig
-          , layoutHook = myLayout
+    xmonad $ ewmh $ docks myBaseConfig
+        { manageHook = myManageHook
+          , layoutHook = myLayoutHook
           , borderWidth = 3
           , startupHook = myStartupHook
           , workspaces = myWorkspaces
