@@ -241,6 +241,7 @@ myStartupHook        = do
   startupHook defaultConfig
   spawnOnce "compton -cfF -t-9 -l-11 -r9 -o.95 -D6 &"
   spawnOnce "unclutter --ignore-scrolling --fork --timeout 1"
+  spawnOnce "dunst -config ~/.dunstrc1 &"
   setWMName "LG3D"
 -- }}}
 
