@@ -6,6 +6,7 @@ import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import Control.Monad (liftM2)
 import Text.Printf (printf)
+import Graphics.X11.ExtraTypes.XF86
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
     -- }}}
@@ -118,6 +119,12 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_q     ), io (exitSuccess))
     -- }}}
 
+    -- Media Keys {{{
+    , ((0, xF86XK_AudioPlay), spawn "playerctl play-pause")
+    , ((0, xF86XK_AudioNext), spawn "playerctl next")
+    , ((0, xF86XK_AudioPrev), spawn "playerctl previous")
+    -- }}}
+
     -- NON-DEFAULT MOD Combinations {{{
     -- kill long running command announcement
     , (( mod1Mask .|. controlMask, xK_z ), spawn "killall espeak")
@@ -138,7 +145,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , (( controlMask .|. mod4Mask .|. mod1Mask, xK_h), shiftToPrev >> prevWS)
 
     ]
+    --}}}
+    --}}}
     ++
+    -- NON-DEFAULT MOD Combinations {{{
     -- CTRL-META-[1..9] %! Switch to workspace N
     -- CTRL-META-SHIFT-[1..9] %! Move client to workspace N
     [((m .|. controlMask .|. mod4Mask, k), windows $ f i)
