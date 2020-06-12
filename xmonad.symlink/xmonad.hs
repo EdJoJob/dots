@@ -179,7 +179,7 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "music" spawnMusic findMusic manageMusic
                 ]
     where
-    spawnTerm = myTerminal ++ " --class scratchpad --live-config-reload"
+    spawnTerm = myTerminal ++ " --class scratchpad --command /usr/bin/tmux new -As scratchpad"
     findTerm = resource =? "scratchpad"
     manageTerm = customFloating $ W.RationalRect l t w h
         where
