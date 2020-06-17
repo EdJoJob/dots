@@ -8,4 +8,7 @@ redshift-gtk &
 caffeine-indicator &
 nautilus --no-desktop --no-default-window &
 
+eval $(/usr/bin/gnome-keyring-daemon --start)
+export SSH_AUTH_SOCK
+
 dropbox start &
