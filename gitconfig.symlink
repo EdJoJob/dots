@@ -25,9 +25,9 @@
 
     a = add
     b = branch
-    c = commit --signoff --verbose
-    ci = commit --signoff --verbose
-    ca = commit --signoff --verbose --all
+    c = commit --verbose
+    ci = commit --verbose
+    ca = commit --verbose --all
     cm = checkout master --ignore-other-worktrees
     co = checkout --ignore-other-worktrees
     d = diff
