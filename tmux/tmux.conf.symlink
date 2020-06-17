@@ -102,8 +102,6 @@ set -g @resurrect-capture-pane-contents 'on'
 set -g @resurrect-processes 'weechat watch ssh'
 
 set -g @continuum-restore 'on'
-set -g @continuum-boot 'on'
-set -g @continuum-boot-options 'iterm'
 
 source-file ~/.local_tmux.conf
 
