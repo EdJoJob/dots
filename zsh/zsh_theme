@@ -121,7 +121,7 @@ prompt_adam2_setup () { #{{{
 
 
     case $HOST in #hyphens
-        (*[Pp]onos*)
+        (*edwarde*)
             prompt_adam2_color1=${1:-'blue'};; # blue
         (*[Mm]use*)
             prompt_adam2_color1=${1:-'green'};; # green
