@@ -8,6 +8,8 @@ redshift-gtk &
 caffeine-indicator &
 nautilus --no-desktop --no-default-window &
 
+run_keybase -a
+
 eval $(/usr/bin/gnome-keyring-daemon --start)
 export SSH_AUTH_SOCK
 
