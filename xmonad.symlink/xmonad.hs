@@ -211,6 +211,7 @@ myManageHook = manageDocks <+> composeAll
       [ className =? "Vncviewer"     --> doFloat
         , className =? "Thunderbird"   --> doF (W.shift "4:mail")
         , className =? "Slack"         --> doF (W.shift "9:im")
+        , stringProperty "WM_WINDOW_ROLE" =? "PictureInPicture" --> doFloat
       ] <+> namedScratchpadManageHook myScratchPads
 -- }}}
 
