@@ -10,6 +10,7 @@ IGNORED_LONG_CMD+=(
     man
     nvim
     ssh
+    sudoedit
     tail
     tmux
     vi
