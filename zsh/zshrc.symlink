@@ -33,10 +33,17 @@ export ZGEN_RESET_ON_CHANGE
 # Common Directories -------------------{{{
 dots=~/dots
 : ~dots
-keybase=/Volumes/Keybase/private/edjojob
-: ~keybase
-keybasepub=/Volumes/Keybase/public/edjojob
-: ~keybasepub
+if whence keybase &>/dev/null; then
+    if [[ $(uname) == 'Darwin' ]]; then
+        keybase=/Volumes/Keybase/private/edjojob
+        keybasepub=/Volumes/Keybase/public/edjojob
+    elif [[ $(uname) == 'Linux' ]]; then
+        keybase=/keybase/private/edjojob
+        keybasepub=/keybase/public/edjojob
+    fi
+    : ~keybase
+    : ~keybasepub
+fi
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
