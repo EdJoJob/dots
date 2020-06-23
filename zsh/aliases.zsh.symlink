@@ -190,7 +190,6 @@ else
 fi
 start_day() {
     local fortune_dir
-    t recur
     t archive
     t report
     my_date +S%Y-%m-%dT%T >> ~/.start_time
