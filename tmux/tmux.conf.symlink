@@ -49,8 +49,8 @@ set-window-option -g allow-rename off
 
 set-option -g focus-events on
 
-set-option -g pane-active-border-style fg=colour008,bg=colour008
-set-option -g pane-border-style fg=colour015,bg=colour015
+set-option -g pane-active-border-style fg=colour015,bg=colour015
+set-option -g pane-border-style fg=colour000,bg=colour008
 
 # Create an environment that zsh can make sense of
 set-environment -g tmuxTERM $TERM
