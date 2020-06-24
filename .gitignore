@@ -29,3 +29,6 @@ xmonad.symlink/*.o
 xmonad.symlink/*.hi
 xmonad.symlink/*.errors
 xmonad.symlink/xmonad-x86_64-linux
+
+# ignore symlinked todo.sh if it exists, used for Linux/macOS compatibility
+bin.symlink/todo.sh
