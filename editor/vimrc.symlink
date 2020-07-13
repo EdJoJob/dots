@@ -666,6 +666,8 @@ let g:vimwiki_list = [
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
                 \'name': 'work',
+                \'ext': 'mdw',
+                \'syntax': 'markdown',
             \},
             \{
                 \'path': '~/Dropbox/wiki/personal',
@@ -673,6 +675,8 @@ let g:vimwiki_list = [
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
                 \'name': 'personal',
+                \'ext': 'mdw',
+                \'syntax': 'markdown',
             \},
             \{
                 \'path': '~/Dropbox/wiki/archive',
@@ -680,6 +684,8 @@ let g:vimwiki_list = [
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
                 \'name': 'archive',
+                \'ext': 'mdw',
+                \'syntax': 'markdown',
             \},
         \]
 let g:vimwiki_folding='expr'
