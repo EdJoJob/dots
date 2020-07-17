@@ -661,7 +661,7 @@ nmap <C-Left> <Plug>VimwikiDiaryPrevDay
 nmap <C-Right> <Plug>VimwikiDiaryNextDay
 let g:vimwiki_list = [
             \{
-                \'path': '~/Dropbox/wiki/work',
+                \'path': '~/wiki/work',
                 \'auto_tags': 1,
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
@@ -670,7 +670,7 @@ let g:vimwiki_list = [
                 \'syntax': 'markdown',
             \},
             \{
-                \'path': '~/Dropbox/wiki/personal',
+                \'path': '~/wiki/personal',
                 \'auto_tags': 1,
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
@@ -679,7 +679,7 @@ let g:vimwiki_list = [
                 \'syntax': 'markdown',
             \},
             \{
-                \'path': '~/Dropbox/wiki/archive',
+                \'path': '~/wiki/archive',
                 \'auto_tags': 1,
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
