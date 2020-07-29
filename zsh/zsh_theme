@@ -188,6 +188,15 @@ precmd() { #{{{
                     elif [[ $(uname) == 'Linux' ]] && whence espeak &>/dev/null; then
                         espeak -s 300 $result 2>&1 > /dev/null &
                     fi
+                if [[ -n $JOIN_KEY ]]; then
+                    curl -G \
+                        --data-urlencode "deviceNames=Tab S6" \
+                        --data-urlencode "text=$result" \
+                        --data-urlencode "title=Command Finished" \
+                        --data-urlencode "apikey=$JOIN_KEY"  \
+                        "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush" \
+                        &> /dev/null &
+                fi
                 )
             fi
         fi
