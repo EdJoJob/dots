@@ -66,8 +66,7 @@ set -g status-left-length 100
 tm_clock="#[fg=blue,bold]%a %d %h %R#[fg=colour246,none]"
 tm_user="#[fg=green,none]$USER#[fg=green,bold]@#[fg=green,none]#h#[fg=colour246,none]"
 tm_session="#[fg=green,none]#S#[fg=colour246,none]"
-tm_battery="#{battery_status_fg}#{battery_icon}#{battery_percentage}#[fg=colour246,none]"
-set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] ["$tm_battery"] #{prefix_highlight}"
+set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] #{prefix_highlight}"
 set -g status-right ""
 set -g status-justify centre
 
@@ -85,7 +84,6 @@ set -g @batt_icon_attached "…"
 
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
-set -g @plugin 'tmux-plugins/tmux-battery'
 set -g @plugin 'tmux-plugins/tmux-logging'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
