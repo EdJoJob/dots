@@ -8,3 +8,4 @@ isort
 jedi
 ptpython
 proselint
+wheel
