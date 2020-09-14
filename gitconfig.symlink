@@ -67,3 +67,13 @@
     fsckObjects = true
 [protocol]
     version = 2
+[core]
+    pager = delta
+[delta]
+    syntax-theme = Monokai Extended
+    line-numbers = true
+    side-by-side = true
+[interactive]
+    diffFilter = delta --color-only
+[diff]
+    colorMoved = default

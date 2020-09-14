@@ -48,3 +48,10 @@ sudo apt install \
     wget \
     zeal \
     zsh \
+
+
+# non-packaged
+tmpdir=$(mktmp -d)
+cd $tmpdir
+wget https://github.com/dandavison/delta/releases/download/0.4.3/git-delta_0.4.3_amd64.deb
+sudo dpkg -i git-delta_0.4.3_amd64.deb

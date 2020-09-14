@@ -23,6 +23,7 @@ formulae=(
     exa
     bat
     fortune
+    git-delta
     httpie
     lolcat
     mtr
