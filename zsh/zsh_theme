@@ -194,6 +194,7 @@ precmd() { #{{{
                         --data-urlencode "text=$result" \
                         --data-urlencode "title=Command Finished" \
                         --data-urlencode "apikey=$JOIN_KEY"  \
+                        --data-urlencode "group=CommandFinished/$(hostname)" \
                         "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush" \
                         &> /dev/null &
                 fi
