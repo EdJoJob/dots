@@ -157,6 +157,7 @@ alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config us
 # }}}
 
 alias ssh='TERM=${TERM/tmux/screen} ssh'
+alias anon-ssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
 alias my_external_ip='dig +short ANY myip.opendns.com @resolver1.opendns.com'
 alias my_external_ip4='dig +short A myip.opendns.com @resolver1.opendns.com'
