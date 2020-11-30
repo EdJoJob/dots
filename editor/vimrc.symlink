@@ -319,6 +319,12 @@ augroup PERSONAL_JAVA
     au BufEnter,BufRead *.java syntax sync fromstart
 augroup END
 " }}}
+" javascript {{{
+augroup PERSONAL_JAVASCRIPT
+	au!
+	au FileType javascript setlocal noexpandtab
+augroup END
+" }}}
 " JSON {{{
 augroup PERSONAL_JSON
     au!
