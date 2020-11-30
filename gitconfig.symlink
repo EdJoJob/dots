@@ -63,6 +63,7 @@
     ff = false
 [pull]
     ff = true
+	rebase = true
 [transfer]
     fsckObjects = true
 [protocol]
