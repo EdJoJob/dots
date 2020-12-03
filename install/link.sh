@@ -36,3 +36,7 @@ mkdir -p ~/.ssh/config.d
 if [[ -d /Volumes/Keybase ]]; then
     ln -s /Volumes/Keybase/private/edjojob/sshconfig ~/.ssh/config.d/personal
 fi
+
+if [[ -d ~/Library/Application\ Support/iTerm2 ]]; then
+    ln -s ~/dots/iterm-scripts/ ~/Library/Application\ Support/iTerm2/
+fi
