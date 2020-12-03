@@ -182,17 +182,18 @@ precmd() { #{{{
                     result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
                 fi
                 echo -e "\n⏰  $result" >&2
-                printf "\033]1337;Custom=id=%s:%s\a" "longrun" "$result"
-                if [[ -n $JOIN_KEY ]]; then
-                    curl -G \
-                        --data-urlencode "deviceNames=Tab S6" \
-                        --data-urlencode "text=$result" \
-                        --data-urlencode "title=Command Finished" \
-                        --data-urlencode "apikey=$JOIN_KEY"  \
-                        --data-urlencode "group=CommandFinished/$(hostname)" \
-                        "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush" \
-                        &> /dev/null &
-                fi
+                (
+                    printf "\033]1337;Custom=id=%s:%s\a" "longrun" "$result"
+                    if [[ -n $JOIN_KEY ]]; then
+                        curl -G \
+                            --data-urlencode "deviceNames=Tab S6" \
+                            --data-urlencode "text=$result" \
+                            --data-urlencode "title=Command Finished" \
+                            --data-urlencode "apikey=$JOIN_KEY"  \
+                            --data-urlencode "group=CommandFinished/$(hostname)" \
+                            "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush" \
+                            &> /dev/null &
+                    fi
                 )
             fi
         fi
