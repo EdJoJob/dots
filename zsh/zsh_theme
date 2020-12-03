@@ -182,12 +182,7 @@ precmd() { #{{{
                     result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
                 fi
                 echo -e "\n⏰  $result" >&2
-                (
-                    if [[ $(uname) == 'Darwin' ]]; then
-                        say $result 2>&1 > /dev/null &
-                    elif [[ $(uname) == 'Linux' ]] && whence espeak &>/dev/null; then
-                        espeak -s 300 $result &> /dev/null &
-                    fi
+                printf "\033]1337;Custom=id=%s:%s\a" "longrun" "$result"
                 if [[ -n $JOIN_KEY ]]; then
                     curl -G \
                         --data-urlencode "deviceNames=Tab S6" \
