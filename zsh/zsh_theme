@@ -183,7 +183,14 @@ precmd() { #{{{
                 fi
                 echo -e "\n⏰  $result" >&2
                 (
+                    if [[ $TERM == tmux* ]]; then
+                        printf "\033Ptmux;\033"
+                    fi
                     printf "\033]1337;Custom=id=%s:%s\a" "longrun" "$result"
+                    if [[ $TERM == tmux* ]]; then
+                        printf "\033\\"
+                    fi
+
                     if [[ -n $JOIN_KEY ]]; then
                         curl -G \
                             --data-urlencode "deviceNames=Tab S6" \
