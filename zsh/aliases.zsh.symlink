@@ -69,6 +69,16 @@ alias sl=ls # often screw this up
 # }}}
 # TOOL REPLACEMENT {{{
 
+if which brew &>/dev/null; then
+    brew_loc=$(which brew)
+    function brew() {
+        $brew_loc $@
+        if [[ $1 == install ]] || [[ $1 == uninstall ]]; then
+            $brew_loc list > ~/.brewed_recipes
+        fi
+    }
+fi
+
 if which fd &>/dev/null; then
     if which gfind &>/dev/null; then
         alias find=">&2 echo 'Consider using fd'; gfind"
