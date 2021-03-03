@@ -116,20 +116,6 @@ export LESS="-FXRM"
 export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)
 #}}}
-# Colors -------------------------------{{{
-if whence gdircolors &>/dev/null; then
-    eval $(gdircolors ~/.dir_colors)
-else
-    eval $(dircolors ~/.dir_colors)
-fi
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-
-# Use gnu's ls so don't need these lscolors
-if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
-  unset LSCOLORS
-fi
-
-#}}}
 # Default Path -------------------------{{{
 path=(
     /usr/local/bin
@@ -145,6 +131,20 @@ path=(
 typeset -U path
 export path
 # }}}
+# Colors -------------------------------{{{
+if whence gdircolors &>/dev/null; then
+    eval $(gdircolors ~/.dir_colors)
+else
+    eval $(dircolors ~/.dir_colors)
+fi
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Use gnu's ls so don't need these lscolors
+if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
+  unset LSCOLORS
+fi
+
+#}}}
 # Other files --------------------------{{{
 [ -f ~/.local_zshrc ] && source ~/.local_zshrc
 source $dots/zsh/zsh_theme
