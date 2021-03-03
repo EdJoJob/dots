@@ -124,6 +124,7 @@ call plug#end()
 "}}}
 " Basic Config Settings ----------{{{
 set title                       " set the title of the terminal window
+let &titlestring = 'VIM (%f) %t' " For Talon filetype detection
 set laststatus=2                " always show the statusline
 set t_Co=256
 if !has('nvim')
