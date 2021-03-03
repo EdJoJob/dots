@@ -37,6 +37,9 @@ dots=~/dots
 itermscripts=~/Library/Application\ Support/iTerm2/Scripts
 : ~itermscripts
 
+wiki=~/wiki
+: wiki
+
 if whence keybase &>/dev/null; then
     if [[ $(uname) == 'Darwin' ]]; then
         keybase=/Volumes/Keybase/private/edjojob
