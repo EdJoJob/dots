@@ -9,14 +9,14 @@ echo "Installing homebrew packages..."
 
 # Add taps
 taps=(
-    caskroom/cask
-    homebrew/dupes
-    homebrew/python
+    homebrew/cask
 )
 typeset -U taps
 
 echo "brew tap $taps" >> ~/brew_commands
-brew tap $taps
+for tap in $taps; do
+    brew tap $tap
+done
 
 formulae=(
     # cli tools
@@ -94,12 +94,7 @@ brew install $formulae 2>&1 | tee ~/brewed_formulae
 
 # See https://github.com/github/hub/pull/1962
 # We need to remove the gitcontrib git completion function to allow the _hub completion to work
-rm $(brew ---prefix)/share/zsh/site-functions/_git
-
-echo "brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell" >> ~/brew_commands
-brew install aspell --with-lang-en 2>&1 | tee ~/brewed_aspell
-echo "brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile 2>&1 | tee ~/brewed_weechat" >> ~/brew_commands
-brew install weechat --with-aspell --with-curl --with-python --with-perl --with-ruby --with-lua --with-guile 2>&1 | tee ~/brewed_weechat
+rm $(brew --prefix)/share/zsh/site-functions/_git
 
 # casks (apps)
 casks=(
@@ -108,10 +103,10 @@ casks=(
     bartender
     charles
     chicken
-    docker
+    homebrew/cask/docker
     dropbox
     firefox
-    flux
+    homebrew/cask/flux
     gimp
     google-chrome
     gpg-suite-pinentry
@@ -127,27 +122,17 @@ casks=(
     spotify
     vlc
 
-    # Quicklook extentions
-    qlcolorcode
-    qlimagesize
-    qlmarkdown
-    qlmobi
-    qlprettypatch
-    qlrest
-    qlstephen
-    quicklook-csv
-    quicklook-json
-    suspicious-package
-
     # tiling window manager for OSX
     amethyst
 )
 
 typeset -U casks
 
-echo "brew cask install $casks 2>&1 | tee ~/brewed_casks" >> ~/brew_commands
-brew cask install $casks 2>&1 | tee ~/brewed_casks
+echo "brew install $casks 2>&1 | tee ~/brewed_casks" >> ~/brew_commands
+for cask in $casks; do
+    brew install $cask 2>&1 | tee ~/brewed_casks
+done
 
 # latex
-echo "brew cask install mactex &> ~/brewed_mactex &"
-brew cask install mactex &> ~/brewed_mactex &
+echo "brew install mactex &> ~/brewed_mactex &"
+brew install mactex &> ~/brewed_mactex &
