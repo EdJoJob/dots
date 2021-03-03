@@ -68,7 +68,6 @@ alias la='ls -lha'
 alias sl=ls # often screw this up
 # }}}
 # TOOL REPLACEMENT {{{
-alias tmux='TERM=tmux-256color tmux'
 
 if which fd &>/dev/null; then
     if which gfind &>/dev/null; then
