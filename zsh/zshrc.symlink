@@ -92,8 +92,6 @@ bindkey -M vicmd q push-line
 #}}}
 
 autoload -U compinit promptinit
-compinit
-promptinit
 
 # history {{{
 setopt append_history
@@ -177,6 +175,8 @@ if [[ -n "$SSH_CONNECTION" ]] ;then
 fi
 # }}}
 
+compinit
+promptinit
 
 if [[ "$PROFILE_STARTUP" == true ]]; then
     unsetopt xtrace
