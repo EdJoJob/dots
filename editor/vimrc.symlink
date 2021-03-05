@@ -322,8 +322,8 @@ augroup END
 " }}}
 " javascript {{{
 augroup PERSONAL_JAVASCRIPT
-	au!
-	au FileType javascript setlocal noexpandtab
+    au!
+    au FileType javascript setlocal noexpandtab
 augroup END
 " }}}
 " JSON {{{
