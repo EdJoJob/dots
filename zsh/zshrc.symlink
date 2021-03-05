@@ -152,14 +152,6 @@ source $dots/zsh/fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r '^T' && bindkey '^P' fzf-file-widget
 #}}}
 
-# Pyenv --------------------------------{{{
-if command -v pyenv &>/dev/null; then
-    eval "$(pyenv init - )"
-fi
-if command -v pyenv-virtualenv-init > /dev/null; then
-    eval "$(pyenv virtualenv-init -)"
-fi
-# }}}
 # Tmux detection -----------------------{{{
 if [ -z $TMUX ]; then
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
