@@ -289,9 +289,24 @@ if whence http &> /dev/null; then
     alias https='http --default-scheme=https'
 fi
 
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    sith() {
+        val=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
+        if [[ $val == "Dark" ]]; then
+            export MACOS_MODE="dark"
+            export BAT_THEME="Monokai Extended"
+        else
+            export MACOS_MODE="light"
+            export BAT_THEME="Monokai Extended Light"
+        fi
+    }
+
+    sith
+fi
+
 
 fixssh() {
-    for key in SSH_AUTH_SOCK SSH_CONNECTION SSH_CLIENT; do
+    for key in SSH_AUTH_SOCK SSH_CONNECTION SSH_CLIENT MACOS_MODE; do
         if (tmux show-environment | grep "^${key}" > /dev/null); then
             value=`tmux show-environment | grep "^${key}" | sed -e "s/^[A-Z_]*=//"`
             export ${key}="${value}"
