@@ -54,10 +54,9 @@ fi
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 export ZSH_HIGHLIGHT_HIGHLIGHTERS
 typeset -A ZSH_HIGHLIGHT_STYLES
-ZSH_HIGHLIGHT_STYLES[line]='bold'
 # }}}
 # todo.sh {{{
 export TODO_ROOT="$HOME/.todo"
