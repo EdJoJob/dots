@@ -814,6 +814,17 @@ function! s:Pulse() " {{{
 endfunction " }}}
 command! -nargs=0 Pulse call s:Pulse()
 "}}}
+" ToggleBackground
+if exists("*ToggleBackground") == 0
+    function ToggleBackground()
+        if &background == "dark"
+            set background=light
+        else
+            set background=dark
+        endif
+    endfunction
+    command BG call ToggleBackground()
+endif
 "}}}
 " GUI Settings -------------------{{{
 set guifont=Liberation\ Mono\ for\ Powerline\ 8
