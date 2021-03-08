@@ -21,6 +21,9 @@ if [ "$(uname)" == "Linux" ]; then
     source install/rust.sh
 fi
 
+echo "Install latex helpers"
+source install/latex.sh
+
 echo "Making untracked local config files"
 touch ~/.local_zshrc
 touch ~/.local_vimrc

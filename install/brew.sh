@@ -32,7 +32,6 @@ formulae=(
     sloccount
     ripgrep
     sift
-    the_silver_searcher
     wget
 
     # development tools
@@ -58,7 +57,7 @@ formulae=(
     graphviz
     pandoc
 
-    pyenv
+    asdf
 
     # gnu replacements
     autoconf
@@ -83,7 +82,6 @@ formulae=(
 
     # utilities
     htop
-    m-cli  # Help with macOS magic commands
     nmap
     todo-txt
 )
@@ -98,11 +96,9 @@ rm $(brew --prefix)/share/zsh/site-functions/_git
 
 # casks (apps)
 casks=(
+    1password
     alfred
-    authy
     bartender
-    charles
-    chicken
     homebrew/cask/docker
     dropbox
     firefox
@@ -110,12 +106,11 @@ casks=(
     gimp
     google-chrome
     gpg-suite-pinentry
+    gpg-suite
     intellij-idea-ce
     istat-menus
     iterm2
-    joplin
     keybase
-    lastpass
     numi
     pycharm
     skim
@@ -135,4 +130,4 @@ done
 
 # latex
 echo "brew install mactex &> ~/brewed_mactex &"
-brew install mactex &> ~/brewed_mactex &
+brew install --cask basictex &> ~/brewed_mactex &
