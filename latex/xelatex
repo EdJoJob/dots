@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Using texliveonfly with zettlr
+# https://ctan.org/pkg/texliveonfly
+
+# $i will hold last param
+for i in $@; do :; done
+
+# this will call tlmgr to install packages if needed
+texliveonfly -c xelatex "$i"
+
+xelatex $@
