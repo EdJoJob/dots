@@ -137,7 +137,7 @@ prompt_adam2_setup () { #{{{
     # Colour scheme
     prompt_adam2_color2=${2:-'green'}   # current directory
     prompt_adam2_color3=${3:-'cyan'}    # user@host
-    prompt_adam2_color4=${4:-'243'}   # user input
+    prompt_adam2_color4=${4:-'12'}   # user input
 
     local prompt_gfx_bbox
     prompt_gfx_tbox="%B%F{$prompt_adam2_color1}${prompt_gfx_tlc}%b%F{$prompt_adam2_color1}${phyph}"
@@ -157,7 +157,7 @@ prompt_adam2_setup () { #{{{
     prompt_line_1a="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%~$prompt_r_paren%b%F{$prompt_adam2_color1}"
     prompt_line_1b="%B%F{246}[%b%F{yellow}%D{%H:%M}%B%F{246}|$prompt_user_host%B%F{246}|$prompt_shell_level $prompt_jobs]%b%F{$prompt_adam2_color1}${phyph}"
 
-    prompt_line_2="$prompt_gfx_bbox$prompt_l_sqparen%b%F{white}%?$prompt_r_sqparen%b%F{$prompt_adam2_color1}${phyph}%b%F{white}"
+    prompt_line_2="$prompt_gfx_bbox$prompt_l_sqparen%b%F{12}%?$prompt_r_sqparen%b%F{$prompt_adam2_color1}${phyph}%b%F{12}"
 
     prompt_char="%(!.#.>)"
 
@@ -210,9 +210,9 @@ precmd() { #{{{
     prompt_adam2_choose_prompt
 
     print -rP "$prompt_line_1"
-    PS1="$prompt_line_2%b%F{white}$prompt_char %b%f%k"
-    PS2="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{white}%_> %b%f%k"
-    PS3="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{white}?# %b%f%k"
+    PS1="$prompt_line_2%b%F{12}$prompt_char %b%f%k"
+    PS2="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{12}%_> %b%f%k"
+    PS3="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{12}?# %b%f%k"
 
     zle_highlight[(r)default:*]="default:fg=$prompt_adam2_color4"
 } #}}}
