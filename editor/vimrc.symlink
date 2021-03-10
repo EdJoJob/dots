@@ -57,6 +57,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " Util {{{
         " local wiki {{{
         Plug 'vimwiki/vimwiki', {'branch': 'dev'}
+        Plug 'michal-h21/vim-zettel'
         Plug 'mattn/calendar-vim'
         Plug 'vim-voom/VOoM'
         " }}}
@@ -682,6 +683,16 @@ let g:vimwiki_list = [
                 \'syntax': 'markdown',
             \},
             \{
+                \'path': '~/wiki/zettel',
+                \'auto_tags': 1,
+                \'auto_diary_index': 1,
+                \'auto_generate_links': 1,
+                \'links_space_char': '_',
+                \'name': 'personal',
+                \'ext': 'mdw',
+                \'syntax': 'markdown',
+            \},
+            \{
                 \'path': '~/wiki/personal',
                 \'auto_tags': 1,
                 \'auto_diary_index': 1,
@@ -710,6 +721,16 @@ augroup PERSONAL_VIMWIKI
     au FileType vimwiki setlocal formatoptions-=t
 augroup END
 let g:vimwiki_listsyms=' ▖▌▙✓'
+" }}}
+" vim-zettel {{{
+let g:zettel_options = [{}, {"front_matter": [
+            \["tags", ":inbox:"],
+            \["type", "note"],
+            \],
+            \"template": "~/dots/wiki/zettel.tpl",
+            \"disable_front_matter": 1,
+            \}]
+let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
 " }}}
 "}}}
 " MiniPlugins --------------------{{{
