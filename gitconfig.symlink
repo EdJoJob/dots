@@ -12,11 +12,11 @@
 [include]
     path = ~/.local_gitconfig
 [alias]
-    blog = !git log --graph --date=relative --format=eevans $(git merge-base master HEAD)..HEAD
-    bdiff = !git diff $(git merge-base master HEAD)..HEAD
+    blog = !git log --graph --date=relative --format=eevans $(git merge-base ${GIT_MAINLINE:-master} HEAD)..HEAD
+    bdiff = !git diff $(git merge-base ${GIT_MAINLINE:-master} HEAD)..HEAD
     up = !git pull --all --rebase --prune $@ && git submodule sync --recursive && git submodule update --init --recursive
-    out = !git fetch && git log origin/master..
-    in = !git fetch && git log ..origin/master
+    out = !git fetch && git log origin/${GIT_MAINLINE:-master}..
+    in = !git fetch && git log ..origin/${GIT_MAINLINE:-master}
 
     # Adapted from: https://harrow.io/blog/effortlessly-maintain-a-high-quality-change-log-with-little-known-git-tricks/
     changelog = notes --ref=changelog append
@@ -28,10 +28,10 @@
     c = commit --verbose
     ci = commit --verbose
     ca = commit --verbose --all
-    cm = checkout master --ignore-other-worktrees
+    cm = !git checkout ${GIT_MAINLINE:-master} --ignore-other-worktrees
     co = checkout --ignore-other-worktrees
     d = diff
-    db = !git branch -d $(git branch --merged=master | grep -v '\\*\\|master')
+    db = !git branch -d $(git branch --merged=${GIT_MAINLINE:-master} | grep -v '\\*\\|${GIT_MAINLINE:-master}')
     dv = !git diff -w "$@" | view -
     fap = fetch --all --prune
     lgg = log --graph --decorate
@@ -41,7 +41,7 @@
     rba = rebase --abort
     rbc = rebase --continue
     rbi = rebase --interactive --autosquash
-    rbm = rebase master
+    rbm = !git rebase ${GIT_MAINLINE:-master}
     st = status
     unwip = !git log -n 1 | grep -q -c "\\\\-\\\\-wip\\\\-\\\\-" && git reset HEAD~1
     unpushed = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git log origin/$GIT_CURRENT_BRANCH..$GIT_CURRENT_BRANCH --pretty=eevans
