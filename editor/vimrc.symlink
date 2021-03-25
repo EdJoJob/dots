@@ -725,7 +725,7 @@ let g:vimwiki_list = [
                 \'auto_diary_index': 1,
                 \'auto_generate_links': 1,
                 \'links_space_char': '_',
-                \'name': 'personal',
+                \'name': 'zettel',
                 \'ext': 'mdw',
                 \'syntax': 'markdown',
             \},
