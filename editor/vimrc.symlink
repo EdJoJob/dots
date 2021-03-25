@@ -936,6 +936,10 @@ if exists('&t_8f') && exists('&t_8b')
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
+if has('nvim')
+    set termguicolors
+endif
+
 if TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
     set background=dark
     colorscheme solarized
@@ -944,17 +948,11 @@ elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
     let g:airline_theme='papercolor'
     colorscheme PaperColor
     hi Normal ctermbg=NONE guibg=NONE
-    if has('nvim')
-        set termguicolors
-    endif
 elseif  $ITERM_PROFILE =~? 'Hotkey Window Left' || $ITERM_PROFILE =~? 'Personal' || TmuxSessionName() =~? 'personal'
     set background=dark
     let g:airline_theme='solarized'
     colorscheme solarized
     hi Normal ctermbg=NONE guibg=NONE
-    if has('nvim')
-        set termguicolors
-    endif
 else
     if $MACOS_MODE == 'light' || $MACOS_MODE == ''
         set background=light
@@ -963,9 +961,6 @@ else
     endif
     let g:airline_theme='papercolor'
     colorscheme PaperColor
-    if has('nvim')
-        set termguicolors
-    endif
 endif
 "colorscheme despacio
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
