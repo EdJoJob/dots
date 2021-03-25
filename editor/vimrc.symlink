@@ -648,6 +648,13 @@ let g:ale_echo_msg_format = '[%linter%:%severity%%code%] %s'
 
 let g:ale_python_mypy_options = '--silent-imports'
 let g:ale_markdown_vale_options = '--config .vale.ini'
+
+let g:ale_fixers = {
+            \'python': [
+                \'black'
+            \],
+        \}
+let g:ale_fix_on_save = 1
 " }}}
 " ack.vim {{{
 let g:ackhighlight=1
