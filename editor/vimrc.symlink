@@ -897,6 +897,8 @@ if exists("*ToggleBackground") == 0
         else
             set background=dark
         endif
+    call InterestingWordHighlights()
+    call ALEHighlightColors()
     endfunction
     command BG call ToggleBackground()
 endif
@@ -981,19 +983,27 @@ endif
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
 " Interesting Word Default Highlights {{{
 
+function! InterestingWordHighlights()
 hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
 hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
 hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
 hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+endfunction
+call InterestingWordHighlights()
 
 " }}}
+" ALE highlight colors{{{
+function! ALEHighlightColors()
 highlight ALEError term=bold,italic gui=bold,italic guibg=#bd1701
 highlight ALEStyleError term=italic gui=italic guibg=#bd3601
 highlight ALEWarning guibg=#bd7400
 highlight ALEStyleWarning guibg=#ec7400
 highlight ALEInfo guibg=#008900
+endfunction
+call ALEHighlightColors()
+"}}}
 "}}}
 source ~/.local_vimrc
 
