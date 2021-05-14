@@ -330,12 +330,12 @@ augroup END
 " JSON {{{
 augroup PERSONAL_JSON
     au!
-    au FileType yaml setlocal shiftwidth=2
-    au FileType yaml setlocal tabstop=2
-    au FileType yaml setlocal softtabstop=2
-    au FileType yaml setlocal shiftround
-    au FileType yaml setlocal expandtab
-    au FileType yaml setlocal autoindent
+    au FileType json setlocal shiftwidth=2
+    au FileType json setlocal tabstop=2
+    au FileType json setlocal softtabstop=2
+    au FileType json setlocal shiftround
+    au FileType json setlocal expandtab
+    au FileType json setlocal autoindent
     au filetype json setlocal foldmethod=indent
 augroup END
 " }}}
