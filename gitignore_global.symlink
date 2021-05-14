@@ -7,4 +7,6 @@ Session.vim
 .mypy_cache
 node_modules
 .envrc
+.direnv
 .tool-versions
+.vimrc
