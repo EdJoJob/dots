@@ -971,10 +971,10 @@ elseif  $ITERM_PROFILE =~? 'Hotkey Window Left' || $ITERM_PROFILE =~? 'Personal'
     colorscheme solarized
     hi Normal ctermbg=NONE guibg=NONE
 else
-    if $MACOS_MODE == 'light' || $MACOS_MODE == ''
-        set background=light
-    else
+    if $MACOS_MODE == 'dark' || $MACOS_MODE == ''
         set background=dark
+    else
+        set background=light
     endif
     let g:airline_theme='papercolor'
     colorscheme PaperColor
