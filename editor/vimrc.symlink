@@ -16,6 +16,9 @@ endif
 " vim-polyglot {{{
 let g:polyglot_disabled = ['markdown']
 " }}}
+" ALE + coc.nvim {{{
+let g:ale_disable_lsp = 1
+" }}}
 call plug#begin('~/dots/editor/vim.symlink/bundle/')
 " Plugin listing {{{
     " Pretty {{{
@@ -981,3 +984,9 @@ highlight ALEStyleWarning guibg=#ec7400
 highlight ALEInfo guibg=#008900
 "}}}
 source ~/.local_vimrc
+
+if exists("$EXTRA_VIM")
+    for path in split($EXTRA_VIM, ':')
+        exec "source " . path
+    endfor
+endif
