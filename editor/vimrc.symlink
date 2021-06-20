@@ -327,6 +327,18 @@ augroup PERSONAL_JAVASCRIPT
     au FileType javascript setlocal noexpandtab
 augroup END
 " }}}
+" typescript {{{
+augroup PERSONAL_TYPESCRIPT
+    au!
+    au FileType typescript setlocal shiftwidth=2
+    au FileType typescript setlocal tabstop=2
+    au FileType typescript setlocal softtabstop=2
+    au FileType typescript setlocal shiftround
+    au FileType typescript setlocal expandtab
+    au FileType typescript setlocal autoindent
+augroup END
+
+" }}}
 " JSON {{{
 augroup PERSONAL_JSON
     au!
