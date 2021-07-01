@@ -45,6 +45,7 @@ formulae=(
     tmux
     neovim
     jq
+    gron
     watch
     weechat
     zsh

@@ -25,6 +25,8 @@ _because otherwise **I** forget_
 * HoRNDIS: for USB internet for android (`brew cask install horndis`)
 * ngrok: for ad-hoc port-forwarding and/or NAT punch-through
 * `gh-auth`: getting public keys from github (github-auth gem)
+* `gron` and `jq`: look through json
+* `xq` for XML, `yq` for yaml
 
 
 ## TODO
