@@ -609,6 +609,14 @@ nnoremap <down>  :lnext<cr>zvzz
 let g:NERDSpaceDelims=1
 " }}}
 " coc-nvim {{{
+let g:coc_global_extensions = [
+            \'coc-fzf-preview',
+            \'coc-jedi',
+            \'coc-json',
+            \'coc-tsserver',
+            \'coc-yaml',
+            \'coc-vimlsp',
+            \]
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
