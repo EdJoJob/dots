@@ -17,6 +17,9 @@ IGNORED_LONG_CMD+=(
     tmux
     vi
     vim
+    zz
+    zn
+    zs
 )
 
 typeset -U IGNORED_LONG_CMD
