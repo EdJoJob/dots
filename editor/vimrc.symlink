@@ -63,6 +63,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'mattn/calendar-vim'
         Plug 'vim-voom/VOoM'
         " }}}
+        Plug 'direnv/direnv.vim'
         " file browser
         Plug 'tpope/vim-vinegar'
         " get the output of shell commands in a new split buffer
