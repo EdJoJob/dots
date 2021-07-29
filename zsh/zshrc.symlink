@@ -8,18 +8,30 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
 fi
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
-source ~/.zgen/zgen.zsh
-if ! zgen saved; then
-    echo "Creating a zgen save"
-    zgen oh-my-zsh
-
-    zgen load zsh-git-prompt/zsh-git-prompt
-    zgen load zsh-users/zsh-completions src
-    zgen load srijanshetty/zsh-pandoc-completion
-    zgen load zsh-users/zsh-syntax-highlighting
-
-    zgen save
-fi
+source ~/.zinit/bin/zinit.zsh
+zinit snippet OMZL::bzr.zsh
+zinit snippet OMZL::cli.zsh
+zinit snippet OMZL::clipboard.zsh
+zinit snippet OMZL::compfix.zsh
+zinit snippet OMZL::completion.zsh
+zinit snippet OMZL::correction.zsh
+zinit snippet OMZL::diagnostics.zsh
+zinit snippet OMZL::directories.zsh
+zinit snippet OMZL::functions.zsh
+zinit snippet OMZL::git.zsh
+zinit snippet OMZL::grep.zsh
+zinit snippet OMZL::history.zsh
+zinit snippet OMZL::key-bindings.zsh
+zinit snippet OMZL::misc.zsh
+zinit snippet OMZL::nvm.zsh
+zinit snippet OMZL::prompt_info_functions.zsh
+zinit snippet OMZL::spectrum.zsh
+zinit snippet OMZL::termsupport.zsh
+zinit snippet OMZL::theme-and-appearance.zsh
+zinit load zsh-git-prompt/zsh-git-prompt
+zinit load zsh-users/zsh-completions
+zinit load srijanshetty/zsh-pandoc-completion
+zinit load zsh-users/zsh-syntax-highlighting
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
