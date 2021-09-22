@@ -340,6 +340,18 @@ augroup PERSONAL_TYPESCRIPT
 augroup END
 
 " }}}
+" typescriptreact {{{
+augroup PERSONAL_TYPESCRIPT
+    au!
+    au FileType typescriptreact setlocal shiftwidth=2
+    au FileType typescriptreact setlocal tabstop=2
+    au FileType typescriptreact setlocal softtabstop=2
+    au FileType typescriptreact setlocal shiftround
+    au FileType typescriptreact setlocal expandtab
+    au FileType typescriptreact setlocal autoindent
+augroup END
+
+" }}}
 " JSON {{{
 augroup PERSONAL_JSON
     au!
