@@ -1,0 +1,9 @@
+curl \
+     -G \
+     --data-urlencode "deviceNames=Tab S6" \
+     --data-urlencode "text=Back To Work" \
+     --data-urlencode "title=Bitbake Done on Server" \
+     --data-urlencode "apikey=$JOIN_KEY" \
+     --data-urlencode "group=CommandFinished/$(hostname)" \
+     "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush"
+
