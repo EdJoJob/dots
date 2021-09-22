@@ -35,7 +35,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'nathanaelkane/vim-indent-guides'
     " }}}
     " Languages {{{
-        Plug 'neoclide/coc.nvim'
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'sheerun/vim-polyglot'
         " Python magic {{{
             Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins' }
