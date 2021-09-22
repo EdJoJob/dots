@@ -133,7 +133,7 @@ alias rs="rsync --archive --verbose --address --human-readable --progress"
 alias .vimrc='vi ~/dots/editor/vimrc.symlink'
 alias .local_vimrc='vi ~/.local_vimrc'
 
-alias .zshrc='zgen reset && vi ~/dots/zsh/zshrc.symlink && exec zsh -l'
+alias .zshrc='vi ~/dots/zsh/zshrc.symlink && exec zsh -l'
 alias .aliases='vi ~/dots/zsh/aliases.zsh.symlink && exec zsh -l'
 alias .local_zsh='vi ~/.local_zshrc && exec zsh -l'
 
