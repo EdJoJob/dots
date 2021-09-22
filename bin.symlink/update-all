@@ -1,0 +1,6 @@
+sudo apt update && sudo apt upgrade
+asdf update
+asdf plugin update --all
+pipx upgrade-all
+nvim +PlugUpdate +CocUpdate
+echo now run: zinit update --all
