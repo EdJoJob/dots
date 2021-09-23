@@ -19,3 +19,7 @@
 .tab:hover .closebox {
     visibility: initial;
 }
+
+tab-item.active .background {
+  background-color: steelblue;
+}
