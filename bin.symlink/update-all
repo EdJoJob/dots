@@ -1,4 +1,12 @@
-sudo apt update && sudo apt upgrade
+if [[ $(uname) == 'Darwin' ]]; then
+    brew upgrade
+elif [[ $(uname) == 'Linux' ]]; then
+    if whence apt &>/dev/null; then
+        sudo apt update && sudo apt upgrade
+    elif whence yum &>/dev/null; then
+        sudo yum upgrade;
+    fi
+fi
 asdf update
 asdf plugin update --all
 pipx upgrade-all
