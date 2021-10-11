@@ -1,3 +1,4 @@
+#!/bin/zsh
 if [[ $(uname) == 'Darwin' ]]; then
     brew upgrade
 elif [[ $(uname) == 'Linux' ]]; then
