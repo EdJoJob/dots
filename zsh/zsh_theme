@@ -131,6 +131,8 @@ prompt_adam2_setup () { #{{{
             prompt_adam2_color1=${1:-'blue'};; # blue
         (*[Mm]use*)
             prompt_adam2_color1=${1:-'green'};; # green
+        (*EEVANS*)
+            prompt_adam2_color1=${1:-'yellow'};; 
         (localhost)
             prompt_adam2_color1=${1:-'magenta'};;
         (raspberrypi|black-pearl)
