@@ -12,3 +12,4 @@ node_modules
 .vimrc
 .rgignore
 .fdignore
+.git-blame-ignore-revs
