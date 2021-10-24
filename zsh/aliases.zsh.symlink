@@ -170,7 +170,12 @@ function t() {
 compdef _todo.sh t
 
 # Git {{{
-alias personal_repo="g config user.email 'edjojob@gmail.com'; g config user.name 'EdJoJob'; g config user.signingkey '0xF68AEAEA29DB923E'; g config commit.gpgsign true"
+personal_repo() {
+    git config user.email 'edjojob@gmail.com'
+    git config user.name 'EdJoJob'
+    git config user.signingkey '0xF68AEAEA29DB923E'
+    git config commit.gpgsign true
+}
 alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config user.name 'Edward Evans'; g config user.signingkey '0xF68AEAEA29DB923E'; g config commit.gpgsign true"
 # }}}
 
