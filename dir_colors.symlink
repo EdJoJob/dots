@@ -183,6 +183,8 @@ EXEC 48;5;236;01;38;5;034
 .md              01;38;5;36
 *README.markdown 01;38;5;36
 
+.mdw             01;38;5;37
+
 .html 00;38;5;125
 
 # Config and use files
