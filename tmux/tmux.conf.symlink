@@ -65,6 +65,16 @@ set-option -g update-environment SSH_CONNECTION
 
 set -g update-environment "SSH_AUTH_SOCK DISPLAY SSH_ASKPASS SSH_AGENT_PID"
 
+## Thanks to https://scripter.co/command-to-every-pane-window-session-in-tmux/ for the below
+# Send command to all panes in all sessions
+bind E command-prompt -p "Command:" \
+       "run \"tmux list-panes -a -F '##{session_name}:##{window_index}.##{pane_index}' \
+              | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
+# Send command to all panes in this session
+bind C-e command-prompt -p "Command:" \
+         "run \"tmux list-panes -s -F '##{session_name}:##{window_index}.##{pane_index}' \
+                | xargs -I PANE tmux send-keys -t PANE '%1' Enter\""
+
 # theme
 set -g status-style bg=colour235
 set -g status-left-length 100
