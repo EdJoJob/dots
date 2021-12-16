@@ -2,6 +2,7 @@
 
 export CMD_NOTIFY_THRESHOLD=10
 IGNORED_LONG_CMD+=(
+    anon-ssh
     bat
     cat
     docker
@@ -10,16 +11,15 @@ IGNORED_LONG_CMD+=(
     man
     nvim
     ssh
-    anon-ssh
     sshpass
     sudoedit
     tail
     tmux
     vi
     vim
-    zz
     zn
     zs
+    zz
 )
 
 typeset -U IGNORED_LONG_CMD
@@ -132,7 +132,7 @@ prompt_adam2_setup () { #{{{
         (*[Mm]use*)
             prompt_adam2_color1=${1:-'green'};; # green
         (*EEVANS*)
-            prompt_adam2_color1=${1:-'yellow'};; 
+            prompt_adam2_color1=${1:-'yellow'};;
         (localhost)
             prompt_adam2_color1=${1:-'magenta'};;
         (raspberrypi|black-pearl)
