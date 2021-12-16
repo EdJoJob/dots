@@ -118,6 +118,12 @@ if whence nvim &>/dev/null; then
 else
     alias vi='vim'
 fi
+function wwiki() {
+    (cd ~/wiki/work && vi +VimwikiIndex)
+}
+function wdiary() {
+    (cd ~/wiki/work && vi +VimwikiDiaryIndex)
+}
 function zz() {
     (cd ~/wiki/zettel && vi +VimwikiIndex\ 2)
 }
@@ -127,6 +133,14 @@ function zn() {
 function zs() {
     (cd ~/wiki/zettel && vi +VimwikiIndex\ 2 +"ZettelOpen $@")
 }
+function pwiki() {
+    (cd ~/wiki/personal && vi +VimwikiIndex\ 3)
+}
+function pdiary() {
+    (cd ~/wiki/personal && vi +VimwikiDiaryIndex\ 3)
+}
+alias wiki=pwiki
+alias diary=pdiary
 # }}}
 alias rs="rsync --archive --verbose --address --human-readable --progress"
 # QUICK FILE ACCESS {{{

@@ -5,11 +5,14 @@ IGNORED_LONG_CMD+=(
     anon-ssh
     bat
     cat
+    diary
     docker
     fg
     less
     man
     nvim
+    pdiary
+    pwiki
     ssh
     sshpass
     sudoedit
@@ -17,6 +20,9 @@ IGNORED_LONG_CMD+=(
     tmux
     vi
     vim
+    wdiary
+    wiki
+    wwiki
     zn
     zs
     zz
