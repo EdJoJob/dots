@@ -30,7 +30,7 @@
     ca = commit --verbose --all
     cm = !git checkout ${GIT_MAINLINE:-master} --ignore-other-worktrees
     co = checkout --ignore-other-worktrees
-    d = diff
+    d = diff --histogram
     db = !git branch -d $(git branch --merged=${GIT_MAINLINE:-master} | grep -v "\\*" | grep -v "${GIT_MAINLINE:-master}")
     dv = !git diff -w "$@" | view -
     fap = fetch --all --prune
