@@ -65,6 +65,8 @@ export COLOR_DONE=$LIGHT_GREY
  export COLOR_CONTEXT=$PURPLE
 
 # === BEHAVIOR ===
+#
+TODOTXT_DATE_ON_ADD=1
 
 ## customize list output
 #
