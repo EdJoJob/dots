@@ -14,15 +14,16 @@ import re
 from datetime import datetime
 
 
-pattern = re.compile(r"t:(\d{4})-(\d{2})-(\d{2})")
+threashold_pattern = re.compile(r"(t:)(\d{4})-(\d{2})-(\d{2})")
+created_pattern = re.compile(r"^(\([A-Z]\) )?(\d{4})-(\d{2})-(\d{2})")
 
 
 def main(args=None):
     now = datetime.now()
     for line in sys.stdin:
-        match = pattern.search(line)
+        match = threashold_pattern.search(line) or created_pattern.search(line)
         if match:
-            threshold = [int(i) for i in match.groups()]
+            threshold = [int(i) for i in match.groups()[1:]]
             if datetime(*threshold) < now:
                 print(line.strip())
         else:
