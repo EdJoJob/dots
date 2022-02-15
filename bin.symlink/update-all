@@ -10,6 +10,7 @@ elif [[ $(uname) == 'Linux' ]]; then
 fi
 asdf update
 asdf plugin update --all
+asdf uninstall neovim stable && asdf install neovim stable
 pipx upgrade-all
 nvim +PlugUpdate +CocUpdate
 echo now run: zinit update --all
