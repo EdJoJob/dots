@@ -237,6 +237,9 @@ start_day() {
         fortune_dir=~/Dropbox/fortunes
     fi
 
+    echo
+    (cd $fortune_dir && ./update.sh &>/dev/null)
+
     if [[ $(uname) == 'Darwin' ]]; then
         fortune $fortune_dir | tee /dev/tty | pbcopy
     elif [[ $(uname) == 'Linux' ]]; then
