@@ -139,8 +139,12 @@ function pwiki() {
 function pdiary() {
     (cd ~/wiki/personal && vi +VimwikiDiaryIndex\ 3)
 }
+
+
+function diary() {
+    (cd ~/wiki/zettel/ && vi +VimwikiMakeDiaryNote\ 2)
+}
 alias wiki=pwiki
-alias diary=pdiary
 # }}}
 alias rs="rsync --archive --verbose --address --human-readable --progress"
 # QUICK FILE ACCESS {{{
