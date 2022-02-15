@@ -156,8 +156,6 @@ alias .local_tmux='vi ~/.local_tmux.conf'
 
 alias .hg='vi ~/dots/hg/hgrc.symlink'
 
-alias note='vi ~/Dropbox/note.rst'
-alias diary='emacsclient -nc ~/Dropbox/org/diary.org &'
 # }}}
 # VIM MEMORY {{{
 alias :vim='vi'
