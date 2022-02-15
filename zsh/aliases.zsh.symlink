@@ -176,7 +176,7 @@ if whence todo-txt &> /dev/null; then
 fi
 function t() {
     if [[ "$#" -eq 0 ]]; then
-        todo.sh list '-(T)'
+        todo.sh list '-h:1'
     else
         todo.sh $@
     fi
