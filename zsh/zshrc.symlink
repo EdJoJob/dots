@@ -120,11 +120,6 @@ setopt extendedglob
 # PATH ---------------------------------{{{
 export XDG_CONFIG_HOME=$HOME/.config
 #}}}
-# Default programs ---------------------{{{
-export LESS="-FXRM"
-export SHELL=$(whence zsh)
-export EDITOR=$(whence nvim || whence vim)
-#}}}
 # Default Path -------------------------{{{
 path=(
     /usr/local/bin
@@ -160,6 +155,12 @@ source $dots/zsh/zsh_theme
 source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r '^T' && bindkey '^P' fzf-file-widget
+#}}}
+
+# Default programs ---------------------{{{
+export LESS="-FXRM"
+export SHELL=$(whence zsh)
+export EDITOR=$(whence nvim || whence vim)
 #}}}
 
 # Tmux detection -----------------------{{{
