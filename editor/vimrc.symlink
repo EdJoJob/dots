@@ -624,8 +624,8 @@ let g:NERDSpaceDelims=1
 " coc-nvim {{{
 let g:coc_global_extensions = [
             \'coc-fzf-preview',
-            \'coc-jedi',
             \'coc-json',
+            \'coc-pyright',
             \'coc-tsserver',
             \'coc-yaml',
             \'coc-vimlsp',
