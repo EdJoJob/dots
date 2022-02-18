@@ -77,7 +77,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " repeat macros with .
         Plug 'tpope/vim-repeat'
         " syntax checking
-        Plug 'w0rp/ale'
+        Plug 'dense-analysis/ale'
         " Get the differnces between line ranges
         Plug 'AndrewRadev/linediff.vim'
         " use ag in vim like :grep
