@@ -583,8 +583,8 @@ vnoremap <leader>S y:execute @@<cr>:echo 'Sourced selection.'<cr>
 nnoremap <leader>S ^vg_y:execute @@<cr>:echo 'Sourced line.'<cr>
 "}}}
 " Get all TODO tags in files above current directory {{{
-noremap <Leader>to :Ack! '\b(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|NOTE\|INFO\|IDEA)\b' <CR>
-noremap <Leader>ti :Ack! \b(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|NOTE\|INFO\|IDEA\) % <CR>
+noremap <Leader>to :Rg! '\b(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|NOTE\|INFO\|IDEA)\b' <CR>
+noremap <Leader>ti :Rg! \b(TODO\|FIXME\|CHANGED\|XXX\|BUG\|HACK\|NOTE\|INFO\|IDEA\) % <CR>
 " }}}
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
@@ -693,7 +693,7 @@ let g:ale_fix_on_save = 1
 " }}}
 " ack.vim {{{
 let g:ackhighlight=1
-let g:ackprg = 'ag --vimgrep --smart-case'
+let g:ackprg = 'rg --vimgrep --smart-case'
 " }}}
 " netrw {{{
 let g:netrw_liststyle=0 " get tree-style listing
