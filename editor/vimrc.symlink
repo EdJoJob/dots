@@ -756,6 +756,7 @@ let g:vimwiki_list = [
                 \'name': 'work',
                 \'ext': 'mdw',
                 \'syntax': 'markdown',
+                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
             \},
             \{
                 \'path': '~/wiki/zettel',
@@ -766,6 +767,7 @@ let g:vimwiki_list = [
                 \'name': 'zettel',
                 \'ext': 'mdw',
                 \'syntax': 'markdown',
+                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
             \},
             \{
                 \'path': '~/wiki/personal',
@@ -776,6 +778,7 @@ let g:vimwiki_list = [
                 \'name': 'personal',
                 \'ext': 'mdw',
                 \'syntax': 'markdown',
+                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
             \},
             \{
                 \'path': '~/wiki/archive',
@@ -786,6 +789,7 @@ let g:vimwiki_list = [
                 \'name': 'archive',
                 \'ext': 'mdw',
                 \'syntax': 'markdown',
+                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
             \},
         \]
 let g:vimwiki_folding='expr'
