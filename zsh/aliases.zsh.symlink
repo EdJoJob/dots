@@ -181,7 +181,7 @@ if whence todo-txt &> /dev/null; then
 fi
 function t() {
     if [[ "$#" -eq 0 ]]; then
-        todo.sh list
+        todo.sh list '-@oneday'
     else
         todo.sh $@
     fi
