@@ -685,8 +685,13 @@ let g:ale_python_mypy_options = '--silent-imports'
 let g:ale_markdown_vale_options = '--config .vale.ini'
 
 let g:ale_fixers = {
+            \'*': [
+                \'remove_trailing_lines',
+                \'trim_whitespace',
+            \],
             \'python': [
-                \'black'
+                \'black',
+                \'isort',
             \],
         \}
 let g:ale_fix_on_save = 1
