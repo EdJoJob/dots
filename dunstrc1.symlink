@@ -82,7 +82,7 @@
     # Set to 0 to disable.
     # A client can set the 'transient' hint to bypass this. See the rules
     # section for how to disable this if necessary
-    idle_threshold = 0
+    idle_threshold = 5
 
     ### Text ###
 
@@ -284,7 +284,7 @@
     background = "#191311"
     foreground = "#3B7C87"
     frame_color = "#3B7C87"
-    timeout = 4
+    timeout = 14
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 
@@ -292,7 +292,7 @@
     background = "#191311"
     foreground = "#5B8234"
     frame_color = "#5B8234"
-    timeout = 6
+    timeout = 16
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
 
@@ -300,7 +300,7 @@
     background = "#191311"
     foreground = "#B7472A"
     frame_color = "#B7472A"
-    timeout = 8
+    timeout = 18
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon
 
