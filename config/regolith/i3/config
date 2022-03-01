@@ -702,6 +702,7 @@ workspace "$ws20" output eDP-1
 for_window [class="Slack"] move to workspace $ws11
 for_window [class="Microsoft Teams - Preview"] move to workspace $ws11
 for_window [class="Evolution"] move to workspace $ws12
+for_window [class="Thunderbird"] move to workspace $ws12
 for_window [class="Spotify"] move to workspace $ws19
 
 for_window [class="Talon"] floating enable
