@@ -109,7 +109,7 @@ set_from_resource $i3-wm.binding.launcher.cmd i3-wm.binding.launcher.cmd Shift+s
 set_from_resource $i3-wm.program.launcher.cmd i3-wm.program.launcher.cmd rofi -show run -theme $rofiTheme
 bindsym $mod+$i3-wm.binding.launcher.cmd exec $i3-wm.program.launcher.cmd
 
-## Navigate // Window by Name // <><Ctrl> Space ##
+## Navigate Window // Window by Name // <><Ctrl> Space ##
 set_from_resource $i3-wm.binding.launcher.window i3-wm.binding.launcher.window Ctrl+space
 set_from_resource $i3-wm.program.launcher.window i3-wm.program.launcher.window rofi -show window -theme $rofiTheme
 bindsym $mod+$i3-wm.binding.launcher.window exec $i3-wm.program.launcher.window
@@ -133,21 +133,21 @@ bindsym $mod+$i3-wm.binding.look_selector exec $i3-wm.program.look_selector
 # Window and Workspace Navigation
 ###############################################################################
 
-## Navigate // Relative Parent // <> a ##/
+## Navigate Window // Relative Parent // <> a ##/
 set_from_resource $i3-wm.binding.focus_parent i3-wm.binding.focus_parent a
 bindsym $mod+$i3-wm.binding.focus_parent focus parent
 
-## Navigate // Relative Child // <> z ##/
+## Navigate Window // Relative Child // <> z ##/
 set_from_resource $i3-wm.binding.focus_child i3-wm.binding.focus_child z
 bindsym $mod+$i3-wm.binding.focus_child focus child
 
-## Navigate // Relative Window // <> ↑ ↓ ← → ##
+## Navigate Window // Relative Window // <> ↑ ↓ ← → ##
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
-## Navigate // Relative Window // <> k j h l ##
+## Navigate Window // Relative Window // <> k j h l ##
 set_from_resource $i3-wm.binding.left i3-wm.binding.left h
 set_from_resource $i3-wm.binding.right i3-wm.binding.right l
 set_from_resource $i3-wm.binding.up i3-wm.binding.up k
@@ -157,7 +157,7 @@ bindsym $mod+$i3-wm.binding.down focus down
 bindsym $mod+$i3-wm.binding.up focus up
 bindsym $mod+$i3-wm.binding.right focus right
 
-## Navigate // Workspaces 1-10 // <> 0..9 ##
+## Navigate Workspace // Workspaces 1-10 // <> 0..9 ##
 bindsym $mod+$ws1_key workspace number $ws1
 bindsym $mod+$ws2_key workspace number $ws2
 bindsym $mod+$ws3_key workspace number $ws3
@@ -168,7 +168,7 @@ bindsym $mod+$ws7_key workspace number $ws7
 bindsym $mod+$ws8_key workspace number $ws8
 bindsym $mod+$ws9_key workspace number $ws9
 bindsym $mod+$ws10_key workspace number $ws10
-## Navigate // Workspace 11 - 19 // <><Ctrl> 1..9 ##
+## Navigate Workspace // Workspace 11 - 19 // <><Ctrl> 1..9 ##
 bindsym $mod+Ctrl+$ws1_key workspace number $ws11
 bindsym $mod+Ctrl+$ws2_key workspace number $ws12
 bindsym $mod+Ctrl+$ws3_key workspace number $ws13
@@ -179,43 +179,43 @@ bindsym $mod+Ctrl+$ws7_key workspace number $ws17
 bindsym $mod+Ctrl+$ws8_key workspace number $ws18
 bindsym $mod+Ctrl+$ws9_key workspace number $ws19
 
-## Navigate // Next Workspace // <> Tab ##
+## Navigate Workspace // Next Workspace // <> Tab ##
 set_from_resource $i3-wm.binding.ws_next i3-wm.binding.ws_next Tab
 bindsym $mod+$i3-wm.binding.ws_next workspace next
 
-## Navigate // Next Workspace // <><Alt> → ##
+## Navigate Workspace // Next Workspace // <><Alt> → ##
 set_from_resource $i3-wm.binding.ws_next2 i3-wm.binding.ws_next2 Mod1+Right
 bindsym $mod+$i3-wm.binding.ws_next2 workspace next
 
-## Navigate // Next Workspace on Output // <><Ctrl> Tab ##
+## Navigate Workspace // Next Workspace on Output // <><Ctrl> Tab ##
 set_from_resource $i3-wm.binding.ws_next_on_output i3-wm.binding.ws_next_on_output Ctrl+Tab
 bindsym $mod+$i3-wm.binding.ws_next_on_output workspace next_on_output
 
-## Navigate // Next Workspace on Output // <><Ctrl> l ##
+## Navigate Workspace // Next Workspace on Output // <><Ctrl> l ##
 set_from_resource $i3-wm.binding.ws_next_on_output2 i3-wm.binding.ws_next_on_output2 Ctrl+l
 bindsym $mod+$i3-wm.binding.ws_next_on_output2 workspace next_on_output
 
-## Navigate // Previous Workspace // <><Shift> Tab ##
+## Navigate Workspace // Previous Workspace // <><Shift> Tab ##
 set_from_resource $i3-wm.binding.ws_prev i3-wm.binding.ws_prev Shift+Tab
 bindsym $mod+$i3-wm.binding.ws_prev workspace prev
 
-## Navigate // Previous Workspace // <><Alt> ← ##
+## Navigate Workspace // Previous Workspace // <><Alt> ← ##
 set_from_resource $i3-wm.binding.ws_prev2 i3-wm.binding.ws_prev2 Mod1+Left
 bindsym $mod+$i3-wm.binding.ws_prev2 workspace prev
 
-## Navigate // Previous Workspace on Output // <><Ctrl><Shift> Tab ##
+## Navigate Workspace // Previous Workspace on Output // <><Ctrl><Shift> Tab ##
 set_from_resource $i3-wm.binding.ws_prev_on_output i3-wm.binding.ws_prev_on_output Ctrl+Shift+Tab
 bindsym $mod+$i3-wm.binding.ws_prev_on_output workspace prev_on_output
 
-## Navigate // Previous Workspace on Output // <><Ctrl> h ##
+## Navigate Workspace // Previous Workspace on Output // <><Ctrl> h ##
 set_from_resource $i3-wm.binding.ws_prev_on_output2 i3-wm.binding.ws_prev_on_output2 Ctrl+h
 bindsym $mod+$i3-wm.binding.ws_prev_on_output2 workspace prev_on_output
 
-## Navigate // Next Free Workspace // <> ` ##
+## Navigate Workspace // Next Free Workspace // <> ` ##
 set_from_resource $i3-wm.binding.next_free i3-wm.binding.next_free grave
 bindsym $mod+$i3-wm.binding.next_free exec --no-startup-id /usr/bin/i3-next-workspace
 
-## Navigate // Scratchpad // <><Ctrl> a ##
+## Scratchpad // Scratchpad // <><Ctrl> a ##
 set_from_resource $i3-wm.binding.scratchpad i3-wm.binding.scratchpad Ctrl+a
 bindsym $mod+$i3-wm.binding.scratchpad scratchpad show
 
@@ -223,13 +223,13 @@ bindsym $mod+$i3-wm.binding.scratchpad scratchpad show
 # Window and Workspace Configuration
 ###############################################################################
 
-## Modify // Window Position // <><Shift> ↑ ↓ ← → ##
+## Modify Window // Window Position // <><Shift> ↑ ↓ ← → ##
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-## Modify // Window Position // <><Shift> k j h l ##
+## Modify Window // Window Position // <><Shift> k j h l ##
 set_from_resource $i3-wm.binding.move_left i3-wm.binding.move_left Shift+h
 set_from_resource $i3-wm.binding.move_right i3-wm.binding.move_right Shift+l
 set_from_resource $i3-wm.binding.move_up i3-wm.binding.move_up Shift+k
@@ -239,13 +239,13 @@ bindsym $mod+$i3-wm.binding.move_down move down
 bindsym $mod+$i3-wm.binding.move_up move up
 bindsym $mod+$i3-wm.binding.move_right move right
 
-## Modify // Containing Workspace // <><Ctrl><Shift> ↑ ↓ ← → ##
+## Navigate Workspace // Containing Workspace // <><Ctrl><Shift> ↑ ↓ ← → ##
 bindsym $mod+Ctrl+Shift+Left move workspace to output left
 bindsym $mod+Ctrl+Shift+Down move workspace to output down
 bindsym $mod+Ctrl+Shift+Up move workspace to output up
 bindsym $mod+Ctrl+Shift+Right move workspace to output right
 
-## Modify // Containing Workspace // <><Ctrl><Shift> k j h l ##
+## Navigate Workspace // Containing Workspace // <><Ctrl><Shift> k j h l ##
 set_from_resource $i3-wm.binding.take_left i3-wm.binding.take_left Ctrl+Shift+h
 set_from_resource $i3-wm.binding.take_right i3-wm.binding.take_right Ctrl+Shift+l
 set_from_resource $i3-wm.binding.take_up i3-wm.binding.take_up Ctrl+Shift+k
@@ -255,31 +255,31 @@ bindsym $mod+$i3-wm.binding.take_down move workspace to output down
 bindsym $mod+$i3-wm.binding.take_up move workspace to output up
 bindsym $mod+$i3-wm.binding.take_right move workspace to output right
 
-## Modify // Vertical Window Orientation // <> v ##
+## Modify Window // Vertical Window Orientation // <> v ##
 set_from_resource $i3-wm.binding.split_v i3-wm.binding.split_v v
 bindsym $mod+$i3-wm.binding.split_v split vertical
 
-## Modify // Horizontal Window Orientation // <> g ##
+## Modify Window // Horizontal Window Orientation // <> g ##
 set_from_resource $i3-wm.binding.split_h i3-wm.binding.split_h g
 bindsym $mod+$i3-wm.binding.split_h split horizontal
 
-## Modify // Toggle Window Orientation // <> Backspace ##
+## Modify Window // Toggle Window Orientation // <> Backspace ##
 set_from_resource $i3-wm.binding.orientation_toggle i3-wm.binding.orientation_toggle BackSpace
 bindsym $mod+$i3-wm.binding.orientation_toggle split toggle
 
-## Modify // Window Fullscreen Toggle // <> f ##
+## Modify Window // Window Fullscreen Toggle // <> f ##
 set_from_resource $i3-wm.binding.fullscreen_toggle i3-wm.binding.fullscreen_toggle f
 bindsym $mod+$i3-wm.binding.fullscreen_toggle fullscreen toggle
 
-## Modify // Window Floating Toggle // <><Shift> f ##
+## Float// Window Floating Toggle // <><Shift> f ##
 set_from_resource $i3-wm.binding.float_toggle i3-wm.binding.float_toggle Shift+f
 bindsym $mod+Shift+$i3-wm.binding.float_toggle floating toggle
 
-## Modify // Move to Scratchpad // <><Ctrl> m ##
+## Scratchpad // Move to Scratchpad // <><Ctrl> m ##
 set_from_resource $i3-wm.binding.move_scratchpad i3-wm.binding.move_scratchpad Ctrl+m
 bindsym $mod+$i3-wm.binding.move_scratchpad move to scratchpad
 
-## Modify // Tile/Float Focus Toggle // <><Shift> t ##
+## Float // Tile/Float Focus Toggle // <><Shift> t ##
 set_from_resource $i3-wm.binding.focus_toggle i3-wm.binding.focus_toggle Shift+t
 bindsym $mod+$i3-wm.binding.focus_toggle focus mode_toggle
 
@@ -287,7 +287,7 @@ bindsym $mod+$i3-wm.binding.focus_toggle focus mode_toggle
 set_from_resource $i3-wm.binding.layout_mode i3-wm.binding.layout_mode t
 bindsym $mod+$i3-wm.binding.layout_mode layout toggle tabbed splith splitv
 
-## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
+## Modify Window // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
 bindsym $mod+Shift+$ws1_key move container to workspace number $ws1
 bindsym $mod+Shift+$ws2_key move container to workspace number $ws2
 bindsym $mod+Shift+$ws3_key move container to workspace number $ws3
@@ -298,7 +298,7 @@ bindsym $mod+Shift+$ws7_key move container to workspace number $ws7
 bindsym $mod+Shift+$ws8_key move container to workspace number $ws8
 bindsym $mod+Shift+$ws9_key move container to workspace number $ws9
 bindsym $mod+Shift+$ws10_key move container to workspace number $ws10
-## Modify // Move Window to Workspace 11 - 19// <><Ctrl><Shift> 1..9 ##
+## Modify Window // Move Window to Workspace 11 - 19// <><Ctrl><Shift> 1..9 ##
 bindsym $mod+Shift+Ctrl+$ws1_key move container to workspace number $ws11
 bindsym $mod+Shift+Ctrl+$ws2_key move container to workspace number $ws12
 bindsym $mod+Shift+Ctrl+$ws3_key move container to workspace number $ws13
@@ -309,12 +309,12 @@ bindsym $mod+Shift+Ctrl+$ws7_key move container to workspace number $ws17
 bindsym $mod+Shift+Ctrl+$ws8_key move container to workspace number $ws18
 bindsym $mod+Shift+Ctrl+$ws9_key move container to workspace number $ws19
 
-## Modify // Move Window to Next Free Workspace // <><Shift> ` ##
+## Modify Window // Move Window to Next Free Workspace // <><Shift> ` ##
 set_from_resource $i3-wm.binding.move_next_free i3-wm.binding.move_next_free Shift+grave
 bindsym $mod+$i3-wm.binding.move_next_free exec --no-startup-id /usr/bin/i3-next-workspace --move-window
 
 # move focused container to workspace, move to workspace
-## Modify // Carry Window to Workspace 1 - 10// <><Alt> 0..9 ##
+## Modify Window // Carry Window to Workspace 1 - 10// <><Alt> 0..9 ##
 bindsym $mod+$alt+$ws1_key move container to workspace number $ws1; workspace number $ws1
 bindsym $mod+$alt+$ws2_key move container to workspace number $ws2; workspace number $ws2
 bindsym $mod+$alt+$ws3_key move container to workspace number $ws3; workspace number $ws3
@@ -325,7 +325,7 @@ bindsym $mod+$alt+$ws7_key move container to workspace number $ws7; workspace nu
 bindsym $mod+$alt+$ws8_key move container to workspace number $ws8; workspace number $ws8
 bindsym $mod+$alt+$ws9_key move container to workspace number $ws9; workspace number $ws9
 bindsym $mod+$alt+$ws10_key move container to workspace number $ws10; workspace number $ws10
-## Modify // Carry Window to Workspace 11 - 19 // <><Alt><Ctrl> 1..9 ##
+## Modify Window // Carry Window to Workspace 11 - 19 // <><Alt><Ctrl> 1..9 ##
 bindsym $mod+$alt+Ctrl+$ws1_key move container to workspace number $ws11; workspace number $ws11
 bindsym $mod+$alt+Ctrl+$ws2_key move container to workspace number $ws12; workspace number $ws12
 bindsym $mod+$alt+Ctrl+$ws3_key move container to workspace number $ws13; workspace number $ws13
@@ -336,7 +336,7 @@ bindsym $mod+$alt+Ctrl+$ws7_key move container to workspace number $ws17; worksp
 bindsym $mod+$alt+Ctrl+$ws8_key move container to workspace number $ws18; workspace number $ws18
 bindsym $mod+$alt+Ctrl+$ws9_key move container to workspace number $ws19; workspace number $ws19
 
-## Modify // Carry Window to Next Free Workspace // <><Alt> ` ##
+## Modify Window // Carry Window to Next Free Workspace // <><Alt> ` ##
 set_from_resource $i3-wm.binding.take_next_free i3-wm.binding.take_next_free Mod1+grave
 bindsym $mod+$i3-wm.binding.take_next_free exec --no-startup-id /usr/bin/i3-next-workspace --move-window-and-follow
 
@@ -356,11 +356,11 @@ workspace_layout $i3-wm.workspace.layout
 # Session Management
 ###############################################################################
 
-## Session // Exit App // <><Shift> q ##
+## Modify Window // Exit App // <><Shift> q ##
 set_from_resource $i3-wm.binding.exit_app i3-wm.binding.exit_app Shift+q
 bindsym $mod+$i3-wm.binding.exit_app [con_id="__focused__"] kill
 
-## Session // Terminate App // <><Alt> q ##
+## Modify Window // Terminate App // <><Alt> q ##
 set_from_resource $i3-wm.binding.kill_app i3-wm.binding.kill_app Mod1+q
 bindsym $mod+$i3-wm.binding.kill_app [con_id="__focused__"] exec --no-startup-id kill -9 $(xdotool getwindowfocus getwindowpid)
 
@@ -406,27 +406,27 @@ bindsym $mod+$i3-wm.binding.sleep exec $i3-wm.program.sleep
 # System Management
 ###############################################################################
 
-## Modify // Settings // <> c ##
+## Settings // Settings // <> c ##
 set_from_resource $i3-wm.binding.settings i3-wm.binding.settings c
 set_from_resource $i3-wm.program.settings i3-wm.program.settings gnome-control-center --class=floating_window
 bindsym $mod+$i3-wm.binding.settings exec $i3-wm.program.settings
 
-## Modify // Display Settings // <> d ##
+## Settings // Display Settings // <> d ##
 # set_from_resource $i3-wm.binding.display i3-wm.binding.display d
 # set_from_resource $i3-wm.program.display i3-wm.program.display gnome-control-center --class=floating_window display
 # bindsym $mod+$i3-wm.binding.display exec $i3-wm.program.display
 
-# ## Modify // Wifi Settings // <> w ##
+# ## Settings // Wifi Settings // <> w ##
 # set_from_resource $i3-wm.binding.wifi i3-wm.binding.wifi w
 # set_from_resource $i3-wm.program.wifi i3-wm.program.wifi gnome-control-center --class=floating_window wifi
 # bindsym $mod+$i3-wm.binding.wifi exec $i3-wm.program.wifi
 
-# ## Modify // Bluetooth Settings // <> b ##
+# ## Settings // Bluetooth Settings // <> b ##
 # set_from_resource $i3-wm.binding.bluetooth i3-wm.binding.bluetooth b
 # set_from_resource $i3-wm.program.bluetooth i3-wm.program.bluetooth gnome-control-center --class=floating_window bluetooth
 # bindsym $mod+$i3-wm.binding.bluetooth exec $i3-wm.program.bluetooth
 
-# ## Modify // Sound Settings // <> s ##
+# ## Settings // Sound Settings // <> s ##
 # set_from_resource $i3-wm.binding.sound i3-wm.binding.sound s
 # set_from_resource $i3-wm.program.sound i3-wm.program.sound gnome-control-center --class=floating_window sound
 # bindsym $mod+$i3-wm.binding.sound exec $i3-wm.program.sound
