@@ -705,6 +705,9 @@ for_window [class="Evolution"] move to workspace $ws12
 for_window [class="Thunderbird"] move to workspace $ws12
 for_window [class="Spotify"] move to workspace $ws19
 
+for_window [floating] move position center
+
 for_window [class="Talon"] floating enable
+for_window [class="Gnome-calculator"] floating enable
 for_window [class="1Password"] floating enable
 for_window [class="Cisco AnyConnect Secure Mobility Client"] floating enable
