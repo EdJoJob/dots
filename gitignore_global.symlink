@@ -10,6 +10,7 @@ node_modules
 .direnv
 .tool-versions
 .vimrc
+.vim
 .rgignore
 .fdignore
 .git-blame-ignore-revs
