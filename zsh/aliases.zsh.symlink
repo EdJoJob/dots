@@ -145,7 +145,7 @@ function pdiary() {
 
 
 function diary() {
-    (cd ~/wiki/zettel/ && vi +VimwikiMakeDiaryNote\ 2)
+    (cd ~/wiki/personal/ && vi +VimwikiMakeDiaryNote\ 3)
 }
 alias wiki=pwiki
 # }}}
