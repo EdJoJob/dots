@@ -1,9 +1,6 @@
 [submodule "tpm"]
 	path = tmux/tmux.symlink/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "todo-standup"]
-	path = todo.symlink/actions/todo-standup
-	url = https://github.com/civrot/todo_txt_actions.git
 [submodule "todo-recur"]
 	path = todo.symlink/actions/todo-recur
 	url = https://github.com/EdJoJob/todo.txt-recurring-tasks.git
