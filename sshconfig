@@ -59,6 +59,11 @@ IdentityFile ~/.ssh/id_edjojob-test@github
 Host bitbucket.org bitbucket.com
     ControlMaster no
 
+Host serial-console.ec2-instance-connect.*.aws
+    ControlMaster no
+    ControlPath none
+    KexAlgorithms ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521
+
 Host *
     IgnoreUnknown UseKeyChain
     AddKeysToAgent yes
