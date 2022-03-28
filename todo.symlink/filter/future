@@ -15,7 +15,7 @@ from datetime import datetime
 
 
 threashold_pattern = re.compile(r"(t:)(\d{4})-(\d{2})-(\d{2})")
-created_pattern = re.compile(r"^(\([A-Z]\) )?(\d{4})-(\d{2})-(\d{2})")
+created_pattern = re.compile(r"(\([A-Z]\) )?(\d{4})-(\d{2})-(\d{2})")
 
 
 def main(args=None):
