@@ -764,6 +764,8 @@ nmap <leader>www <Plug>VimwikiIndex
 nmap -- <Plug>VimwikiRemoveHeaderLevel
 nmap <C-Left> <Plug>VimwikiDiaryPrevDay
 nmap <C-Right> <Plug>VimwikiDiaryNextDay
+let g:vimwiki_tag_format = {'pre_mark': '[''"]#', 'sep': '>><<', 'post_mark': '[''|"]'}
+
 let g:vimwiki_list = [
             \{
                 \'path': '~/wiki/work',
@@ -821,12 +823,13 @@ let g:vimwiki_listsyms=' ▖▌▙✓'
 " }}}
 " vim-zettel {{{
 let g:zettel_options = [{}, {"front_matter": [
-            \["tags", ":inbox:"],
+            \["tags", '"#inbox"'],
             \["type", "note"],
             \],
             \"template": "~/dots/wiki/zettel.tpl",
             \"disable_front_matter": 1,
             \}]
+let g:zettel_format = "%y%m%d-%H%M_%title"
 let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
 " }}}
 "}}}
