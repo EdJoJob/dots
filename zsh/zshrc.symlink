@@ -100,7 +100,8 @@ bindkey -M vicmd v edit-command-line
 bindkey -M vicmd q push-line
 #}}}
 
-autoload -U compinit promptinit
+autoload -Uz compinit promptinit
+compinit
 
 # history {{{
 setopt append_history
