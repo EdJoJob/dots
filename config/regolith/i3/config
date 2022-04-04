@@ -678,6 +678,11 @@ exec --no-startup-id $i3-wm.program.3
 ###############################################################################
 # -- END REGOLITH CONF --
 ###############################################################################
+# greenclip setup
+exec --no-startup-id ~/.local/bin/greenclip daemon
+## Launch // Clip History // <><Ctrl> c
+bindsym $mod+Ctrl+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
 workspace "$ws1" output DP-4
 workspace "$ws2" output DP-4
 workspace "$ws3" output DP-4
