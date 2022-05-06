@@ -723,6 +723,11 @@ nnoremap <F2> :UndotreeToggle<CR>
 "}}}
 " rainbow {{{
 let g:rainbow_active = 1
+let g:rainbow_conf = {
+\    'separately': {
+\		'go': 0,
+\	}
+\}
 "}}}
 " Signify {{{"
 let g:signify_vcs_list = [ 'git', 'hg' ]
