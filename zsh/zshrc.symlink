@@ -6,6 +6,7 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     exec 3>&2 2>$HOME/tmp/startlog.$$
     setopt xtrace prompt_subst
 fi
+fpath=($HOME/.zfunc $fpath)
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
 source ~/.zinit/bin/zinit.zsh
