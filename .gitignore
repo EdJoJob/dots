@@ -19,7 +19,7 @@ ptpython.symlink/history
 editor/vim.symlink/init.vim
 todo.symlink/todo
 
-editor/vim.symlink/spell/
+editor/vim.symlink/spell/*.spl
 
 gnupg.symlink/*
 !gnupg.symlink/gpg-agent.conf
