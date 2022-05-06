@@ -710,9 +710,19 @@ for_window [class="Evolution"] move to workspace $ws12
 for_window [class="Thunderbird"] move to workspace $ws12
 for_window [class="Spotify"] move to workspace $ws19
 
+for_window[class="obsidian" title="personal"] move to workspace $ws1
+for_window[class="obsidian" title="work"] move to workspace $ws1
+for_window[class="obsidian" title="zettel"] move to workspace $ws2
+for_window[class="obsidian" title="RotR"] move to workspace $ws3
+for_window[class="obsidian" title="players"] move to workspace $ws3
+
+# Firefox windows are titled with https://github.com/tpamula/webextension-window-titler
+for_window[class="Firefox" title="work"] move to workspace $ws1
+for_window[class="Firefox" title="zettel"] move to workspace $ws2
+for_window[class="Firefox" title="Pathfinder-GM"] move to workspace $ws3
+
 for_window [floating] move position center
 
 for_window [class="Talon"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="1Password"] floating enable
-for_window [class="Cisco AnyConnect Secure Mobility Client"] floating enable
