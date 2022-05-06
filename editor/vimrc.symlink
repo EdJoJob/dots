@@ -775,7 +775,11 @@ nmap <leader>www <Plug>VimwikiIndex
 nmap -- <Plug>VimwikiRemoveHeaderLevel
 nmap <C-Left> <Plug>VimwikiDiaryPrevDay
 nmap <C-Right> <Plug>VimwikiDiaryNextDay
-let g:vimwiki_tag_format = {'pre_mark': '[''"]#', 'sep': '>><<', 'post_mark': '[''|"]'}
+let g:vimwiki_tag_format = {
+            \'pre_mark': '[''"]\?#\( \|#\)\@!',
+            \'sep': '>><<',
+            \'post_mark': '[''" ]\?\|$'
+            \}
 
 let g:vimwiki_list = [
             \{
@@ -830,7 +834,7 @@ augroup PERSONAL_VIMWIKI
     au FileType vimwiki setlocal spell
     au FileType vimwiki setlocal formatoptions-=t
 augroup END
-let g:vimwiki_listsyms=' ▖▌▙✓'
+let g:vimwiki_listsyms=' x'
 " }}}
 " vim-zettel {{{
 let g:zettel_options = [{}, {"front_matter": [
@@ -840,7 +844,7 @@ let g:zettel_options = [{}, {"front_matter": [
             \"template": "~/wiki/zettel/z_templates/zettel_template.md",
             \"disable_front_matter": 1,
             \}]
-let g:zettel_format = "%y%m%d-%H%M_%title"
+let g:zettel_format = "%title"
 let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
 " }}}
 "}}}
