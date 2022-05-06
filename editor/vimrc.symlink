@@ -826,7 +826,7 @@ let g:zettel_options = [{}, {"front_matter": [
             \["tags", '"#inbox"'],
             \["type", "note"],
             \],
-            \"template": "~/dots/wiki/zettel.tpl",
+            \"template": "~/wiki/zettel/z_templates/zettel_template.md",
             \"disable_front_matter": 1,
             \}]
 let g:zettel_format = "%y%m%d-%H%M_%title"
