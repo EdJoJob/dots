@@ -200,8 +200,8 @@ alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config us
 
 alias anon-ssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias anon-scp="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-alias anon-ssh-force-password="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password -o PubkeyAuthentication=no"
-alias anon-scp-pwd-force-password="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password -o PubkeyAuthentication=no"
+alias anon-ssh-force-password="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
+alias anon-scp-pwd-force-password="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
 aws-serial() {
     aws ec2-instance-connect send-serial-console-ssh-public-key --instance-id=$1 --serial-port 0 --ssh-public-key file://${HOME}/.ssh/dev.pub \
     && anon-ssh -i ~/.ssh/dev $1.port0@serial-console.ec2-instance-connect.${2:-$(aws configure get region)}.aws
