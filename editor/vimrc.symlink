@@ -632,7 +632,7 @@ let g:coc_global_extensions = [
             \]
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gi :CocCommand fzf-preview.CocImplementations<CR>
 nmap <silent> gr :CocCommand fzf-preview.CocReferences<CR>
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
