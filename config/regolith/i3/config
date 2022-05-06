@@ -683,16 +683,16 @@ exec --no-startup-id ~/.local/bin/greenclip daemon
 ## Launch // Clip History // <><Ctrl> c
 bindsym $mod+Ctrl+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
-workspace "$ws1" output DP-4
-workspace "$ws2" output DP-4
-workspace "$ws3" output DP-4
-workspace "$ws4" output DP-4
-workspace "$ws5" output DP-4
-workspace "$ws6" output DP-4
-workspace "$ws7" output DP-4
-workspace "$ws8" output DP-4
-workspace "$ws9" output DP-4
-workspace "$ws10" output DP-4
+workspace "$ws1" output DP-1-4
+workspace "$ws2" output DP-1-4
+workspace "$ws3" output DP-1-4
+workspace "$ws4" output DP-1-4
+workspace "$ws5" output DP-1-4
+workspace "$ws6" output DP-1-4
+workspace "$ws7" output DP-1-4
+workspace "$ws8" output DP-1-4
+workspace "$ws9" output DP-1-4
+workspace "$ws10" output DP-1-4
 workspace "$ws11" output eDP-1
 workspace "$ws12" output eDP-1
 workspace "$ws13" output eDP-1
