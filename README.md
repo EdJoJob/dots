@@ -32,5 +32,4 @@ _because otherwise **I** forget_
 ## TODO
 * [ ] Make example `.local` files, becasue I keep forgetting what I put in them
 * [ ] Check the install process actually does what I want
-* [ ] Move zsh plugins from zgen to zplug
 * [ ] Try get rid of oh-my-zsh for startup speed
