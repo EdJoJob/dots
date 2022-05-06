@@ -1,6 +1,6 @@
 # vim: fdm=marker
 function-path () {
-    $(for d ($fpath); do [[ -f $d/$1 ]] && { echo $d/$1; break }; done)
+    (for d ($fpath); do [[ -f $d/$1 ]] && { echo $d/$1; break }; done)
 }
 # Push and pop directories on directory stack
 alias pu='pushd'
