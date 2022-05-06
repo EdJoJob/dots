@@ -682,7 +682,7 @@ endif
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " }}}
 " vim-fzf {{{
-nnoremap <c-p> :GFiles<cr>
+nnoremap <c-p> :Files<cr>
 " }}}
 " ALE {{{
 let g:ale_sign_column_always = 1
