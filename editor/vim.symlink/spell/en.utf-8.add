@@ -1,3 +1,16 @@
+NGINX
+NetOps
+ssh
+IPv6
+DHCP
+admin
+pmshell
+rollover
+shutdown
+timezone
+oneshot
+subgraph
+subgraphs
 postgres
 codebase
 API's
@@ -87,3 +100,4 @@ APIs
 siloed
 SaaS
 internet
+sociotechnical
