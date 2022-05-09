@@ -13,4 +13,5 @@ asdf plugin update --all
 asdf uninstall neovim stable && asdf install neovim stable
 pipx upgrade-all
 nvim +PlugUpdate +CocUpdate
-echo now run: zinit update --all
+echo now run:
+echo zi update -p 5 --all

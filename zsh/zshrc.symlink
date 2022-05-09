@@ -9,28 +9,35 @@ fi
 fpath=($HOME/.zfunc $fpath)
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
-source ~/.zinit/bin/zinit.zsh
-zinit snippet OMZL::cli.zsh
-zinit snippet OMZL::clipboard.zsh
-zinit snippet OMZL::compfix.zsh
-zinit snippet OMZL::completion.zsh
-zinit snippet OMZL::correction.zsh
-zinit snippet OMZL::diagnostics.zsh
-zinit snippet OMZL::directories.zsh
-zinit snippet OMZL::functions.zsh
-zinit snippet OMZL::grep.zsh
-zinit snippet OMZL::history.zsh
-zinit snippet OMZL::key-bindings.zsh
-zinit snippet OMZL::misc.zsh
-zinit snippet OMZL::nvm.zsh
-zinit snippet OMZL::prompt_info_functions.zsh
-zinit snippet OMZL::spectrum.zsh
-zinit snippet OMZL::termsupport.zsh
-zinit snippet OMZL::theme-and-appearance.zsh
-zinit load zsh-git-prompt/zsh-git-prompt
-zinit load zsh-users/zsh-completions
-zinit load srijanshetty/zsh-pandoc-completion
-zinit load zsh-users/zsh-syntax-highlighting
+typeset -gAH ZI
+ZI[HOME_DIR]="${HOME}/.zi"
+source "${ZI[HOME_DIR]}/bin/zi.zsh"
+
+autoload -Uz _zi
+(( ${+_comps} )) && _comps[zi]=_zi
+
+
+zi snippet OMZL::cli.zsh
+zi snippet OMZL::clipboard.zsh
+zi snippet OMZL::compfix.zsh
+zi snippet OMZL::completion.zsh
+zi snippet OMZL::correction.zsh
+zi snippet OMZL::diagnostics.zsh
+zi snippet OMZL::directories.zsh
+zi snippet OMZL::functions.zsh
+zi snippet OMZL::grep.zsh
+zi snippet OMZL::history.zsh
+zi snippet OMZL::key-bindings.zsh
+zi snippet OMZL::misc.zsh
+zi snippet OMZL::nvm.zsh
+zi snippet OMZL::prompt_info_functions.zsh
+zi snippet OMZL::spectrum.zsh
+zi snippet OMZL::termsupport.zsh
+zi snippet OMZL::theme-and-appearance.zsh
+zi load zsh-git-prompt/zsh-git-prompt
+zi load zsh-users/zsh-completions
+zi load srijanshetty/zsh-pandoc-completion
+zi load zsh-users/zsh-syntax-highlighting
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
