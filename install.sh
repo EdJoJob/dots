@@ -18,6 +18,9 @@ if [ "$(uname)" == "Linux" ]; then
     if which apt &>/dev/null; then
         source install/apt.sh
     fi
+    if which systemctl &>/dev/null; then
+        source install/systemd.sh
+    fi
     source install/rust.sh
 fi
 
