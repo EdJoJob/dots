@@ -27,6 +27,8 @@ _because otherwise **I** forget_
 * `gh-auth`: getting public keys from github (github-auth gem)
 * `gron` and `jq`: look through json
 * `xq` for XML, `yq` for yaml
+* `xprop` to get X-Window Properties
+    * This is most useful for window rules in tiling window managers
 
 
 ## TODO
