@@ -717,10 +717,10 @@ for_window[class="obsidian" title="RotR"] move to workspace $ws3
 for_window[class="obsidian" title="players"] move to workspace $ws3
 
 # Firefox windows are titled with https://github.com/tpamula/webextension-window-titler
-for_window[class="firefox" title="work"] move to workspace $ws1
-for_window[class="firefox" title="zettel"] move to workspace $ws2
-for_window[class="firefox" title="Pathfinder-GM"] move to workspace $ws3
-for_window[class="firefox" title="entertainment"] move to workspace $ws19
+for_window[class="firefox" title="^\[work\]"] move to workspace $ws1
+for_window[class="firefox" title="^\[zettel\]"] move to workspace $ws2
+for_window[class="firefox" title="^\[Pathfinder-GM\]"] move to workspace $ws3
+for_window[class="firefox" title="^\[entertainment\]"] move to workspace $ws19
 
 for_window [floating] move position center
 
