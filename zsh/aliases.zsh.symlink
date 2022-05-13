@@ -163,6 +163,26 @@ alias .local_tmux='vi ~/.local_tmux.conf'
 
 alias .hg='vi ~/dots/hg/hgrc.symlink'
 
+function .i3 {
+    local mtime i3_config
+    i3_config=${HOME}/.config/regolith/i3/config
+    mtime=$(stat -c %Y $i3_config)
+    vi $i3_config
+    if [[ $(stat -c %Y $i3_config) -ne $mtime ]]; then
+        i3-msg reload &>/dev/null
+    fi
+}
+
+function .i3X {
+    local mtime i3_xresources
+    i3_xresources=${HOME}/.config/regolith/Xresources
+    mtime=$(stat -c %Y $i3_xresources)
+    vi $i3_xresources
+    if [[ $(stat -c %Y $i3_xresources) -ne $mtime ]]; then
+        i3-msg reload &>/dev/null
+    fi
+}
+
 # }}}
 # VIM MEMORY {{{
 alias :vim='vi'
