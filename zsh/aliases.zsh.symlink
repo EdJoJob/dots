@@ -222,9 +222,25 @@ alias anon-ssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias anon-scp="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias anon-ssh-force-password="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
 alias anon-scp-pwd-force-password="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
+
 aws-serial() {
+    # Access the AWS Serial for an EC2 Instance
+    # Particularly useful for watching the boot
     aws ec2-instance-connect send-serial-console-ssh-public-key --instance-id=$1 --serial-port 0 --ssh-public-key file://${HOME}/.ssh/dev.pub \
     && anon-ssh -i ~/.ssh/dev $1.port0@serial-console.ec2-instance-connect.${2:-$(aws configure get region)}.aws
+}
+aws-my-images() {
+    # AWS Images that are "mine"
+    aws ec2 describe-images --owner self --filter "Name=tag:derived_user,Values=${1:-${USER}}" | jq '[.Images[]|{key: .CreationDate, value:.ImageId}] | from_entries'
+}
+aws-key-fingerprint() {
+    # Generate an AWS compatible fingerprint from a local private key
+    openssl rsa -RSAPublicKey_in -in <(ssh-keygen -f $1 -e -m PEM) -inform PEM -outform DER 2>/dev/null | openssl md5 -c | awk '{print $2}'
+}
+aws-instance-ip() {
+    # Get the public IP for an EC2 instance ID
+    # Usually used as `anon-ssh root@$(aws-instance-ip $INSTANCE_ID)`
+    aws ec2 describe-instances --instance-ids $1 --query 'Reservations[].Instances[].PublicIpAddress' | jq --raw-output '.[0]'
 }
 
 alias my_external_ip='dig +short ANY myip.opendns.com @resolver1.opendns.com'
