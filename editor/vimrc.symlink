@@ -783,45 +783,9 @@ let g:vimwiki_tag_format = {
 
 let g:vimwiki_list = [
             \{
-                \'path': '~/wiki/work',
-                \'auto_tags': 1,
-                \'auto_diary_index': 1,
-                \'auto_generate_links': 1,
-                \'links_space_char': '_',
-                \'name': 'work',
-                \'ext': 'md',
-                \'syntax': 'markdown',
-                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
-            \},
-            \{
-                \'path': '~/wiki/zettel',
-                \'auto_tags': 1,
-                \'auto_diary_index': 1,
-                \'auto_generate_links': 1,
-                \'links_space_char': '_',
-                \'name': 'zettel',
-                \'ext': 'md',
-                \'syntax': 'markdown',
-                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
-            \},
-            \{
-                \'path': '~/wiki/personal',
-                \'auto_tags': 1,
-                \'auto_diary_index': 1,
-                \'auto_generate_links': 1,
-                \'links_space_char': '_',
-                \'name': 'personal',
-                \'ext': 'md',
-                \'syntax': 'markdown',
-                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
-            \},
-            \{
-                \'path': '~/wiki/archive',
-                \'auto_tags': 1,
-                \'auto_diary_index': 1,
-                \'auto_generate_links': 1,
-                \'links_space_char': '_',
-                \'name': 'archive',
+                \'path': '~/vaults/zettel',
+                \'links_space_char': ' ',
+                \'name': 'vault',
                 \'ext': 'md',
                 \'syntax': 'markdown',
                 \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
@@ -837,11 +801,11 @@ augroup END
 let g:vimwiki_listsyms=' x'
 " }}}
 " vim-zettel {{{
-let g:zettel_options = [{}, {"front_matter": [
+let g:zettel_options = [{"front_matter": [
             \["tags", '"#inbox"'],
             \["type", "note"],
             \],
-            \"template": "~/wiki/zettel/z_templates/zettel_template.md",
+            \"template": "~/vaults/zettel/z_templates/zettel_template.md",
             \"disable_front_matter": 1,
             \}]
 let g:zettel_format = "%title"
