@@ -728,7 +728,7 @@ for_window [class="Talon"] floating enable
 for_window [class="Gnome-calculator"] floating enable
 for_window [class="1Password"] floating enable
 
-# Correct handling of floating windows 
+# Correct handling of floating windows
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable
 for_window [window_role="task_dialog"] floating enable
