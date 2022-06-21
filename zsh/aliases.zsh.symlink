@@ -229,6 +229,11 @@ aws-instance-ip() {
     aws ec2 describe-instances --instance-ids $1 --query 'Reservations[].Instances[].PublicIpAddress' | jq --raw-output '.[0]'
 }
 
+aws-compact-instances() {
+    aws ec2 describe-instances $@ | \
+        jq '[.Reservations[]|.Instances[] | {InstanceId, State: .State.Name, SubnetId, VpcId, Name: ((.Tags?[]?|select(.Key=="Name")|.Value) // "NULL")}]'
+}
+
 alias my_external_ip='dig +short ANY myip.opendns.com @resolver1.opendns.com'
 alias my_external_ip4='dig +short A myip.opendns.com @resolver1.opendns.com'
 alias my_external_ip6='dig +short AAAA myip.opendns.com @resolver1.opendns.com'
