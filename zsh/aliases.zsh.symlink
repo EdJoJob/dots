@@ -308,6 +308,8 @@ time_since_start_day() {
     diff=$(($end_time - $start_time))
     my_date +%H:%M:%S -ud @${diff}
 }
+
+alias today="date '+%Y-%m-%d'"
 # }}}
 # MERCURIAL AIDS {{{
 owner() {
