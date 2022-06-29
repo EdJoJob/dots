@@ -29,6 +29,9 @@ _because otherwise **I** forget_
 * `xq` for XML, `yq` for yaml
 * `xprop` to get X-Window Properties
     * This is most useful for window rules in tiling window managers
+* `neomutt`, `offlineimaprc` and `davmail` for email access
+    * `davmail` is the key to access of corporate O365
+* `vdirsyncer` and `khard` for a "real" local calendar
 
 
 ## TODO
