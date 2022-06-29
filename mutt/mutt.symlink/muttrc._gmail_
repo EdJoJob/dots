@@ -1,0 +1,20 @@
+# Folders
+set folder     = ~/.mutt/$from
+set spoolfile  = +INBOX
+set record     = +[Gmail].Sent\ Mail
+set mbox       = +[Gmail].All\ Mail
+set postponed  = +[Gmail].Drafts
+set trash      = +[Gmail].Bin
+
+# Sending
+set ssl_starttls   = yes
+set ssl_force_tls  = no
+set smtp_pass      = "`~/.bin/mutt_helpers.sh smtp_pass gmail '$from'`"
+set smtp_url       = smtp://$from@smtp.gmail.com:587/
+
+# Addressbook
+set query_command  = "~/.bin/mutt_helpers.sh query_command gmail '$from' '%s'"
+
+folder-hook 'INBOX' 'unmailboxes =[Gmail].All\ Mail =[Gmail].Spam'
+# vim: set ft=neomuttrc:
+

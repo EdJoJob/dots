@@ -1,0 +1,311 @@
+# Directories
+set alias_file       = ~/.mutt/alias
+set certificate_file = ~/.mutt/certificates
+set header_cache     = ~/.mutt/cache/headers
+set mailcap_path     = ~/.mailcap
+set message_cachedir = ~/.mutt/cache/bodies
+set tmpdir           = ~/.mutt/temp
+set attach_save_dir  = ~/Downloads
+
+# General
+set abort_noattach = ask-yes
+set abort_noattach_regex = '\<(attach|attach(ed|ments?))\>'
+set allow_ansi
+set arrow_cursor
+set auto_tag
+set auto_subscribe
+set beep_new
+set collapse_all
+set crypt_autosign
+set crypt_use_gpgme
+set pgp_auto_decode=yes
+set delete
+set fast_reply
+set forward_format = 'Fwd: %s'
+set history_file = '~/.mutt/history'
+set mail_check = 10
+set mail_check_stats
+# TODO: set maildir_trash
+set mbox_type = Maildir
+set menu_scroll
+set mime_forward = ask-yes
+set pager_context = 3
+set pager_index_lines = 10
+set pager_stop
+set rfc2047_parameters
+set reverse_alias
+set save_history = 9999
+set sort = threads
+set sort_aux = reverse-last-date-received
+set sort_browser="unsorted"
+set text_flowed = yes
+set timeout = 60
+set ts_enabled
+set wrap = 100
+unset collapse_unread
+unset copy
+unset mark_old
+unset markers
+unset move
+unset wait_key
+
+timeout-hook 'exec sync-mailbox'
+
+# Folder hooks for multiple accounts
+source ~/.muttrc_local
+folder-hook 'INBOX' '\
+  set status_format    = "%f · Messages: %?M?(filter: %V) %M of ?%m · New: %n · Flag: %F · Tag: %t · Del: %d %*· $from · (%P) "; \
+  set ts_status_format = "NeoMutt with %?m?%m messages&no messages?%?n? [%n NEW]? - $from"; \
+  set signature  = ~/.mutt/sig/sig-$from.txt; \
+  \
+  setenv from $from; \
+  unalternates "*"; \
+  unmailboxes "*"; \
+  mailboxes `mutt_helpers.sh mailboxes $from`'
+
+# Folder
+set folder_format = '%2C %t %N %f'
+
+# MIME
+set implicit_autoview
+alternative_order  multipart/mixed text/calendar text/plain multipart/related text/html text/enriched
+
+# Sidebar
+bind  index,pager \cP sidebar-prev
+bind  index,pager \cN sidebar-next
+bind  index,pager \cO sidebar-open
+macro index,pager   b '<enter-command>toggle sidebar_visible<enter>'
+set sidebar_format      = '%B%* %?N?%N?'
+set sidebar_sort_method = 'path'
+
+# Colors
+# Default
+color normal        default default
+color error         color01 default
+color tilde         color20 default
+color message       color06 default
+color attachment    color08 default
+color search        color05 default
+color indicator     color15 color06
+color tree          color03 default
+color signature     color08 default
+
+color status        color08       color00
+color status        color06       color00 '^=([^·]*).*Messages' 1
+color status        color02       color00 '(Messages): ([0-9]+)' 2
+color status        brightcolor07 color00 '(New): ([0-9]+)' 2
+color status        color05       color00 '(Flag): ([0-9]+)' 2
+color status        color04       color00 '(Tag): ([0-9]+)' 2
+color status        brightcolor01 color00 '(Del): ([0-9]+)' 2
+color status        color03       color00 '([^ ]+@[^ ]+) ·' 1
+# Pager status
+color status        green         color00 '^  ([0-9]+)'      1 # number
+color status        brightgreen   color00 '/[0-9]+ ... (.{20})'  1 # author
+color status        brightcolor07 color00 ' · ([^·]*)·+ \('   1 # subject
+
+# Pager
+set pager_format = '  %C/%m %Z %-20.20n · %s %*·· (%P) '
+
+# Index
+set index_format = '%4C %Z %-20.20F (%?l?%4l&%4c?) %?M?{%2M} ?%s %*  %?X?   [%X]?%<[y?%<[m?%<[d?%[  %H:%M]&%[ %a %d]>&%[ %b %d]>&%[ %Y-%m]> '
+color index_number    color02       default
+color index_collapsed brightcolor03 default
+color index           color08       default '~R'
+color index_author    color07       default '~R'
+color index_subject   color07       default '~R'
+color index           brightdefault default '~N'
+color index_author    brightdefault default '~N'
+color index_subject   brightdefault default '~N'
+color index_flags     brightdefault default '~N'
+color index           brightdefault default '~v~(~N)' # Collapsed threads with new messages
+color index_author    brightdefault default '~v~(~N)'
+color index_subject   brightdefault default '~v~(~N)'
+color index_flags     brightdefault default '~v~(~N)'
+color index_author    brightcolor01 default '~D'
+color index_subject   brightcolor01 default '~D'
+color index_flags     brightcolor01 default '~D'
+color index_author          color04 default '%f internal'
+color index_author    brightcolor04 default '~N %f internal'
+color index_subject   brightcolor01 default '~D'
+color index_flags     brightcolor05 default '~g' # signed
+color index_flags     brightcolor05 default '~G' # encrypted
+color index_flags     brightcolor00 color05 '~F' # flagged
+color index_flags     brightcolor00 color04 '~T' # tagged
+# These are simply too slow
+# color index           brightcolor00       color09 '~h X-PhishMeTracking'
+# color index_author    brightcolor00       color09 '~h X-PhishMeTracking'
+# color index_subject   brightcolor00       color09 '~h X-PhishMeTracking'
+
+# # Sidebar
+# color sidebar_new       brightcolor00 default
+# color sidebar_ordinary  color10       default
+# color sidebar_divider   color08       color08
+# color sidebar_highlight brightcolor06 default
+
+# Attachments
+color attach_headers brightcolor02 default    '\[-- The following data is.*signed.*'
+color attach_headers brightcolor02 default    '\[-- End of.*signed data.*'
+color attach_headers brightcolor00 color05    '\[-- The following data is.*encrypted.*'
+color attach_headers brightcolor00 color05    '\[-- End of.*encrypted data.*'
+color attach_headers brightcolor00 color06    '\[-- Attachment.*'
+color attach_headers color08       default    '\[-- Autoview.*'
+color attach_headers color02       default    '\[-- (BEGIN|END) PGP SIGNED MESSAGE.*'
+color attach_headers color01       default    '\[-- (BEGIN|END) PGP MESSAGE.*'
+color attach_headers color05       default    '\[-- (BEGIN|END) PGP PUBLIC KEY.*'
+
+# Header
+set header_color_partial
+color hdrdefault color08       default
+color header     brightdefault default '^(Subject|Betreff).*'
+color header     brightcolor02 default '^(From).*'
+color header     brightcolor00 color09 '^(X-PhishMeTracking:)'
+
+# Body
+color bold        brightcolor20 red
+color underline   brightcolor20 red
+
+# Quoted text
+color quoted  color06 default
+color quoted1 color05 default
+color quoted2 color09 default
+color quoted3 color13 default
+color quoted4 color11 default
+color quoted5 color12 default
+color quoted6 color12 default
+color quoted7 color12 default
+color quoted8 color12 default
+
+# Links
+color body color06 default '[-a-z_0-9.%$]+@[-a-z_0-9.]+\.[-a-z][-a-z]+'
+color body blue    default "([a-z][a-z0-9+-]*://(((([a-z0-9_.!~*'();:&=+$,-]|%[0-9a-f][0-9a-f])*@)?((([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?|[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)(:[0-9]+)?)|([a-z0-9_.!~*'()$,;:@&=+-]|%[0-9a-f][0-9a-f])+)(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*(/([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*(;([a-z0-9_.!~*'():@&=+$,-]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?(#([a-z0-9_.!~*'();/?:@&=+$,-]|%[0-9a-f][0-9a-f])*)?|(www|ftp)\\.(([a-z0-9]([a-z0-9-]*[a-z0-9])?)\\.)*([a-z]([a-z0-9-]*[a-z0-9])?)\\.?(:[0-9]+)?(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*(/([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*(;([-a-z0-9_.!~*'():@&=+$,]|%[0-9a-f][0-9a-f])*)*)*)?(\\?([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?(#([-a-z0-9_.!~*'();/?:@&=+$,]|%[0-9a-f][0-9a-f])*)?)[^].,:;!)? \t\r\n<>\"]"
+color body color01 default "\\[[0-9]+\\]"
+color body color15 default "[┌┬┐├┼┤└┴┘│─]"
+color body color08 default "[━]"
+color body brightcolor00 color06 "\\[(cid|image):[^]]+\\]"
+
+# PGP
+color body    brightcolor00 color01 '(\*BAD\* signature)'
+color body    brightcolor00 color01 '^Error: decryption/verification failed:.*'
+color body    brightcolor00 color02 '(Good signature)'
+color body    brightcolor00 color03 '(Problem signature)'
+
+# Atlassian
+color body    brightcolor00 color04 '( OPEN )'
+color body    brightcolor00 color02 '( APPROVED | MERGED | RESOLVED )'
+color body    brightcolor00 color01 '( UNAPPROVED | DECLINED )'
+color body    brightcolor00 color03 '( NEEDS WORK )'
+color body    color04 default '[A-Z]+-[1-9][0-9]*' # issue number
+
+# GitHub
+color body    color06 default '^-- [a-zA-Z ]+ --$'
+color body    color01 default '^    D [^(]*'
+color body    color03 default '^    M [^(]*'
+color body    color02 default '^    A [^(]*'
+color body    color02 default '^  \*.*succeeded '
+color body    color01 default '^  \* [0-9a-f-]+ failed '
+color body    color00 color04 '^Reopened #[0-9]+'
+color body    color00 color02 '^Closed #[0-9]+'
+color body    color00 color02 '^Merged #[0-9]+'
+color body    color06 default '\s@[a-zA-Z0-9]+'        # mentions
+color body    color02 default '[a-zA-Z/_]+#[0-9]+'
+color body    color05 default '[a-f0-9]{40}'
+color body    brightdefault default '[A-Za-z0-9/_-]+#[0-9]+' # issue number
+
+# Gerrit
+color body    color01 default '^D ([^ ]|\\ )+$'
+color body    color01 default '[0-9]+ deletions?\(-\)'
+color body    color03 default '^M ([^ ]|\\ )+$'
+color body    color03 default '^R ([^ ]|\\ )+$'
+color body    color03 default '[0-9]+ files? changed'
+color body    color02 default '^A ([^ ]|\\ )+$'
+color body    color02 default '[0-9]+ insertions?\(\+\)'
+color body    brightcolor00 color01 '(Static-Analysis|Workflow|Code-Review|Verified)-[12]'
+color body    brightcolor00 color02 '(Static-Analysis|Workflow|Code-Review|Verified|Review-Priority)\+[12]'
+color body    color08 default 'Gerrit-.*'
+color body    color05 default 'I[a-f0-9]{40}' # Change-Id
+
+# Header-like in body
+color body    color08       default '^(To|Date|Sent|Cc|Location|When|Where): .*$'
+color body    color08       default '^(An|Datum|Wann|Ort|Gesendet): .*$'
+color body    brightdefault default '^(Subject|Betreff): .*'
+color body    brightcolor02 default '^(From|Organizer): .*$'
+color body    brightcolor02 default '^(Von): .*$'
+
+# vcal
+color body    brightdefault default '^Subject:.*'
+color body    brightcolor02 default '^Organizer:.*'
+color body    brightcolor05 default '^Start:.*'
+color body    brightcolor05 default '^End:.*'
+
+# Border lines
+color body    color04       default '( *[-+=#*~_]){6,}'
+
+# Compose
+color compose header           color08       default
+color compose security_encrypt brightcolor02 default
+color compose security_sign    brightcolor02 default
+color compose security_both    brightcolor02 default
+color compose security_none    brightcolor01 default
+
+# Headers
+ignore      *
+unignore    X-PhishMeTracking subject from to cc date
+unhdr_order *
+hdr_order   subject from to cc date
+
+# Shortcuts
+bind  editor       <Tab> complete-query
+bind  editor     <space> noop
+macro index       <Esc>a "c<enter>"                                         'Jump to next unread mailbox (as in weechat)'
+macro index,pager    \cb "<pipe-message>urlscan -d            <enter>"   'Call urlview on message'
+macro attach,compose \cb "<pipe-entry>urlscan -c -d              <enter>"   'Call urlview on message'
+macro index,pager    \eo "<pipe-message>~/.bin/viewhtmlmail       <enter>"   'View HTML in browser'
+macro index,pager      A "<pipe-message>khard add-email -a \$from<enter>"   'Add sender to addressbook'
+
+macro compose        \eh "\
+<filter-entry>pandoc -s -f markdown_mmd -t html <enter>y\
+<edit-type>text/html; charset=utf-8           <enter>"                    'Convert Markdown to HTML'
+
+macro compose        \em "\
+<filter-entry>pandoc -s -f html -t markdown_mmd <enter>y\
+<edit-type>text/plain; charset=us-ascii   <enter>"                        'Convert HTML to Markdown'
+
+macro index,pager    \cr "\
+<enter-command>echo   'Checking mail...'                     <enter>\
+<enter-command>set    my_record_old = \$record               <enter>\
+<enter-command>set    record        = ^                      <enter>\
+<enter-command>set    my_current    = \$record               <enter>\
+<enter-command>set    record        = \$my_record_old        <enter>\
+<enter-command>setenv current         \$my_current           <enter>\
+<shell-escape>offlineimap -o -a \$from -f $(basename $current) -q<enter>\
+<enter-command>unset  my_record_old my_current               <enter>"       'Check new email in currenct folder'
+
+macro index            L "\
+<shell-escape>read -p 'Search messages: ' x;\ echo \$x >~/.cache/mutt_terms     <enter>\
+<enter-command>set               my_query = \`cat ~/.cache/mutt_terms\`         <enter>\
+<enter-command>virtual-mailboxes \"\$my_query\" \"notmuch://?query=\$my_query\" <enter>\
+<enter-command>push              \"<change-vfolder>\$my_query\"          <enter><enter>\
+<enter-command>unset             my_query                                       <enter>"\
+                                                                            'Query notmuch'
+
+macro index,pager    \cA "<pipe-message>~/.bin/mutt-add-todo.py<enter>"      'Add todo'
+
+# Contact groups
+# group -group internal `khard email --remove-first-line -p | awk '/@/{printf "-rx %s ", $1} END { print ""} '`
+
+# Display munging
+folder-hook '.*' '\
+  unsubjectrx *'
+folder-hook '.*/gerrit' '\
+  subjectrx "^Change in (\\.\\.\\.)?" "%R"'
+folder-hook '.*/confluence' '\
+  subjectrx "^\\[confluence\\] " "%R"'
+folder-hook '.*/jira' '\
+  subjectrx "^\\[JIRA\\] Updates for " "%R"'
+
+# Trigger changing folder to default
+set folder = ~/.mutt/$from
+push "<change-folder>~/.mutt/$from/INBOX<enter>"
+
+# vim: set ft=neomuttrc:
+

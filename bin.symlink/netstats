@@ -1,0 +1,32 @@
+import json
+import sys
+import time
+
+import requests
+
+stats = {
+    'requests': 0,
+    'success': 0,
+    'fail': 0,
+    'error': 0,
+}
+
+host = sys.argv[1]
+verify = True
+if host.startswith('1'):
+    verify = False
+
+try:
+    while True:
+        try:
+            r = requests.get(f'https://{host}', verify=verify)
+            if r.status_code != 200:
+                stats['fail'] += 1
+            else:
+                stats['success'] += 1
+        except requests.exceptions.ConnectionError as e:
+            stats['error'] += 1
+        stats['requests'] += 1
+        time.sleep(2)
+except KeyboardInterrupt:
+    print(json.dumps(stats, indent=2))

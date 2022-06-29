@@ -9,7 +9,9 @@ IGNORED_LONG_CMD+=(
     docker
     fg
     less
+    khal
     man
+    neomutt
     nvim
     pdiary
     pwiki

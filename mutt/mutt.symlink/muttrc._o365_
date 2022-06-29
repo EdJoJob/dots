@@ -1,0 +1,18 @@
+# Folders
+set folder     = ~/.mutt/$from
+set spoolfile  = +INBOX
+set record     = +Sent
+set mbox       = +Archive
+set postponed  = +Drafts
+set trash      = +Trash
+
+# Sending
+set ssl_starttls   = no
+set ssl_force_tls  = no
+set smtp_pass      = "`~/.bin/mutt_helpers.sh smtp_pass owa '$from'`"
+# set smtp_url       = "<see muttrc.local>"
+
+# Addressbook
+set query_command  = "~/.bin/mutt_helpers.sh query_command owa '$from' '%s'"
+
+# vim: set ft=neomuttrc:
