@@ -253,14 +253,69 @@ unignore    X-PhishMeTracking subject from to cc date
 unhdr_order *
 hdr_order   subject from to cc date
 
+
+# Navigation
+# ----------------------------------------------------
+
+bind generic             z         noop
+bind index,pager,attach  g         noop
+bind index,pager         d         noop
+bind index,pager         s         noop
+bind index,pager         c         noop
+bind generic,pager       t         noop
+
+bind generic,index,pager \Cf       next-page
+bind generic,index,pager \Cb       previous-page
+bind generic             gg        first-entry
+bind generic,index       G         last-entry
+bind pager               gg        top
+bind pager               G         bottom
+bind generic,pager       \Cy       previous-line
+bind generic,index,pager \Ce       next-line
+bind generic,index,pager \Cd       half-down
+bind generic,index,pager \Cu       half-up
+bind generic             zt        current-top
+bind generic             zz        current-middle
+bind generic             zb        current-bottom
+bind index               za        collapse-thread
+bind index               zA        collapse-all
+bind index,pager         N         search-opposite
+bind index               <Backtab> previous-new-then-unread
+
+# Actions
+# ----------------------------------------------------
+
+bind  index,pager    a   group-reply
+macro index,pager    dd  "<clear-flag>N<delete-message><sync-mailbox>" "move message to trash"
+macro index,pager    dat "<clear-flag>N<delete-thread><sync-mailbox>" "move thread to trash"
+
+
+bind index,pager  ss save-message
+macro index sat "<tag-thread><save-message>" "save thread to mailbox"
+macro pager sat "<exit><mark-message>q<enter><tag-thread>'q<display-message><save-message>" "save thread to mailbox"
+bind index,pager  cc  copy-message
+macro index cat "<tag-thread><copy-message>" "Copy thread to mailbox"
+macro pager  cat "<exit><mark-message>q<enter><tag-thread>'q<display-message><copy-message>" "Copy thread to mailbox"
+
+bind  generic        tt  tag-entry
+bind  index          tat tag-thread
+bind  pager          tt  tag-message
+macro pager          tat "<exit><mark-message>q<enter><tag-thread>'q<display-message>"    "tag-thread"
+macro index,pager    gx "<pipe-message>urlscan -d            <enter>"   'Call urlview on message'
+macro attach,compose gx "<pipe-entry>urlscan -c -d              <enter>"   'Call urlview on message'
+
+# Command Line
+# ----------------------------------------------------
+
+bind editor \Cp history-up
+bind editor \Cn history-down
+
+
 # Shortcuts
 bind  editor       <Tab> complete-query
 bind  editor     <space> noop
 macro index       <Esc>a "c<enter>"                                         'Jump to next unread mailbox (as in weechat)'
-macro index,pager    \cb "<pipe-message>urlscan -d            <enter>"   'Call urlview on message'
-macro attach,compose \cb "<pipe-entry>urlscan -c -d              <enter>"   'Call urlview on message'
 macro index,pager    \eo "<pipe-message>~/.bin/viewhtmlmail       <enter>"   'View HTML in browser'
-macro index,pager      A "<pipe-message>khard add-email -a \$from<enter>"   'Add sender to addressbook'
 
 macro compose        \eh "\
 <filter-entry>pandoc -s -f markdown_mmd -t html <enter>y\
