@@ -3,7 +3,7 @@ set folder     = ~/.mutt/$from
 set spoolfile  = +INBOX
 set record     = +Sent
 set mbox       = +Archive
-set postponed  = +Drafts
+set postponed  = +Unsent\ Messages
 set trash      = +Trash
 
 # Sending
