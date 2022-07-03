@@ -154,6 +154,11 @@ if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
 fi
 
 #}}}
+# Add tools {{{
+source $HOME/.asdf/asdf.sh
+fpath=(${ASDF_DIR}/completions $fpath)
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+# }}}
 # Other files --------------------------{{{
 [ -f ~/.local_zshrc ] && source ~/.local_zshrc
 source $dots/zsh/zsh_theme
@@ -179,11 +184,6 @@ fi
 export GPG_TTY=$(tty)
 if [[ -n "$SSH_CONNECTION" ]] ;then
     export PINENTRY_USER_DATA="USE_CURSES=1"
-fi
-# }}}
-# Add tools {{{
-if whence direnv &>/dev/null; then
-    eval "$(direnv hook zsh)"
 fi
 # }}}
 
