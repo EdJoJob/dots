@@ -286,8 +286,8 @@ bind index               <Backtab> previous-new-then-unread
 # ----------------------------------------------------
 
 bind  index,pager    a   group-reply
-macro index,pager    dd  "<clear-flag>N<delete-message><sync-mailbox>" "move message to trash"
-macro index,pager    dat "<clear-flag>N<delete-thread><sync-mailbox>" "move thread to trash"
+macro index,pager    dd  "<clear-flag>N<previous-undeleted><delete-message>" "move message to trash"
+macro index,pager    dat "<clear-flag>N<previous-undeleted><delete-thread>" "move thread to trash"
 
 
 bind index,pager  ss save-message
