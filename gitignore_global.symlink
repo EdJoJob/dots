@@ -14,3 +14,4 @@ node_modules
 .rgignore
 .fdignore
 .git-blame-ignore-revs
+.vscode/
