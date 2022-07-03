@@ -15,3 +15,4 @@ node_modules
 .fdignore
 .git-blame-ignore-revs
 .vscode/
+.*.bkp
