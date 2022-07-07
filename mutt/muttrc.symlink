@@ -325,6 +325,14 @@ macro compose        \em "\
 <filter-entry>pandoc -s -f html -t markdown_mmd <enter>y\
 <edit-type>text/plain; charset=us-ascii   <enter>"                        'Convert HTML to Markdown'
 
+macro compose Y "<first-entry><enter-command>set wait_key=no<enter>\
+<pipe-entry>pandoc -o /tmp/neomutt-alternative.html<enter>\
+<attach-file>/tmp/neomutt-alternative.html<enter>\
+<toggle-unlink><toggle-disposition>\
+<tag-entry><first-entry><tag-entry><group-alternatives>
+
+
+
 macro index,pager    \cr "\
 <enter-command>echo   'Checking mail...'                     <enter>\
 <enter-command>set    my_record_old = \$record               <enter>\
