@@ -191,10 +191,8 @@ color body    brightcolor00 color03 '(Problem signature)'
 
 # Header-like in body
 color body    color08       default '^(To|Date|Sent|Cc|Location|When|Where): .*$'
-color body    color08       default '^(An|Datum|Wann|Ort|Gesendet): .*$'
-color body    brightdefault default '^(Subject|Betreff): .*'
+color body    brightdefault default '^(Subject): .*'
 color body    brightcolor02 default '^(From|Organizer): .*$'
-color body    brightcolor02 default '^(Von): .*$'
 
 # vcal
 color body    brightdefault default '^Subject:.*'
