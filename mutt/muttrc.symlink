@@ -1,5 +1,6 @@
 # Directories
 set alias_file       = ~/.mutt/alias
+source ~/.mutt/alias
 set certificate_file = ~/.mutt/certificates
 set header_cache     = ~/.mutt/cache/headers
 set mailcap_path     = ~/.mailcap
