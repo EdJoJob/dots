@@ -107,7 +107,28 @@ color status        brightcolor07 color00 ' · ([^·]*)·+ \('   1 # subject
 set pager_format = '  %C/%m %Z %-20.20n · %s %*·· (%P) '
 
 # Index
+# Format Table: https://neomutt.org/guide/reference.html#3-201-%C2%A0index_format
+# Conditional Date: https://neomutt.org/feature/cond-date
+
+# %<[y?                                           &%[ %Y-%m]> - older: 06/15
+#      %<[m?                           &%[ %b %d]> - this year format: Dec 10
+#           %<[d?          &%[ %a %d]> - this month format: Thu 12
+#                %[  %H:%M]  - today format: 12:34
+
 set index_format = '%4C %Z %-20.20F (%?l?%4l&%4c?) %?M?{%2M} ?%s %*  %?X?   [%X]?%<[y?%<[m?%<[d?%[  %H:%M]&%[ %a %d]>&%[ %b %d]>&%[ %Y-%m]> '
+#                     │  │        │    │   │   │          │    │  │           │  │
+#                     │  │        │    │   │   │          │    │  │           │  └ Local Time Conditional Date
+#                     │  │        │    │   │   │          │    │  │           └ Number of MIME Attachments
+#                     │  │        │    │   │   │          │    │  └ Soft-fill with space (i.e justify following right, prefer display right over left)
+#                     │  │        │    │   │   │          │    └ Subject
+#                     │  │        │    │   │   │          └ Hidden messages in thread if collapsed
+#                     │  │        │    │   │   └ bytes in message
+#                     │  │        │    │   └ Lines in unporcessed message
+#                     │  │        │    └ %?X?Y&Z? is IF X THEN Y ELSE Z
+#                     │  │        └ 40 Chars of "From" or To if From me
+#                     │  └ Message Flag Tripple (New/Old/Read) (Delete/Encrypted) (Tagged/Flagged/$to_chars)
+#                     └ 4 colums of message number
+
 color index_number    color02       default
 color index_collapsed brightcolor03 default
 color index           color08       default '~R'
