@@ -16,6 +16,22 @@ function _query_keychain() {
   fi
 }
 
+function save_pass() {
+    local kind=$1
+    local from=$2
+    if [[ $(uname) == "Darwin"* ]]; then
+        echo "Account User"
+        security add-generic-password -U -s "${kind}-username" -a "$from" -l "${kind}-user-${from}" -w
+        echo "Account Password"
+        security add-generic-password -U -s "${kind}-pass" -a "$from" -l "${kind}-pass-${from}" -w
+    else
+        echo "Account User"
+        secret-tool store -l "${kind}-user-${from}" "${kind}-username" "$from"
+        echo "Account Password"
+        secret-tool store -l "${kind}-pass-${from}" "${kind}-pass" "$from"
+    fi
+}
+
 function mailboxes() {
   local from=$1
   echo -n "'=INBOX' "
@@ -34,7 +50,23 @@ function query_command() {
   local query="$3"
   local pass
   local username
-  khard email -a "$from" -p "$query"
+  if [[ "$kind" == "owa" ]]; then
+    pass=$(smtp_pass "$kind" "$from")
+    username=$(my_username "$kind" "$from")
+    echo ""
+    ldapsearch -H ldap://localhost:1389 \
+               -x \
+               -D"$username" \
+               -w"$pass" \
+               -b 'ou=people' \
+               "(|(sn=$query*)(mail=$query*)(givenName=$query*))" \
+               'mail' \
+               'title' \
+      | awk -F': ' \
+            '/^uid/{uid=$2; getline; mail=$2; getline; title=$2; printf("%s\t%s\t%s\n",tolower(mail),uid,title)}'
+  else
+    khard email -a "$from" -p "$query"
+  fi
 }
 
 function my_username() {
