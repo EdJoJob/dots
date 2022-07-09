@@ -299,7 +299,8 @@ bind editor \Cn history-down
 
 
 # Shortcuts
-bind  editor       <Tab> complete-query
+# bind editor \Ct <complete-query> "External query default"
+# bind editor <Tab> <complete>     "Alias complete default
 bind  editor     <space> noop
 macro index       <Esc>a "<change-folder><enter>"                                         'Jump to next unread mailbox (as in weechat)'
 macro index,pager    \eo "<pipe-message>~/.bin/viewhtmlmail       <enter>"   'View HTML in browser'
