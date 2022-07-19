@@ -297,6 +297,8 @@ macro attach,compose gx "<pipe-entry>urlscan -c -d              <enter>"   'Call
 bind editor \Cp history-up
 bind editor \Cn history-down
 
+bind index - change-folder
+
 
 # Shortcuts
 # bind editor \Ct <complete-query> "External query default"
