@@ -1,0 +1,20 @@
+# Terminal programs
+application/ics;          khal import -a $from %s; needsterminal
+text/calendar;            khal import -a $from %s; needsterminal
+application/ms-tnef;      tnef -t %s;              needsterminal
+#
+## GUI programs
+application/*;            mutt-open.sh %s
+image/*;                  mutt-open.sh %s
+text/*;                   mutt-open.sh %s
+video/*;                  mpv '%s'; test=test -n "$DISPLAY"
+#
+## Autoview
+application/octet-stream; mutt.octet.filter %s;                     copiousoutput
+application/msword;       antiword -w 96 %s 2>/dev/null;            copiousoutput
+application/ics;          mutt-ics;                                 copiousoutput
+text/calendar;            mutt-ics;                                 copiousoutput
+application/pdf;          pdftotext -fixed 8 -l 2 %s - 2>/dev/null; copiousoutput
+application/x-pdf;        pdftotext -fixed 8 -l 2 %s - 2>/dev/null; copiousoutput
+application/ms-tnef;      tnef -t %s;                               copiousoutput
+text/html;                w3m -dump -cols ${COLUMNS:-100} -ppc 10 -graph -s -I %{charset} -T text/html; copiousoutput
