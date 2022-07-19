@@ -12,6 +12,9 @@ set ssl_force_tls  = no
 set smtp_pass      = "`~/.bin/mutt_helpers.sh smtp_pass owa '$from'`"
 # set smtp_url       = "<see muttrc.local>"
 
+macro index A "<clear-flag>N<previous-undeleted><save-message>=Archive<enter>" "Archive"
+macro pager A "<exit><save-message>=Archive<enter><display-message>" "Archive"
+
 # Addressbook
 set query_command  = "~/.bin/mutt_helpers.sh query_command owa '$from' '%s'"
 

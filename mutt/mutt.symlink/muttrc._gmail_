@@ -15,6 +15,8 @@ set smtp_url       = smtp://$from@smtp.gmail.com:587/
 # Addressbook
 set query_command  = "~/.bin/mutt_helpers.sh query_command gmail '$from' '%s'"
 
+macro index,pager  A "<purge-message>" 'Implicit archive to All Mail'
+
 folder-hook 'INBOX' 'unmailboxes =[Gmail].All\ Mail =[Gmail].Spam'
 # vim: set ft=neomuttrc:
 
