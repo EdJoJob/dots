@@ -1,0 +1,6 @@
+# greenclip setup
+exec --no-startup-id ~/.local/bin/greenclip daemon
+## Launch // Clip History // <><Ctrl> c
+bindsym $mod+Ctrl+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
+# vim: set ft=i3config:

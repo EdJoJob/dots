@@ -1,0 +1,17 @@
+
+for_window [floating] move position center
+
+for_window [class="Talon"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="1Password"] floating enable
+for_window [class="org.gnome.Characters"] floating enable
+
+# Correct handling of floating windows
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="dialog"] floating enable
+for_window [window_role="menu"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+# vim: set ft=i3config:

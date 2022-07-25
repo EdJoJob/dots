@@ -1,0 +1,24 @@
+
+workspace 1 output DP-1-4
+workspace 2 output DP-1-4
+workspace 3 output DP-1-4
+workspace 4 output DP-1-4
+workspace 5 output DP-1-4
+workspace 6 output DP-1-4
+workspace 7 output DP-1-4
+workspace 8 output DP-1-4
+workspace 9 output DP-1-4
+workspace 10 output DP-1-4
+
+workspace 11 output eDP-1
+workspace 12 output eDP-1
+workspace 13 output eDP-1
+workspace 14 output eDP-1
+workspace 15 output eDP-1
+workspace 16 output eDP-1
+workspace 17 output eDP-1
+workspace 18 output eDP-1
+workspace 19 output eDP-1
+workspace 20 output eDP-1
+
+# vim: set ft=i3config:

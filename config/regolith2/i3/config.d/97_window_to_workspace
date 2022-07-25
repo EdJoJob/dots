@@ -1,0 +1,18 @@
+
+for_window [class="Slack"] move --no-auto-back-and-forth container to workspace $ws11
+for_window [class="Microsoft Teams - Preview"] move --no-auto-back-and-forth container to workspace $ws11
+for_window [class="Evolution"] move --no-auto-back-and-forth container to workspace $ws12
+for_window [class="Thunderbird"] move --no-auto-back-and-forth container to workspace $ws12
+for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace $ws19
+
+for_window [class="obsidian" title="zettel"] move --no-auto-back-and-forth container to workspace $ws2
+for_window [class="obsidian" title="RotR"] move --no-auto-back-and-forth container to workspace $ws3
+for_window [class="obsidian" title="players"] move --no-auto-back-and-forth container to workspace $ws3
+
+# Firefox windows are titled with https://github.com/tpamula/webextension-window-titler
+for_window [class="firefox" title="^\[work\]"] move --no-auto-back-and-forth container to workspace $ws1
+for_window [class="firefox" title="^\[zettel\]"] move --no-auto-back-and-forth container to workspace $ws2
+for_window [class="firefox" title="^\[pathfinder\]"] move --no-auto-back-and-forth container to workspace $ws3
+for_window [class="firefox" title="^\[entertainment\]"] move --no-auto-back-and-forth container to workspace $ws19
+
+# vim: set ft=i3config:
