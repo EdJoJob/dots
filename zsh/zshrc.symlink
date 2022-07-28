@@ -155,9 +155,6 @@ fi
 
 #}}}
 # Add tools {{{
-source $HOME/.asdf/asdf.sh
-fpath=(${ASDF_DIR}/completions $fpath)
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 # }}}
 # Other files --------------------------{{{
 [ -f ~/.local_zshrc ] && source ~/.local_zshrc
