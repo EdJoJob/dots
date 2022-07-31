@@ -91,7 +91,7 @@ color indicator     color15 color06
 color tree          color03 default
 color signature     color08 default
 
-color status        color08       color00
+color status        default       color00
 color status        color06       color00 '^=([^·]*).*Messages' 1
 color status        color02       color00 '(Messages): ([0-9]+)' 2
 color status        brightcolor07 color00 '(New): ([0-9]+)' 2

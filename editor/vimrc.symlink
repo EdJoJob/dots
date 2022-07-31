@@ -25,6 +25,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " colorscheme
         Plug 'nanotech/jellybeans.vim'
         Plug 'crusoexia/vim-monokai'
+        Plug 'morhetz/gruvbox'
         " the pretty at the bottom of the buffer
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
@@ -983,17 +984,14 @@ if has('nvim')
     set termguicolors
 endif
 
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
 if TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
     set background=dark
-    colorscheme solarized
 elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
     set background=dark
-    let g:airline_theme='papercolor'
-    colorscheme PaperColor
     hi Normal ctermbg=NONE guibg=NONE
 elseif  $ITERM_PROFILE =~? 'Hotkey Window Left' || $ITERM_PROFILE =~? 'Personal' || TmuxSessionName() =~? 'personal'
-    set background=dark
-    let g:airline_theme='solarized'
     colorscheme solarized
     hi Normal ctermbg=NONE guibg=NONE
 else
@@ -1002,8 +1000,6 @@ else
     else
         set background=light
     endif
-    let g:airline_theme='papercolor'
-    colorscheme PaperColor
 endif
 "colorscheme despacio
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
