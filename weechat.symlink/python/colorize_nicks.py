@@ -21,6 +21,14 @@
 #
 #
 # History:
+# 2022-07-11: ncfavier
+#   version 29: check nick for exclusion *after* stripping
+#               decrease minimum min_nick_length to 1
+# 2020-11-29: jess
+#   version 28: fix ignore_tags having been broken by weechat 2.9 changes
+# 2020-05-09: Sébastien Helleu <flashcode@flashtux.org>
+#   version 27: add compatibility with new weechat_print modifier data
+#               (WeeChat >= 2.9)
 # 2018-04-06: Joey Pabalinas <joeypabalinas@gmail.com>
 #   version 26: fix freezes with too many nicks in one line
 # 2018-03-18: nils_2
@@ -85,7 +93,7 @@ w = weechat
 
 SCRIPT_NAME    = "colorize_nicks"
 SCRIPT_AUTHOR  = "xt <xt@bash.no>"
-SCRIPT_VERSION = "26"
+SCRIPT_VERSION = "29"
 SCRIPT_LICENSE = "GPL"
 SCRIPT_DESC    = "Use the weechat nick colors in the chat area"
 
@@ -133,7 +141,7 @@ def colorize_config_init():
     colorize_config_option["min_nick_length"] = weechat.config_new_option(
         colorize_config_file, section_look, "min_nick_length",
         "integer", "Minimum length nick to colorize", "",
-        2, 20, "", "", 0, "", "", "", "", "", "")
+        1, 20, "2", "2", 0, "", "", "", "", "", "")
     colorize_config_option["colorize_input"] = weechat.config_new_option(
         colorize_config_file, section_look, "colorize_input",
         "boolean", "Whether to colorize input", "", 0,
@@ -165,18 +173,24 @@ def colorize_nick_color(nick, my_nick):
     if nick == my_nick:
         return w.color(w.config_string(w.config_get('weechat.color.chat_nick_self')))
     else:
-        return w.info_get('irc_nick_color', nick)
+        return w.info_get('nick_color', nick)
 
 def colorize_cb(data, modifier, modifier_data, line):
     ''' Callback that does the colorizing, and returns new line if changed '''
 
     global ignore_nicks, ignore_channels, colored_nicks
 
+    if modifier_data.startswith('0x'):
+        # WeeChat >= 2.9
+        buffer, tags = modifier_data.split(';', 1)
+    else:
+        # WeeChat <= 2.8
+        plugin, buffer_name, tags = modifier_data.split(';', 2)
+        buffer = w.buffer_search(plugin, buffer_name)
 
-    full_name = modifier_data.split(';')[1]
-    channel = '.'.join(full_name.split('.')[1:])
+    channel = w.buffer_get_string(buffer, 'localvar_channel')
+    tags = tags.split(',')
 
-    buffer = w.buffer_search('', full_name)
     # Check if buffer has colorized nicks
     if buffer not in colored_nicks:
         return line
@@ -188,18 +202,13 @@ def colorize_cb(data, modifier, modifier_data, line):
     reset = w.color('reset')
 
     # Don't colorize if the ignored tag is present in message
-    tags_line = modifier_data.rsplit(';')
-    if len(tags_line) >= 3:
-        tags_line = tags_line[2].split(',')
-        for i in w.config_string(colorize_config_option['ignore_tags']).split(','):
-            if i in tags_line:
-                return line
+    tag_ignores = w.config_string(colorize_config_option['ignore_tags']).split(',')
+    for tag in tags:
+        if tag in tag_ignores:
+            return line
 
     for words in valid_nick_re.findall(line):
         nick = words[1]
-        # Check that nick is not ignored and longer than minimum length
-        if len(nick) < min_length or nick in ignore_nicks:
-            continue
 
         # If the matched word is not a known nick, we try to match the
         # word without its first or last character (if not a letter).
@@ -215,6 +224,10 @@ def colorize_cb(data, modifier, modifier_data, line):
             elif not nick[-1].isalpha():
                 if nick[:-1] in colored_nicks[buffer]:
                     nick = nick[:-1]
+
+        # Check that nick is not ignored and longer than minimum length
+        if len(nick) < min_length or nick in ignore_nicks:
+            continue
 
         # Check that nick is in the dictionary colored_nicks
         if nick in colored_nicks[buffer]:
