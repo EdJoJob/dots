@@ -12,8 +12,8 @@
 [include]
     path = ~/.local_gitconfig
 [alias]
-    blog = !git log --graph --date=relative --format=eevans ${GIT_MAINLINE:-master}...HEAD
-    bdiff = !git diff ${GIT_MAINLINE:-master}...HEAD
+    blog = !git -C ${GIT_PREFIX:-.} log --graph --date=relative --format=eevans ${GIT_MAINLINE:-master}...HEAD
+    bdiff = !git -C ${GIT_PREFIX:-.} diff ${GIT_MAINLINE:-master}...HEAD
     up = !git pull --all --rebase --prune $@ && git submodule sync --recursive && git submodule update --init --recursive
     out = !git fetch && git log origin/${GIT_MAINLINE:-master}..
     in = !git fetch && git log ..origin/${GIT_MAINLINE:-master}
