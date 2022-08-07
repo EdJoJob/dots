@@ -288,5 +288,6 @@ add-zsh-hook preexec before_execute
 
 
 prompt_adam2_setup
+autoload -Uz promptinit; promptinit
 #}}}
 #}}}

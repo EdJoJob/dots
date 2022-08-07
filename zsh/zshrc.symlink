@@ -96,9 +96,6 @@ bindkey -M vicmd v edit-command-line
 bindkey -M vicmd q push-line
 #}}}
 
-autoload -Uz compinit promptinit
-compinit
-
 # history {{{
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=999999999
@@ -183,8 +180,11 @@ if [[ -n "$SSH_CONNECTION" ]] ;then
 fi
 # }}}
 
-compinit
-promptinit
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
 
 if [[ "$PROFILE_STARTUP" == true ]]; then
     unsetopt xtrace
