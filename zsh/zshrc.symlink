@@ -35,6 +35,7 @@ zi ice wait lucid multisrc'asdf.sh ~/dots/zsh/aliases.zsh.symlink' compclear
 zi load asdf-vm/asdf
 
 zi for wait lucid \
+    agkozak/zhooks \
     zsh-users/zsh-syntax-highlighting
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
