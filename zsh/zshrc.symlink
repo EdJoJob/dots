@@ -29,13 +29,12 @@ zi snippet OMZL::nvm.zsh
 zi snippet OMZL::spectrum.zsh
 zi snippet OMZL::termsupport.zsh
 zi snippet OMZL::theme-and-appearance.zsh
-zi load zsh-git-prompt/zsh-git-prompt
-zi load zsh-users/zsh-completions
-zi load srijanshetty/zsh-pandoc-completion
-zi load zsh-users/zsh-syntax-highlighting
 
 zi ice wait lucid multisrc'asdf.sh ~/dots/zsh/aliases.zsh.symlink' compclear
 zi load asdf-vm/asdf
+
+zi for wait lucid \
+    zsh-users/zsh-syntax-highlighting
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
@@ -173,6 +172,13 @@ if [[ -n "$SSH_CONNECTION" ]] ;then
     export PINENTRY_USER_DATA="USE_CURSES=1"
 fi
 # }}}
+
+zi wait lucid atload"zicompinit; zicdreplay" blockf for \
+    zsh-users/zsh-completions \
+    srijanshetty/zsh-pandoc-completion
+
+zi ice wait'!' lucid atload'source ~/dots/zsh/theme_vars'
+zi load zsh-git-prompt/zsh-git-prompt
 
 autoload -Uz compinit
 for dump in ~/.zcompdump(N.mh+24); do
