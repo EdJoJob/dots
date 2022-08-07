@@ -34,6 +34,9 @@ zi load zsh-users/zsh-completions
 zi load srijanshetty/zsh-pandoc-completion
 zi load zsh-users/zsh-syntax-highlighting
 
+zi ice wait lucid multisrc'asdf.sh ~/dots/zsh/aliases.zsh.symlink' compclear
+zi load asdf-vm/asdf
+
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
 for f in ~/dots/zsh/func/*(*); do
@@ -152,16 +155,10 @@ fi
 # Other files --------------------------{{{
 [ -f ~/.local_zshrc ] && source ~/.local_zshrc
 source $dots/zsh/zsh_theme
-source ~/.aliases.zsh
 source $dots/zsh/fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r '^T' && bindkey '^P' fzf-file-widget
 #}}}
 
-# Default programs ---------------------{{{
-export LESS="-FXRM"
-export SHELL=$(whence zsh)
-export EDITOR=$(whence nvim || whence vim)
-#}}}
 
 # Tmux detection -----------------------{{{
 if [ -z $TMUX ]; then

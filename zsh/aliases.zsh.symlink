@@ -119,6 +119,13 @@ if whence nvim &>/dev/null; then
 else
     alias vi='vim'
 fi
+
+# Default programs ---------------------{{{
+export LESS="-FXRM"
+export SHELL=$(whence zsh)
+export EDITOR=$(whence nvim || whence vim)
+#}}}
+
 function zz() {
     (cd ~/vaults/zettel && vi +VimwikiIndex)
 }
