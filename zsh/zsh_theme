@@ -41,33 +41,7 @@ fi
 # }}}
 
 # THEME --------------------------------{{{
-# theme vars {{{
-# Default values for the appearance of the prompt. Configure at will.
-ZSH_THEME_PREFIX="%{$fg_bold[black]%}%{[%G%}"
-ZSH_THEME_SUFFIX="%{$fg_bold[black]%}%{]%G%}"
-ZSH_THEME_SEPARATOR="%{$fg_bold[black]%}%{|%G%}"
-ZSH_THEME_MASTER="%{$fg_bold[red]%}"
-ZSH_THEME_REPO_COLOR="%{$fg_bold[cyan]%}"
-ZSH_THEME_GIT_PROMPT_PREFIX="$ZSH_THEME_PREFIX$ZSH_THEME_REPO_COLOR±%{$reset_color%}$ZSH_THEME_SEPARATOR"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$fg_bold[black]%}%{]%G%}"
-ZSH_THEME_GIT_PROMPT_SEPARATOR="%{$fg_bold[black]%}%{|%G%}"
-ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg_bold[green]%}"
-ZSH_THEME_GIT_PROMPT_MASTER="%{$fg_bold[red]%}"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}%{●%G%}"
-ZSH_THEME_GIT_PROMPT_CONFLICTS="%{$fg[red]%}%{≠%G%}"
-ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[red]%}%{%G%}"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[red]↓%G%}"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[green]↑%G%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[yellow]…%G%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
-ZSH_THEME_GIT_PROMPT_REPO_COLOR="%{$fg_bold[cyan]%}"
-ZSH_THEME_GIT_PROMPT_LOCAL=" %{$fg_bold[yellow]%}{L}%{$reset_color%}"
-# }}}
-
-# ↑ ✔ green
-# ↓  red
-# ♦ … ≠ ":" yellow
-# [$branch|status|remote]
+source $dots/zsh/theme_vars
 
 in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
