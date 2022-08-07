@@ -137,12 +137,11 @@ typeset -U path
 export path
 # }}}
 # Colors -------------------------------{{{
-if whence gdircolors &>/dev/null; then
-    eval $(gdircolors ~/.dir_colors)
-else
-    eval $(dircolors ~/.dir_colors)
-fi
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zi ice atclone'dircolors -b ~/dots/dir_colors.symlink > clrs.zsh' \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+zi light trapd00r/LS_COLORS
+
 
 # Use gnu's ls so don't need these lscolors
 if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
