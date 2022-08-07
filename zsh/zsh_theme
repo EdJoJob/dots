@@ -236,6 +236,40 @@ add-zsh-hook precmd before_command
 
 #}}}
 
+# Use OMZL termsupport re-do for my custom tmux-256color {{{
+function title {
+  setopt localoptions nopromptsubst
+
+  # Don't set the title if inside emacs, unless using vterm
+  [[ -n "${INSIDE_EMACS:-}" && "$INSIDE_EMACS" != vterm ]] && return
+
+  # if $2 is unset use $1 as default
+  # if it is set and empty, leave it as is
+  : ${2=$1}
+
+  case "$TERM" in
+    cygwin|xterm*|putty*|rxvt*|konsole*|ansi|mlterm*|alacritty|st*|foot)
+      print -Pn "\e]2;${2:q}\a" # set window name
+      print -Pn "\e]1;${1:q}\a" # set tab name
+      ;;
+    screen*)
+      print -Pn "\ek${1:q}\e\\" # set screen hardstatus
+      ;;
+    *)
+      if [[ "$TERM_PROGRAM" == "iTerm.app" ]]; then
+        print -Pn "\e]2;${2:q}\a" # set window name
+        print -Pn "\e]1;${1:q}\a" # set tab name
+      else
+        # Try to use terminfo to set the title if the feature is available
+        if (( ${+terminfo[fsl]} && ${+terminfo[tsl]} )); then
+          print -Pn "${terminfo[tsl]}$1${terminfo[fsl]}"
+        fi
+      fi
+      ;;
+  esac
+}
+#}}}
+
 prompt_adam2_choose_prompt () { #{{{
     local prompt_line_1a_width=${#${(S%%)prompt_line_1a//(\%([KF1]|)\{*\}|\%[Bbkf])}}
     local prompt_line_1b_width=${#${(S%%)prompt_line_1b//(\%([KF1]|)\{*\}|\%[Bbkf])}}
