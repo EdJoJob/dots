@@ -9,6 +9,7 @@ fi
 fpath=($HOME/.zfunc $fpath)
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
+skip_global_compinit=1
 typeset -gAH ZI
 ZI[HOME_DIR]="${HOME}/.zi"
 source "${ZI[HOME_DIR]}/bin/zi.zsh"
