@@ -47,8 +47,6 @@ if [[ $(uname) == 'Darwin' ]]; then
 fi
 
 
-# Show history
-alias history='fc -l 1'
 # LS TOOLS {{{
 if whence gls &>/dev/null; then
     alias ls='gls --color=auto -F --group-directories-first'
