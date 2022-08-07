@@ -1,4 +1,5 @@
 # vim: fdm=marker
+# zmodload zsh/zprof
 PROFILE_STARTUP=false
 if [[ "$PROFILE_STARTUP" == true ]]; then
     # http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
@@ -190,3 +191,4 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     unsetopt xtrace
     exec 2>&3 3>&-
 fi
+# zprof
