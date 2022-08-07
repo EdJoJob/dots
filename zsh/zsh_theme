@@ -178,7 +178,7 @@ prompt_adam2_setup () { #{{{
     prompt_opts=(cr subst percent)
 
 } #}}}
-precmd() { #{{{
+before_command() { #{{{
     EXIT_CODE=$?
     if ! [[ -z $CMD_START_DATE ]]; then
         # The idea for this comes from https://glasnt.com/blog/on-audible-notification-of-long-running-commands
@@ -229,7 +229,13 @@ precmd() { #{{{
     PS3="$prompt_line_2$prompt_gfx_bbox_to_mbox%b%F{12}?# %b%f%k"
 
     zle_highlight[(r)default:*]="default:fg=$prompt_adam2_color4"
-} #}}}
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd before_command
+
+#}}}
+
 prompt_adam2_choose_prompt () { #{{{
     local prompt_line_1a_width=${#${(S%%)prompt_line_1a//(\%([KF1]|)\{*\}|\%[Bbkf])}}
     local prompt_line_1b_width=${#${(S%%)prompt_line_1b//(\%([KF1]|)\{*\}|\%[Bbkf])}}
@@ -260,12 +266,19 @@ prompt_adam2_choose_prompt () { #{{{
     local prompt_pwd_size=$(( COLUMNS - 5 ))
     prompt_line_1="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%$prompt_pwd_size<...<%~%<<$prompt_r_paren%b%F{$prompt_adam2_color1}$prompt_start$prompt_gfx_hyphen$prompt_end"
 } #}}}
-preexec() { #{{{
+before_execute() { #{{{
     print -Pn "%B%F{}Start %D{%H:%M:%S}\n%b%f%k"
     CMD_NAME=$1
     echo $1 | read -A CMD_ARRAY
     CMD_START_DATE=$(date +%s)
-} #}}}
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec before_execute
+
+#}}}
+
+
 prompt_adam2_setup
 #}}}
 #}}}
