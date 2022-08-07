@@ -17,20 +17,14 @@ autoload -Uz _zi
 (( ${+_comps} )) && _comps[zi]=_zi
 
 
-zi snippet OMZL::cli.zsh
-zi snippet OMZL::clipboard.zsh
 zi snippet OMZL::compfix.zsh
 zi snippet OMZL::completion.zsh
-zi snippet OMZL::correction.zsh
-zi snippet OMZL::diagnostics.zsh
 zi snippet OMZL::directories.zsh
 zi snippet OMZL::functions.zsh
 zi snippet OMZL::grep.zsh
-zi snippet OMZL::history.zsh
 zi snippet OMZL::key-bindings.zsh
 zi snippet OMZL::misc.zsh
 zi snippet OMZL::nvm.zsh
-zi snippet OMZL::prompt_info_functions.zsh
 zi snippet OMZL::spectrum.zsh
 zi snippet OMZL::termsupport.zsh
 zi snippet OMZL::theme-and-appearance.zsh
