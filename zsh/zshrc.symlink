@@ -31,7 +31,7 @@ zi snippet OMZL::spectrum.zsh
 zi snippet OMZL::termsupport.zsh
 zi snippet OMZL::theme-and-appearance.zsh
 
-zi ice wait lucid multisrc'asdf.sh ~/dots/zsh/aliases.zsh.symlink' compclear
+zi ice wait lucid multisrc'asdf.sh ~/.config/asdf-direnv/zshrc ~/dots/zsh/aliases.zsh.symlink' compclear
 zi load asdf-vm/asdf
 
 zi for wait lucid \
