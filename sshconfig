@@ -59,6 +59,9 @@ IdentityFile ~/.ssh/id_edjojob-test@github
 Host bitbucket.org bitbucket.com
     ControlMaster no
 
+Host *.tmate.io
+    ControlMaster no
+
 Host serial-console.ec2-instance-connect.*.aws
     ControlMaster no
     ControlPath none
