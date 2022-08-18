@@ -188,7 +188,7 @@ alias ZZ='exit'
 
 alias c='clear'
 if whence todo-txt &> /dev/null; then
-    alias todo.sh=todo-txt
+    todo.sh() { todo-txt $@ }
 fi
 function t() {
     if [[ "$#" -eq 0 ]]; then
