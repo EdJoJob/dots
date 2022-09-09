@@ -404,4 +404,11 @@ prepare_az() {
 }
 # }}}
 
+pipenv_versions() {
+    echo default
+    jq -r '.default | keys[] as $k | "\($k)\(.[$k].version)"' $1
+    echo dev
+    jq -r '.dev | keys[] as $k | "\($k)\(.[$k].version)"' $1
+}
+
 # vim:ft=zsh
