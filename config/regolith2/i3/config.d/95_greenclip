@@ -1,6 +1,8 @@
 # greenclip setup
-exec --no-startup-id ~/.local/bin/greenclip daemon
+set $greenclip ~/.local/bin/greenclip
+set $ilia /usr/bin/ilia
+exec --no-startup-id $greenclip daemon
 ## Launch // Clip History // <><Ctrl> c
-bindsym $mod+Ctrl+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+bindsym $mod+Ctrl+c exec $greenclip print | $ilia -p textlist -l greenclip | xargs -r -d'\n' -I '{}' $greenclip print '{}'
 
 # vim: set ft=i3config:
