@@ -104,11 +104,7 @@ if which gcal &>/dev/null; then
     alias cal=gcal
 fi
 
-if whence hub &>/dev/null; then
-    alias g=hub
-else
-    alias g=git
-fi
+alias g=git
 
 if whence rg &>/dev/null; then
     alias rg="$(whence rg) --smart-case"
