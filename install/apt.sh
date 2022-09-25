@@ -6,7 +6,6 @@ sudo apt install \
     python2 \
     python3 \
     python3-gpg \
-    python3-neovim \
     python3-pip \
     python3-venv \
 
