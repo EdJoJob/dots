@@ -17,12 +17,16 @@ sudo apt install \
     curl \
     software-properties-common \
 
-# Utilities
 sudo apt install \
     caffeine \
+    espeak \
+    redshift-gtk \
+    zeal \
+
+# Utilities
+sudo apt install \
     cargo \
     docker.io \
-    espeak \
     fd-find \
     fortune \
     git \
@@ -31,12 +35,10 @@ sudo apt install \
     jq \
     mlocate \
     pinentry-curses \
-    redshift-gtk \
     ripgrep \
     tmux \
     todotxt-cli \
     wget \
-    zeal \
     zsh \
 
 
