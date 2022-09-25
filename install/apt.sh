@@ -1,13 +1,4 @@
 sudo -v
-# XMonad Packages
-sudo apt install \
-    libghc-xmonad-contrib-dev \
-    libghc-xmonad-dev \
-    indicator-application \
-    suckless-tools \
-    trayer \
-    xmobar \
-    xmonad \
 
 # Python
 sudo apt install \
