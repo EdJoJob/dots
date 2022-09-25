@@ -33,7 +33,6 @@ sudo apt install \
     gnupg-agent \
     htop \
     jq \
-    mlocate \
     pinentry-curses \
     ripgrep \
     tmux \
