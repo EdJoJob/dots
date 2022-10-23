@@ -120,6 +120,7 @@ fi
 export LESS="-FXRM"
 export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)
+export VISUAL=$(whence nvim || whence vim)
 #}}}
 
 function zz() {
