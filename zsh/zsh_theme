@@ -179,6 +179,10 @@ before_command() { #{{{
                         printf "\033\\"
                     fi
 
+                    if whence espeak&> /dev/null; then
+                        espeak -s 600 $result
+                    fi
+
                     if [[ -n $JOIN_KEY ]]; then
                         curl -G \
                             --data-urlencode "deviceNames=Tab S6" \
