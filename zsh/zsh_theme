@@ -165,9 +165,9 @@ before_command() { #{{{
 
                 RES=$(python -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
                 if [[ $EXIT_CODE == 0 ]]; then
-                    result="${CMD_ARRAY[1]} completed. Time, $RES"
+                    result="${CMD_ARRAY[1]} completed. $RES"
                 else
-                    result="${CMD_ARRAY[1]} failed. Time, $RES. Exit code, $EXIT_CODE."
+                    result="${CMD_ARRAY[1]} failed. $RES. Exit code, $EXIT_CODE."
                 fi
                 echo -e "\n⏰  $result" >&2
                 (
