@@ -185,7 +185,7 @@ before_command() { #{{{
 
                     if [[ -n $JOIN_KEY ]]; then
                         curl -G \
-                            --data-urlencode "deviceNames=Tab S6" \
+                            --data-urlencode "deviceNames=Tab S6,S21" \
                             --data-urlencode "text=$result" \
                             --data-urlencode "title=Command Finished" \
                             --data-urlencode "apikey=$JOIN_KEY"  \
