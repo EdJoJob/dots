@@ -39,7 +39,7 @@
     rba = rebase --abort
     rbc = rebase --continue
     rbi = rebase --interactive --autosquash --no-keep-empty
-    rbm = !git rebase ${GIT_MAINLINE:-master}
+    rbm = !git rebase ${GIT_MAINLINE:-master} --interactive --autosquash --no-keep-empty
     st = status
     unwip = !git log -n 1 | grep -q -c "\\\\-\\\\-wip\\\\-\\\\-" && git reset HEAD~1
     unpushed = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git log origin/$GIT_CURRENT_BRANCH..$GIT_CURRENT_BRANCH --pretty=eevans
