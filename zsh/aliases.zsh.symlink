@@ -404,9 +404,10 @@ fe() {
 # }}}
 # }}}
 # Azure {{{
-prepare_az() {
+az-completion() {
     autoload -U +X bashcompinit && bashcompinit
     source /usr/local/etc/bash_completion.d/az
+    source /etc/bash_completion.d/azure-cli
 }
 # }}}
 
