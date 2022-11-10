@@ -206,6 +206,11 @@ personal_repo() {
 alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config user.name 'Edward Evans'; g config user.signingkey '0xF68AEAEA29DB923E'; g config commit.gpgsign true"
 # }}}
 
+wait-for-port() {
+    if [ $# -ne 2 ]; then echo "Usage ${0} host port"; fi
+    until nc -vzw 2 $1 $2; do sleep 2; done
+}
+
 alias anon-ssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias anon-scp="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 alias anon-ssh-force-password="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
