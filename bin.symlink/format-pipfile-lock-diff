@@ -1,0 +1,32 @@
+#!/bin/env python3
+
+"""Usage format-pipfile-lock-diff <(diff <(pipenv_versions <(git show master:Pipfile.lock)) <(pipenv_versions Pipfile.lock))"""
+import sys
+
+
+def main():
+    added = {}
+    removed = {}
+    with open(sys.argv[1]) as f:
+        for line in f:
+            if line.startswith('<'):
+                line = line.lstrip('< ')
+                lib, version = line.split('==')
+                removed[lib] = version.strip()
+            elif line.startswith('>'):
+                line = line.lstrip('> ')
+                lib, version = line.split('==')
+                added[lib] = version.strip()
+            continue
+
+    net_added = set(added.keys()) - set(removed.keys())
+    net_removed = set(removed.keys()) - set(added.keys())
+
+    print(f"added: {net_added}\nremoved: {net_removed}")
+
+    for key in set(added.keys()).union(set(removed.keys())) - net_added - net_removed:
+        print(f'{key}: {removed[key]} → {added[key]}')
+
+
+if __name__ == "__main__":
+    main()
