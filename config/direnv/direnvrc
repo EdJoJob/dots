@@ -5,17 +5,13 @@ layout_poetry() {
   fi
 
   # create venv if it doesn't exist
-  poetry run true
+  local python=${1:-python}
+  poetry env use $python
+  poetry install
 
   export VIRTUAL_ENV=$(poetry env info --path)
   export POETRY_ACTIVE=1
   PATH_add "$VIRTUAL_ENV/bin"
-
-  if has nvim ; then
-    alias vi='poetry run nvim'
-  else
-    alias vi='poetry run vim'
-  fi
 }
 
 add_extra_vimrc() {
