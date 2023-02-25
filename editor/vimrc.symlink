@@ -25,7 +25,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         " colorscheme
         Plug 'nanotech/jellybeans.vim'
         Plug 'crusoexia/vim-monokai'
-        Plug 'morhetz/gruvbox'
+        Plug 'ellisonleao/gruvbox.nvim'
         " the pretty at the bottom of the buffer
         Plug 'vim-airline/vim-airline'
         Plug 'vim-airline/vim-airline-themes'
@@ -148,7 +148,8 @@ set lazyredraw                  " don't redraw the screen when executing macros
 set matchtime=3                 " faster bracket matching
 set timeoutlen=500
 set ttimeoutlen=0               " give me time to complete mappings
-set foldmethod=syntax
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 set foldlevelstart=99
 if exists('+relativenumber')
     set relativenumber
@@ -766,6 +767,22 @@ let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
 let g:UltiSnipsEditSplit = 'context'
 " }}}
+" treesitter {{{
+lua << ENDLUA
+require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "lua", "vim", "help", "python", "bash" },
+    sync_install = false,
+    auto_install = true,
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = true,
+    },
+    indent = {
+        enable = true
+    },
+}
+ENDLUA
+" }}}
 " CamelCaseMotion {{{
 call camelcasemotion#CreateMotionMappings('<localleader>')
 " }}}
@@ -997,9 +1014,31 @@ endif
 if has('nvim')
     set termguicolors
 endif
+lua << ENDLUA
+require("gruvbox").setup({
+    undercurl = true,
+    underline = true,
+    bold = true,
+    italic = true,
+    strikethrough = true,
+    invert_selection = false,
+    invert_signs = false,
+    invert_tabline = false,
+    invert_intend_guides = false,
+    inverse = true, -- invert background for search, diffs, statuslines and errors
+    contrast = "", -- can be "hard", "soft" or empty string
+    palette_overrides = {},
+    overrides = {
+        String = {italic=false},
+        Operator = {italic=false},
+    },
+    dim_inactive = false,
+    transparent_mode = false,
+})
+ENDLUA
 
 colorscheme gruvbox
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16_gruvbox_dark_medium'
 if TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
     set background=dark
 elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
