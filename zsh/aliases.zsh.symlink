@@ -204,6 +204,8 @@ personal_repo() {
     git config commit.gpgsign true
 }
 alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config user.name 'Edward Evans'; g config user.signingkey '0xF68AEAEA29DB923E'; g config commit.gpgsign true"
+
+alias gbl=git-branchless
 # }}}
 
 wait-for-port() {
