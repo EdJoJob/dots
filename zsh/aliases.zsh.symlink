@@ -362,7 +362,7 @@ alias alert-clear='terminal-notifier -remove "alert"'
 # }}}
 
 # Calendar {{{
-alias k='khal list now eod'
+alias k='khal list now 1d'
 # }}}
 lastcommand() {
     fc -l -LI -n '-1' | xargs echo -n | pbcopy
