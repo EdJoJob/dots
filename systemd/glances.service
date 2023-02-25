@@ -1,0 +1,11 @@
+[Unit]
+Description=Glances
+After=network.target
+
+[Service]
+ExecStart=%h/.local/bin/glances --webserver --config %h/.config/glances/glances.conf
+Restart=on-abort
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
