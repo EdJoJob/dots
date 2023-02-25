@@ -213,10 +213,10 @@ wait-for-port() {
     until nc -vzw 2 $1 $2; do sleep 2; done
 }
 
-alias anon-ssh="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-alias anon-scp="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-alias anon-ssh-force-password="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
-alias anon-scp-pwd-force-password="scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no"
+anon-ssh() {ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $@}
+anon-scp() {scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $@}
+anon-ssh-force-password() {ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no $@}
+anon-scp-pwd-force-password() {scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no $@}
 
 aws-serial() {
     # Access the AWS Serial for an EC2 Instance
