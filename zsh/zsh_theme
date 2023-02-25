@@ -1,6 +1,6 @@
 # vim: fdm=marker
 
-export CMD_NOTIFY_THRESHOLD=10
+export CMD_NOTIFY_THRESHOLD=100
 IGNORED_LONG_CMD+=(
     anon-ssh
     bat
@@ -180,7 +180,7 @@ before_command() { #{{{
                     fi
 
                     if whence espeak&> /dev/null; then
-                        espeak -s 600 $result
+                        espeak -s 600 $result &
                     fi
 
                     if [[ -n $JOIN_KEY ]]; then
