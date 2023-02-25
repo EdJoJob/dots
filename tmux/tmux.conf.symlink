@@ -100,11 +100,11 @@ set -g @batt_icon_attached "…"
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
 set -g @plugin 'tmux-plugins/tmux-logging'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @plugin 'christoomey/vim-tmux-navigator'
 set -g @plugin 'tmux-plugins/tmux-focus-events'
 set -g @plugin 'laktak/extrakto'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
 
 set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/dots/tmux/tmux.symlink/plugins/'
 
