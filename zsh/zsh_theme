@@ -33,11 +33,7 @@ IGNORED_LONG_CMD+=(
 typeset -U IGNORED_LONG_CMD
 
 # bat THEME {{{
-if [[ $ITERM_PROFILE == "Hotkey Window Left" ]]; then
-    export BAT_THEME="Monokai Extended Light"
-else
-    export AT_THEME="Monokai Extended"
-fi
+export BAT_THEME="gruvbox-dark"
 # }}}
 
 ${JOIN_DEVICES:=Tab S6}
