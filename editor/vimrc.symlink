@@ -27,8 +27,7 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'crusoexia/vim-monokai'
         Plug 'ellisonleao/gruvbox.nvim'
         " the pretty at the bottom of the buffer
-        Plug 'vim-airline/vim-airline'
-        Plug 'vim-airline/vim-airline-themes'
+        Plug 'itchyny/lightline.vim'
         " For presentations
         Plug 'NLKNguyen/papercolor-theme'
         Plug 'altercation/vim-colors-solarized'
@@ -40,7 +39,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'sheerun/vim-polyglot'
         " Python magic {{{
-            Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins' }
             Plug 'tmhedberg/SimpylFold'
             " Make the python indenting actually work
             Plug 'hynek/vim-python-pep8-indent'
@@ -171,7 +169,7 @@ set suffixes+=.class
 set printencoding=utf-8
 set printfont=Liberation\ Mono\ for\ Powerline
 "}}}
-"Not used as I have airline
+"Not used as I have lightline
 "set ruler                                              " display cursor position
 set rulerformat=%55(%{strftime('%a\ %b\ %e\ %I:%M\ %p')}\ %5l,%-6(%c%V%)\ %P%)
 "}}}
@@ -990,31 +988,51 @@ set guioptions+=c
 " have a menubar
 set guioptions+=m
 "}}}
-" Airline ------------------------{{{
-let g:airline_powerline_fonts=1
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
+" Lightline -------------{{{
 
-let g:airline#extensions#quickfix#quickfix_text = 'Quickfix'
-let g:airline#extensions#quickfix#location_text = 'Location'
-let g:airline#extensions#bufferline#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#eclim#enabled = 1
-" shorter whitespace errors
-let g:airline#extensions#whitespace#trailing_format = 'tr[%s]'
-let g:airline#extensions#whitespace#mixed_indent_format = 'id[%s]'
-" disable branch label
-"let g:airline#extensions#branch#enabled = 0
-"Shorter branch label
-let g:airline#extensions#branch#displayed_head_limit = 20
-
+let g:lightline = {
+    \     'colorscheme': 'jellybeans',
+    \     'active': {
+    \         'left': [
+    \             [ 'mode', 'paste' ],
+    \             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ]
+    \         ],
+    \         'right': [
+    \             [ 'lineinfo' ],
+    \             [ 'percent' ],
+    \             [ 'fileencoding', 'filetype' ],
+    \             [ 'treesitter' ]
+    \         ]
+    \     },
+    \	'inactive': {
+    \       'left': [
+    \           [ 'relativepath' ]
+    \        ],
+    \       'right': [
+    \            [ 'lineinfo' ],
+    \            [ 'percent' ]
+    \        ]
+    \     },
+    \     'component_function': {
+    \         'gitbranch': 'FugitiveHead',
+    \         'treesitter': 'nvim_treesitter#statusline'
+    \     },
+    \     'mode_map': {
+    \          'n' : 'N',
+    \          'i' : 'I',
+    \          'R' : 'R',
+    \          'v' : 'V',
+    \          'V' : 'VL',
+    \          "\<C-v>": 'VB',
+    \          'c' : 'C',
+    \          's' : 'S',
+    \          'S' : 'SL',
+    \          "\<C-s>": 'SB',
+    \          't': 'T',
+    \      },
+    \ }
 "}}}
 " Colours-------------------------{{{
-let g:despacio_Twilight = 1
-let g:jellybeans_use_term_italics = 1
-let g:monokai_term_italic = 1
-let g:monokai_gui_italic = 1
 set t_ZH=[3m
 set t_ZR=[23m
 if exists('&t_8f') && exists('&t_8b')
