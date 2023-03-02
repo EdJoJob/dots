@@ -1,5 +1,5 @@
 i3-wm.gaps.inner.size: 0
-gnome.terminal.font: FiraCode Nerd Font 10
+gnome.terminal.font: FiraCode Nerd Font 9
 gnome.terminal.color.background: #2E2D2C
 i3-wm.font: FiraCode Nerd Font 10
 i3-wm.bar.position: top
