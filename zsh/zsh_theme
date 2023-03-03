@@ -1,6 +1,7 @@
 # vim: fdm=marker
 
 export CMD_NOTIFY_THRESHOLD=100
+# {{{
 IGNORED_LONG_CMD+=(
     anon-ssh
     bat
@@ -29,14 +30,15 @@ IGNORED_LONG_CMD+=(
     zs
     zz
 )
-
 typeset -U IGNORED_LONG_CMD
+# }}}
 
 # bat THEME {{{
 export BAT_THEME="gruvbox-dark"
 # }}}
 
-${JOIN_DEVICES:=Tab S6}
+# join devices {{{
+JOIN_DEVICES=${JOIN_DEVICES:=Tab S6}
 export JOIN_DEVICES
 alias join-silence='export JOIN_DEVICES='
 join-phone() {
@@ -51,6 +53,7 @@ join-tablet() {
     fi
     export JOIN_DEVICES
 }
+# }}}
 
 # THEME --------------------------------{{{
 source $dots/zsh/theme_vars

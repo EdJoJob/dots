@@ -1,17 +1,10 @@
 # vim: fdm=marker
-function-path () {
+function-path () { # {{{
+    # Get the path where a function is defined
     (for d ($fpath); do [[ -f $d/$1 ]] && { echo $d/$1; break }; done)
-}
-# Push and pop directories on directory stack
-alias pu='pushd'
-alias po='popd'
-
-# Basic directory operations
-alias ...='cd ../..'
-alias -- -='cd -'
-
-# Originally from robbyrussel/oh-my-zsh/plugins/colored-man-pages.plugin.zsh
-function man() {
+} # }}}
+function man() { # {{{
+    # Originally from robbyrussel/oh-my-zsh/plugins/colored-man-pages.plugin.zsh
     env \
         LESS_TERMCAP_mb=$(printf "\e[1;31m") \
         LESS_TERMCAP_md=$(printf "\e[1;31m") \
@@ -24,8 +17,8 @@ function man() {
         _NROFF_U=1 \
         PATH="$HOME/bin:$PATH" \
             man "$@"
-}
-
+} # }}}
+# last-successful-logins on DARWIN {{{
 if [[ $(uname) == 'Darwin' ]]; then
     # version test from https://coderwall.com/p/4yz8dq/determine-os-x-version-from-the-command-line
     version_stamp=$(defaults read loginwindow SystemVersionStampAsString)
@@ -45,9 +38,16 @@ if [[ $(uname) == 'Darwin' ]]; then
             | cut -d . -f 1'
     fi
 fi
-
-
-# LS TOOLS {{{
+# }}}
+# DIR STACK ----------------------------{{{
+alias pu='pushd'
+alias po='popd'
+# }}}
+# BASIC DIRECTORY OPERATIONS -----------{{{
+alias ...='cd ../..'
+alias -- -='cd -'
+# }}}
+# LS TOOLS -----------------------------{{{
 if whence gls &>/dev/null; then
     alias ls='gls --color=auto -F --group-directories-first'
 else
@@ -68,19 +68,17 @@ fi
 alias la='ls -lha'
 alias sl=ls # often screw this up
 # }}}
-# TOOL REPLACEMENT {{{
-
-if which brew &>/dev/null; then
+# TOOL REPLACEMENT ---------------------{{{
+if which brew &>/dev/null; then # {{{
     brew_loc=$(which brew)
     function brew() {
         $brew_loc $@
         if [[ $1 == install ]] || [[ $1 == uninstall ]]; then
             $brew_loc list > ~/.brewed_recipes
         fi
-    }
-fi
-
-if which fd &>/dev/null; then
+   }
+fi # }}}
+if which fd &>/dev/null; then # {{{
     if which gfind &>/dev/null; then
         alias find=">&2 echo 'Consider using fd'; gfind"
     else
@@ -90,39 +88,33 @@ else
     if which gfind &>/dev/null; then
         alias find=gfind
     fi
-fi
-
-if which ncdu &>/dev/null; then
+fi # }}}
+if which ncdu &>/dev/null; then # {{{
     alias du=">&2 echo 'Consider using ncdu'; $(which du)"
-fi
-
-if which gdate &>/dev/null; then
+fi # }}}
+if which gdate &>/dev/null; then # {{{
     alias date=gdate
-fi
-
-if which gcal &>/dev/null; then
+fi # }}}
+if which gcal &>/dev/null; then # {{{
     alias cal=gcal
-fi
-
+fi # }}}
 alias g=git
-
-if whence rg &>/dev/null; then
+if whence rg &>/dev/null; then # {{{
     alias rg="$(whence rg) --smart-case"
-fi
-
-if whence nvim &>/dev/null; then
+fi # }}}
+if whence nvim &>/dev/null; then # {{{
     alias vi='nvim'
 else
     alias vi='vim'
-fi
-
-# Default programs ---------------------{{{
+fi # }}}
+# }}}
+# DEFAULT PROGRAMS ---------------------{{{
 export LESS="-FXRM"
 export SHELL=$(whence zsh)
 export EDITOR=$(whence nvim || whence vim)
 export VISUAL=$(whence nvim || whence vim)
 #}}}
-
+# ZETTEL ------------------------------{{{
 function zz() {
     (cd ~/vaults/zettel && vi +VimwikiIndex)
 }
