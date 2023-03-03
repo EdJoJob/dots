@@ -36,6 +36,8 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " }}}
     " Languages {{{
         Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+        " Get highlight of nested functions
+        Plug 'atusy/tsnode-marker.nvim'
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
         Plug 'sheerun/vim-polyglot'
         " Python magic {{{
@@ -790,6 +792,57 @@ require'nvim-treesitter.configs'.setup {
         enable = true
     },
 }
+ENDLUA
+" }}}
+" tsnode-marker {{{
+lua << ENDLUA
+local function is_def(node)
+    return vim.tbl_contains({
+        "func_literal",
+        "function_declaration",
+        "function_definition",
+        "method_declaration",
+        "method_definition",
+    }, node:type())
+end
+
+
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("tsnode-marker-markdown", {}),
+    pattern = "markdown",
+    callback = function(ctx)
+        require("tsnode-marker").set_automark(ctx.buf, {
+            target = { "code_fence_content" }, -- list of target node types
+            hl_group = "TabLineFill", -- highlight group
+        })
+    end,
+})
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("tsnode-marker-nested-def", {}),
+    pattern = { "lua", "python", "go" }, -- whatever languages you want
+    callback = function(ctx)
+        require("tsnode-marker").set_automark(ctx.buf, {
+            hl_group = "TabLineFill", -- highlight group
+            target = function(_, node)
+                -- do not mark if the node does not satisfy is_def()
+                if not is_def(node) then
+                    return false
+                end
+
+                -- mark if there is an ancestor node which satisfies is_def()
+                local parent = node:parent()
+                while parent do
+                    if is_def(parent) then
+                        return true
+                    end
+                    parent = parent:parent()
+                end
+                return false
+            end,
+        })
+    end,
+})
 ENDLUA
 " }}}
 " CamelCaseMotion {{{
