@@ -11,32 +11,30 @@ fpath=($HOME/.zfunc $fpath)
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
 skip_global_compinit=1
-typeset -gAH ZI
-ZI[HOME_DIR]="${HOME}/.zi"
-source "${ZI[HOME_DIR]}/bin/zi.zsh"
+typeset -A ZI
+ZI[BIN_DIR]="${HOME}/.zi/bin"
+source "${ZI[BIN_DIR]}/zi.zsh"
 
 autoload -Uz _zi
 (( ${+_comps} )) && _comps[zi]=_zi
 
+zinit snippet OMZL::compfix.zsh
+zinit snippet OMZL::completion.zsh
+zinit snippet OMZL::directories.zsh
+zinit snippet OMZL::functions.zsh
+zinit snippet OMZL::grep.zsh
+zinit snippet OMZL::key-bindings.zsh
+zinit snippet OMZL::misc.zsh
+zinit snippet OMZL::nvm.zsh
+zinit snippet OMZL::spectrum.zsh
+zinit snippet OMZL::termsupport.zsh
+zinit snippet OMZL::theme-and-appearance.zsh
 
-zi snippet OMZL::compfix.zsh
-zi snippet OMZL::completion.zsh
-zi snippet OMZL::directories.zsh
-zi snippet OMZL::functions.zsh
-zi snippet OMZL::grep.zsh
-zi snippet OMZL::key-bindings.zsh
-zi snippet OMZL::misc.zsh
-zi snippet OMZL::nvm.zsh
-zi snippet OMZL::spectrum.zsh
-zi snippet OMZL::termsupport.zsh
-zi snippet OMZL::theme-and-appearance.zsh
+zinit ice wait lucid multisrc'asdf.sh ~/.config/asdf-direnv/zshrc ~/dots/zsh/aliases.zsh.symlink' compclear
+zinit load asdf-vm/asdf
 
-zi ice wait lucid multisrc'asdf.sh ~/.config/asdf-direnv/zshrc ~/dots/zsh/aliases.zsh.symlink' compclear
-zi load asdf-vm/asdf
-
-zi for wait lucid \
-    agkozak/zhooks \
-    zsh-users/zsh-syntax-highlighting
+zinit lucid wait for \
+    agkozak/zhooks
 
 fpath=( ~/dots/zsh/func "${fpath[@]}" )
 
@@ -139,10 +137,10 @@ typeset -U path
 export path
 # }}}
 # Colors -------------------------------{{{
-zi ice atclone'dircolors -b ~/dots/dir_colors.symlink > clrs.zsh' \
+zinit ice atclone'dircolors -b ~/dots/dir_colors.symlink > clrs.zsh' \
     atpull'%atclone' pick"clrs.zsh" nocompile'!' \
     atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
-zi light trapd00r/LS_COLORS
+zinit light trapd00r/LS_COLORS
 
 
 # Use gnu's ls so don't need these lscolors
@@ -185,12 +183,15 @@ if [[ -n "$SSH_CONNECTION" ]] ;then
 fi
 # }}}
 
-zi wait lucid atload"zicompinit; zicdreplay" blockf for \
-    zsh-users/zsh-completions \
-    srijanshetty/zsh-pandoc-completion
+zinit wait lucid for \
+    atinit"zicompinit; zicdreplay" \
+        z-shell/F-Sy-H \
+    as"completion" \
+        zsh-users/zsh-completions \
+        srijanshetty/zsh-pandoc-completion
 
-zi ice wait'!' lucid atload'source ~/dots/zsh/theme_vars'
-zi load zsh-git-prompt/zsh-git-prompt
+zinit ice wait'!' lucid atload'source ~/dots/zsh/theme_vars'
+zinit load zsh-git-prompt/zsh-git-prompt
 
 autoload -Uz compinit
 for dump in ~/.zcompdump(N.mh+24); do
