@@ -642,6 +642,7 @@ let g:coc_global_extensions = [
             \'coc-tsserver',
             \'coc-vimlsp',
             \'coc-yaml',
+            \'coc-snippets',
             \]
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
