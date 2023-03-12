@@ -1,8 +1,8 @@
 
-for_window [class="Slack"] move --no-auto-back-and-forth container to workspace $ws11
-for_window [class="Microsoft Teams - Preview"] move --no-auto-back-and-forth container to workspace $ws11
-for_window [class="Evolution"] move --no-auto-back-and-forth container to workspace $ws12
-for_window [class="Thunderbird"] move --no-auto-back-and-forth container to workspace $ws12
+for_window [class="Slack"] move --no-auto-back-and-forth container to workspace $ws19
+for_window [class="Microsoft Teams - Preview"] move --no-auto-back-and-forth container to workspace $ws19
+for_window [class="Evolution"] move --no-auto-back-and-forth container to workspace $ws18
+for_window [class="Thunderbird"] move --no-auto-back-and-forth container to workspace $ws18
 for_window [class="Spotify"] move --no-auto-back-and-forth container to workspace $ws19
 
 for_window [class="obsidian" title="zettel"] move --no-auto-back-and-forth container to workspace $ws2
