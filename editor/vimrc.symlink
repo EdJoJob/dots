@@ -61,7 +61,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " }}}
     " Util {{{
         " local wiki {{{
-        Plug 'vimwiki/vimwiki', {'branch': 'dev'}
         Plug 'michal-h21/vim-zettel'
         Plug 'mattn/calendar-vim'
         Plug 'vim-voom/VOoM'
