@@ -61,7 +61,6 @@ call plug#begin('~/dots/editor/vim.symlink/bundle/')
     " }}}
     " Util {{{
         " local wiki {{{
-        Plug 'michal-h21/vim-zettel'
         Plug 'mattn/calendar-vim'
         Plug 'vim-voom/VOoM'
         " }}}
@@ -867,47 +866,6 @@ let g:python_pep_8_indent_max_back_search = 500
 " vim-tmux-navigator {{{
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
-" }}}
-" vimwiki {{{
-nmap <leader>www <Plug>VimwikiIndex
-nmap -- <Plug>VimwikiRemoveHeaderLevel
-nmap <C-Left> <Plug>VimwikiDiaryPrevDay
-nmap <C-Right> <Plug>VimwikiDiaryNextDay
-let g:vimwiki_tag_format = {
-            \'pre_mark': '[''"]\?#\( \|#\)\@!',
-            \'sep': '>><<',
-            \'post_mark': '[''" ]\?\|$'
-            \}
-
-let g:vimwiki_list = [
-            \{
-                \'path': '~/vaults/zettel',
-                \'links_space_char': ' ',
-                \'name': 'vault',
-                \'ext': 'md',
-                \'syntax': 'markdown',
-                \'custom_wiki2html': '~/dots/bin.symlink/convert_vimwiki.py',
-            \},
-        \]
-let g:vimwiki_folding='expr'
-augroup PERSONAL_VIMWIKI
-    au!
-    au FileType vimwiki set foldmethod=expr
-    au FileType vimwiki setlocal spell
-    au FileType vimwiki setlocal formatoptions-=t
-augroup END
-let g:vimwiki_listsyms=' x'
-" }}}
-" vim-zettel {{{
-let g:zettel_options = [{"front_matter": [
-            \["tags", '"#inbox"'],
-            \["type", "note"],
-            \],
-            \"template": "~/vaults/zettel/z_templates/zettel_template.md",
-            \"disable_front_matter": 1,
-            \}]
-let g:zettel_format = "%title"
-let g:zettel_fzf_command = "rg --column --line-number --ignore-case --no-heading --color=always "
 " }}}
 "}}}
 " MiniPlugins --------------------{{{
