@@ -87,7 +87,7 @@ q(${1:locals()})
 endsnippet
 
 snippet qfake
-print('${2:$1} (simulated!):\n%s\n' % str(${1:query}.statement.compile(compile_kwargs={"literal_binds": True})))  # noqa TODO
+print('${2:$1} (simulated!):\n%s\n' % str(${1:query}.statement.compile(${3:dialect=sqlalchemy.dialects.dialect, }compile_kwargs={"literal_binds": True})))  # noqa TODO
 endsnippet
 
 snippet qreal
@@ -129,4 +129,11 @@ endsnippet
 snippet ptpy
 from ptpython.repl import embed, run_config  # noqa: E501 TODO: REMOVE DEBUG
 embed(globals(), locals(), lambda repl: run_config(repl, '~/.config/ptpython/config.py'))  # noqa: E501 TODO: REMOVE DEBUG
+endsnippet
+
+snippet verbose_sqlalchemy_requests
+from lipy.rage import verbose_sqlalchemy_requests  # TODO: REMOVE DEBUG
+
+with verbose_sqlalchemy_requests(${1:'/tmp/q'}) as sqllogger:
+	${2:query.all()}
 endsnippet

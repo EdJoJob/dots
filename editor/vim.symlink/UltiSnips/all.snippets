@@ -1,19 +1,19 @@
-snippet today
-`date '+%d %b %Y'`
+snippet today "Human readable date" w
+`!v strftime("%d %b %Y")`
 endsnippet
 
-snippet s.date
-`date '+%Y-%m-%d'`
+snippet s.date "sortable date" w
+`!v strftime("%Y-%m-%d")`
 endsnippet
 
-snippet s.time
-`date '+%H:%M'`
+snippet s.time "sortable time" w
+`!v strftime("%H:%M")`
 endsnippet
 
-snippet s.now
-`date '+%Y-%m-%d %H:%M'`
+snippet s.now "Sortable date and time" w
+`!v strftime("%Y-%m-%d %H:%M")`
 endsnippet
 
-snippet now
-`date`
+snippet now "default date" w
+`!v strftime("%c")`
 endsnippet
