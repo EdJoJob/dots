@@ -41,13 +41,13 @@ export BAT_THEME="gruvbox-dark"
 JOIN_DEVICES=${JOIN_DEVICES:=Tab S6}
 export JOIN_DEVICES
 alias join-silence='export JOIN_DEVICES='
-join-phone() {
+notify-phone() {
     if [[ $JOIN_DEVICES != 'S21' ]]; then
         JOIN_DEVICES="${JOIN_DEVICES},S21"
     fi
     export JOIN_DEVICES
 }
-join-tablet() {
+notify-tablet() {
     if [[ $JOIN_DEVICES != 'Tab S6' ]]; then
         JOIN_DEVICES="${JOIN_DEVICES},Tab S6"
     fi
