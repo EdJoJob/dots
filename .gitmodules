@@ -6,4 +6,4 @@
 	url = https://github.com/vimpr/vimperator-colors
 [submodule "zsh/zi.symlink/bin"]
 	path = zsh/zi.symlink/bin
-	url = git@github.com:z-shell/zi.git
+	url = https://github.com/z-shell/zi.git
