@@ -1,12 +1,12 @@
 HashKnownHosts yes
 Include config.d/*
 # -- github-keygen - begin --
-# Version: 1.305
+# Version: 1.306
 
 Host gist.github.com *.gist.github.com
 HostName gist.github.com
 
-# See https://help.github.com/articles/using-ssh-over-the-https-port
+# See https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port
 Host ssh.github.com *.ssh.github.com 443.github.com *.443.github.com
 HostName ssh.github.com
 Port 443
@@ -18,6 +18,8 @@ HostName github.com
 
 Host github.com gist.github.com ssh.github.com 443.github.com *.github.com *.gist.github.com *.ssh.github.com *.443.github.com
 User git
+# Known options which are available only in some OpenSSH versions
+IgnoreUnknown Protocol,UseRoaming,UseKeychain
 # Force SSH2
 ##Protocol 2
 # Enforce host checks
@@ -36,6 +38,9 @@ PreferredAuthentications publickey
 KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1
 Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512
+# Disallow server key using SHA-1
+# https://www.openssh.com/txt/release-8.2
+HostKeyAlgorithms -ssh-rsa
 # Trust no one, especially the remote
 ForwardAgent no
 ForwardX11 no
