@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 """
 lately.py
@@ -50,7 +50,7 @@ class Colors(object):
             
     def __getattr__(self,key):
         if key not in CCODES.keys():
-            raise AttributeError, "Colors object has no attribute '%s'" % key
+            raise AttributeError("Colors object has no attribute '%s'" % key)
         else:
             if self.disabled:
                 return lambda x: x
@@ -66,7 +66,7 @@ def main(directory, cutoff_days = 7):
     today = datetime.datetime.today()
     cutoff =  today - datetime.timedelta(days=cutoff_days)
     c = Colors()
-    print c.red("\nClosed tasks since %s\n" % cutoff.strftime("%Y-%m-%d")) 
+    print(c.red("\nClosed tasks since %s\n" % cutoff.strftime("%Y-%m-%d")) )
     
     for line in lines:
         m = re.match("x ([\d]{4}-[\d]{2}-[\d]{2}).*", line)
@@ -75,22 +75,22 @@ def main(directory, cutoff_days = 7):
             year, month, day = m.group(1).split("-")
             completed = datetime.datetime(int(year),int(month),int(day))
             if completed >= cutoff:
-                print c.green(m.group(1)) + " " + c.blue(line.replace("x %s" % m.group(1), "").strip())
+                print( c.green(m.group(1)) + " " + c.blue(line.replace("x %s" % m.group(1), "").strip()))
     
-    print ""
+    print( "")
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print "Usage: lately.py [TODO_DIR] <days back>"
+        print( "Usage: lately.py [TODO_DIR] <days back>")
         sys.exit(1)
 
     if os.path.isdir(sys.argv[1]):
-        if len(sys.argv) is 3:
+        if len(sys.argv) == 3:
             main(sys.argv[1], int(sys.argv[2]))
         else:
             main(sys.argv[1])
     else:
-        print "Error: %s is not a directory" % sys.argv[1]
+        print( "Error: %s is not a directory" % sys.argv[1])
         sys.exit(1)
 
 
