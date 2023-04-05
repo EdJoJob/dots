@@ -28,15 +28,7 @@ rm ~/.config/nvim/init.vim
 ln -s ~/.vimrc ~/.config/nvim/init.vim
 
 rm ~/.todo/todo
-ln -s ~/Dropbox/todo ~/.todo/todo
 
 mkdir -m 700  ~/.ssh
 ln -s  ~/dots/sshconfig ~/.ssh/config
 mkdir -p ~/.ssh/config.d
-if [[ -d /Volumes/Keybase ]]; then
-    ln -s /Volumes/Keybase/private/edjojob/sshconfig ~/.ssh/config.d/personal
-fi
-
-if [[ -d ~/Library/Application\ Support/iTerm2 ]]; then
-    ln -s ~/dots/iterm-scripts/ ~/Library/Application\ Support/iTerm2/
-fi
