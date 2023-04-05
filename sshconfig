@@ -55,9 +55,9 @@ Host edjojob.github.com edjojob.gist.github.com edjojob.ssh.github.com edjojob.4
 IdentitiesOnly yes
 IdentityFile ~/.ssh/github/id_edjojob@github
 
-Host aiven.github.com aiven.gist.github.com aiven.ssh.github.com aiven.443.github.com
+Host work.github.com work.gist.github.com work.ssh.github.com work.443.github.com
 IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_aiven@github
+IdentityFile ~/.ssh/github/id_work@github
 
 Host edjojob-test.github.com edjojob-test.gist.github.com edjojob-test.ssh.github.com edjojob-test.443.github.com
 IdentitiesOnly yes
