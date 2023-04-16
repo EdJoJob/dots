@@ -4,5 +4,6 @@
       "https://raw.githubusercontent.com/docker/cli/master/cli/compose/schema/data/config_schema_v3.9.json": "**/docker-compose*.ya?ml",
       "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/schemas/v3.0/schema.json": "**/*.?openapi.yml",
       "https://dnwj8swjjbsbt.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json": "**/*.?cloudformation.ya?ml"
-    }
+    },
+    "snippets.ultisnips.pythonPrompt": false
 }
