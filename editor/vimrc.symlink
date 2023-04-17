@@ -165,10 +165,6 @@ set colorcolumn=80,100
 let maplocalleader='|'
 set suffixes+=.pyc,.pyo
 set suffixes+=.class
-" printing {{{
-set printencoding=utf-8
-set printfont=Liberation\ Mono\ for\ Powerline
-"}}}
 "Not used as I have lightline
 "set ruler                                              " display cursor position
 set rulerformat=%55(%{strftime('%a\ %b\ %e\ %I:%M\ %p')}\ %5l,%-6(%c%V%)\ %P%)
