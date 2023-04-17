@@ -781,7 +781,13 @@ lua << ENDLUA
 local treesitter_parser_dir = vim.fn.expand("~/.local/nvim-treesitter-parsers/" .. vim.loop.os_uname().sysname)
 vim.opt.runtimepath:append(treesitter_parser_dir)
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = { "lua", "vim", "help", "python", "bash" },
+    ensure_installed = { 
+        "bash",
+        "lua",
+        "python",
+        "vim",
+        "vimdoc",
+    },
     parser_install_dir = treesitter_parser_dir,
     sync_install = false,
     auto_install = true,
