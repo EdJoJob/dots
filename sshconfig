@@ -52,14 +52,17 @@ ControlPath ~/.ssh/github/conn-%n
 ControlPersist 60s
 
 Host edjojob.github.com edjojob.gist.github.com edjojob.ssh.github.com edjojob.443.github.com github.com gist.github.com ssh.github.com 443.github.com
+User git
 IdentitiesOnly yes
 IdentityFile ~/.ssh/github/id_edjojob@github
 
 Host work.github.com work.gist.github.com work.ssh.github.com work.443.github.com
+User git
 IdentitiesOnly yes
 IdentityFile ~/.ssh/github/id_work@github
 
 Host edjojob-test.github.com edjojob-test.gist.github.com edjojob-test.ssh.github.com edjojob-test.443.github.com
+User git
 IdentitiesOnly yes
 IdentityFile ~/.ssh/github/id_edjojob-test@github
 
