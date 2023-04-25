@@ -180,11 +180,11 @@ before_command() { #{{{
 
                 RES=$(python3 -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
                 if [[ $EXIT_CODE == 0 ]]; then
-                    result="${CMD_ARRAY[1]} completed. $RES"
+                    result="${CMD_ARRAY[1]} completed."
                 else
-                    result="${CMD_ARRAY[1]} failed. $RES. Exit code, $EXIT_CODE."
+                    result="${CMD_ARRAY[1]} failed. Exit code, $EXIT_CODE."
                 fi
-                echo -e "\n⏰  $result" >&2
+                echo -e "\n⏰  $result $RES" >&2
                 (
                     if [[ $TERM == tmux* ]]; then
                         printf "\033Ptmux;\033"
