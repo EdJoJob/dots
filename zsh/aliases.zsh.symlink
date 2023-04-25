@@ -186,7 +186,9 @@ function t() {
         todo.sh $@
     fi
 }
-compdef _todo.sh t
+if type "compdef" > /dev/null; then
+    compdef _todo.sh t
+fi
 
 # Git {{{
 personal_repo() {
