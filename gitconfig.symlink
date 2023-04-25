@@ -46,7 +46,7 @@
     unwip = "!git log -n 1 | grep -q -c -- "--wip--" && git reset HEAD~1 && if which git-branchless; then git bl hide HEAD@{1}; fi"
     unpushed = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git log origin/$GIT_CURRENT_BRANCH..$GIT_CURRENT_BRANCH --pretty=eevans
     w = worktree
-    wip = "!f() { git add -A && git ls-files --deleted -z | gxargs -r0 git rm && git commit -m \"--wip-- $@\" --no-verify --no-gpg-sign;}; f"
+    wip = "!f() { git add -A && git ls-files --deleted -z | xargs -r0 git rm && git commit -m \"--wip-- $@\" --no-verify --no-gpg-sign;}; f"
 
     serve = !git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
 [filter "lfs"]
