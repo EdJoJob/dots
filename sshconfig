@@ -71,6 +71,10 @@ IdentityFile ~/.ssh/github/id_edjojob-test@github
 Host bitbucket.org bitbucket.com
     ControlMaster no
 
+Host uptermd.upterm.dev
+    IdentitiesOnly yes
+    ControlMaster no
+
 Host *.tmate.io
     IdentitiesOnly yes
     ControlMaster no

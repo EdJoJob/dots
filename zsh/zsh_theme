@@ -81,8 +81,14 @@ nvm-version() { #{{{
     fi
 }
 #}}}
+in-upterm() { #{{{
+    if [[ ! -z "${UPTERM_ADMIN_SOCKET}" ]]; then
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_SUFFIX}"
+    fi
+}
+#}}}
 # Setup vim mode and rprompt {{{
-RPROMPT_CMDS=( aws-profile in-virtualenv nvm-version )
+RPROMPT_CMDS=( in-upterm aws-profile in-virtualenv nvm-version )
 function zle-line-init zle-keymap-select {
     case $CONTEXT {
         ('start')
