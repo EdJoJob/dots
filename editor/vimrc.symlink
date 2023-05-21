@@ -1120,22 +1120,11 @@ ENDLUA
 
 colorscheme gruvbox
 let g:airline_theme='base16_gruvbox_dark_medium'
-if TmuxSessionName() =~? 'pair' || $ITERM_PROFILE == 'RemotePair'
+if $MACOS_MODE == 'dark' || $MACOS_MODE == ''
     set background=dark
-elseif  $ITERM_PROFILE =~? 'Hotkey Window Right'
-    set background=dark
-    hi Normal ctermbg=NONE guibg=NONE
-elseif  $ITERM_PROFILE =~? 'Hotkey Window Left' || $ITERM_PROFILE =~? 'Personal' || TmuxSessionName() =~? 'personal'
-    colorscheme solarized
-    hi Normal ctermbg=NONE guibg=NONE
 else
-    if $MACOS_MODE == 'dark' || $MACOS_MODE == ''
-        set background=dark
-    else
-        set background=light
-    endif
+    set background=light
 endif
-"colorscheme despacio
 highlight WhitespaceEOL ctermbg=DarkYellow guibg=DarkYellow
 " Interesting Word Default Highlights {{{
 
