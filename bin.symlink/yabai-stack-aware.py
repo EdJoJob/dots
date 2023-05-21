@@ -3,16 +3,17 @@
 The job of this script is to toggle the current window in and out of being yabai stacked
 """
 
-import sys
 import json
 import subprocess
+import sys
 
 
 def checked_run(args, check_output=True):
     return subprocess.run(args, capture_output=True, check=check_output)
 
+
 def yabai_find_relevant_windows():
-    proc = checked_run(["yabai", "-m" , "query", "--windows", "--space"])
+    proc = checked_run(["yabai", "-m", "query", "--windows", "--space"])
     result = json.loads(proc.stdout)
 
     visible_windows = [
@@ -33,21 +34,15 @@ def yabai_find_relevant_windows():
 
 
 def yabai_stack(window_id):
-    return checked_run(
-        ["yabai", "-m" , "window", "--stack", str(window_id)]
-    )
+    return checked_run(["yabai", "-m", "window", "--stack", str(window_id)])
 
 
 def yabai_insert(window_id, direction):
-    return checked_run(
-        ["yabai", "-m" , "window", str(window_id), "--insert", direction]
-    )
+    return checked_run(["yabai", "-m", "window", str(window_id), "--insert", direction])
 
 
 def yabai_toggle_float(window_id):
-    return checked_run(
-        ["yabai", "-m" , "window", str(window_id), "--toggle", "float"]
-    )
+    return checked_run(["yabai", "-m", "window", str(window_id), "--toggle", "float"])
 
 
 def toggle_stack():
@@ -63,17 +58,17 @@ def toggle_stack():
 
 def stack_windows(windows, active_window):
     frame = active_window["frame"]
-    center_point = (
-        frame["x"] + frame["w"] / 2,
-        frame["y"] + frame["h"] / 2
+    center_point = (frame["x"] + frame["w"] / 2, frame["y"] + frame["h"] / 2)
+    windows_in_column = sorted(
+        [
+            (w["frame"]["y"], w)
+            for w in windows
+            if w["id"] != active_window["id"]
+            if w["frame"]["x"] < center_point[0]
+            if (w["frame"]["x"] + w["frame"]["w"]) > center_point[0]
+        ],
+        key=lambda x: x[0],
     )
-    windows_in_column = sorted([
-        (w["frame"]["y"], w)
-        for w in windows
-        if w["id"] != active_window["id"]
-        if w["frame"]["x"] < center_point[0]
-        if (w["frame"]["x"] + w["frame"]["w"]) > center_point[0]
-    ], key=lambda x: x[0])
     for _, other in windows_in_column:
         yabai_stack(other["id"])
 
@@ -82,7 +77,6 @@ def find_stacked_windows(windows, active_window):
     frame = active_window["frame"]
     return [
         w
-
         for w in windows
         if w["id"] != active_window["id"]
         if w["frame"]["x"] == frame["x"]
