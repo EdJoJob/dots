@@ -730,6 +730,8 @@ let g:ale_echo_msg_format = '[%linter%:%severity%%code%] %s'
 let g:ale_python_mypy_options = '--silent-imports'
 let g:ale_markdown_vale_options = '--config .vale.ini'
 
+let g:ale_use_neovim_diagnostics_api = 1
+
 let g:ale_fixers = {
             \'python': [
                 \'black',
