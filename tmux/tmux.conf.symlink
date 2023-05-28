@@ -61,10 +61,10 @@ set-option -g set-titles-string "tmux - #{session_name} / #{window_name}: #{pane
 # Create an environment that zsh can make sense of
 set-environment -g tmuxTERM $TERM
 set-environment -g INSCREEN yes
-set-option -g update-environment SSH_CONNECTION
+set-option -ga update-environment SSH_CONNECTION
 # set-environment TMUX_TITLE yes
 
-set -g update-environment "SSH_AUTH_SOCK DISPLAY SSH_ASKPASS SSH_AGENT_PID"
+set -ga update-environment "SSH_AUTH_SOCK DISPLAY SSH_ASKPASS SSH_AGENT_PID"
 set-option -ga update-environment " UPTERM_ADMIN_SOCKET"
 
 ## Thanks to https://scripter.co/command-to-every-pane-window-session-in-tmux/ for the below
