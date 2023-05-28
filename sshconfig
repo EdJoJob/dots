@@ -48,7 +48,7 @@ PermitLocalCommand no
 ##UseRoaming no
 # Connexion sharing for 60 seconds, for speedup
 ControlMaster auto
-ControlPath ~/.ssh/github/conn-%n
+ControlPath ${USER_SSH}/github/%r@%h-%p
 ControlPersist 60s
 
 Host edjojob.github.com edjojob.gist.github.com edjojob.ssh.github.com edjojob.443.github.com github.com gist.github.com ssh.github.com 443.github.com
@@ -88,7 +88,7 @@ Host *
     IdentitiesOnly yes
     AddKeysToAgent yes
     ControlMaster auto
-    ControlPath ~/.ssh/socket/%r@%h:%p
+    ControlPath ${USER_SSH}/%r@%h-%p
     ControlPersist 3600
 
     ServerAliveInterval 60
