@@ -797,6 +797,8 @@ require'nvim-treesitter.configs'.setup {
         "bash",
         "lua",
         "python",
+        "markdown",
+        "markdown_inline",
         "vim",
         "vimdoc",
     },
