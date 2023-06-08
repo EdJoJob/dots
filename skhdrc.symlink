@@ -1,0 +1,53 @@
+# Reload yabai
+ctrl + alt + cmd - r : yabai --restart-service
+
+# change focus
+alt - h : /Users/edward.evans/.bin/yabai-stack-aware.py focus west
+alt - l : /Users/edward.evans/.bin/yabai-stack-aware.py focus east
+alt - j : /Users/edward.evans/.bin/yabai-stack-aware.py focus south
+alt - k : /Users/edward.evans/.bin/yabai-stack-aware.py focus north
+
+# shift window in current workspace
+alt + shift - h : yabai -m window --warp west
+# alt + shift - h : WIN_ID=$(yabai -m query --windows --window | jq '.id'); yabai -m window --swap west; [[ ! $? == 0 ]] && (yabai -m display --focus west; yabai -m window last --insert east; yabai -m window --focus $WIN_ID; yabai -m window --display west; yabai -m window --focus $WIN_ID);
+alt + shift - j : yabai -m window --warp south
+alt + shift - k : yabai -m window --warp north
+alt + shift - l : yabai -m window --warp east
+# alt + shift - l : WIN_ID=$(yabai -m query --windows --window | jq '.id'); yabai -m window --swap east; [[ ! $? == 0 ]] && (yabai -m display --focus east; yabai -m window first --insert west; yabai -m window --focus $WIN_ID; yabai -m window --display east; yabai -m window --focus $WIN_ID);
+
+# Moving to different spaces is done via Prefs -> Keyboard -> Shortcuts natively
+# Shifting can be done here
+alt + shift - 1 : yabai -m window --space 1
+alt + shift - 2 : yabai -m window --space 2
+alt + shift - 3 : yabai -m window --space 3
+alt + shift - 4 : yabai -m window --space 4
+alt + shift - 5 : yabai -m window --space 5
+
+alt + shift - 0 : yabai -m space --balance
+
+# Set in settings app
+# alt + ctrl - l : yabai -m space --focus next
+# alt + ctrl - h : yabai -m space --focus prev
+
+alt + ctrl + shift - l : yabai -m window --space next 
+alt + ctrl + shift - h : yabai -m window --space prev
+
+# Zoom
+alt + shift - z : yabai -m window --toggle zoom-fullscreen
+alt - z : yabai -m window --toggle zoom-parent
+
+# Swap split
+alt - backspace : yabai -m window --toggle split
+
+
+# Stack / unstack column
+alt - s : /Users/edward.evans/.bin/yabai-stack-aware.py toggle
+# stack / unstack space
+alt + shift - space : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "stack" else "bsp" end')"
+
+# Applications
+alt + fn - t : osascript /Users/edward.evans/.bin/iterm2.scpt
+
+# Prevent window hide/minimize
+cmd - h : true
+cmd - m : true

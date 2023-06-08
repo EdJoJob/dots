@@ -1,0 +1,102 @@
+# Mouse support
+yabai -m config mouse_modifier alt
+# Unfortunately you need to recompile yabai or disable SIP to use move https://github.com/koekeishiya/yabai/issues/468
+# yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize
+
+# bar settings
+yabai -m config top_padding 0
+
+# global settings
+yabai -m config mouse_follows_focus off
+yabai -m config focus_follows_mouse off
+yabai -m config window_placement second_child
+yabai -m config window_origin_display cursor
+yabai -m config window_border_hidpi off
+yabai -m config window_border_blur off
+yabai -m config auto_balance on
+
+# general space settings
+yabai -m config layout bsp
+yabai -m config bottom_padding 0
+yabai -m config left_padding 0
+yabai -m config right_padding 0
+yabai -m config window_gap 1
+
+# Setup Spaces
+
+function setup_space {
+  local idx="$1"
+  local name="$2"
+  local space=
+  echo "setup space $idx : $name"
+
+  space=$(yabai -m query --spaces --space "$idx")
+  if [ -z "$space" ]; then
+    yabai -m space --create
+  fi
+
+  yabai -m space "$idx" --label "$name"
+}
+
+setup_space 1 work
+setup_space 2 misc
+setup_space 3 zettel
+setup_space 4 tall
+setup_space 5 moretall
+
+for idx in $(yabai -m query --spaces | jq '.[].index | select(. > 6)' | sort -nr); do
+  yabai -m space --destroy "$idx"
+done
+
+# Unmanaged apps
+app_titles="(Copy"
+app_titles+="|Bin"
+app_titles+="|About This Mac"
+app_titles+="|Info"
+app_titles+="|Finder Preferences"
+app_titles+="|Preferences"
+app_titles+="|QuickTime Player"
+app_titles+=")"
+yabai -m rule --add title="${app_titles}" manage=off
+
+app_names="^(Calculator"
+app_names+="|1Password"
+app_names+="|AppCleaner"
+app_names+="|Logi Options\+"
+app_names+="|System Preferences"
+app_names+="|System Settings"
+app_names+="|System Information"
+app_names+="|VLC"
+app_names+="|WireGuard"
+app_names+=")$"
+yabai -m rule --add app="${app_names}" manage=off
+
+yabai -m rule --add app='^Todoist$' title='Quick Add' manage=off
+
+# float settings windows
+yabai -m rule --add title='Preferences$' manage=off
+yabai -m rule --add title='Settings$' manage=off
+
+# App to space assignment
+yabai -m rule --add app='^Obsidian$' title='zettel' space=zettel
+yabai -m rule --add app='^Firefox$' title='zettel' space=zettel
+
+yabai -m rule --add app='^Firefox$' title='work' space=work
+
+
+yabai -m rule --add app='^Slack$'  space=tall
+yabai -m rule --add app='^Spotify$'  space=moretall
+yabai -m rule --add app='^Firefox$' title='entertainment' space=moretall
+
+
+yabai -m config window_border on
+yabai -m config active_window_border_color 0xFF507dc7
+
+# yabai -m signal --add event=space_changed action=/Users/edjojob/.bin/triggered/spaces-trigger.sh
+# yabai -m signal --add event=window_destroyed  app=Google\ Chrome action='yabai -m query --windows --window $YABAI_WINDOW_ID'
+#
+
+# spacebar padding on top screen
+# SPACEBAR_HEIGHT=$(spacebar -m config height)
+# yabai -m config external_bar all:$SPACEBAR_HEIGHT:0
