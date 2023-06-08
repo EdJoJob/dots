@@ -105,7 +105,7 @@ HISTFILE="$HOME/.zsh_history"
 SAVEHIST=999999999
 HISTSIZE=999999999
 
-alias history='fc -il1'
+alias history='fc -il 1'
 
 # man zshoptions
 setopt append_history
