@@ -23,7 +23,7 @@
 
 main() {
     PATH=$PATH:/usr/local/bin:${HOME}/.fzf/bin:/opt/homebrew/bin
-    op signin
+    op signin --account my
     op read $(op item list --format=json --favorite | jq --raw-output 'map([.title, "op://\(.vault.id)/\(.id)" ] | join(",")) | .[]' | fzf --no-multi | awk -F ',' '{ print $2 }')/password
 }
 
