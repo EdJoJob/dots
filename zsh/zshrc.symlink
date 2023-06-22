@@ -190,6 +190,30 @@ if [[ -n "$SSH_CONNECTION" ]] ;then
     export PINENTRY_USER_DATA="USE_CURSES=1"
 fi
 # }}}
+#
+# 1password-cli plugins ----------------{{{
+# From https://1password.community/discussion/138575/zsh-plugin-aliases-break-completion-for-the-command-run-by-the-plugin
+function __my_op_plugin_run() {
+    _op_plugin_run
+
+    for ((i = 2; i < CURRENT; i++)); do
+        if [[ ${words[i]} == -- ]]; then
+            shift $i words
+            ((CURRENT -= i))
+            _normal
+            return
+        fi
+    done
+
+}
+
+function __load_op_completion() {
+    completion_function="$(op completion zsh)"
+    sed -E 's/^( +)_op_plugin_run/\1__my_op_plugin_run/' <<<"${completion_function}"
+}
+
+eval "$(__load_op_completion)"
+# }}}
 
 zinit wait lucid for \
     atinit"zicompinit; zicdreplay" \
