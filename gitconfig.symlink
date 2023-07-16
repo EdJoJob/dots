@@ -79,3 +79,5 @@
     diffFilter = delta --color-only
 [diff]
     colorMoved = default
+[url "git@personal.github.com"]
+    insteadOf = git@github.com
