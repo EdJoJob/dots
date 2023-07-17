@@ -4,12 +4,24 @@ The job of this script is to toggle the current window in and out of being yabai
 """
 
 import json
+import logging
+import os
 import subprocess
 import sys
 
+log = logging.getLogger(__name__)
+
 
 def checked_run(args, check_output=True):
-    return subprocess.run(args, capture_output=True, check=check_output)
+    result = None
+    log.debug("[checked_run] call %s", (args))
+    try:
+        result = subprocess.run(args, capture_output=True, check=check_output)
+    except:
+        log.exception("poop")
+    finally:
+        log.debug("[checked_run] call %s complete", (args))
+    return result
 
 
 def yabai_find_relevant_windows():
@@ -93,7 +105,9 @@ def unstack_windows(windows, active_window):
 
 
 def change_focus(direction):
+    log.debug("START change_focus")
     windows, active_window = yabai_find_relevant_windows()
+    log.debug("[change_focus] active_window: %s, windows: %s", (active_window, windows))
     if active_window is None:
         return
 
@@ -114,8 +128,22 @@ def change_focus(direction):
     return checked_run(["yabai", "-m", "window", "--focus", "south"], False)
 
 
-if __name__ == "__main__":
+def main():
+    log.setLevel(logging.CRITICAL)
+    fh = logging.FileHandler(os.path.expanduser("~/tmp/yabai-stack-aware.log")
+    fh.setLevel(logging.CRITICAL)
+    log.addHandler(fh)
+
+    log.debug("main call: %s", (sys.argv))
+
     if sys.argv[1] == "toggle":
-        toggle_stack()
+        log.debug("toggling")
+        result = toggle_stack()
     else:
-        change_focus(sys.argv[2])
+        log.debug("focusing")
+        result = change_focus(sys.argv[2])
+    log.debug("overall: %s", (result))
+
+
+if __name__ == "__main__":
+    main()
