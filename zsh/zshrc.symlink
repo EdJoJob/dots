@@ -225,7 +225,7 @@ zinit wait lucid for \
         zsh-users/zsh-completions \
         srijanshetty/zsh-pandoc-completion
 
-zinit ice wait'!' lucid atload'source ~/dots/zsh/theme_vars'
+zinit ice wait'!' lucid atload'source ~/dots/zsh/zsh_theme_vars'
 zinit load zsh-git-prompt/zsh-git-prompt
 
 autoload -Uz compinit
