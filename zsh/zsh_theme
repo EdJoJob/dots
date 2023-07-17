@@ -56,7 +56,7 @@ notify-tablet() {
 # }}}
 
 # THEME --------------------------------{{{
-source $dots/zsh/theme_vars
+source $dots/zsh/zsh_theme_vars
 
 in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
