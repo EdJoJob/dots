@@ -130,7 +130,7 @@ def change_focus(direction):
 
 def main():
     log.setLevel(logging.CRITICAL)
-    fh = logging.FileHandler(os.path.expanduser("~/tmp/yabai-stack-aware.log")
+    fh = logging.FileHandler(os.path.expanduser("~/tmp/yabai-stack-aware.log"))
     fh.setLevel(logging.CRITICAL)
     log.addHandler(fh)
 
