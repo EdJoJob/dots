@@ -32,8 +32,8 @@ bind + resize-pane -U 2
 #bind-key -t vi-copy Enter copy-pipe "xsel"
 # tmux 2.6 config osx
 unbind -T copy-mode-vi Enter
-bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel "pbcopy"
-bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel "it2copy"
+bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "it2copy"
 bind-key -T copy-mode-vi v send -X begin-selection
 
 set-option -g main-pane-height 45
