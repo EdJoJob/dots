@@ -5,5 +5,5 @@
 	path = firefox/vimperator.symlink/colors
 	url = https://github.com/vimpr/vimperator-colors
 [submodule "zsh/zi.symlink/bin"]
-	path = zsh/zi.symlink/bin
+	path = zsh/zi.bin
 	url = https://github.com/z-shell/zi.git

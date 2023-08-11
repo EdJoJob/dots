@@ -32,3 +32,6 @@ rm ~/.todo/todo
 mkdir -m 700  ~/.ssh
 ln -s  ~/dots/sshconfig ~/.ssh/config
 mkdir -p ~/.ssh/config.d
+
+mkdir ~/.zi
+ln -s ~/dots/zsh/zi.bin ~/.zi/bin
