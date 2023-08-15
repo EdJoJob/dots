@@ -90,6 +90,7 @@ Host *
     ControlMaster auto
     ControlPath ${USER_SSH}/%r@%h-%p
     ControlPersist 3600
+    NoHostAuthenticationForLocalhost yes
 
     ServerAliveInterval 60
     ConnectTimeout 30
