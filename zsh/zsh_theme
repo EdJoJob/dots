@@ -88,7 +88,9 @@ in-upterm() { #{{{
 }
 #}}}
 # Setup vim mode and rprompt {{{
-RPROMPT_CMDS=( in-upterm aws-profile in-virtualenv nvm-version )
+typeset -a RPROMPT_CMDS
+RPROMPT_CMDS+=( in-upterm aws-profile in-virtualenv nvm-version )
+typeset -gUx RPROMPT_CMDS
 function zle-line-init zle-keymap-select {
     case $CONTEXT {
         ('start')
