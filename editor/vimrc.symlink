@@ -19,7 +19,7 @@ let g:polyglot_disabled = ['markdown','sh']
 " ALE + coc.nvim {{{
 let g:ale_disable_lsp = 1
 " }}}
-call plug#begin('~/dots/editor/vim.symlink/bundle/')
+call plug#begin('~/.local/vim/bundle')
 " Plugin listing {{{
     " Pretty {{{
         " colorscheme
