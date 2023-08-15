@@ -1,17 +1,27 @@
 #!/bin/zsh
 if [[ $(uname) == 'Darwin' ]]; then
+    if brew outdated | grep 'yabai|skhdrc' &>/dev/null; then
+        echo 'check "brew outdated" for yabai and skhdrc'
+        exit 2
+    fi
     brew upgrade
 elif [[ $(uname) == 'Linux' ]]; then
     if whence apt &>/dev/null; then
         sudo apt update && sudo apt upgrade
     elif whence yum &>/dev/null; then
         sudo yum upgrade;
+    elif whence dnf &> /dev/null; then
+        sudo dnf update
     fi
 fi
-asdf update
-asdf plugin update --all
-asdf uninstall neovim stable && asdf install neovim stable
-pipx upgrade-all
+if whence asdf &>/dev/null; then
+    asdf update
+    asdf plugin update --all
+    asdf uninstall neovim stable && asdf install neovim stable
+fi
+if whence pipx &>/dev/null; then
+    pipx upgrade-all
+fi
 nvim +PlugUpdate +CocUpdate
 echo now run:
 echo zi update -p 5 --all
