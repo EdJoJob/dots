@@ -11,6 +11,8 @@ import sys
 
 log = logging.getLogger(__name__)
 
+yabai = "/opt/homebrew/bin/yabai"
+
 
 def checked_run(args, check_output=True):
     result = None
@@ -25,7 +27,7 @@ def checked_run(args, check_output=True):
 
 
 def yabai_find_relevant_windows():
-    proc = checked_run(["yabai", "-m", "query", "--windows", "--space"])
+    proc = checked_run([yabai, "-m", "query", "--windows", "--space"])
     result = json.loads(proc.stdout)
 
     visible_windows = [
@@ -46,15 +48,15 @@ def yabai_find_relevant_windows():
 
 
 def yabai_stack(window_id):
-    return checked_run(["yabai", "-m", "window", "--stack", str(window_id)])
+    return checked_run([yabai, "-m", "window", "--stack", str(window_id)])
 
 
 def yabai_insert(window_id, direction):
-    return checked_run(["yabai", "-m", "window", str(window_id), "--insert", direction])
+    return checked_run([yabai, "-m", "window", str(window_id), "--insert", direction])
 
 
 def yabai_toggle_float(window_id):
-    return checked_run(["yabai", "-m", "window", str(window_id), "--toggle", "float"])
+    return checked_run([yabai, "-m", "window", str(window_id), "--toggle", "float"])
 
 
 def toggle_stack():
@@ -113,19 +115,19 @@ def change_focus(direction):
 
     stack_index = active_window["stack-index"]
     if direction in ("east", "west") or stack_index == 0:
-        return checked_run(["yabai", "-m", "window", "--focus", direction], False)
+        return checked_run([yabai, "-m", "window", "--focus", direction], False)
 
     if stack_index == 1 and direction == "north":
-        return checked_run(["yabai", "-m", "window", "--focus", direction], False)
+        return checked_run([yabai, "-m", "window", "--focus", direction], False)
 
     delta = -1 if direction == "north" else 1
     target_index = active_window["stack-index"] + delta
 
     for other in find_stacked_windows(windows, active_window):
         if other["stack-index"] == target_index:
-            return checked_run(["yabai", "-m", "window", "--focus", str(other["id"])])
+            return checked_run([yabai, "-m", "window", "--focus", str(other["id"])])
 
-    return checked_run(["yabai", "-m", "window", "--focus", "south"], False)
+    return checked_run([yabai, "-m", "window", "--focus", "south"], False)
 
 
 def main():
