@@ -1,8 +1,8 @@
 # vim: fdm=marker
 
-export CMD_NOTIFY_THRESHOLD=100
+export LONG_CMD_NOTIFY_THRESHOLD=100
 # {{{
-IGNORED_LONG_CMD+=(
+LONG_CMD_IGNORED+=(
     anon-ssh
     bat
     cat
@@ -181,10 +181,10 @@ before_command() { #{{{
         # The idea for this comes from https://glasnt.com/blog/on-audible-notification-of-long-running-commands
         CMD_END_DATE=$(date +%s)
         # altered from https://stackoverflow.com/questions/5203665/zsh-check-if-string-is-in-array
-        if ! [[ $IGNORED_LONG_CMD[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
+        if ! [[ $LONG_CMD_IGNORED[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
             CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
             unset CMD_START_DATE
-            if [[ $CMD_ELAPSED_TIME -gt $CMD_NOTIFY_THRESHOLD ]]; then
+            if [[ $CMD_ELAPSED_TIME -gt $LONG_CMD_NOTIFY_THRESHOLD ]]; then
 
                 RES=$(python3 -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
                 if [[ $EXIT_CODE == 0 ]]; then
