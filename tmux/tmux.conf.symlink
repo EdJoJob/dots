@@ -13,7 +13,6 @@ set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 set-option -g allow-passthrough
 
-set-window-option -g aggressive-resize on
 set -g escape-time 0
 
 # get back clear
