@@ -14,7 +14,7 @@ weechat.symlink/script/plugins.xml.gz
 firefox/vimperator.symlink/info/default/*
 !firefox/vimperator.symlink/info/default/ignored-keys
 
-ptpython.symlink/history
+config/ptpython/history
 
 editor/vim.symlink/init.vim
 todo.symlink/todo
