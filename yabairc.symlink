@@ -1,5 +1,5 @@
 # Mouse support
-yabai -m config mouse_modifier alt
+yabai -m config mouse_modifier fn
 # Unfortunately you need to recompile yabai or disable SIP to use move https://github.com/koekeishiya/yabai/issues/468
 # yabai -m config mouse_action1 move
 yabai -m config mouse_action2 resize
@@ -62,6 +62,8 @@ yabai -m rule --add title="${app_titles}" manage=off
 app_names="^(Calculator"
 app_names+="|1Password"
 app_names+="|AppCleaner"
+app_names+="|Fantastical Helper"
+app_names+="|Minecraft Launcher"
 app_names+="|Logi Options\+"
 app_names+="|System Preferences"
 app_names+="|System Settings"
@@ -88,9 +90,6 @@ yabai -m rule --add app='^Slack$'  space=tall
 yabai -m rule --add app='^Spotify$'  space=moretall
 yabai -m rule --add app='^Firefox$' title='entertainment' space=moretall
 
-
-yabai -m config window_border on
-yabai -m config active_window_border_color 0xFF507dc7
 
 # yabai -m signal --add event=space_changed action=/Users/edjojob/.bin/triggered/spaces-trigger.sh
 # yabai -m signal --add event=window_destroyed  app=Google\ Chrome action='yabai -m query --windows --window $YABAI_WINDOW_ID'
