@@ -1,6 +1,6 @@
 # vim: fdm=marker
 
-export LONG_CMD_NOTIFY_THRESHOLD=100
+export LONG_CMD_NOTIFY_THRESHOLD=30
 # {{{
 LONG_CMD_IGNORED+=(
     anon-ssh
@@ -195,6 +195,10 @@ before_command() { #{{{
                     result="${CMD_ARRAY[1]} failed. Exit code, $EXIT_CODE."
                 fi
                 echo -e "\n⏰  $result $RES" >&2
+                if whence it2attention &>/dev/null; then
+                    it2attention start
+                    it2attention fireworks
+                fi
                 (
                     if [[ $TERM == tmux* ]]; then
                         printf "\033Ptmux;\033"
