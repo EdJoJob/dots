@@ -8,20 +8,19 @@ yabai -m config mouse_action2 resize
 yabai -m config top_padding 0
 
 # global settings
-yabai -m config mouse_follows_focus off
-yabai -m config focus_follows_mouse off
-yabai -m config window_placement second_child
-yabai -m config window_origin_display cursor
-yabai -m config window_border_hidpi off
-yabai -m config window_border_blur off
-yabai -m config auto_balance on
-
-# general space settings
-yabai -m config layout bsp
-yabai -m config bottom_padding 0
-yabai -m config left_padding 0
-yabai -m config right_padding 0
-yabai -m config window_gap 1
+yabai -m config 
+    mouse_follows_focus off \
+    focus_follows_mouse off \
+    window_origin_display cursor \
+    window_placement second_child \
+    auto_balance on
+# general space settings 
+yabai -m config \
+    layout bsp \
+    bottom_padding 0 \
+    left_padding 0 \
+    right_padding 0 \
+    window_gap 1
 
 # Setup Spaces
 
