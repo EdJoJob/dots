@@ -1,3 +1,4 @@
+# vim: ft=sshconfig
 HashKnownHosts yes
 Include config.d/*
 # -- github-keygen - begin --
@@ -74,6 +75,7 @@ Host bitbucket.org bitbucket.com
 Host uptermd.upterm.dev
     IdentitiesOnly yes
     ControlMaster no
+    ControlPath none
 
 Host *.tmate.io
     IdentitiesOnly yes
