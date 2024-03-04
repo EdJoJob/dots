@@ -437,7 +437,7 @@ fe() {
 # Azure {{{
 az-completion() {
     autoload -U +X bashcompinit && bashcompinit
-    source /usr/local/etc/bash_completion.d/az
+    source ${HOMEBREW_PREFIX:-/usr/local}/etc/bash_completion.d/az
     source /etc/bash_completion.d/azure-cli
 }
 # }}}
