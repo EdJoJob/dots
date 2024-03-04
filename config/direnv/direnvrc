@@ -8,6 +8,7 @@ layout_poetry() {
   local python=${1:-python}
   poetry env use $python
   poetry install
+  export POETRY_VIRTUALENVS_IN_PROJECT=1
 
   export VIRTUAL_ENV=$(poetry env info --path)
   export POETRY_ACTIVE=1
