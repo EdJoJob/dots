@@ -245,6 +245,7 @@ anon-scp() {scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $@}
 anon-ssh-force-password() {ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no $@}
 anon-scp-pwd-force-password() {scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password,keyboard-interactive -o PubkeyAuthentication=no $@}
 
+# AWS {{{
 aws-serial() {
     # Access the AWS Serial for an EC2 Instance
     # Particularly useful for watching the boot
@@ -269,6 +270,7 @@ aws-compact-instances() {
     aws ec2 describe-instances $@ | \
         jq '[.Reservations[]|.Instances[] | {InstanceId, State: .State.Name, SubnetId, VpcId, Name: ((.Tags?[]?|select(.Key=="Name")|.Value) // "NULL")}]'
 }
+# }}}
 
 alias my_external_ip='dig +short ANY myip.opendns.com @resolver1.opendns.com'
 alias my_external_ip4='dig +short A myip.opendns.com @resolver1.opendns.com'
