@@ -8,10 +8,32 @@ import logging
 import os
 import subprocess
 import sys
+from dataclasses import dataclass
+from enum import Enum
 
 log = logging.getLogger(__name__)
 
 yabai = "/opt/homebrew/bin/yabai"
+
+
+@dataclass
+class DirectionMixin:
+    direction: str
+    opposite: str
+
+    def __eq__(self, __value: object) -> bool:
+        if isinstance(__value, str):
+            return self.direction == __value
+        if isinstance(__value, self.__class__):
+            return self.direction == __value.direction
+        return False
+
+
+class Direction(DirectionMixin, Enum):
+    north = "north", "south"
+    south = "south", "north"
+    east = "east", "west"
+    west = "west", "east"
 
 
 def checked_run(args, check_output=True):
@@ -21,6 +43,7 @@ def checked_run(args, check_output=True):
         result = subprocess.run(args, capture_output=True, check=check_output)
     except:
         log.exception("poop")
+        raise
     finally:
         log.debug("[checked_run] call %s complete", (args))
     return result
@@ -106,28 +129,39 @@ def unstack_windows(windows, active_window):
         yabai_toggle_float(other["id"])
 
 
-def change_focus(direction):
+def change_focus(direction: Direction) -> int:
     log.debug("START change_focus")
     windows, active_window = yabai_find_relevant_windows()
     log.debug("[change_focus] active_window: %s, windows: %s", (active_window, windows))
     if active_window is None:
-        return
+        return 1
+
+    actual = direction.direction
+    opposite = direction.opposite
 
     stack_index = active_window["stack-index"]
-    if direction in ("east", "west") or stack_index == 0:
-        return checked_run([yabai, "-m", "window", "--focus", direction], False)
+    if actual in ("east", "west") or stack_index == 0:
+        if checked_run([yabai, "-m", "window", "--focus", actual], False).returncode != 0:
+            if checked_run([yabai, "-m", "display", "--focus", actual], False).returncode == 0:
+                while (
+                    checked_run([yabai, "-m", "window", "--focus", opposite], False).returncode == 0
+                ):
+                    pass
+                return 0
+            else:
+                return 1
 
-    if stack_index == 1 and direction == "north":
-        return checked_run([yabai, "-m", "window", "--focus", direction], False)
+    if stack_index == 1 and actual == "north":
+        return checked_run([yabai, "-m", "window", "--focus", actual], False).returncode
 
-    delta = -1 if direction == "north" else 1
+    delta = -1 if actual == "north" else 1
     target_index = active_window["stack-index"] + delta
 
     for other in find_stacked_windows(windows, active_window):
         if other["stack-index"] == target_index:
-            return checked_run([yabai, "-m", "window", "--focus", str(other["id"])])
+            return checked_run([yabai, "-m", "window", "--focus", str(other["id"])]).returncode
 
-    return checked_run([yabai, "-m", "window", "--focus", "south"], False)
+    return checked_run([yabai, "-m", "window", "--focus", "south"], False).returncode
 
 
 def main():
@@ -143,7 +177,8 @@ def main():
         result = toggle_stack()
     else:
         log.debug("focusing")
-        result = change_focus(sys.argv[2])
+        direction = next(d for d in Direction if d == sys.argv[2])
+        result = change_focus(direction)
     log.debug("overall: %s", (result))
 
 
