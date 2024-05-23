@@ -193,7 +193,23 @@ if [[ -n "$SSH_CONNECTION" ]] ;then
     export PINENTRY_USER_DATA="USE_CURSES=1"
 fi
 # }}}
-#
+
+zinit wait lucid for \
+    atinit"zicompinit; zicdreplay" \
+        z-shell/F-Sy-H \
+    as"completion" \
+        zsh-users/zsh-completions \
+        srijanshetty/zsh-pandoc-completion
+
+zinit ice wait'!' lucid atload'source ~/dots/zsh/zsh_theme_vars'
+zinit load zsh-git-prompt/zsh-git-prompt
+
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
 # 1password-cli plugins ----------------{{{
 # From https://1password.community/discussion/138575/zsh-plugin-aliases-break-completion-for-the-command-run-by-the-plugin
 if whence op &>/dev/null; then
@@ -220,21 +236,6 @@ if whence op &>/dev/null; then
 fi
 # }}}
 
-zinit wait lucid for \
-    atinit"zicompinit; zicdreplay" \
-        z-shell/F-Sy-H \
-    as"completion" \
-        zsh-users/zsh-completions \
-        srijanshetty/zsh-pandoc-completion
-
-zinit ice wait'!' lucid atload'source ~/dots/zsh/zsh_theme_vars'
-zinit load zsh-git-prompt/zsh-git-prompt
-
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
 
 if [[ "$PROFILE_STARTUP" == true ]]; then
     unsetopt xtrace
