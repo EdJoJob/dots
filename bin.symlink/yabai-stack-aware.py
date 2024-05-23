@@ -45,7 +45,7 @@ def checked_run(args, check_output=True):
         log.exception("poop")
         raise
     finally:
-        log.debug("[checked_run] call %s complete", (args))
+        log.debug("[checked_run] call %s complete, result: %d", args, getattr(result, 'returncode', -1))
     return result
 
 
@@ -132,7 +132,7 @@ def unstack_windows(windows, active_window):
 def change_focus(direction: Direction) -> int:
     log.debug("START change_focus")
     windows, active_window = yabai_find_relevant_windows()
-    log.debug("[change_focus] active_window: %s, windows: %s", (active_window, windows))
+    log.debug("[change_focus] active_window: %s, windows: %s", active_window, windows)
     if active_window is None:
         return 1
 
