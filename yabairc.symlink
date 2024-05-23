@@ -86,14 +86,19 @@ yabai -m rule --add title='Settings$' manage=off
 
 # App to space assignment
 yabai -m rule --add app='^Obsidian$' title='zettel' space=zettel
-yabai -m rule --add app='^Firefox$' title='zettel' space=zettel
+yabai -m rule --add app='^Firefox$' title='^.zettel' space=zettel
 
-yabai -m rule --add app='^Firefox$' title='work' space=work
+yabai -m rule --add app='^Mail$' space=misc
+yabai -m rule --add app='^Firefox$' title='^.mail' space=misc
+
+yabai -m rule --add app='^Firefox$' title='^.work' space=work
 
 
 yabai -m rule --add app='^Slack$'  space=tall
 yabai -m rule --add app='^Spotify$'  space=moretall
-yabai -m rule --add app='^Firefox$' title='entertainment' space=moretall
+yabai -m rule --add app='^Firefox$' title='^.entertainment' space=tall
+
+yabai -m rule --apply
 
 
 # yabai -m signal --add event=space_changed action=/Users/edjojob/.bin/triggered/spaces-trigger.sh
