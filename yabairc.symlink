@@ -5,22 +5,16 @@ yabai -m config mouse_modifier fn
 yabai -m config mouse_action2 resize
 
 # bar settings
-yabai -m config top_padding 0
+yabai -m config external_bar off
 
 # global settings
-yabai -m config 
+yabai -m config \
+    debug_output on \
     mouse_follows_focus off \
     focus_follows_mouse off \
-    window_origin_display cursor \
-    window_placement second_child \
-    auto_balance on
-# general space settings 
-yabai -m config \
-    layout bsp \
-    bottom_padding 0 \
-    left_padding 0 \
-    right_padding 0 \
-    window_gap 1
+    window_origin_display focused \
+    window_zoom_persist on \
+    window_placement second_child
 
 # Setup Spaces
 
@@ -36,6 +30,15 @@ function setup_space {
   fi
 
   yabai -m space "$idx" --label "$name"
+    # general space settings
+    yabai -m config --space "$idx" \
+        layout bsp \
+        top_padding 0 \
+        bottom_padding 0 \
+        left_padding 0 \
+        right_padding 0 \
+        auto_balance on \
+        window_gap 1
 }
 
 setup_space 1 work
