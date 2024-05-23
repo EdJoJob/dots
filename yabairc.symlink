@@ -59,6 +59,7 @@ app_titles+="|Info"
 app_titles+="|Finder Preferences"
 app_titles+="|Preferences"
 app_titles+="|QuickTime Player"
+app_titles+="|Timeline Controls"
 app_titles+=")"
 yabai -m rule --add title="${app_titles}" manage=off
 
@@ -73,6 +74,7 @@ app_names+="|System Settings"
 app_names+="|System Information"
 app_names+="|VLC"
 app_names+="|WireGuard"
+app_names+="|Dash"
 app_names+=")$"
 yabai -m rule --add app="${app_names}" manage=off
 
