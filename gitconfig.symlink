@@ -49,6 +49,9 @@
     wip = "!f() { git add -A && git ls-files --deleted -z | xargs -r0 git rm && git commit -m \"--wip-- $@\" --no-verify --no-gpg-sign;}; f"
 
     serve = !git daemon --verbose --export-all --base-path=.git --reuseaddr --strict-paths .git/
+
+    developer-level = !git shortlog -sn --no-merges | awk '{$1 = int(log($1) / log(2))}1'
+    karma = !git shortlog -sn --merges | awk '{$1 = int(log($1) / log(2))}1'
 [filter "lfs"]
     process = git-lfs filter-process
     required = true
