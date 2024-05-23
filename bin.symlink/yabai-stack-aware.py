@@ -150,6 +150,8 @@ def change_focus(direction: Direction) -> int:
                 return 0
             else:
                 return 1
+        else:
+            return 0
 
     if stack_index == 1 and actual == "north":
         return checked_run([yabai, "-m", "window", "--focus", actual], False).returncode
