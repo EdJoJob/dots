@@ -25,11 +25,14 @@ alt + shift - 5 : yabai -m window --space 5
 
 alt + shift - 0 : yabai -m space --balance
 
+alt - r : yabai -m space --rotate 90
+alt - y : yabai -m space --mirror y-axis
+
 # Set in settings app
 # alt + ctrl - l : yabai -m space --focus next
 # alt + ctrl - h : yabai -m space --focus prev
 
-alt + ctrl + shift - l : yabai -m window --space next 
+alt + ctrl + shift - l : yabai -m window --space next
 alt + ctrl + shift - h : yabai -m window --space prev
 
 # Zoom
@@ -44,9 +47,6 @@ alt - backspace : yabai -m window --toggle split
 alt - s : /Users/edward.evans/.talon/user/splondike/yabai.py toggle
 # stack / unstack space
 alt + shift - space : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "stack" else "bsp" end')"
-
-# Applications
-alt + fn - t : osascript /Users/edward.evans/.bin/iterm2.scpt
 
 # Prevent window hide/minimize
 cmd - h : true
