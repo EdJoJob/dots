@@ -59,8 +59,8 @@ alias lsa='ls -lah'
 alias l='ls -lhA'
 ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
 #alias ldot='ls -d $PWD/$1/.*' # list all hidden files and dirs
-if whence exa &>/dev/null; then
-    alias ll='exa --group-directories-first --git --long --group'
+if whence eza &>/dev/null; then
+    alias ll='eza --group-directories-first --git --long --group'
     alias tree='ll --tree'
 else
     alias ll='ls -lh'

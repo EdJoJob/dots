@@ -32,6 +32,7 @@ _because otherwise **I** forget_
 * `neomutt`, `offlineimaprc` and `davmail` for email access
     * `davmail` is the key to access of corporate O365
 * `vdirsyncer` and `khard` for a "real" local calendar
+* `eza` for ls replacement
 
 
 ## TODO
