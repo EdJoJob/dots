@@ -212,7 +212,7 @@ before_command() { #{{{
                         espeak -s 600 $result &
                     fi
 
-                    if [[ -n $JOIN_KEY ]]; then
+                    if [[ -n $JOIN_KEY && $CMD_ELAPSED_TIME -gt $(( 3 * $LONG_CMD_NOTIFY_THRESHOLD )) ]]; then
                         curl -G \
                             --data-urlencode "deviceNames=$JOIN_DEVICES" \
                             --data-urlencode "text=$result" \
