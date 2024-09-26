@@ -12,9 +12,10 @@ yabai -m config \
     debug_output on \
     mouse_follows_focus off \
     focus_follows_mouse off \
-    window_origin_display focused \
+    window_origin_display default \
     window_zoom_persist on \
-    window_placement second_child
+    window_placement second_child \
+    mouse_drop_action stack
 
 # Setup Spaces
 
