@@ -2,10 +2,10 @@
 ctrl + alt + cmd - r : yabai --restart-service
 
 # change focus
-alt - h : /Users/edward.evans/.bin/yabai-stack-aware.py focus west
-alt - l : /Users/edward.evans/.bin/yabai-stack-aware.py focus east
-alt - j : /Users/edward.evans/.bin/yabai-stack-aware.py focus south
-alt - k : /Users/edward.evans/.bin/yabai-stack-aware.py focus north
+alt - h : /Users/edward.evans/.talon/user/splondike/yabai.py focus west
+alt - l : /Users/edward.evans/.talon/user/splondike/yabai.py focus east
+alt - j : /Users/edward.evans/.talon/user/splondike/yabai.py focus south
+alt - k : /Users/edward.evans/.talon/user/splondike/yabai.py focus north
 
 # shift window in current workspace
 alt + shift - h : yabai -m window --warp west
@@ -41,7 +41,7 @@ alt - backspace : yabai -m window --toggle split
 
 
 # Stack / unstack column
-alt - s : /Users/edward.evans/.bin/yabai-stack-aware.py toggle
+alt - s : /Users/edward.evans/.talon/user/splondike/yabai.py toggle
 # stack / unstack space
 alt + shift - space : yabai -m space --layout "$(yabai -m query --spaces --space | jq -r 'if .type == "bsp" then "stack" else "bsp" end')"
 
