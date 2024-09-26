@@ -48,7 +48,7 @@ bind c new-window -c "#{pane_current_path}" -n " " # new window
 set-window-option -g automatic-rename off # auto name
 set-window-option -g allow-rename off
 
-set-option -g focus-events on
+# set-option -g focus-events on
 
 set-option -g pane-active-border-style fg=colour015,bg=colour015
 set-option -g pane-border-style fg=colour000,bg=colour008
