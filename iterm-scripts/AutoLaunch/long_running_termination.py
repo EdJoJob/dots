@@ -17,7 +17,7 @@ async def main(connection):
         while True:
             match = await mon.async_get()
             try:
-                subprocess.run(['say', match.group(0)])
+                subprocess.run(['say', '-r350', match.group(0)])
             except:
                 traceback.print_tb(sys.exec_info()[2])
 
