@@ -793,7 +793,7 @@ lua << ENDLUA
 local treesitter_parser_dir = vim.fn.expand("~/.local/nvim-treesitter-parsers/" .. vim.loop.os_uname().sysname)
 vim.opt.runtimepath:append(treesitter_parser_dir)
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = { 
+    ensure_installed = {
         "bash",
         "lua",
         "python",
@@ -1015,12 +1015,12 @@ set guioptions-=L
 " no toolbar
 set guioptions-=T
 " autoselect into @+
-set guioptions+=P
-set guioptions+=A
+" set guioptions+=P
+" set guioptions+=A
 " console for simple choices rather than dialogue
-set guioptions+=c
+" set guioptions+=c
 " have a menubar
-set guioptions+=m
+" set guioptions+=m
 "}}}
 " Lightline -------------{{{
 
