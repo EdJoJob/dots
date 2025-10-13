@@ -100,7 +100,11 @@ if which gcal &>/dev/null; then # {{{
 fi # }}}
 alias g=git
 if whence rg &>/dev/null; then # {{{
-    alias rg="$(whence rg) --smart-case"
+    if [[ "$TERM_PROGRAM" == 'vscode' ]]; then
+        alias rg="$(whence rg) --smart-case --hyperlink-format=vscode"
+    else
+        alias rg="$(whence rg) --smart-case"
+    fi
 fi # }}}
 if whence nvim &>/dev/null; then # {{{
     alias vi='nvim'

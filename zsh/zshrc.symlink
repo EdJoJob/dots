@@ -208,6 +208,8 @@ zinit wait lucid for \
         srijanshetty/zsh-pandoc-completion
 
 zinit ice wait'!' lucid atload'source ~/dots/zsh/zsh_theme_vars'
+export ZSH_THEME_GIT_PROMPT_CACHE=1
+export GIT_PROMPT_EXECUTABLE=python
 zinit load zsh-git-prompt/zsh-git-prompt
 
 autoload -Uz compinit
