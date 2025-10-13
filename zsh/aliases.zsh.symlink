@@ -212,15 +212,19 @@ alias c='clear'
 if whence todo-txt &> /dev/null; then
     todo.sh() { todo-txt $@ }
 fi
-function t() {
-    if [[ "$#" -eq 0 ]]; then
-        todo.sh list '-@oneday'
-    else
-        todo.sh $@
+if whence todo.sh &>/dev/null; then
+    function t() {
+        if [[ "$#" -eq 0 ]]; then
+            todo.sh list '-@oneday'
+        else
+            todo.sh $@
+        fi
+    }
+    if type "compdef" > /dev/null; then
+        compdef _todo.sh t
     fi
-}
-if type "compdef" > /dev/null; then
-    compdef _todo.sh t
+else
+    function t() {}
 fi
 
 # Git {{{
