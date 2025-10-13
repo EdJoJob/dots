@@ -55,17 +55,17 @@ ControlPersist 60s
 Host personal.github.com personal.gist.github.com personal.ssh.github.com personal.443.github.com
 User git
 IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_edjojob@github
+IdentityFile ~/.ssh/github/id_edjojob_github.pub
 
 Host work.github.com work.gist.github.com work.ssh.github.com work.443.github.com
 User git
 IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_work@github
+IdentityFile ~/.ssh/github/id_work_github.pub
 
 Host test.github.com test.gist.github.com test.ssh.github.com test.443.github.com
 User git
 IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_edjojob-test@github
+IdentityFile ~/.ssh/github/id_edjojob-test_github.pub
 
 # -- github-keygen - end --
 
