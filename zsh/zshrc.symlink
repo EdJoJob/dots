@@ -8,6 +8,21 @@ if [[ "$PROFILE_STARTUP" == true ]]; then
     setopt xtrace prompt_subst
 fi
 fpath=($HOME/.zfunc $fpath)
+# Default Path -------------------------{{{
+path=(
+    /usr/local/bin
+    /usr/local/sbin
+    /usr/bin
+    /bin
+    /usr/sbin
+    /sbin
+    ${HOME}/.fzf/bin
+    ${HOME}/.local/bin
+    ${HOME}/.bin
+)
+typeset -U path
+export path
+# }}}
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
 skip_global_compinit=1
@@ -34,8 +49,13 @@ zinit snippet OMZL::spectrum.zsh
 zinit snippet OMZL::termsupport.zsh
 zinit snippet OMZL::theme-and-appearance.zsh
 
-zinit ice wait lucid multisrc'asdf.sh ~/.config/asdf-direnv/zshrc ~/dots/zsh/aliases.zsh.symlink' compclear
-zinit load asdf-vm/asdf
+zinit from"gh-r" \
+    mv"direnv* -> direnv" \
+    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
+    pick"direnv" src="zhook.zsh" \
+    as"program" \
+    for \
+    direnv/direnv
 
 zinit lucid wait for \
     agkozak/zhooks
@@ -129,21 +149,6 @@ setopt extendedglob
 # PATH ---------------------------------{{{
 export XDG_CONFIG_HOME=$HOME/.config
 #}}}
-# Default Path -------------------------{{{
-path=(
-    /usr/local/bin
-    /usr/local/sbin
-    /usr/bin
-    /bin
-    /usr/sbin
-    /sbin
-    ${HOME}/.fzf/bin
-    ${HOME}/.local/bin
-    ${HOME}/.bin
-)
-typeset -U path
-export path
-# }}}
 # Colors -------------------------------{{{
 zinit ice atclone'dircolors -b ~/dots/dir_colors.symlink > clrs.zsh' \
     atpull'%atclone' pick"clrs.zsh" nocompile'!' \
