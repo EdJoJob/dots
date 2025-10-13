@@ -29,6 +29,9 @@
     ca = commit --verbose --all
     cm = !git checkout ${GIT_MAINLINE:-master} --ignore-other-worktrees
     co = checkout --ignore-other-worktrees
+    sw = switch --ignore-other-worktrees
+    r = restore
+    rs = restore --staged
     d = diff --histogram --submodule=diff
     db = !git branch -d $(git branch --merged=${GIT_MAINLINE:-master} | grep -v "\\*" | grep -v "^\\s*${GIT_MAINLINE:-master}$" | grep '^\\s*eevans-')
     dv = !git diff -w "$@" | view -
@@ -90,3 +93,5 @@
     sort = -committerdate
 [url "git@personal.github.com"]
     insteadOf = git@github.com
+[gpg "ssh"]
+	allowedSignersFile = /home/edward.evans/.ssh/allowed_signers
