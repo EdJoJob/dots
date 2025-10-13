@@ -161,6 +161,7 @@ fi
 # }}}
 # Other files --------------------------{{{
 [ -f ~/.local_zshrc ] && source ~/.local_zshrc
+zinit snippet '$HOME/.aliases.zsh'
 source $dots/zsh/zsh_theme
 source $dots/zsh/fzf.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r '^T' && bindkey '^P' fzf-file-widget

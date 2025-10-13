@@ -235,7 +235,9 @@ personal_repo() {
     git config commit.gpgsign true
 }
 alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config user.name 'Edward Evans'; g config user.signingkey '0xF68AEAEA29DB923E'; g config commit.gpgsign true"
-
+ssh-allowed_signer() {
+    echo "$(git config user.email) valid-after=\"$(date +'%Y%m%d')\",namespaces=\"git\" $(cat $(git config user.signingkey))" >> ~/.ssh/allowed_signers
+}
 alias gbl=git-branchless
 # }}}
 
@@ -302,31 +304,33 @@ fi
 
 # DAY MANAGEMENT {{{
 if whence gdate &> /dev/null; then
-    alias my_date=gdate
+    my_date() {gdate $@}
 else
-    alias my_date=date
+    my_date() {date $@}
 fi
 start_day() {
     local fortune_dir
     t archive
     t report
-    my_date +S%Y-%m-%dT%T >> ~/.start_time
+    my_date +"S%Y-%m-%dT%T" >> ~/.start_time
     clear
     t
     t lf later
-    if [[ -d ~/Dropbox/fortunes ]]; then
-        fortune_dir=~/Dropbox/fortunes
-    fi
+    if whence fortune &>/dev/null; then
+        if [[ -d ~/Dropbox/fortunes ]]; then
+            fortune_dir=~/Dropbox/fortunes
+        fi
 
-    echo
-    (cd $fortune_dir && ./update.sh &>/dev/null)
+        echo
+        (cd $fortune_dir && ./update.sh &>/dev/null)
 
-    if [[ $(uname) == 'Darwin' ]]; then
-        fortune $fortune_dir | tee /dev/tty | pbcopy
-    elif [[ $(uname) == 'Linux' ]]; then
-        fortune $fortune_dir | tee /dev/tty | xclip -selection clipboard
-    else
-        fortune $fortune_dir
+        if [[ $(uname) == 'Darwin' ]]; then
+            fortune $fortune_dir | tee /dev/tty | pbcopy
+        elif [[ $(uname) == 'Linux' ]]; then
+            fortune $fortune_dir | tee /dev/tty | xclip -selection clipboard
+        else
+            fortune $fortune_dir
+        fi
     fi
 }
 
