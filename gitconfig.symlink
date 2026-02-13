@@ -91,7 +91,5 @@
 	enabled = true
 [branch]
     sort = -committerdate
-[url "git@personal.github.com"]
-    insteadOf = git@github.com
 [gpg "ssh"]
-	allowedSignersFile = /home/edward.evans/.ssh/allowed_signers
+	allowedSignersFile = ~/.ssh/allowed_signers
