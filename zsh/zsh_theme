@@ -94,15 +94,17 @@ typeset -gUx RPROMPT_CMDS
 function zle-line-init zle-keymap-select {
     case $CONTEXT {
         ('start')
-            VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
-            local_prompt="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}"
-            if (( ${+RPROMPT_CMDS} )); then
-                for cmd in $RPROMPT_CMDS; do
-                    local_prompt+="$($cmd)"
-                done
+            if [ -z "$CHAT_TERM" ]; then
+                VIM_PROMPT="$prompt_l_sqparen%b%F{yellow}NORMAL$prompt_r_sqparen"
+                local_prompt="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}"
+                if (( ${+RPROMPT_CMDS} )); then
+                    for cmd in $RPROMPT_CMDS; do
+                        local_prompt+="$($cmd)"
+                    done
+                fi
+                RPROMPT="$local_prompt$(git_super_status)"
+                zle reset-prompt
             fi
-            RPROMPT="$local_prompt$(git_super_status)"
-            zle reset-prompt
             ;;
         ('cont')
             ;;
