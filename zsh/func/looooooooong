@@ -9,7 +9,7 @@ RES=$(python -c "diff = $DIFF; min = int(diff / 60); sec = (diff - min*60); prin
 result="$1 completed. Time, $RES. Exit code, $EXIT_CODE."
 echo -e "\n⏰  $result"
 (
-    if [[ $(uname) == 'Darwin' ]]; then 
+    if [[ $OSTYPE == darwin* ]]; then
         say -r 1800 $result 2>&1 > /dev/null & 
     fi
 )

@@ -18,26 +18,10 @@ function man() { # {{{
         PATH="$HOME/bin:$PATH" \
             man "$@"
 } # }}}
-# last-successful-logins on DARWIN {{{
-if [[ $(uname) == 'Darwin' ]]; then
-    # version test from https://coderwall.com/p/4yz8dq/determine-os-x-version-from-the-command-line
-    version_stamp=$(defaults read loginwindow SystemVersionStampAsString)
-    if [[ $version_stamp == '10.14.5' || $version_stamp == '10.14.6' ]]; then
-        # from https://apple.stackexchange.com/a/332226/166420
-        alias last-successful-logins='\
-            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 2h \
-            | grep "LUIAuthenticationServiceProvider deactivateWithContext:]_block_invoke" \
-            | grep $(date +%Y-%m-%d) \
-            | awk "{print $2}" \
-            | cut -f 1 -d . '
-    elif [[ $version_stamp == '10.15.1' ]]; then
-        alias last-successful-logins='\
-            log show --style syslog --predicate "process == \"loginwindow\"" --debug --info --last 2h \
-            | grep -E "user is active" \
-            | awk "{print $2}" \
-            | cut -d . -f 1'
-    fi
-fi
+# last-successful-logins {{{
+last-successful-logins() {
+    pmset -g log | grep 'Display is turned o' | tail -${1:-20}
+}
 # }}}
 # DIR STACK ----------------------------{{{
 alias pu='pushd'
@@ -48,7 +32,7 @@ alias ...='cd ../..'
 alias -- -='cd -'
 # }}}
 # LS TOOLS -----------------------------{{{
-if whence gls &>/dev/null; then
+if (( $+commands[gls] )); then
     alias ls='gls --color=auto -F --group-directories-first'
 else
     alias ls='ls --color=auto -F --group-directories-first'
@@ -59,7 +43,7 @@ alias lsa='ls -lah'
 alias l='ls -lhA'
 ldot () { if [[ -n $1 ]]; then; ls -d $1/.*; else; ls -d .*; fi }
 #alias ldot='ls -d $PWD/$1/.*' # list all hidden files and dirs
-if whence eza &>/dev/null; then
+if (( $+commands[eza] )); then
     alias ll='eza --group-directories-first --git --long --group'
     alias tree='ll --tree'
 else
@@ -69,8 +53,8 @@ alias la='ls -lha'
 alias sl=ls # often screw this up
 # }}}
 # TOOL REPLACEMENT ---------------------{{{
-if which brew &>/dev/null; then # {{{
-    brew_loc=$(which brew)
+if (( $+commands[brew] )); then # {{{
+    brew_loc=${commands[brew]}
     function brew() {
         $brew_loc $@
         if [[ $1 == install ]] || [[ $1 == uninstall ]]; then
@@ -78,35 +62,35 @@ if which brew &>/dev/null; then # {{{
         fi
    }
 fi # }}}
-if which fd &>/dev/null; then # {{{
-    if which gfind &>/dev/null; then
+if (( $+commands[fd] )); then # {{{
+    if (( $+commands[gfind] )); then
         alias find=">&2 echo 'Consider using fd'; gfind"
     else
-        alias find=">&2 echo 'Consider using fd'; $(which find)"
+        alias find=">&2 echo 'Consider using fd'; ${commands[find]}"
     fi
 else
-    if which gfind &>/dev/null; then
+    if (( $+commands[gfind] )); then
         alias find=gfind
     fi
 fi # }}}
-if which ncdu &>/dev/null; then # {{{
-    alias du=">&2 echo 'Consider using ncdu'; $(which du)"
+if (( $+commands[ncdu] )); then # {{{
+    alias du=">&2 echo 'Consider using ncdu'; ${commands[du]}"
 fi # }}}
-if which gdate &>/dev/null; then # {{{
+if (( $+commands[gdate] )); then # {{{
     alias date=gdate
 fi # }}}
-if which gcal &>/dev/null; then # {{{
+if (( $+commands[gcal] )); then # {{{
     alias cal=gcal
 fi # }}}
 alias g=git
-if whence rg &>/dev/null; then # {{{
+if (( $+commands[rg] )); then # {{{
     if [[ "$TERM_PROGRAM" == 'vscode' ]]; then
-        alias rg="$(whence rg) --smart-case --hyperlink-format=vscode"
+        alias rg="${commands[rg]} --smart-case --hyperlink-format=vscode"
     else
-        alias rg="$(whence rg) --smart-case"
+        alias rg="${commands[rg]} --smart-case"
     fi
 fi # }}}
-if whence nvim &>/dev/null; then # {{{
+if (( $+commands[nvim] )); then # {{{
     alias vi='nvim'
 else
     alias vi='vim'
@@ -114,9 +98,9 @@ fi # }}}
 # }}}
 # DEFAULT PROGRAMS ---------------------{{{
 export LESS="-FXRM"
-export SHELL=$(whence zsh)
-export EDITOR=$(whence nvim || whence vim)
-export VISUAL=$(whence nvim || whence vim)
+export SHELL=${commands[zsh]}
+export EDITOR=${commands[nvim]:-${commands[vim]}}
+export VISUAL=${commands[nvim]:-${commands[vim]}}
 #}}}
 # ZETTEL ------------------------------{{{
 function zz() {
@@ -213,10 +197,10 @@ function take() {
 
 
 alias c='clear'
-if whence todo-txt &> /dev/null; then
+if (( $+commands[todo-txt] )); then
     todo.sh() { todo-txt $@ }
 fi
-if whence todo.sh &>/dev/null; then
+if (( $+commands[todo.sh] || $+functions[todo.sh] )); then
     function t() {
         if [[ "$#" -eq 0 ]]; then
             todo.sh list '-@oneday'
@@ -224,7 +208,7 @@ if whence todo.sh &>/dev/null; then
             todo.sh $@
         fi
     }
-    if type "compdef" > /dev/null; then
+    if (( $+functions[compdef] )); then
         compdef _todo.sh t
     fi
 else
@@ -296,10 +280,10 @@ alias dm=docker-machine
 alias q='TMPDIR=${TMPDIR:-/tmp} && rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 
 # OSX to Linux Compat {{{
-if whence xclip &>/dev/null && ! whence pbcopy &>/dev/null; then
+if (( $+commands[xclip] && ! $+commands[pbcopy] )); then
     alias pbcopy='xclip -selection clipboard'
 fi
-if whence xdg-open &>/dev/null && ! whence open &>/dev/null; then
+if (( $+commands[xdg-open] && ! $+commands[open] )); then
     open() {
         xdg-open $1 &>/dev/null &
     }
@@ -307,7 +291,7 @@ fi
 # }}}
 
 # DAY MANAGEMENT {{{
-if whence gdate &> /dev/null; then
+if (( $+commands[gdate] )); then
     my_date() {gdate $@}
 else
     my_date() {date $@}
@@ -320,7 +304,7 @@ start_day() {
     clear
     t
     t lf later
-    if whence fortune &>/dev/null; then
+    if (( $+commands[fortune] )); then
         if [[ -d ~/Dropbox/fortunes ]]; then
             fortune_dir=~/Dropbox/fortunes
         fi
@@ -328,9 +312,9 @@ start_day() {
         echo
         (cd $fortune_dir && ./update.sh &>/dev/null)
 
-        if [[ $(uname) == 'Darwin' ]]; then
+        if [[ $OSTYPE == darwin* ]]; then
             fortune $fortune_dir | tee /dev/tty | pbcopy
-        elif [[ $(uname) == 'Linux' ]]; then
+        elif [[ $OSTYPE == linux* ]]; then
             fortune $fortune_dir | tee /dev/tty | xclip -selection clipboard
         else
             fortune $fortune_dir
@@ -376,7 +360,7 @@ last-days-merges() {
 # }}}
 # ALERT IN OSX {{{
 alert() {
-    if whence terminal-notifier &> /dev/null; then
+    if (( $+commands[terminal-notifier] )); then
         terminal-notifier -remove 'alert'
     fi
     local message exit_status
@@ -391,10 +375,10 @@ alert() {
     else
         exit_status=""
     fi
-    if whence terminal-notifier &> /dev/null; then
+    if (( $+commands[terminal-notifier] )); then
         terminal-notifier -title "${1}" -subtitle "${exit_status}" -message "${message}" -group 'alert'
     fi
-    if which it2attention > /dev/null; then
+    if (( $+commands[it2attention] )); then
         it2attention fireworks &
     fi
 }
@@ -409,11 +393,11 @@ lastcommand() {
     fc -l -LI -n '-1' | xargs echo -n | pbcopy
 }
 
-if whence http &> /dev/null; then
+if (( $+commands[http] )); then
     alias https='http --default-scheme=https'
 fi
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
+if [[ $OSTYPE == darwin* ]]; then
     sith() {
         val=$(defaults read -g AppleInterfaceStyle 2>/dev/null)
         if [[ $val == "Dark" ]]; then
@@ -425,7 +409,10 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
         fi
     }
 
-    sith
+    # Skip re-detection in subshells (MACOS_MODE inherited from parent)
+    if [[ -z $MACOS_MODE ]]; then
+        sith
+    fi
 fi
 
 

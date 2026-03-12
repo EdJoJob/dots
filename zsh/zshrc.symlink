@@ -37,17 +37,26 @@ chmod go-rwx $USER_SSH
 autoload -Uz _zi
 (( ${+_comps} )) && _comps[zi]=_zi
 
-zinit snippet OMZL::compfix.zsh
-zinit snippet OMZL::completion.zsh
-zinit snippet OMZL::directories.zsh
-zinit snippet OMZL::functions.zsh
-zinit snippet OMZL::grep.zsh
-zinit snippet OMZL::key-bindings.zsh
-zinit snippet OMZL::misc.zsh
-zinit snippet OMZL::nvm.zsh
-zinit snippet OMZL::spectrum.zsh
-zinit snippet OMZL::termsupport.zsh
-zinit snippet OMZL::theme-and-appearance.zsh
+# Per-environment config loaded early for tmux automation first-command use
+# Note: $FG/$fg_bold/$reset_color not yet available (loaded by OMZ deferred below)
+[ -f ~/.local_zshrc ] && source ~/.local_zshrc
+
+# Minimal prompt for instant first-command availability
+# Full theme replaces this on the second precmd (after first prompt renders)
+PS1=$'%{\e(0%}└─%{\e(B%}[%?]%{\e(0%}─%{\e(B%}> '
+
+# Deferred OMZ: colors first (0a priority), then utilities (0b)
+zinit wait'0a' lucid for \
+    OMZL::theme-and-appearance.zsh \
+    OMZL::spectrum.zsh \
+    OMZL::functions.zsh
+
+zinit wait'0b' lucid for \
+    OMZL::compfix.zsh \
+    OMZL::completion.zsh \
+    OMZL::directories.zsh \
+    OMZL::misc.zsh \
+    OMZL::termsupport.zsh
 
 zinit from"gh-r" \
     mv"direnv* -> direnv" \
@@ -73,11 +82,11 @@ hash -d dots=$dots
 hash -d itermscripts=~/Library/Application\ Support/iTerm2/Scripts
 hash -d zettel=~/vaults/zettel
 
-if whence keybase &>/dev/null; then
-    if [[ $(uname) == 'Darwin' ]]; then
+if (( $+commands[keybase] )); then
+    if [[ $OSTYPE == darwin* ]]; then
         keybase=/Volumes/Keybase/private/edjojob
         keybasepub=/Volumes/Keybase/public/edjojob
-    elif [[ $(uname) == 'Linux' ]]; then
+    elif [[ $OSTYPE == linux* ]]; then
         keybase=/keybase/private/edjojob
         keybasepub=/keybase/public/edjojob
     fi
@@ -110,11 +119,6 @@ export TODO_NOTES_DIR="$TODO_ROOT/notes"
 # zsh core settings --------------------{{{
 # editor {{{
 # bind UP and DOWN arrow keys
-zmodload zsh/terminfo
-bindkey "$terminfo[kcuu1]" fzf-history-widget
-bindkey "$terminfo[kcud1]" fzf-history-widget
-bindkey -M vicmd 'k' fzf-history-widget
-bindkey -M vicmd 'j' fzf-history-widget
 autoload edit-command-line; zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 bindkey -M vicmd q push-line
@@ -151,13 +155,12 @@ export XDG_CONFIG_HOME=$HOME/.config
 #}}}
 # Colors -------------------------------{{{
 zinit ice atclone'dircolors -b ~/dots/dir_colors.symlink > clrs.zsh' \
-    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
-    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+    atpull'%atclone' pick”clrs.zsh” nocompile'!'
 zinit light trapd00r/LS_COLORS
-
+zstyle ':completion:*' list-colors “${(s.:.)LS_COLORS}”
 
 # Use gnu's ls so don't need these lscolors
-if [[ $(uname) == 'Darwin' && -n $LSCOLORS ]]; then
+if [[ $OSTYPE == darwin* && -n $LSCOLORS ]]; then
   unset LSCOLORS
 fi
 
@@ -165,18 +168,30 @@ fi
 # Add tools {{{
 # }}}
 # Other files --------------------------{{{
-[ -f ~/.local_zshrc ] && source ~/.local_zshrc
-zinit snippet '$HOME/.aliases.zsh'
-source $dots/zsh/zsh_theme
-source $dots/zsh/fzf.zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh && bindkey -r '^T' && bindkey '^P' fzf-file-widget
+source $HOME/.aliases.zsh
+
+# Defer full theme until after first prompt renders (second precmd)
+# Post-increment: (( 0++ )) is falsy on first call, truthy on second
+typeset -gi _PROMPT_INIT=0
+_init_full_prompt() {
+    if (( _PROMPT_INIT++ )); then
+        add-zsh-hook -d precmd _init_full_prompt
+        source $dots/zsh/zsh_theme
+        source $dots/zsh/fzf.zsh
+        before_command  # Render full prompt immediately in this precmd
+        unset _PROMPT_INIT
+        unfunction _init_full_prompt
+    fi
+}
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _init_full_prompt
 #}}}
 
 
 # Tmux detection -----------------------{{{
 
 fixssh() {
-    if whence tmux >/dev/null; then
+    if (( $+commands[tmux] )); then
     for key in SSH_AUTH_SOCK SSH_CONNECTION SSH_CLIENT MACOS_MODE; do
         if (tmux show-environment | grep "^${key}" > /dev/null); then
             value=`tmux show-environment | grep "^${key}" | sed -e "s/^[A-Z_]*=//"`
@@ -194,7 +209,7 @@ if [[ -n $TMUX ]]; then
 fi
 #}}}
 # SSH Detection ------------------------{{{
-export GPG_TTY=$(tty)
+export GPG_TTY=$TTY
 if [[ -n "$SSH_CONNECTION" ]] ;then
     export PINENTRY_USER_DATA="USE_CURSES=1"
 fi
@@ -212,15 +227,9 @@ export ZSH_THEME_GIT_PROMPT_CACHE=1
 export GIT_PROMPT_EXECUTABLE=python
 zinit load zsh-git-prompt/zsh-git-prompt
 
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
-
 # 1password-cli plugins ----------------{{{
 # From https://1password.community/discussion/138575/zsh-plugin-aliases-break-completion-for-the-command-run-by-the-plugin
-if whence op &>/dev/null; then
+if (( $+commands[op] )); then
     function __my_op_plugin_run() {
         _op_plugin_run
 
@@ -235,12 +244,10 @@ if whence op &>/dev/null; then
 
     }
 
-    function __load_op_completion() {
-        completion_function="$(op completion zsh)"
-        sed -E 's/^( +)_op_plugin_run/\1__my_op_plugin_run/' <<<"${completion_function}"
-    }
-
-    eval "$(__load_op_completion)"
+    # Defer op completion loading until after first prompt
+    zinit ice wait lucid id-as'op-completion' \
+        atload'eval "$(op completion zsh | sed -E "s/^( +)_op_plugin_run/\1__my_op_plugin_run/")"'
+    zinit snippet /dev/null
 fi
 # }}}
 

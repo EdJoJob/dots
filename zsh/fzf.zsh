@@ -1,6 +1,13 @@
 if [ -f ~/.fzf.zsh ]; then
     source ~/.fzf.zsh
+    bindkey -r '^T'
+    bindkey '^P' fzf-file-widget
 
+    zmodload zsh/terminfo
+    bindkey "$terminfo[kcuu1]" fzf-history-widget
+    bindkey "$terminfo[kcud1]" fzf-history-widget
+    bindkey -M vicmd 'k' fzf-history-widget
+    bindkey -M vicmd 'j' fzf-history-widget
 
     # Below is from https://gist.github.com/junegunn/8b572b8d4b5eddd8b85e5f4d40f17236
     # or Key bindings for git with fzf (https://junegunn.kr/2016/07/fzf-git/) 

@@ -1,4 +1,6 @@
 # vim: fdm=marker
+# for EPOCHSECONDS, rather than a sub-shell to $(date +%s)
+zmodload zsh/datetime
 
 export LONG_CMD_NOTIFY_THRESHOLD=30
 # {{{
@@ -171,6 +173,8 @@ prompt_adam2_setup () { #{{{
 
     prompt_line_1a="$prompt_gfx_tbox$prompt_l_paren%B%F{$prompt_adam2_color2}%~$prompt_r_paren%b%F{$prompt_adam2_color1}"
     prompt_line_1b="%B%F{246}[%b%F{yellow}%D{%H:%M}%B%F{246}|$prompt_user_host%B%F{246}|$prompt_shell_level $prompt_jobs]%b%F{$prompt_adam2_color1}${phyph}"
+    # Cache right-side width: static per session (user@host, shlvl don't change)
+    prompt_line_1b_width=${#${(S%%)prompt_line_1b//(\%([KF1]|)\{*\}|\%[Bbkf])}}
 
     prompt_line_2="$prompt_gfx_bbox$prompt_l_sqparen%b%F{12}%?$prompt_r_sqparen%b%F{$prompt_adam2_color1}${phyph}%b%F{12}"
 
@@ -183,21 +187,21 @@ before_command() { #{{{
     EXIT_CODE=$?
     if ! [[ -z $CMD_START_DATE ]]; then
         # The idea for this comes from https://glasnt.com/blog/on-audible-notification-of-long-running-commands
-        CMD_END_DATE=$(date +%s)
+        CMD_END_DATE=$EPOCHSECONDS
         # altered from https://stackoverflow.com/questions/5203665/zsh-check-if-string-is-in-array
         if ! [[ $LONG_CMD_IGNORED[(r)${CMD_ARRAY[1]}] ]]; then  # See zshparam:Subscript Flags
             CMD_ELAPSED_TIME=$(($CMD_END_DATE - $CMD_START_DATE))
             unset CMD_START_DATE
             if [[ $CMD_ELAPSED_TIME -gt $LONG_CMD_NOTIFY_THRESHOLD ]]; then
 
-                RES=$(python3 -c "diff = $CMD_ELAPSED_TIME; min = int(diff / 60); sec = (diff - min*60); print('%s min, %0.1f sec' %(min,sec))")
+                RES="$(( CMD_ELAPSED_TIME / 60 )) min, $(( CMD_ELAPSED_TIME % 60 )) sec"
                 if [[ $EXIT_CODE == 0 ]]; then
                     result="${CMD_ARRAY[1]} completed."
                 else
                     result="${CMD_ARRAY[1]} failed. Exit code, $EXIT_CODE."
                 fi
                 echo -e "\n⏰  $result $RES" >&2
-                if whence it2attention &>/dev/null; then
+                if (( $+commands[it2attention] )); then
                     it2attention start
                     it2attention fireworks
                 fi
@@ -210,7 +214,7 @@ before_command() { #{{{
                         printf "\033\\"
                     fi
 
-                    if whence espeak&> /dev/null; then
+                    if (( $+commands[espeak] )); then
                         espeak -s 600 $result &
                     fi
 
@@ -281,7 +285,6 @@ function title {
 
 prompt_adam2_choose_prompt () { #{{{
     local prompt_line_1a_width=${#${(S%%)prompt_line_1a//(\%([KF1]|)\{*\}|\%[Bbkf])}}
-    local prompt_line_1b_width=${#${(S%%)prompt_line_1b//(\%([KF1]|)\{*\}|\%[Bbkf])}}
 
     local prompt_padding_size=$(( COLUMNS
     - prompt_line_1a_width
@@ -313,7 +316,7 @@ before_execute() { #{{{
     print -Pn "%B%F{}Start %D{%H:%M:%S}\n%b%f%k"
     CMD_NAME=$1
     echo $1 | read -A CMD_ARRAY
-    CMD_START_DATE=$(date +%s)
+    CMD_START_DATE=$EPOCHSECONDS
 }
 
 autoload -Uz add-zsh-hook
@@ -323,6 +326,5 @@ add-zsh-hook preexec before_execute
 
 
 prompt_adam2_setup
-autoload -Uz promptinit; promptinit
 #}}}
 #}}}
