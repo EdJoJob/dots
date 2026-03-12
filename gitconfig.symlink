@@ -93,3 +93,5 @@
     sort = -committerdate
 [gpg "ssh"]
 	allowedSignersFile = ~/.ssh/allowed_signers
+[init]
+	defaultBranch = main
