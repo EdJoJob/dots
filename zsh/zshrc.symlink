@@ -20,6 +20,9 @@ path=(
     ${HOME}/.local/bin
     ${HOME}/.bin
 )
+if [[ $OSTYPE == darwin* ]]; then
+    path=(/opt/homebrew/bin $path)
+fi
 typeset -U path
 export path
 # }}}
