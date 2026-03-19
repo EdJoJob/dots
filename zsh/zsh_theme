@@ -67,19 +67,19 @@ in-virtualenv() { #{{{
         if [[ $venv == 'env' ]]; then
             venv=${${(s:/:)VIRTUAL_ENV}[-2]}
         fi
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[027]%}${venv}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR${ZSH_THEME_VENV_COLOR}${venv}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 aws-profile() { #{{{
     if [[ -n $AWS_PROFILE ]]; then
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[214]%}${AWS_PROFILE}%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR${ZSH_THEME_AWS_COLOR}${AWS_PROFILE}%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 } #}}}
 nvm-version() { #{{{
     if [[ -n $NVM_BIN ]]; then
         local nvm_ver
         nvm_ver=${${(s:/:)NVM_BIN}[-2]}
-        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR%{$FG[112]%}$nvm_ver%{$reset_color%}$ZSH_THEME_SUFFIX"
+        echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_REPO_COLOR}$ZSH_THEME_SEPARATOR${ZSH_THEME_NVM_COLOR}$nvm_ver%{$reset_color%}$ZSH_THEME_SUFFIX"
     fi
 }
 #}}}
@@ -281,6 +281,51 @@ function title {
       ;;
   esac
 }
+#}}}
+
+# Terminal title hooks (was OMZL::termsupport.zsh) {{{
+ZSH_THEME_TAB_TITLE="%15<..<%~%<<"
+ZSH_THEME_WINDOW_TITLE="%n@%m:%~"
+
+# Prompt title: truncated pwd in tab, user@host:~ in window
+# Override term_title_precmd in ~/.local_zshrc for per-env customisation
+function term_title_precmd {
+    [[ "${DISABLE_AUTO_TITLE:-}" != true ]] || return
+    title "$ZSH_THEME_TAB_TITLE" "$ZSH_THEME_WINDOW_TITLE"
+}
+
+# Running command in tab title
+function term_title_preexec {
+    [[ "${DISABLE_AUTO_TITLE:-}" != true ]] || return
+    emulate -L zsh
+    setopt extended_glob
+
+    local -a cmdargs
+    cmdargs=("${(z)2}")
+    if [[ "${cmdargs[1]}" = fg ]]; then
+        local job_id jobspec="${cmdargs[2]#%}"
+        case "$jobspec" in
+            <->) job_id=${jobspec} ;;
+            ""|%|+) job_id=${(k)jobstates[(r)*:+:*]} ;;
+            -) job_id=${(k)jobstates[(r)*:-:*]} ;;
+            [?]*) job_id=${(k)jobtexts[(r)*${(Q)jobspec}*]} ;;
+            *) job_id=${(k)jobtexts[(r)${(Q)jobspec}*]} ;;
+        esac
+        if [[ -n "${jobtexts[$job_id]}" ]]; then
+            1="${jobtexts[$job_id]}"
+            2="${jobtexts[$job_id]}"
+        fi
+    fi
+
+    local CMD="${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}"
+    local LINE="${2:gs/%/%%}"
+    title "$CMD" "%100>...>${LINE}%<<"
+}
+
+if [[ -z "$INSIDE_EMACS" || "$INSIDE_EMACS" = vterm ]]; then
+    add-zsh-hook precmd term_title_precmd
+    add-zsh-hook preexec term_title_preexec
+fi
 #}}}
 
 prompt_adam2_choose_prompt () { #{{{

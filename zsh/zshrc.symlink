@@ -38,25 +38,14 @@ autoload -Uz _zi
 (( ${+_comps} )) && _comps[zi]=_zi
 
 # Per-environment config loaded early for tmux automation first-command use
-# Note: $FG/$fg_bold/$reset_color not yet available (loaded by OMZ deferred below)
 [ -f ~/.local_zshrc ] && source ~/.local_zshrc
 
 # Minimal prompt for instant first-command availability
 # Full theme replaces this on the second precmd (after first prompt renders)
 PS1=$'%{\e(0%}└─%{\e(B%}[%?]%{\e(0%}─%{\e(B%}> '
 
-# Deferred OMZ: colors first (0a priority), then utilities (0b)
-zinit wait'0a' lucid for \
-    OMZL::theme-and-appearance.zsh \
-    OMZL::spectrum.zsh \
-    OMZL::functions.zsh
-
 zinit wait'0b' lucid for \
-    OMZL::compfix.zsh \
-    OMZL::completion.zsh \
-    OMZL::directories.zsh \
-    OMZL::misc.zsh \
-    OMZL::termsupport.zsh
+    OMZL::completion.zsh
 
 zinit from"gh-r" \
     mv"direnv* -> direnv" \
@@ -149,6 +138,23 @@ unsetopt share_history
 # }}}
 
 setopt extendedglob
+setopt multios              # redirect to multiple streams: echo >file1 >file2
+setopt long_list_jobs       # verbose job notifications
+
+# colors (was OMZL::theme-and-appearance.zsh)
+autoload -U colors && colors
+setopt prompt_subst
+
+# paste safety (was OMZL::misc.zsh)
+autoload -Uz url-quote-magic bracketed-paste-magic
+zle -N self-insert url-quote-magic
+zle -N bracketed-paste bracketed-paste-magic
+
+# directory navigation (was OMZL::directories.zsh)
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushdminus
 #}}}
 # PATH ---------------------------------{{{
 export XDG_CONFIG_HOME=$HOME/.config

@@ -4,6 +4,12 @@
 export ZSH_GIT_PROMPT_SHOW_UPSTREAM=2
 #}}}
 
+# rprompt indicator colors {{{
+ZSH_THEME_VENV_COLOR="%{[38;5;27m%}"   # fg 027 blue
+ZSH_THEME_AWS_COLOR="%{[38;5;214m%}"   # fg 214 orange
+ZSH_THEME_NVM_COLOR="%{[38;5;112m%}"   # fg 112 green
+# }}}
+
 # theme vars {{{
 # Default values for the appearance of the prompt. Configure at will.
 ZSH_THEME_PREFIX="%{$fg_bold[black]%}%{[%G%}"

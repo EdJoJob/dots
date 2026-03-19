@@ -96,6 +96,22 @@ else
     alias vi='vim'
 fi # }}}
 # }}}
+# SPECTRUM DISPLAY ---------------------{{{
+spectrum_ls() {
+    setopt localoptions nopromptsubst
+    local text=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
+    for code in {000..255}; do
+        print -P -- "$code: %{[38;5;${code}m%}${text}%{[0m%}"
+    done
+}
+spectrum_bls() {
+    setopt localoptions nopromptsubst
+    local text=${ZSH_SPECTRUM_TEXT:-Arma virumque cano Troiae qui primus ab oris}
+    for code in {000..255}; do
+        print -P -- "$code: %{[48;5;${code}m%}${text}%{[0m%}"
+    done
+}
+# }}}
 # DEFAULT PROGRAMS ---------------------{{{
 export LESS="-FXRM"
 export SHELL=${commands[zsh]}
