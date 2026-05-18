@@ -188,6 +188,11 @@ _init_full_prompt() {
         source $dots/zsh/zsh_theme
         source $dots/zsh/fzf.zsh
         before_command  # Render full prompt immediately in this precmd
+        # Ensure iterm2_precmd runs last so it decorates the PS1 set by before_command
+        if (( ${+functions[iterm2_precmd]} )); then
+            add-zsh-hook -d precmd iterm2_precmd
+            precmd_functions+=( iterm2_precmd )
+        fi
         unset _PROMPT_INIT
         unfunction _init_full_prompt
     fi
