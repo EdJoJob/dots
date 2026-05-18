@@ -61,6 +61,14 @@ if [ -f ~/.fzf.zsh ]; then
       cut -d$'\t' -f1
     }
 
+    gw() { # worktrees
+      is_in_git_repo || return
+      git worktree list |
+      fzf-down --ansi \
+        --preview 'git -C {1} status' |
+      awk '{print $1}'
+    }
+
     join-lines() {
       local item
       while read item; do
@@ -76,6 +84,6 @@ if [ -f ~/.fzf.zsh ]; then
         eval "bindkey '^g^$c' fzf-g$c-widget"
       done
     }
-    bind-git-helper f b t r s
+    bind-git-helper f b t r s w
     unset -f bind-git-helper
 fi
