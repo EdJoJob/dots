@@ -117,7 +117,7 @@ bindkey -M vicmd q push-line
 #}}}
 
 # history {{{
-HISTFILE="$HOME/.zsh_history"
+HISTFILE=${HISTFILE:-"$HOME/.zsh_history"}
 SAVEHIST=999999999
 HISTSIZE=999999999
 
