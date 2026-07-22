@@ -16,3 +16,7 @@ node_modules
 .git-blame-ignore-revs
 .vscode/
 .*.bkp
+
+**/.claude/settings.local.json
+
+**/.claude/.cc-writes/
