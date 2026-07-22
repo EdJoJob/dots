@@ -245,8 +245,9 @@ zinit wait lucid for \
         srijanshetty/zsh-pandoc-completion
 
 zinit ice wait'!' lucid atload'source ~/dots/zsh/zsh_theme_vars'
-export ZSH_THEME_GIT_PROMPT_CACHE=1
+# export ZSH_THEME_GIT_PROMPT_CACHE=0
 export GIT_PROMPT_EXECUTABLE=python
+export ZSH_GIT_PROMPT_PYBIN=python3
 zinit load zsh-git-prompt/zsh-git-prompt
 
 # 1password-cli plugins ----------------{{{
