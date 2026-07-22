@@ -74,20 +74,10 @@ done
 # Common Directories -------------------{{{
 dots=~/dots
 hash -d dots=$dots
-hash -d itermscripts=~/Library/Application\ Support/iTerm2/Scripts
-hash -d zettel=~/vaults/zettel
-
-if (( $+commands[keybase] )); then
-    if [[ $OSTYPE == darwin* ]]; then
-        keybase=/Volumes/Keybase/private/edjojob
-        keybasepub=/Volumes/Keybase/public/edjojob
-    elif [[ $OSTYPE == linux* ]]; then
-        keybase=/keybase/private/edjojob
-        keybasepub=/keybase/public/edjojob
-    fi
-    : ~keybase
-    : ~keybasepub
+if [[ $OSTYPE == darwin* ]]; then
+    hash -d itermscripts=~/Library/Application\ Support/iTerm2/Scripts
 fi
+hash -d zettel=~/vaults/zettel
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
