@@ -1,0 +1,20 @@
+# from https://github.com/kmARC/dotfiles/blob/4727782af623449c86acf47fe5ac2c54b1fcc146/pdotfiles/.mutt/example%40gmail.com/notmuch-config
+[database]
+path=~/.mutt/example@gmail.com/
+
+[user]
+name=Firstname Lastname
+primary_email=example@gmail.com
+other_email=example.2@gmail.com
+
+[new]
+tags=unread;inbox;
+ignore=
+
+[search]
+exclude_tags=deleted;spam;
+
+[maildir]
+synchronize_flags=true
+
+# vim: set ft=dosini:
