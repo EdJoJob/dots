@@ -23,12 +23,15 @@ path=(
 if [[ $OSTYPE == darwin* ]]; then
     path=(/opt/homebrew/bin $path)
 fi
+# -U: dedupe the PATH-tied array, keeping the first (highest-priority) copy of
+#     each directory so re-sourced/nested shells don't bloat $PATH.
 typeset -U path
 export path
 # }}}
 # zenv ---------------------------------{{{
 DISABLE_AUTO_UPDATE='true'
 skip_global_compinit=1
+# -A: associative array (hash); required before key assignment like ZI[BIN_DIR]
 typeset -A ZI
 ZI[BIN_DIR]="${HOME}/.zi/bin"
 source "${ZI[BIN_DIR]}/zi.zsh"
@@ -90,6 +93,7 @@ fi
 # zsh-syntax-highlighting {{{
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 export ZSH_HIGHLIGHT_HIGHLIGHTERS
+# -A: associative array the syntax-highlighting plugin reads, keyed by style name
 typeset -A ZSH_HIGHLIGHT_STYLES
 # }}}
 # todo.sh {{{
@@ -181,6 +185,7 @@ source $HOME/.aliases.zsh
 
 # Defer full theme until after first prompt renders (second precmd)
 # Post-increment: (( 0++ )) is falsy on first call, truthy on second
+# -g: global so it persists across precmd firings; -i: integer for (( ++ )).
 typeset -gi _PROMPT_INIT=0
 _init_full_prompt() {
     if (( _PROMPT_INIT++ )); then

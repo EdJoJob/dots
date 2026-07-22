@@ -32,6 +32,7 @@ LONG_CMD_IGNORED+=(
     zs
     zz
 )
+# -U: dedupe the array in place, keeping the first occurrence of each command
 typeset -U IGNORED_LONG_CMD
 # }}}
 
@@ -90,8 +91,13 @@ in-upterm() { #{{{
 }
 #}}}
 # Setup vim mode and rprompt {{{
-typeset -a RPROMPT_CMDS
+# -g: force global scope (this file is sourced inside _init_full_prompt, so a
+#     plain `typeset -a` would create a function-local that dies on return).
+# -a: indexed array.
+typeset -ga RPROMPT_CMDS
 RPROMPT_CMDS+=( in-upterm aws-profile in-virtualenv nvm-version )
+# Re-assert attributes after the append: -g global, -U dedupe (so a duplicate
+# from ~/.local_zshrc collapses), -x export (a no-op on arrays, kept for intent).
 typeset -gUx RPROMPT_CMDS
 function zle-line-init zle-keymap-select {
     case $CONTEXT {
