@@ -1,0 +1,36 @@
+# Global mise tools — one manifest so the SAME tools land the SAME way on
+# macOS/Debian/RedHat. Policy: mise first, uv (pipx backend below runs uvx)
+# for python tools, OS packages only for C-linked system things
+# (install/Brewfile, install/packages-*.txt).
+# Per-machine additions: side-car ships ~/.config/mise/conf.d/*.toml.
+
+[settings]
+# python tools install through uv (uvx), not pipx
+pipx.uvx = true
+
+[tools]
+# runtimes the backends below need
+node = "lts"        # npm: backend
+uv = "latest"       # pipx: backend (via uvx)
+
+# updater (replaces the old update-all script)
+topgrade = "latest"
+
+# git
+"github:tummychow/git-absorb" = "latest"
+
+# python tools (uvx)
+"pipx:proselint" = "latest"
+"pipx:rstcheck" = "latest"
+"pipx:yq" = "latest"
+"pipx:lieer" = "latest"     # gmi — gmail <-> notmuch sync (docs/MAIL.md)
+
+# nvim language servers (gopls stays an OS package — properly packaged everywhere)
+"npm:pyright" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:vim-language-server" = "latest"
+
+# prose linter (was an npm global)
+"npm:alex" = "latest"

@@ -1,0 +1,14 @@
+# Managed by ~/dots (topgrade package). Native steps (brew/apt/dnf/mise/pipx/
+# gem/npm/...) auto-skip when a tool is absent; the custom commands below
+# cover the managers this setup runs that topgrade shouldn't guess at.
+
+[misc]
+# Respect the committed lazy-lock.json: topgrade's own vim/nvim step would
+# run an unpinned update. Day-to-day is `Lazy! restore` (below); deliberate
+# upgrades are `:Lazy update` followed by committing the new lockfile.
+disable = ["vim", "helix"]
+cleanup = true
+
+[commands]
+"zi plugins" = "zsh -ic 'zi self-update && zi update --all'"
+"nvim plugins (lockfile restore)" = "nvim --headless '+Lazy! restore' +qa"
