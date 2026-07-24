@@ -6,9 +6,7 @@ set -g history-limit 1000000
 set-window-option -g mode-keys vi
 set-option -g status-keys vi
 set -g default-terminal "tmux-256color"
-set -ga terminal-overrides ',screen*:Tc'
-set -ga terminal-overrides ',xterm*:Tc'
-set -ga terminal-overrides ',tmux*:Tc'
+set -as terminal-features ",*:RGB"
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 set-option -g allow-passthrough
@@ -26,13 +24,11 @@ bind > resize-pane -R 2
 bind - resize-pane -D 2
 bind + resize-pane -U 2
 
-# tmux ?? config linux
-#unbind -t vi-copy Enter
-#bind-key -t vi-copy Enter copy-pipe "xsel"
-# tmux 2.6 config osx
+# clipboard via OSC 52 (works everywhere, including over SSH)
+set -s set-clipboard on
 unbind -T copy-mode-vi Enter
-bind-key -T copy-mode-vi Enter send -X copy-pipe-and-cancel "it2copy"
-bind-key -T copy-mode-vi y send -X copy-pipe-and-cancel "it2copy"
+bind-key -T copy-mode-vi Enter send -X copy-selection-and-cancel
+bind-key -T copy-mode-vi y send -X copy-selection-and-cancel
 bind-key -T copy-mode-vi v send -X begin-selection
 
 set-option -g main-pane-height 45
@@ -48,7 +44,7 @@ bind c new-window -c "#{pane_current_path}" -n " " # new window
 set-window-option -g automatic-rename off # auto name
 set-window-option -g allow-rename off
 
-# set-option -g focus-events on
+set-option -g focus-events on
 
 set-option -g pane-active-border-style fg=colour015,bg=colour015
 set-option -g pane-border-style fg=colour000,bg=colour008
@@ -82,7 +78,7 @@ set -g status-left-length 100
 tm_clock="#[fg=blue,bold]%a %d %h %R#[fg=colour246,none]"
 tm_user="#[fg=green,none]$USER#[fg=green,bold]@#[fg=green,none]#h#[fg=colour246,none]"
 tm_session="#[fg=green,none]#S#[fg=colour246,none]"
-set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] #{prefix_highlight}"
+set -g status-left $tm_clock" ["$tm_user"] ["$tm_session"] #{?client_prefix,#[reverse] ^ #[noreverse],}"
 set -g status-right ""
 set -g status-justify centre
 
@@ -93,39 +89,23 @@ set -g window-status-format "#[fg=green,none]#I:#W#F"
 set -g window-status-current-format "#[fg=colour246,bold][#[fg=green,bold]#I:#W#F#[fg=colour246,none]]"
 set -g status-interval 10
 
-set -g @batt_icon_status_charged " "
-set -g @batt_icon_status_charging "+"
-set -g @batt_icon_status_discharging "-"
-set -g @batt_icon_attached "…"
+# Smart pane switching with awareness of Vim splits (ex vim-tmux-navigator)
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
+    | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|l?n?vim?x?|fzf)(diff)?(-wrapped)?$'"
+bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
+bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
+bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'
+bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l' 'select-pane -R'
+bind-key -n 'C-\' if-shell "$is_vim" 'send-keys C-\\' 'select-pane -l'
+bind-key -T copy-mode-vi 'C-h' select-pane -L
+bind-key -T copy-mode-vi 'C-j' select-pane -D
+bind-key -T copy-mode-vi 'C-k' select-pane -U
+bind-key -T copy-mode-vi 'C-l' select-pane -R
+bind-key -T copy-mode-vi 'C-\' select-pane -l
 
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
-set -g @plugin 'tmux-plugins/tmux-logging'
-set -g @plugin 'christoomey/vim-tmux-navigator'
-set -g @plugin 'tmux-plugins/tmux-focus-events'
-set -g @plugin 'laktak/extrakto'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
-set -g @plugin 'tmux-plugins/tmux-continuum'
-
-set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/dots/tmux/tmux.symlink/plugins/'
-
-set -g @resurrect-save 'S'
-set -g @resurrect-restore 'R'
-
-set -g @resurrect-capture-pane-contents 'on'
-set -g @resurrect-processes 'weechat watch ssh'
-
-set -g @continuum-restore 'on'
+# toggle pane logging (ex tmux-logging)
+bind-key P pipe-pane -o "cat >> ~/tmux-#W.log" \; display-message "toggled logging to ~/tmux-#W.log"
 
 source-file ~/.local_tmux.conf
-
-# Other examples:
-# github_username/plugin_name    \
-# git@github.com/user/plugin     \
-# git@bitbucket.com/user/plugin  \
-
-# Initializes TMUX plugin manager.
-# Keep this line at the very bottom of tmux.conf.
-run-shell '~/dots/tmux/tmux.symlink/plugins/tpm/tpm'
 
 # vim: ft=tmux
