@@ -3,6 +3,7 @@ Description=Synchronize calendars and contacts
 Documentation=https://vdirsyncer.readthedocs.org/
 
 [Service]
-ExecStart=%h/.local/bin/vdirsyncer sync
+Type=oneshot
+Environment=PATH=%h/.local/share/mise/shims:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/env vdirsyncer sync
 RuntimeMaxSec=3m
-Restart=on-failure

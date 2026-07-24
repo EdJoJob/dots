@@ -1,6 +1,7 @@
 [Unit]
 Description=Greenclip agent
-After=display-manager.service
+After=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 Type=simple
@@ -8,4 +9,4 @@ ExecStart=%h/.local/bin/greenclip daemon
 Restart=always
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

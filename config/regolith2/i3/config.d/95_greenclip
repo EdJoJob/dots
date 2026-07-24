@@ -1,7 +1,7 @@
 # greenclip setup
+# daemon is started by the greenclip systemd user unit
 set $greenclip ~/.local/bin/greenclip
 set $ilia /usr/bin/ilia
-exec --no-startup-id $greenclip daemon
 ## Launch // Clip History // <><Ctrl> c
 bindsym $mod+Ctrl+c exec $greenclip print | $ilia -p textlist -l greenclip | xargs -r -d'\n' -I '{}' $greenclip print '{}'
 
