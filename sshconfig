@@ -1,73 +1,40 @@
 # vim: ft=sshconfig
 HashKnownHosts yes
 Include config.d/*
-# -- github-keygen - begin --
-# Version: 1.306
-
+# github: hand-maintained; per-identity aliases, keys live in the agent
+# (public-key-only IdentityFiles select which agent key to offer)
 Host gist.github.com *.gist.github.com
-HostName gist.github.com
+    HostName gist.github.com
 
-# See https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port
+# ssh over the https port
 Host ssh.github.com *.ssh.github.com 443.github.com *.443.github.com
-HostName ssh.github.com
-Port 443
+    HostName ssh.github.com
+    Port 443
 
-# This rule must stay below more specific host rules to avoid
-# "HostName" to be set to github.com
+# must stay below the more specific host rules above
 Host *.github.com
-HostName github.com
-
-Host github.com gist.github.com ssh.github.com 443.github.com *.github.com *.gist.github.com *.ssh.github.com *.443.github.com
-User git
-# Known options which are available only in some OpenSSH versions
-IgnoreUnknown Protocol,UseRoaming,UseKeychain
-# Force SSH2
-##Protocol 2
-# Enforce host checks
-StrictHostKeyChecking yes
-UserKnownHostsFile ~/.ssh/github/known_hosts_github
-# Hosts added later (identified by IP) will be hashed
-HashKnownHosts yes
-# GitHub has not yet (2011-05) implemented SSHFP (RFC 4255)
-VerifyHostKeyDNS no
-# Enable only the required authentication
-PubkeyAuthentication yes
-PreferredAuthentications publickey
-# Select algorithms recommended by Stribika
-#  See https://stribika.github.io/2015/01/04/secure-secure-shell.html
-#  Last in each list is the minimum supported by GitHub
-KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1
-Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr
-MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512
-# Disallow server key using SHA-1
-# https://www.openssh.com/txt/release-8.2
-HostKeyAlgorithms -ssh-rsa
-# Trust no one, especially the remote
-ForwardAgent no
-ForwardX11 no
-PermitLocalCommand no
-##UseRoaming no
-# Connexion sharing for 60 seconds, for speedup
-ControlMaster auto
-ControlPath ${USER_SSH}/github/%r@%h-%p
-ControlPersist 60s
+    HostName github.com
 
 Host personal.github.com personal.gist.github.com personal.ssh.github.com personal.443.github.com
-User git
-IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_edjojob_github.pub
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/github/id_edjojob_github.pub
 
 Host work.github.com work.gist.github.com work.ssh.github.com work.443.github.com
-User git
-IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_work_github.pub
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/github/id_work_github.pub
 
 Host test.github.com test.gist.github.com test.ssh.github.com test.443.github.com
-User git
-IdentitiesOnly yes
-IdentityFile ~/.ssh/github/id_edjojob-test_github.pub
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/github/id_edjojob-test_github.pub
 
-# -- github-keygen - end --
+Host github.com gist.github.com ssh.github.com 443.github.com *.github.com *.gist.github.com *.ssh.github.com *.443.github.com
+    User git
+    PreferredAuthentications publickey
+    StrictHostKeyChecking yes
+    UserKnownHostsFile ~/.ssh/github/known_hosts_github
+    ControlMaster auto
+    ControlPath ${USER_SSH}/github/%r@%h-%p
+    ControlPersist 60s
 
 Host bitbucket.org bitbucket.com
     ControlMaster no
@@ -76,10 +43,6 @@ Host uptermd.upterm.dev
     IdentitiesOnly yes
     ControlMaster no
     ControlPath none
-
-Host *.tmate.io
-    IdentitiesOnly yes
-    ControlMaster no
 
 Host serial-console.ec2-instance-connect.*.aws
     ControlMaster no
