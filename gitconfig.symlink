@@ -2,18 +2,21 @@
 [color]
     ui = auto
 [push]
-    default = upstream
+    default = simple
+    autoSetupRemote = true
 [core]
     excludesfile = ~/.gitignore_global
-    crlf = input
+    pager = delta
 [include]
     path = ~/.local_gitconfig
 [alias]
-    blog = !git -C ${GIT_PREFIX:-.} log --graph --date=relative --format=eevans ${GIT_MAINLINE:-master}...HEAD
-    bdiff = !git -C ${GIT_PREFIX:-.} diff ${GIT_MAINLINE:-master}...HEAD
+    # remote HEAD if known (git remote set-head origin --auto to refresh), else master
+    mainline = !git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|^origin/||' | grep . || echo master
+    blog = !git -C ${GIT_PREFIX:-.} log --graph --date=relative --format=eevans ${GIT_MAINLINE:-$(git mainline)}...HEAD
+    bdiff = !git -C ${GIT_PREFIX:-.} diff ${GIT_MAINLINE:-$(git mainline)}...HEAD
     up = !git pull --all --rebase --prune $@ && git submodule sync --recursive && git submodule update --init --recursive
-    out = !git fetch && git log origin/${GIT_MAINLINE:-master}..
-    in = !git fetch && git log ..origin/${GIT_MAINLINE:-master}
+    out = !git fetch && git log origin/${GIT_MAINLINE:-$(git mainline)}..
+    in = !git fetch && git log ..origin/${GIT_MAINLINE:-$(git mainline)}
 
     bl = branchless
 
@@ -27,13 +30,13 @@
     c = commit --verbose
     ci = commit --verbose
     ca = commit --verbose --all
-    cm = !git checkout ${GIT_MAINLINE:-master} --ignore-other-worktrees
+    cm = !git checkout ${GIT_MAINLINE:-$(git mainline)} --ignore-other-worktrees
     co = checkout --ignore-other-worktrees
     sw = switch --ignore-other-worktrees
     r = restore
     rs = restore --staged
     d = diff --histogram --submodule=diff
-    db = !git branch -d $(git branch --merged=${GIT_MAINLINE:-master} | grep -v "\\*" | grep -v "^\\s*${GIT_MAINLINE:-master}$" )
+    db = !git branch -d $(git branch --merged=${GIT_MAINLINE:-$(git mainline)} | grep -v "\\*" | grep -v "^\\s*${GIT_MAINLINE:-$(git mainline)}$" )
     dv = !git diff -w "$@" | view -
     fap = fetch --all --prune
     is-ancestor = "!f() { git merge-base --is-ancestor $1 HEAD; }; f"
@@ -44,7 +47,7 @@
     rba = rebase --abort
     rbc = rebase --continue
     rbi = rebase --interactive --autosquash --no-keep-empty
-    rbm = !git rebase ${GIT_MAINLINE:-master} --interactive --autosquash --no-keep-empty
+    rbm = !git rebase ${GIT_MAINLINE:-$(git mainline)} --interactive --autosquash --no-keep-empty
     st = status
     unwip = "!git log -n 1 | grep -q -c -- "--wip--" && git reset HEAD~1 && if which git-branchless; then git bl hide HEAD@{1}; fi"
     unpushed = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git log origin/$GIT_CURRENT_BRANCH..$GIT_CURRENT_BRANCH --pretty=eevans
@@ -74,8 +77,6 @@
     fsckObjects = true
 [protocol]
     version = 2
-[core]
-    pager = delta
 [delta]
     syntax-theme = gruvbox-dark
     line-numbers = true
@@ -91,7 +92,15 @@
 	enabled = true
 [branch]
     sort = -committerdate
+[gpg]
+    format = ssh
 [gpg "ssh"]
 	allowedSignersFile = ~/.ssh/allowed_signers
 [init]
 	defaultBranch = main
+[credential "https://github.com"]
+	helper = 
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !gh auth git-credential
