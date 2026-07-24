@@ -1,0 +1,6 @@
+# Per-machine mise tools (side-car fragment; mise merges every conf.d/*.toml).
+# Uncomment on machines running the PIM stack (docs/MAIL.md, vdirsyncer/khal):
+# [tools]
+# "pipx:vdirsyncer" = "latest"
+# "pipx:khal" = "latest"
+# "pipx:khard" = "latest"

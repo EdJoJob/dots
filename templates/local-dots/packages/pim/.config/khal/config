@@ -1,0 +1,36 @@
+# khal config — calendar names and paths must line up with the vdirsyncer
+# pairs in this package (names containing "/" have to be explicit
+# [[sections]]; khal's discover naming can't produce them).
+# Syntax per khal docs: https://khal.readthedocs.io/en/latest/configure.html
+# Colors and the [locale]/[default] values below are starting points —
+# adjust per machine.
+
+[calendars]
+
+[[gmail/example@personal-gmail.com]]
+path = ~/.calendars/gmail/example@personal-gmail.com/
+addresses = example@personal-gmail.com
+color = dark blue
+
+[[gmail/shared-calendar]]
+path = ~/.calendars/gmail/shared-calendar/
+color = dark green
+
+[[example@enterprise-o365.com]]
+path = ~/.calendar/o365/calendar/
+addresses = example@enterprise-o365.com
+color = dark red
+
+[locale]
+local_timezone = Australia/Brisbane
+default_timezone = Australia/Brisbane
+timeformat = %H:%M
+dateformat = %Y-%m-%d
+longdateformat = %Y-%m-%d
+datetimeformat = %Y-%m-%d %H:%M
+longdatetimeformat = %Y-%m-%d %H:%M
+firstweekday = 0
+
+[default]
+default_calendar = example@enterprise-o365.com
+highlight_event_days = True

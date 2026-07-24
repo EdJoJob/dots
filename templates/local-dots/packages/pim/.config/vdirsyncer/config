@@ -1,0 +1,101 @@
+# vdirsyncer config — the calendar/contact sync pairs that khal and khard
+# (configs in this package) read from. Needs vdirsyncer[google] for the
+# google_* storage types.
+# Syntax per vdirsyncer 0.19 docs: https://vdirsyncer.pimutils.org/en/stable/config.html
+# Google calendar IDs below are placeholders; run `vdirsyncer discover <pair>`
+# to fill them in.
+
+[general]
+status_path = "~/.vdirsyncer/status/"
+
+# ---------------------------------------------------------------------------
+# Work (O365) via local DavMail gateway on localhost:1080.
+# DavMail itself is configured by the mail package (.davmail.properties,
+# mode O365Interactive) and does the real OAuth; vdirsyncer only does basic
+# auth against the local gateway.
+# ---------------------------------------------------------------------------
+
+[pair o365_calendar]
+a = "o365_calendar_local"
+b = "o365_calendar_remote"
+collections = ["calendar", "United States holidays"]
+metadata = ["color", "displayname"]
+
+[storage o365_calendar_local]
+type = "filesystem"
+# NOTE: singular ".calendar" (not ".calendars") is intentional here.
+path = "~/.calendar/o365/"
+fileext = ".ics"
+
+[storage o365_calendar_remote]
+type = "caldav"
+# DavMail CalDAV URL shape: http://localhost:<caldavPort>/users/<email>/
+url = "http://localhost:1080/users/example@enterprise-o365.com/"
+username = "example@enterprise-o365.com"
+password.fetch = ["command", "secret", "get", "davmail-password"]
+
+[pair o365_contacts]
+a = "o365_contacts_local"
+b = "o365_contacts_remote"
+collections = ["contacts"]
+metadata = ["displayname"]
+
+[storage o365_contacts_local]
+type = "filesystem"
+# Base dir chosen so the "contacts" collection lands at
+# ~/.contacts/o365/contacts — khard.conf points there.
+path = "~/.contacts/o365/"
+fileext = ".vcf"
+
+[storage o365_contacts_remote]
+type = "carddav"
+url = "http://localhost:1080/users/example@enterprise-o365.com/contacts/"
+username = "example@enterprise-o365.com"
+password.fetch = ["command", "secret", "get", "davmail-password"]
+
+# ---------------------------------------------------------------------------
+# Personal Google account (example@personal-gmail.com). Requires vdirsyncer[google].
+# First run: `vdirsyncer discover gmail_calendar` opens a browser for OAuth.
+# ---------------------------------------------------------------------------
+
+[pair gmail_calendar]
+a = "gmail_calendar_local"
+b = "gmail_calendar_remote"
+# Aliases match the khal calendar names
+# gmail/{example@personal-gmail.com,shared-calendar}. Fill in the Google-side
+# ID of each shared calendar from `vdirsyncer discover gmail_calendar`.
+collections = [
+  "example@personal-gmail.com",
+  ["shared-calendar", "shared-calendar", "<SHARED-CALENDAR-ID>@group.calendar.google.com"]
+  ]
+metadata = ["color", "displayname"]
+
+[storage gmail_calendar_local]
+type = "filesystem"
+# Per-collection dirs under a gmail/ base (plural ~/.calendars here; only
+# o365 uses the singular ~/.calendar).
+path = "~/.calendars/gmail/"
+fileext = ".ics"
+
+[storage gmail_calendar_remote]
+type = "google_calendar"
+token_file = "~/.vdirsyncer/google_calendar_token"
+client_id.fetch = ["command", "secret", "get", "google-api-client-id"]
+client_secret.fetch = ["command", "secret", "get", "google-api-client-secret"]
+
+[pair gmail_contacts]
+a = "gmail_contacts_local"
+b = "gmail_contacts_remote"
+# Google's single address book is called "default" remotely.
+collections = [["example@personal-gmail.com", "example@personal-gmail.com", "default"]]
+
+[storage gmail_contacts_local]
+type = "filesystem"
+path = "~/.contacts/"
+fileext = ".vcf"
+
+[storage gmail_contacts_remote]
+type = "google_contacts"
+token_file = "~/.vdirsyncer/google_contacts_token"
+client_id.fetch = ["command", "secret", "get", "google-api-client-id"]
+client_secret.fetch = ["command", "secret", "get", "google-api-client-secret"]
