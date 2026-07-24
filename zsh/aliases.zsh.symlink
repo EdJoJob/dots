@@ -54,13 +54,8 @@ alias sl=ls # often screw this up
 # }}}
 # TOOL REPLACEMENT ---------------------{{{
 if (( $+commands[brew] )); then # {{{
-    brew_loc=${commands[brew]}
-    function brew() {
-        $brew_loc $@
-        if [[ $1 == install ]] || [[ $1 == uninstall ]]; then
-            $brew_loc list > ~/.brewed_recipes
-        fi
-   }
+    alias update-all='topgrade'  # muscle-memory shim for the retired ~/.bin/update-all
+alias brew-dump='brew bundle dump --file ~/dots/install/Brewfile --force'  # refresh committed package manifest
 fi # }}}
 if (( $+commands[fd] )); then # {{{
     if (( $+commands[gfind] )); then
@@ -135,17 +130,15 @@ function diary() {
 # }}}
 alias rs="rsync --archive --verbose --address --human-readable --progress"
 # QUICK FILE ACCESS {{{
-alias .vimrc='vi ~/dots/editor/vimrc.symlink'
+alias .vimrc='vi ~/.config/nvim/init.lua'
 alias .local_vimrc='vi ~/.local_vimrc'
 
-alias .zshrc='vi ~/dots/zsh/zshrc.symlink && exec zsh -l'
-alias .aliases='vi ~/dots/zsh/aliases.zsh.symlink && exec zsh -l'
+alias .zshrc='vi ~/.zshrc && exec zsh -l'
+alias .aliases='vi ~/.aliases.zsh && exec zsh -l'
 alias .local_zsh='vi ~/.local_zshrc && exec zsh -l'
 
-alias .tmux='vi ~/dots/tmux/tmux.conf.symlink && tmux source-file ~/.tmux'
+alias .tmux='vi ~/.tmux.conf && tmux source-file ~/.tmux.conf'
 alias .local_tmux='vi ~/.local_tmux.conf'
-
-alias .hg='vi ~/dots/hg/hgrc.symlink'
 
 function .i3 {
     local mtime i3_config
@@ -213,23 +206,6 @@ function take() {
 
 
 alias c='clear'
-if (( $+commands[todo-txt] )); then
-    todo.sh() { todo-txt $@ }
-fi
-if (( $+commands[todo.sh] || $+functions[todo.sh] )); then
-    function t() {
-        if [[ "$#" -eq 0 ]]; then
-            todo.sh list '-@oneday'
-        else
-            todo.sh $@
-        fi
-    }
-    if (( $+functions[compdef] )); then
-        compdef _todo.sh t
-    fi
-else
-    function t() {}
-fi
 
 # Git {{{
 personal_repo() {
@@ -286,12 +262,6 @@ alias my_external_ip='dig +short ANY myip.opendns.com @resolver1.opendns.com'
 alias my_external_ip4='dig +short A myip.opendns.com @resolver1.opendns.com'
 alias my_external_ip6='dig +short AAAA myip.opendns.com @resolver1.opendns.com'
 
-# Chef {{{
-alias tk='kitchen' # test kitchen
-# }}}
-# Docker {{{
-alias dm=docker-machine
-# }}}
 # python debuging with q
 alias q='TMPDIR=${TMPDIR:-/tmp} && rm -f $TMPDIR/q && clear && touch $TMPDIR/q && tail -f $TMPDIR/q'
 
@@ -306,74 +276,6 @@ if (( $+commands[xdg-open] && ! $+commands[open] )); then
 fi
 # }}}
 
-# DAY MANAGEMENT {{{
-if (( $+commands[gdate] )); then
-    my_date() {gdate $@}
-else
-    my_date() {date $@}
-fi
-start_day() {
-    local fortune_dir
-    t archive
-    t report
-    my_date +"S%Y-%m-%dT%T" >> ~/.start_time
-    clear
-    t
-    t lf later
-    if (( $+commands[fortune] )); then
-        if [[ -d ~/Dropbox/fortunes ]]; then
-            fortune_dir=~/Dropbox/fortunes
-        fi
-
-        echo
-        (cd $fortune_dir && ./update.sh &>/dev/null)
-
-        if [[ $OSTYPE == darwin* ]]; then
-            fortune $fortune_dir | tee /dev/tty | pbcopy
-        elif [[ $OSTYPE == linux* ]]; then
-            fortune $fortune_dir | tee /dev/tty | xclip -selection clipboard
-        else
-            fortune $fortune_dir
-        fi
-    fi
-}
-
-alias end_day='time_since_start_day && my_date +E%Y-%m-%dT%T >> ~/.start_time'
-check_start_day() {
-    if [[ $(tail -n1 ~/.start_time) == E* ]]; then
-        start_day
-    fi
-}
-
-start_day_time() {
-    check_start_day
-    tail -n1 ~/.start_time| cut -dT -f 2 | cut -d " " -f 1
-}
-
-time_since_start_day() {
-    check_start_day
-    start_time=`my_date +%s -d $(start_day_time)`
-    end_time=`my_date +%s -d $(my_date +%H:%M:%S)`
-
-    diff=$(($end_time - $start_time))
-    my_date +%H:%M:%S -ud @${diff}
-}
-
-alias today="date '+%Y-%m-%d'"
-# }}}
-# MERCURIAL AIDS {{{
-owner() {
-    hg annotate -u $1 | cut -f 1 -d ':' | sort | guniq -c | sort -nr | head -n 1 | gsed -re 's/[[:space:]]+/:/g' | cut -f 3 -d ':'
-}
-
-next() {
-    hg resolve -l | grep '^U' | cut -f 2 -d ' ' | head -n 1
-}
-
-last-days-merges() {
-    hg slog -r 'date(">yesterday") and merge() and not user("packaging-build7.bb")'
-}
-# }}}
 # ALERT IN OSX {{{
 alert() {
     if (( $+commands[terminal-notifier] )); then

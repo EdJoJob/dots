@@ -34,6 +34,9 @@ skip_global_compinit=1
 # -A: associative array (hash); required before key assignment like ZI[BIN_DIR]
 typeset -A ZI
 ZI[BIN_DIR]="${HOME}/.zi/bin"
+if [[ ! -f ${HOME}/.zi/bin/zi.zsh ]]; then
+    command mkdir -p "${HOME}/.zi" && command git clone --depth 1 https://github.com/z-shell/zi.git "${HOME}/.zi/bin"
+fi
 source "${ZI[BIN_DIR]}/zi.zsh"
 
 export USER_SSH=/tmp/u${UID}-ssh
@@ -50,9 +53,56 @@ autoload -Uz _zi
 # Full theme replaces this on the second precmd (after first prompt renders)
 PS1=$'%{\e(0%}└─%{\e(B%}[%?]%{\e(0%}─%{\e(B%}> '
 
-zinit wait'0b' lucid for \
-    OMZL::completion.zsh
+# inlined from OMZL::completion.zsh {{{
+zmodload -i zsh/complist
 
+WORDCHARS=''
+
+unsetopt menu_complete   # do not autoselect the first completion entry
+unsetopt flowcontrol
+setopt auto_menu         # show completion menu on successive tab press
+setopt complete_in_word
+setopt always_to_end
+
+bindkey -M menuselect '^o' accept-and-infer-next-history
+zstyle ':completion:*:*:*:*:*' menu select
+
+# case insensitive, partial-word and substring completion
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
+
+# Complete . and .. special directories
+zstyle ':completion:*' special-dirs true
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
+
+# disable named-directories autocompletion
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
+# Use caching so that commands like apt and dpkg complete are usable
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path ${XDG_CACHE_HOME:-$HOME/.cache}/zsh
+
+# Don't complete uninteresting users
+zstyle ':completion:*:*:*:users' ignored-patterns \
+        adm amanda apache at avahi avahi-autoipd beaglidx bin cacti canna \
+        clamav daemon dbus distcache dnsmasq dovecot fax ftp games gdm \
+        gkrellmd gopher hacluster haldaemon halt hsqldb ident junkbust kdm \
+        ldap lp mail mailman mailnull man messagebus mldonkey mysql nagios \
+        named netdump news nfsnobody nobody nscd ntp nut nx obsrun openvpn \
+        operator pcap polkitd postfix postgres privoxy pulse pvm quagga radvd \
+        rpc rpcuser rpm rtkit scard shutdown squid sshd statd svn sync tftp \
+        usbmux uucp vcsa wwwrun xfs '_*'
+
+# ... unless we really want to.
+zstyle '*' single-ignored show
+
+# automatically load bash completion functions
+autoload -U +X bashcompinit && bashcompinit
+# }}}
+
+# direnv stays EAGER: tmux automation runs its first command before the
+# first prompt renders, and that command relies on the direnv hook.
 zinit from"gh-r" \
     mv"direnv* -> direnv" \
     atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
@@ -67,7 +117,7 @@ zinit as"command" lucid from"gh-r" for \
     jdx/usage
     #atload='eval "$(mise activate zsh)"' \
 
-zinit as"command" lucid from"gh-r" for \
+zinit as"command" wait'0' lucid from"gh-r" for \
     id-as"mise" mv"mise* -> mise" \
     atclone"./mise* completion zsh > _mise" \
     atpull"%atclone" \
@@ -76,12 +126,6 @@ zinit as"command" lucid from"gh-r" for \
 
 zinit lucid wait for \
     agkozak/zhooks
-
-fpath=( ~/dots/zsh/func "${fpath[@]}" )
-
-for f in ~/dots/zsh/func/*(*); do
-    autoload -Uz $f
-done
 
 #}}}
 # Common Directories -------------------{{{
@@ -99,21 +143,6 @@ export ZSH_HIGHLIGHT_HIGHLIGHTERS
 # -A: associative array the syntax-highlighting plugin reads, keyed by style name
 typeset -A ZSH_HIGHLIGHT_STYLES
 # }}}
-# todo.sh {{{
-export TODO_ROOT="$HOME/.todo"
-export TODO_DIR="$TODO_ROOT/todo"
-
-# Your todo/done/report.txt locations
-export TODO_FILE="$TODO_DIR/todo.txt"
-export DONE_FILE="$TODO_DIR/done.txt"
-export REPORT_FILE="$TODO_DIR/report.txt"
-
-# You can customize your actions directory location
-#export TODO_ACTIONS_DIR="$HOME/.todo.actions.d"
-export TODO_ACTIONS_DIR="$TODO_ROOT/actions"
-
-export TODO_NOTES_DIR="$TODO_ROOT/notes"
-#}}}
 #}}}
 # zsh core settings --------------------{{{
 # editor {{{
@@ -170,10 +199,10 @@ setopt pushdminus
 export XDG_CONFIG_HOME=$HOME/.config
 #}}}
 # Colors -------------------------------{{{
-zinit ice atclone'dircolors -b ~/dots/dir_colors.symlink > clrs.zsh' \
-    atpull'%atclone' pick”clrs.zsh” nocompile'!'
+zinit ice atclone'dircolors -b ~/.dir_colors > clrs.zsh' \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!'
 zinit light trapd00r/LS_COLORS
-zstyle ':completion:*' list-colors “${(s.:.)LS_COLORS}”
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # Use gnu's ls so don't need these lscolors
 if [[ $OSTYPE == darwin* && -n $LSCOLORS ]]; then
@@ -193,8 +222,8 @@ typeset -gi _PROMPT_INIT=0
 _init_full_prompt() {
     if (( _PROMPT_INIT++ )); then
         add-zsh-hook -d precmd _init_full_prompt
-        source $dots/zsh/zsh_theme
-        source $dots/zsh/fzf.zsh
+        source ~/.zsh_theme
+        source ~/.zsh_fzf
         before_command  # Render full prompt immediately in this precmd
         # Ensure iterm2_precmd runs last so it decorates the PS1 set by before_command
         if (( ${+functions[iterm2_precmd]} )); then
@@ -244,11 +273,9 @@ zinit wait lucid for \
         zsh-users/zsh-completions \
         srijanshetty/zsh-pandoc-completion
 
-zinit ice wait'!' lucid atload'source ~/dots/zsh/zsh_theme_vars'
-# export ZSH_THEME_GIT_PROMPT_CACHE=0
-export GIT_PROMPT_EXECUTABLE=python
-export ZSH_GIT_PROMPT_PYBIN=python3
-zinit load zsh-git-prompt/zsh-git-prompt
+# gitstatusd binary fetched from GitHub releases (checksummed) on first load
+zinit ice wait'!' lucid atload'source ~/.zsh_theme_vars'
+zinit load romkatv/gitstatus
 
 # 1password-cli plugins ----------------{{{
 # From https://1password.community/discussion/138575/zsh-plugin-aliases-break-completion-for-the-command-run-by-the-plugin

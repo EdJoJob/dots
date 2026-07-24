@@ -33,33 +33,15 @@ LONG_CMD_IGNORED+=(
     zz
 )
 # -U: dedupe the array in place, keeping the first occurrence of each command
-typeset -U IGNORED_LONG_CMD
+typeset -U LONG_CMD_IGNORED
 # }}}
 
 # bat THEME {{{
 export BAT_THEME="gruvbox-dark"
 # }}}
 
-# join devices {{{
-JOIN_DEVICES=${JOIN_DEVICES:=Tab S6}
-export JOIN_DEVICES
-alias join-silence='export JOIN_DEVICES='
-notify-phone() {
-    if [[ $JOIN_DEVICES != 'S21' ]]; then
-        JOIN_DEVICES="${JOIN_DEVICES},S21"
-    fi
-    export JOIN_DEVICES
-}
-notify-tablet() {
-    if [[ $JOIN_DEVICES != 'Tab S6' ]]; then
-        JOIN_DEVICES="${JOIN_DEVICES},Tab S6"
-    fi
-    export JOIN_DEVICES
-}
-# }}}
-
 # THEME --------------------------------{{{
-source $dots/zsh/zsh_theme_vars
+source ~/.zsh_theme_vars
 
 in-virtualenv() { #{{{
     if [[ -n $VIRTUAL_ENV ]]; then
@@ -88,6 +70,64 @@ in-upterm() { #{{{
     if [[ ! -z "${UPTERM_ADMIN_SOCKET}" ]]; then
         echo -n "${ZSH_THEME_PREFIX}${ZSH_THEME_SUFFIX}"
     fi
+}
+#}}}
+# git prompt (romkatv/gitstatus) {{{
+# git_super_status re-implemented on gitstatusd; renders with the same
+# ZSH_THEME_GIT_PROMPT_* vars (and output format) as the old zsh-git-prompt
+if (( ${+functions[gitstatus_start]} )); then
+    # -1: unlimited counts (defaults cap staged/unstaged/conflicted/untracked at 1)
+    gitstatus_start -s -1 -u -1 -c -1 -d -1 'THEME'
+fi
+git_super_status() {
+    (( ${+functions[gitstatus_query]} )) || return
+    gitstatus_query -t 1 'THEME' 2>/dev/null || return
+    [[ $VCS_STATUS_RESULT == ok-sync ]] || return
+    local reset="%{${reset_color}%}"
+
+    local branch=$VCS_STATUS_LOCAL_BRANCH
+    [[ -z $branch ]] && branch="${ZSH_THEME_GIT_PROMPT_HASH_PREFIX:-:}${VCS_STATUS_COMMIT[1,7]}"
+    local s="${reset}${ZSH_THEME_GIT_PROMPT_PREFIX}${ZSH_THEME_GIT_PROMPT_BRANCH}${branch//\%/%%}${reset}"
+
+    case $VCS_STATUS_ACTION in
+        (rebase*|am|am/rebase) s+="${ZSH_THEME_GIT_PROMPT_REBASE}${reset}" ;;
+        (merge)                s+="${ZSH_THEME_GIT_PROMPT_MERGING}${reset}" ;;
+        (bisect)               s+="${ZSH_THEME_GIT_PROMPT_BISECT}${reset}" ;;
+    esac
+
+    if [[ -n $VCS_STATUS_LOCAL_BRANCH && -z $VCS_STATUS_REMOTE_BRANCH ]]; then
+        s+="${ZSH_THEME_GIT_PROMPT_LOCAL}${reset}"
+    elif [[ ${ZSH_GIT_PROMPT_SHOW_UPSTREAM:-0} -gt 0 && -n $VCS_STATUS_REMOTE_BRANCH ]]; then
+        local upstream="${VCS_STATUS_REMOTE_NAME}/${VCS_STATUS_REMOTE_BRANCH}"
+        # SHOW_UPSTREAM=2: collapse origin/foo to origin when tracking same-named branch
+        if [[ ${ZSH_GIT_PROMPT_SHOW_UPSTREAM} -eq 2 && $VCS_STATUS_REMOTE_BRANCH == $VCS_STATUS_LOCAL_BRANCH ]]; then
+            upstream=$VCS_STATUS_REMOTE_NAME
+        fi
+        s+="${ZSH_THEME_GIT_PROMPT_UPSTREAM_FRONT}${upstream//\%/%%}${ZSH_THEME_GIT_PROMPT_UPSTREAM_END}${reset}"
+    fi
+
+    if (( VCS_STATUS_COMMITS_BEHIND || VCS_STATUS_COMMITS_AHEAD )); then
+        s+="$ZSH_THEME_GIT_PROMPT_BEHIND_AHEAD_SECTION_SEPARATOR"
+    fi
+    (( VCS_STATUS_COMMITS_BEHIND )) && s+="${ZSH_THEME_GIT_PROMPT_BEHIND}${VCS_STATUS_COMMITS_BEHIND}${reset}"
+    (( VCS_STATUS_COMMITS_BEHIND && VCS_STATUS_COMMITS_AHEAD )) && s+="$ZSH_THEME_GIT_PROMPT_BEHIND_AHEAD_SEPARATOR"
+    (( VCS_STATUS_COMMITS_AHEAD )) && s+="${ZSH_THEME_GIT_PROMPT_AHEAD}${VCS_STATUS_COMMITS_AHEAD}${reset}"
+
+    s+="$ZSH_THEME_GIT_PROMPT_SEPARATOR"
+
+    (( VCS_STATUS_NUM_STAGED ))     && s+="${ZSH_THEME_GIT_PROMPT_STAGED}${VCS_STATUS_NUM_STAGED}${reset}"
+    (( VCS_STATUS_NUM_CONFLICTED )) && s+="${ZSH_THEME_GIT_PROMPT_CONFLICTS}${VCS_STATUS_NUM_CONFLICTED}${reset}"
+    (( VCS_STATUS_NUM_UNSTAGED ))   && s+="${ZSH_THEME_GIT_PROMPT_CHANGED}${VCS_STATUS_NUM_UNSTAGED}${reset}"
+    (( VCS_STATUS_NUM_UNTRACKED ))  && s+="${ZSH_THEME_GIT_PROMPT_UNTRACKED}${VCS_STATUS_NUM_UNTRACKED}${reset}"
+    (( VCS_STATUS_STASHES ))        && s+="${ZSH_THEME_GIT_PROMPT_STASHED}${VCS_STATUS_STASHES}${reset}"
+
+    if (( ! (VCS_STATUS_NUM_STAGED || VCS_STATUS_NUM_CONFLICTED || VCS_STATUS_NUM_UNSTAGED \
+             || VCS_STATUS_NUM_UNTRACKED || VCS_STATUS_STASHES) )); then
+        s+="${ZSH_THEME_GIT_PROMPT_CLEAN}${reset}"
+    fi
+
+    s+="${ZSH_THEME_GIT_PROMPT_SUFFIX}${reset}"
+    echo -n "$s"
 }
 #}}}
 # Setup vim mode and rprompt {{{
@@ -224,15 +264,34 @@ before_command() { #{{{
                         espeak -s 600 $result &
                     fi
 
-                    if [[ -n $JOIN_KEY && $CMD_ELAPSED_TIME -gt $(( 3 * $LONG_CMD_NOTIFY_THRESHOLD )) ]]; then
-                        curl -G \
-                            --data-urlencode "deviceNames=$JOIN_DEVICES" \
-                            --data-urlencode "text=$result" \
-                            --data-urlencode "title=Command Finished" \
-                            --data-urlencode "apikey=$JOIN_KEY"  \
-                            --data-urlencode "group=CommandFinished/$(hostname)" \
-                            "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush" \
-                            &> /dev/null &
+                    # ntfy push, fire-and-forget. 3x gate (matches the old
+                    # Join behaviour): the phone only pings for genuinely long
+                    # commands — local notifications already fired at 1x.
+                    # The topic is a capability secret (knowing it = read and
+                    # write): resolved from NTFY_TOPIC (containers/headless,
+                    # injected at provision time) or the OS keychain
+                    # ('secret get ntfy-topic'), never from any repo.
+                    # NTFY_SERVER overrides for a self-hosted instance.
+                    if [[ $CMD_ELAPSED_TIME -gt $(( 3 * $LONG_CMD_NOTIFY_THRESHOLD )) ]]; then
+                        local ntfy_topic=${NTFY_TOPIC:-}
+                        if [[ -z $ntfy_topic ]] && (( $+commands[secret] )); then
+                            ntfy_topic=$(secret get ntfy-topic 2> /dev/null) || ntfy_topic=""
+                        fi
+                        if [[ -n $ntfy_topic ]]; then
+                            # Optional bearer token — required once NTFY_SERVER
+                            # points at a self-hosted deny-all instance
+                            local ntfy_token=${NTFY_TOKEN:-}
+                            if [[ -z $ntfy_token ]] && (( $+commands[secret] )); then
+                                ntfy_token=$(secret get ntfy-token 2> /dev/null) || ntfy_token=""
+                            fi
+                            local -a ntfy_auth=()
+                            [[ -n $ntfy_token ]] && ntfy_auth=(-H "Authorization: Bearer $ntfy_token")
+                            curl -s -m 5 "${ntfy_auth[@]}" \
+                                -H "Title: long command finished" \
+                                -d "$result $RES" \
+                                "${NTFY_SERVER:-https://ntfy.sh}/$ntfy_topic" \
+                                &> /dev/null &!
+                        fi
                     fi
                 )
             fi

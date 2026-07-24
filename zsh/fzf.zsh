@@ -1,5 +1,12 @@
-if [ -f ~/.fzf.zsh ]; then
-    source ~/.fzf.zsh
+if (( $+commands[fzf] )); then
+    # Prefer native integration; fall back to the installer file for old fzf
+    _fzf_init="$(fzf --zsh 2>/dev/null)"
+    if [ -n "$_fzf_init" ]; then
+        eval "$_fzf_init"
+    elif [ -f ~/.fzf.zsh ]; then
+        source ~/.fzf.zsh
+    fi
+    unset _fzf_init
     bindkey -r '^T'
     bindkey '^P' fzf-file-widget
 

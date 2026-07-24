@@ -1,6 +1,6 @@
 # vim: fdm=marker:ft=zsh
 
-#  zsh-git-prompt {{{
+#  git prompt (read by git_super_status in ~/.zsh_theme) {{{
 export ZSH_GIT_PROMPT_SHOW_UPSTREAM=2
 #}}}
 
@@ -31,6 +31,17 @@ ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[yellow]…%G%}"
 ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}%{✔%G%}"
 ZSH_THEME_GIT_PROMPT_REPO_COLOR="%{$fg_bold[cyan]%}"
 ZSH_THEME_GIT_PROMPT_LOCAL=" %{$fg_bold[yellow]%}{L}%{$reset_color%}"
+# defaults zsh-git-prompt used to provide {{{
+ZSH_THEME_GIT_PROMPT_HASH_PREFIX=":"
+ZSH_THEME_GIT_PROMPT_STASHED="%{$fg_bold[blue]%}%{⚑%G%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_FRONT=" {%{$fg[blue]%}"
+ZSH_THEME_GIT_PROMPT_UPSTREAM_END="%{${reset_color}%}}"
+ZSH_THEME_GIT_PROMPT_MERGING="%{$fg_bold[magenta]%}|MERGING%{${reset_color}%}"
+ZSH_THEME_GIT_PROMPT_REBASE="%{$fg_bold[magenta]%}|REBASE%{${reset_color}%} "
+ZSH_THEME_GIT_PROMPT_BISECT="%{$fg_bold[magenta]%}|BISECT%{${reset_color}%} "
+ZSH_THEME_GIT_PROMPT_BEHIND_AHEAD_SECTION_SEPARATOR=" "
+ZSH_THEME_GIT_PROMPT_BEHIND_AHEAD_SEPARATOR=""
+# }}}
 # }}}
 
 # ↑ ✔ green
