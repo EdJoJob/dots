@@ -1,0 +1,2 @@
+" Machine-specific nvim config, sourced by init.lua when present (after plugins
+" load — set must-precede-load g: vars in the main repo, not here).

@@ -1,38 +1,9 @@
-editor/vim.symlink/tmp/
-.hg
 .DS_Store
 .netrwhist
-editor/vim.symlink/bundle/
-tmux/tmux.symlink/plugins/*
-tmux/tmux.symlink/resurrect
 *.pyc
 notes/
-todo.symlink/todo/
-weechat.symlink/logs/
-weechat.symlink/*.log
-weechat.symlink/script/plugins.xml.gz
-firefox/vimperator.symlink/info/default/*
-!firefox/vimperator.symlink/info/default/ignored-keys
+/.claude/
 
-config/ptpython/history
-
-editor/vim.symlink/init.vim
-todo.symlink/todo
-
-editor/vim.symlink/spell/*.spl
-
-gnupg.symlink/*
-!gnupg.symlink/gpg-agent.conf
-!gnupg.symlink/gpg.conf
-
-xmonad.symlink/*.o
-xmonad.symlink/*.hi
-xmonad.symlink/*.errors
-xmonad.symlink/xmonad-x86_64-linux
-
-# ignore symlinked todo.sh if it exists, used for Linux/macOS compatibility
-bin.symlink/todo.sh
-
-# Maildirs
-mutt/mutt.symlink/*
-!mutt/mutt.symlink/*._*_
+# nvim runtime artifacts (backup/swap/undo live in XDG state dirs, spell
+# compiles are derived; guards in case anything still writes into the tree)
+packages/vim/.config/nvim/spell/*.spl

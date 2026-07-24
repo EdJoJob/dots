@@ -1,0 +1,13 @@
+# greenclip requires a literal absolute path for history_file (no ~ or $HOME
+# expansion) -- that machine-specific path is why this lives in the side-car
+# template, not the main repo.
+[greenclip]
+  blacklisted_applications = []
+  enable_image_support = true
+  history_file = "/home/YOUR-USER/.cache/greenclip.history"
+  image_cache_directory = "/tmp/greenclip"
+  max_history_length = 50
+  max_selection_size_bytes = 0
+  static_history = ["JustWork™"]
+  trim_space_from_selection = true
+  use_primary_selection_as_input = false

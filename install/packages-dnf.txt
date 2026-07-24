@@ -1,0 +1,64 @@
+# dnf package manifest (Fedora / RHEL) — installed by install/packages.sh
+# One package per line; # comments and blank lines are ignored.
+# On RHEL/Rocky/Alma, enable EPEL first for the packages marked "requires EPEL":
+#   dnf install epel-release
+
+# Python
+python3
+python3-gpg
+python3-pip
+python-unversioned-command
+# python-unversioned-command: gives /usr/bin/python -> python3 (apt's python-is-python3)
+
+# Misc / build
+@development-tools
+# @development-tools: dnf group, apt's build-essential
+ca-certificates
+curl
+
+# Desktop (Fedora only; not in RHEL repos)
+redshift-gtk
+zeal
+espeak-ng
+# caffeine: not packaged for Fedora/RHEL
+
+# Utilities
+cargo
+moby-engine
+# moby-engine: Fedora's docker.io equivalent; on RHEL use podman or Docker CE repo instead
+entr
+# entr: requires EPEL on RHEL
+direnv
+# direnv: requires EPEL on RHEL
+fd-find
+# fd-find: requires EPEL on RHEL
+fortune-mod
+# fortune-mod: requires EPEL on RHEL
+fzf
+# fzf: requires EPEL on RHEL
+git
+git-delta
+# git-delta: Fedora only; not in RHEL/EPEL — install via cargo there
+git-lfs
+gnupg2
+htop
+# htop: requires EPEL on RHEL
+jq
+neovim
+# neovim: requires EPEL on RHEL
+notmuch
+# notmuch: Fedora; spotty in EPEL — on RHEL verify availability first
+# lieer: via mise+uvx (install/tools.sh) — same as every platform
+pinentry-curses
+ripgrep
+# ripgrep: requires EPEL on RHEL
+stow
+# stow: requires EPEL on RHEL
+tmux
+wget
+zsh
+eza
+# eza: Fedora only; not in RHEL/EPEL
+
+# language servers for nvim native LSP (others via npm in install/tools.sh)
+golang-x-tools-gopls   # gopls

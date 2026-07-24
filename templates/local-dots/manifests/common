@@ -1,0 +1,6 @@
+# Packages from this side-car stowed on this machine.
+core
+ssh
+# mail        # uncomment on machines with the neomutt/offlineimap stack
+# linux      # uncomment on Linux desktops (greenclip config etc.)
+# pim        # uncomment on machines with the khal/khard/vdirsyncer stack

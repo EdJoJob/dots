@@ -1,0 +1,8 @@
+# Machine-specific git config, included by ~/.gitconfig (missing file is fine).
+# [user]
+#     name = Your Name
+#     email = you@example.com
+#     signingkey = key::ssh-ed25519 AAAA...
+# Route work vs personal remotes through per-identity ssh aliases:
+# [url "git@work.github.com:myorg/"]
+#     insteadOf = git@github.com:myorg/

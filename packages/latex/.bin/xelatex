@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Using texliveonfly with zettlr
+# https://ctan.org/pkg/texliveonfly
+
+# This wrapper shadows the real xelatex on PATH (~/.bin comes first), so the
+# real binary must be found explicitly — calling `xelatex` here would recurse.
+self=$(readlink -f "$0" 2>/dev/null || echo "$0")
+real=""
+for cand in $(command -v -a xelatex); do
+    [ "$(readlink -f "$cand" 2>/dev/null || echo "$cand")" = "$self" ] && continue
+    real=$cand
+    break
+done
+if [ -z "$real" ]; then
+    echo "xelatex wrapper: no real xelatex found on PATH" >&2
+    exit 127
+fi
+
+# $i will hold last param
+for i in "$@"; do :; done
+
+# this will call tlmgr to install packages if needed
+texliveonfly -c "$real" "$i"
+
+exec "$real" "$@"

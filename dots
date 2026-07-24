@@ -1,0 +1,621 @@
+#!/usr/bin/env bash
+# dots — deploy dotfiles into $HOME with GNU Stow, from this repo plus an
+# optional private per-machine side-car repo.
+#
+#   dots link [-n] [pkg ...]     stow packages (default: manifest selection)
+#   dots unlink [-n] [pkg ...]   remove the links stow created
+#   dots relink [-n] [pkg ...]   restow (prune stale links, add new files)
+#   dots adopt [-s] [-p pkg] <path ...>
+#                               move an existing $HOME file into a package and
+#                               replace it with a link (-s: into the side-car)
+#   dots doctor                  diagnose: conflicts, broken/legacy links,
+#                               missing local files, tool versions
+#   dots migrate-legacy [-n]     remove symlinks left by the pre-stow layout
+#                               (targets inside a repo but not packages/)
+#   dots list                    show packages and per-file deploy state
+#   dots sidecar-init [url|path] clone the side-car repo, or scaffold a new one
+#                               from templates/local-dots
+#
+# Layout contract (both repos): packages/<pkg>/<literal $HOME-relative path>,
+# selected by manifests/common + manifests/<darwin|linux> (all packages when no
+# manifests/ dir exists). Stow is always run with --no-folding so the two repos
+# can both own files under the same directories, and any collision — a real
+# file in the way, or a path claimed by both repos — is a hard error before
+# anything is changed.
+#
+# Environment: DOTS_REPO (default: derived from this script, then ~/dots),
+# DOTS_SIDECAR (default: ~/.config/dots/sidecar contents, then ~/src/local-dots,
+# then ~/dots-local).
+
+set -euo pipefail
+
+die()  { printf 'dots: error: %s\n' "$*" >&2; exit 1; }
+warn() { printf 'dots: warning: %s\n' "$*" >&2; }
+info() { printf 'dots: %s\n' "$*"; }
+
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+case "$OS" in
+    darwin|linux) ;;
+    *) warn "unsupported platform '$OS'; using only manifests/common" ;;
+esac
+
+# --- repo discovery ---------------------------------------------------------
+
+script_path() {
+    # readlink -f exists on Linux and macOS >= 12.3
+    readlink -f "$0" 2>/dev/null || printf '%s\n' "$0"
+}
+
+find_main_repo() {
+    if [ -n "${DOTS_REPO:-}" ]; then
+        [ -d "$DOTS_REPO/packages" ] || die "DOTS_REPO=$DOTS_REPO has no packages/ directory"
+        printf '%s\n' "$DOTS_REPO"
+        return
+    fi
+    local dir
+    dir=$(dirname "$(script_path)")
+    if [ -d "$dir/packages" ]; then
+        printf '%s\n' "$dir"
+    elif [ -d "$HOME/dots/packages" ]; then
+        printf '%s\n' "$HOME/dots"
+    else
+        die "cannot locate the dotfiles repo (set DOTS_REPO)"
+    fi
+}
+
+find_sidecar() {
+    # Prints the side-car repo path, or nothing if none is configured/present.
+    local cand
+    if [ -n "${DOTS_SIDECAR:-}" ]; then
+        printf '%s\n' "$DOTS_SIDECAR"
+        return
+    fi
+    if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/dots/sidecar" ]; then
+        cand=$(head -n1 "${XDG_CONFIG_HOME:-$HOME/.config}/dots/sidecar")
+        cand=${cand/#\~/$HOME}
+        [ -n "$cand" ] && { printf '%s\n' "$cand"; return; }
+    fi
+    for cand in "$HOME/src/local-dots" "$HOME/dots-local"; do
+        if [ -d "$cand/packages" ]; then
+            printf '%s\n' "$cand"
+            return
+        fi
+    done
+}
+
+MAIN_REPO=$(find_main_repo)
+SIDECAR=$(find_sidecar || true)
+if [ -n "$SIDECAR" ] && [ ! -d "$SIDECAR/packages" ]; then
+    warn "side-car $SIDECAR exists but has no packages/ directory — ignoring (run 'dots sidecar-init')"
+    SIDECAR=""
+fi
+
+require_stow() {
+    command -v stow >/dev/null 2>&1 ||
+        die "GNU Stow is required. Install it: brew install stow | apt-get install stow | dnf install stow (RHEL: enable EPEL first)"
+}
+
+# --- package selection ------------------------------------------------------
+
+packages_for() {
+    # $1 = repo root. Prints selected package names, one per line.
+    local repo=$1 f p
+    if [ -d "$repo/manifests" ]; then
+        for f in "$repo/manifests/common" "$repo/manifests/$OS"; do
+            [ -f "$f" ] || continue
+            sed -e 's/#.*//' -e 's/[[:space:]]*$//' -e '/^$/d' "$f"
+        done
+    else
+        for p in "$repo"/packages/*/; do
+            [ -d "$p" ] || continue
+            basename "$p"
+        done
+    fi
+}
+
+list_paths() {
+    # $1 = repo root, rest = packages. Prints $HOME-relative target paths.
+    local repo=$1 p; shift
+    for p in "$@"; do
+        [ -d "$repo/packages/$p" ] || continue
+        (cd "$repo/packages/$p" &&
+             # top-level README*/LICENSE*/COPYING are in stow's default
+             # ignore list and never deploy -- skip them here too
+             find . \( -type f -o -type l \) ! -name '.DS_Store' \
+                  ! -path './README*' ! -path './LICENSE*' ! -path './COPYING' |
+                 sed 's|^\./||')
+    done
+}
+
+overlap_check() {
+    # $1 = main-repo packages, $2 = side-car packages (whitespace separated).
+    # Hard error if the two repos would claim the same target path, or a path
+    # in one repo is a directory prefix of a path in the other (file-vs-dir
+    # collisions stow only detects after the first repo has already mutated).
+    local main_pkgs=$1 side_pkgs=${2:-} dup prefix
+    [ -n "$SIDECAR" ] || return 0
+    [ -n "$side_pkgs" ] || return 0
+    # shellcheck disable=SC2086
+    dup=$(comm -12 \
+        <(list_paths "$MAIN_REPO" $main_pkgs | sort -u) \
+        <(list_paths "$SIDECAR" $side_pkgs | sort -u))
+    # shellcheck disable=SC2086
+    prefix=$(awk 'NR==FNR { a[$0]; next }
+                  { for (p in a) if (index($0, p "/") == 1 || index(p, $0 "/") == 1)
+                        print p " <-> " $0 }' \
+        <(list_paths "$MAIN_REPO" $main_pkgs | sort -u) \
+        <(list_paths "$SIDECAR" $side_pkgs | sort -u))
+    if [ -n "$dup$prefix" ]; then
+        printf 'dots: error: side-car and main repo both claim these paths:\n' >&2
+        [ -n "$dup" ]    && printf '%s\n' "$dup"    | sed 's/^/    ~\//' >&2
+        [ -n "$prefix" ] && printf '%s\n' "$prefix" | sed 's/^/    ~\//' >&2
+        printf 'dots: remove the duplicate from one repo (nothing was changed).\n' >&2
+        exit 1
+    fi
+}
+
+# --- stow driving -----------------------------------------------------------
+
+run_stow() {
+    # $1 = repo root, $2 = stow action flag (-S|-D|-R), $3 = dry-run flag or
+    # empty, rest = packages
+    local repo=$1 action=$2 dry=$3; shift 3
+    [ $# -gt 0 ] || return 0
+    # shellcheck disable=SC2086
+    stow $dry --no-folding -v -d "$repo/packages" -t "$HOME" "$action" "$@"
+}
+
+precreate_dirs() {
+    # Directories whose permissions matter must not be left to stow's umask.
+    local dry=$1 selected=$2
+    [ -n "$dry" ] && return 0
+    [ -d "$HOME/.ssh" ] || mkdir -m 700 "$HOME/.ssh"
+    # shellcheck disable=SC2086
+    if printf '%s\n' $selected | grep -qx 'gnupg'; then
+        [ -d "$HOME/.gnupg" ] || mkdir -m 700 "$HOME/.gnupg"
+    fi
+    [ -d "$HOME/.config" ] || mkdir -p "$HOME/.config"
+}
+
+cmd_stow_action() {
+    # $1 = -S|-D|-R, remaining = CLI args
+    local action=$1 dry="" pkgs=(); shift
+    require_stow
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -n|--dry-run) dry="-n" ;;
+            -*) die "unknown option '$1'" ;;
+            *) pkgs+=("$1") ;;
+        esac
+        shift
+    done
+
+    # Working selection: explicit packages if given, else the union of both
+    # repos' manifests. Every NAME is routed to whichever repo(s) define it,
+    # so a side-car manifest can pin a main-repo opt-in package (and vice
+    # versa).
+    local names
+    if [ "${#pkgs[@]}" -gt 0 ]; then
+        names=$(printf '%s\n' "${pkgs[@]}")
+    else
+        names=$( { packages_for "$MAIN_REPO"
+                   [ -n "$SIDECAR" ] && packages_for "$SIDECAR"
+                   true; } | sort -u )
+        [ -n "$names" ] || die "no packages selected (empty manifests?)"
+    fi
+
+    local p hit main_sel="" side_sel=""
+    while IFS= read -r p; do
+        [ -n "$p" ] || continue
+        hit=""
+        if [ -d "$MAIN_REPO/packages/$p" ]; then main_sel="$main_sel $p"; hit=1; fi
+        if [ -n "$SIDECAR" ] && [ -d "$SIDECAR/packages/$p" ]; then side_sel="$side_sel $p"; hit=1; fi
+        [ -n "$hit" ] || die "package '$p' not found in $MAIN_REPO/packages${SIDECAR:+ or $SIDECAR/packages}"
+    done <<< "$names"
+
+    # Cross-repo dual-claim check over what is actually about to be stowed
+    # (skipped for unlink: removing links cannot create a claim).
+    if [ "$action" != "-D" ]; then
+        overlap_check "$main_sel" "$side_sel"
+    fi
+
+    precreate_dirs "$dry" "$main_sel $side_sel"
+
+    # Pre-flight both repos before mutating anything: without this, a
+    # conflict in the second repo would abort after the first repo has
+    # already changed $HOME.
+    if [ -z "$dry" ] && [ "$action" != "-D" ]; then
+        local pf
+        # shellcheck disable=SC2086
+        if ! pf=$(run_stow "$MAIN_REPO" "$action" "-n" $main_sel 2>&1); then
+            printf '%s\n' "$pf" >&2
+            die "pre-flight failed for $MAIN_REPO — nothing was changed"
+        fi
+        # shellcheck disable=SC2086
+        if [ -n "$SIDECAR" ] && ! pf=$(run_stow "$SIDECAR" "$action" "-n" $side_sel 2>&1); then
+            printf '%s\n' "$pf" >&2
+            die "pre-flight failed for $SIDECAR — nothing was changed"
+        fi
+    fi
+
+    if [ -n "$main_sel" ]; then
+        # shellcheck disable=SC2086
+        info "${dry:+[dry-run] }stow $action from $MAIN_REPO:$(printf ' %s' $main_sel)"
+        # shellcheck disable=SC2086
+        run_stow "$MAIN_REPO" "$action" "$dry" $main_sel
+    fi
+    if [ -n "$SIDECAR" ] && [ -n "$side_sel" ]; then
+        # shellcheck disable=SC2086
+        info "${dry:+[dry-run] }stow $action from $SIDECAR:$(printf ' %s' $side_sel)"
+        # shellcheck disable=SC2086
+        run_stow "$SIDECAR" "$action" "$dry" $side_sel
+    elif [ -z "$SIDECAR" ] && [ "$action" = "-S" ] && [ "${#pkgs[@]}" -eq 0 ]; then
+        info "no side-car repo found (see 'dots sidecar-init')"
+    fi
+}
+
+# --- adopt --------------------------------------------------------------------
+
+abspath() {
+    # Physically normalized absolute path (parent must exist); rejects
+    # basenames that are themselves traversal components.
+    local d b
+    case "$1" in
+        */*) d=${1%/*}; b=${1##*/} ;;
+        *)   d=.;       b=$1 ;;
+    esac
+    case "$b" in
+        ..|.|"") return 1 ;;
+    esac
+    d=$(cd "${d:-/}" 2>/dev/null && pwd -P) || return 1
+    printf '%s/%s\n' "${d%/}" "$b"
+}
+
+infer_package() {
+    # $1 = repo, $2 = $HOME-relative path. If the path's parent directory
+    # already exists in exactly one package, print that package.
+    local repo=$1 rel=$2 parent p hits=""
+    parent=$(dirname "$rel")
+    for p in "$repo"/packages/*/; do
+        p=$(basename "$p")
+        if [ "$parent" = "." ] ; then
+            continue  # top-level files are ambiguous; require -p
+        elif [ -d "$repo/packages/$p/$parent" ]; then
+            hits="$hits $p"
+        fi
+    done
+    hits=${hits# }
+    case "$hits" in
+        *" "*|"") return 1 ;;
+        *) printf '%s\n' "$hits" ;;
+    esac
+}
+
+cmd_adopt() {
+    require_stow
+    local repo=$MAIN_REPO pkg="" paths=()
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -s|--sidecar)
+                [ -n "$SIDECAR" ] || die "no side-car repo configured (run 'dots sidecar-init')"
+                repo=$SIDECAR ;;
+            -p|--package) shift; [ $# -gt 0 ] || die "-p needs a package name"; pkg=$1 ;;
+            -*) die "unknown option '$1'" ;;
+            *)
+                local ap
+                ap=$(abspath "$1") || die "cannot resolve path '$1'"
+                paths+=("$ap") ;;
+        esac
+        shift
+    done
+    [ "${#paths[@]}" -gt 0 ] || die "usage: dots adopt [-s] [-p pkg] <path ...>"
+
+    local file rel dest destdir use_pkg
+    for file in "${paths[@]}"; do
+        case "$file" in
+            "$HOME"/*) rel=${file#"$HOME"/} ;;
+            *) die "$file is not under \$HOME" ;;
+        esac
+        [ -e "$file" ] || die "$file does not exist"
+        if [ -L "$file" ]; then
+            case "$(readlink "$file")" in
+                *"$MAIN_REPO"*|*"${SIDECAR:-\/nonexistent}"*)
+                    die "$file is already a managed symlink" ;;
+                *)  die "$file is a symlink; adopt its target instead, or replace it by hand" ;;
+            esac
+        fi
+        [ -f "$file" ] || die "$file is not a regular file (directories: adopt files individually)"
+
+        use_pkg=$pkg
+        if [ -z "$use_pkg" ]; then
+            use_pkg=$(infer_package "$repo" "$rel") ||
+                die "cannot infer a package for ~/$rel — pass -p <pkg>"
+        fi
+        [ -d "$repo/packages/$use_pkg" ] || die "package '$use_pkg' not found in $repo/packages/"
+
+        dest="$repo/packages/$use_pkg/$rel"
+        [ -e "$dest" ] && die "$dest already exists in the repo"
+        if [ -n "$(git -C "$repo" status --porcelain -- "packages/$use_pkg" 2>/dev/null)" ]; then
+            die "package '$use_pkg' in $repo has uncommitted changes — commit or stash them first so the adoption is reviewable"
+        fi
+
+        # Pre-flight: the restow that will create the link must be able to
+        # succeed, otherwise the file would be moved without being linked.
+        if ! run_stow "$repo" -R "-n" "$use_pkg" >/dev/null 2>&1; then
+            die "stow pre-flight for package '$use_pkg' failed — run 'dots doctor'; nothing was moved"
+        fi
+
+        destdir=$(dirname "$dest")
+        mkdir -p "$destdir"
+        mv "$file" "$dest"
+        git -C "$repo" add -- "packages/$use_pkg/$rel" 2>/dev/null ||
+            warn "could not 'git add' $dest (not a git repo?)"
+        run_stow "$repo" -R "" "$use_pkg"
+        info "adopted ~/$rel into $repo/packages/$use_pkg/ (review: git -C $repo diff --cached)"
+    done
+}
+
+# --- doctor / list ------------------------------------------------------------
+
+scan_broken_links() {
+    # $1..: directories to scan one level deep
+    local d l
+    for d in "$@"; do
+        [ -d "$d" ] || continue
+        find "$d" -maxdepth 1 -type l 2>/dev/null | while IFS= read -r l; do
+            if [ ! -e "$l" ]; then
+                printf 'BROKEN  %s -> %s\n' "$l" "$(readlink "$l")"
+            fi
+        done
+    done
+}
+
+legacy_target() {
+    # True when a link-target string points into a repo but not at packages/.
+    case "$1" in
+        *"$MAIN_REPO"/packages/*) return 1 ;;
+        *"$MAIN_REPO"*) return 0 ;;
+    esac
+    if [ -n "$SIDECAR" ]; then
+        case "$1" in
+            *"$SIDECAR"/packages/*) return 1 ;;
+            *"$SIDECAR"*) return 0 ;;
+        esac
+    fi
+    return 1
+}
+
+scan_legacy_links() {
+    # Symlinks left by the pre-stow layout — they make stow refuse. One level
+    # deep in the usual places. A target is judged three ways, because legacy
+    # links may be relative (~/.ssh/config -> ../dots/sshconfig) or chained
+    # through another legacy link (~/.config/nvim -> ~/.vim -> repo):
+    # the raw target, the fully resolved target, and a one-hop readlink.
+    local d l raw abs hop next first firstdir
+    for d in "$@"; do
+        [ -d "$d" ] || continue
+        [ -L "$d" ] && continue    # the link itself is caught by its parent's scan
+        find "$d" -maxdepth 1 -type l 2>/dev/null | while IFS= read -r l; do
+            raw=$(readlink "$l")
+            next=$raw
+            case "$next" in /*) ;; *) next=$(dirname "$l")/$next ;; esac
+            # First hop, physically normalized: a link that lands inside a
+            # repo's packages/ tree is stow-owned and never legacy — even
+            # when the package file is itself a symlink pointing outside
+            # packages/ (e.g. bin/.bin/dots -> ../../../dots), which the
+            # full readlink -f below would resolve straight into the repo.
+            firstdir=$(cd "$(dirname "$next")" 2>/dev/null && pwd -P) || firstdir=""
+            first=""
+            [ -n "$firstdir" ] && first="$firstdir/$(basename "$next")"
+            case "$first" in
+                "$MAIN_REPO"/packages/*) continue ;;
+            esac
+            if [ -n "$SIDECAR" ]; then
+                case "$first" in
+                    "$SIDECAR"/packages/*) continue ;;
+                esac
+            fi
+            abs=$(readlink -f "$l" 2>/dev/null || true)
+            hop=""
+            [ -L "$next" ] && hop=$(readlink "$next")
+            if legacy_target "$raw" ||
+               { [ -n "$abs" ] && legacy_target "$abs"; } ||
+               { [ -n "$hop" ] && legacy_target "$hop"; }; then
+                printf 'LEGACY  %s -> %s\n' "$l" "$raw"
+            fi
+        done
+    done | sort -u
+}
+
+SCAN_DIRS_INIT() {
+    printf '%s\n' "$HOME" "$HOME/.config" "$HOME/.ssh" "$HOME/.bin" \
+        "$HOME/.todo" "$HOME/.mutt" "$HOME/.zi" "$HOME/.config/systemd/user"
+}
+
+cmd_doctor() {
+    local problems=0 out sel
+
+    info "main repo : $MAIN_REPO"
+    info "side-car  : ${SIDECAR:-<none configured>}"
+    if command -v stow >/dev/null 2>&1; then
+        info "stow      : $(stow --version | head -n1)"
+    else
+        warn "stow      : NOT INSTALLED"
+        problems=1
+    fi
+
+    sel=$(packages_for "$MAIN_REPO" | tr '\n' ' ')
+    info "selection : $sel"
+    if [ -n "$SIDECAR" ]; then
+        info "side-car selection: $(packages_for "$SIDECAR" | tr '\n' ' ')"
+    fi
+
+    if out=$(overlap_check "$(packages_for "$MAIN_REPO")" \
+                           "${SIDECAR:+$(packages_for "$SIDECAR")}" 2>&1); then
+        info "overlap   : none between main repo and side-car"
+    else
+        printf '%s\n' "$out"
+        problems=1
+    fi
+
+    # shellcheck disable=SC2046
+    out=$(scan_legacy_links $(SCAN_DIRS_INIT))
+    if [ -n "$out" ]; then
+        warn "pre-migration symlinks found (stow will refuse to overwrite these):"
+        printf '%s\n' "$out" >&2
+        warn "remove them with 'dots migrate-legacy', then run 'dots link'"
+        problems=1
+    fi
+
+    # shellcheck disable=SC2046
+    out=$(scan_broken_links $(SCAN_DIRS_INIT))
+    if [ -n "$out" ]; then
+        warn "broken symlinks:"
+        printf '%s\n' "$out" >&2
+        problems=1
+    fi
+
+    local f
+    for f in .local_zshrc .local_gitconfig .local_tmux.conf .local_vimrc; do
+        [ -e "$HOME/$f" ] || info "note: ~/$f missing (side-car provides it; configs degrade gracefully)"
+    done
+
+    if [ "$problems" -eq 0 ]; then
+        info "doctor: no problems found"
+    else
+        info "doctor: problems found (see above)"
+        return 1
+    fi
+}
+
+cmd_migrate_legacy() {
+    # Remove pre-migration symlinks that point into the repos outside packages/.
+    local dry="" line l
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -n|--dry-run) dry=1 ;;
+            *) die "unknown option '$1' (usage: dots migrate-legacy [-n])" ;;
+        esac
+        shift
+    done
+    # shellcheck disable=SC2046
+    scan_legacy_links $(SCAN_DIRS_INIT) | while IFS= read -r line; do
+        l=${line#LEGACY  }
+        l=${l%% -> *}
+        if [ -n "$dry" ]; then
+            info "[dry-run] would remove $line"
+        else
+            rm -f "$l"
+            info "removed $line"
+        fi
+    done
+    [ -n "$dry" ] || info "legacy links removed — run 'dots link' now"
+}
+
+cmd_list() {
+    local repo p rel target
+    for repo in "$MAIN_REPO" ${SIDECAR:+"$SIDECAR"}; do
+        printf '%s:\n' "$repo"
+        packages_for "$repo" | while IFS= read -r p; do
+            [ -d "$repo/packages/$p" ] || { printf '  %-12s MISSING PACKAGE\n' "$p"; continue; }
+            printf '  %s\n' "$p"
+            list_paths "$repo" "$p" | while IFS= read -r rel; do
+                target="$HOME/$rel"
+                if [ -L "$target" ]; then
+                    case "$(readlink -f "$target" 2>/dev/null)" in
+                        "$(readlink -f "$repo/packages/$p/$rel" 2>/dev/null)")
+                            printf '    linked    ~/%s\n' "$rel" ;;
+                        *)  printf '    CONFLICT  ~/%s (symlink to elsewhere)\n' "$rel" ;;
+                    esac
+                elif [ -e "$target" ]; then
+                    printf '    CONFLICT  ~/%s (real file in the way)\n' "$rel"
+                else
+                    printf '    unlinked  ~/%s\n' "$rel"
+                fi
+            done
+        done
+    done
+}
+
+# --- sidecar-init -------------------------------------------------------------
+
+cmd_sidecar_init() {
+    local src=${1:-} dest
+    dest=${DOTS_SIDECAR:-$HOME/src/local-dots}
+
+    if [ -n "$SIDECAR" ] && [ -d "$SIDECAR/packages" ]; then
+        info "side-car already set up at $SIDECAR"
+        return 0
+    fi
+
+    local clone_src=""
+    if [ -n "$src" ]; then
+        if [ -e "$src" ]; then
+            if [ "$(git -C "$src" rev-parse --is-bare-repository 2>/dev/null)" = "true" ]; then
+                clone_src=$src              # local bare repo: a clone SOURCE
+            else
+                dest=$src                   # worktree dir: the side-car itself
+            fi
+        else
+            clone_src=$src                  # https://…, git@…, host:/path
+        fi
+    fi
+
+    if [ -n "$clone_src" ]; then
+        if [ -d "$dest/.git" ] && [ -z "$(git -C "$dest" rev-list -n1 --all 2>/dev/null)" ]; then
+            info "$dest is an empty git repo — fetching $clone_src into it"
+            git -C "$dest" remote get-url origin >/dev/null 2>&1 ||
+                git -C "$dest" remote add origin "$clone_src"
+            git -C "$dest" fetch origin
+            local def
+            def=$(git -C "$dest" ls-remote --symref origin HEAD 2>/dev/null |
+                awk '/^ref:/ { sub("refs/heads/", "", $2); print $2; exit }')
+            def=${def:-main}
+            git -C "$dest" checkout -B "$def" "origin/$def" 2>/dev/null ||
+                die "fetched $clone_src but found no '$def' branch — check out by hand in $dest"
+        elif [ -d "$dest/.git" ]; then
+            die "$dest is already a non-empty git repo; pull it yourself"
+        else
+            info "cloning $clone_src -> $dest"
+            git clone "$clone_src" "$dest"
+        fi
+    fi
+
+    if [ "$(git -C "$dest" rev-parse --is-bare-repository 2>/dev/null)" = "true" ]; then
+        die "$dest is a bare git repository — refusing to scaffold into it"
+    fi
+    if [ ! -d "$dest/packages" ]; then
+        info "scaffolding side-car at $dest from templates/local-dots"
+        mkdir -p "$dest"
+        [ -d "$dest/.git" ] || git -C "$dest" init -q
+        cp -R "$MAIN_REPO/templates/local-dots/." "$dest/"
+        info "seeded $dest — edit the example files, then commit:"
+        info "    git -C $dest add -A && git -C $dest commit -m 'initial machine config'"
+    fi
+    dest=$(cd "$dest" && pwd)   # absolutize before recording/reporting
+    if [ "$dest" != "$HOME/src/local-dots" ] && [ "$dest" != "$HOME/dots-local" ]; then
+        mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}/dots"
+        printf '%s\n' "$dest" > "${XDG_CONFIG_HOME:-$HOME/.config}/dots/sidecar"
+        info "recorded side-car location in ~/.config/dots/sidecar"
+    fi
+    info "then: dots link"
+}
+
+# --- main ---------------------------------------------------------------------
+
+usage() { sed -n '2,/^[^#]/p' "$(script_path)" | sed '$d' | sed 's/^# \{0,1\}//'; }
+
+cmd=${1:-help}
+shift || true
+case "$cmd" in
+    link)           cmd_stow_action -S "$@" ;;
+    unlink)         cmd_stow_action -D "$@" ;;
+    relink|restow)  cmd_stow_action -R "$@" ;;
+    adopt)          cmd_adopt "$@" ;;
+    doctor)         cmd_doctor "$@" ;;
+    migrate-legacy) cmd_migrate_legacy "$@" ;;
+    list)           cmd_list "$@" ;;
+    sidecar-init)   cmd_sidecar_init "$@" ;;
+    help|-h|--help) usage ;;
+    *)              usage; die "unknown command '$cmd'" ;;
+esac

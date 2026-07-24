@@ -1,0 +1,15 @@
+# Machine-specific zsh config, sourced early by ~/.zshrc (guarded).
+# Secrets: seed once from 1Password into the OS keychain (secret seed, map in
+# ~/.config/dots/secrets.map), then read instantly and non-interactively:
+#   export HOMEBREW_GITHUB_API_TOKEN="$(secret get homebrew-github-token)"
+# `op read` also works but costs seconds and needs a TTY — never use it in
+# anything a daemon or prompt sources. Never export plaintext tokens here.
+
+# Directory shortcuts for this machine's checkouts:
+# hash -d ws=~/work/some-repo
+
+# Extend the prompt (see ~/.zsh_theme):
+# RPROMPT_CMDS+=(my_indicator_function)
+
+# Override terminal-title behaviour if this machine needs it:
+# term_title_precmd() { ... }

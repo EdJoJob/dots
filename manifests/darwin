@@ -1,0 +1,3 @@
+# macOS-only packages.
+# iterm is opt-in: `dot link iterm` (AutoLaunch scripts for iTerm2).
+aerospace

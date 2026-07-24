@@ -1,0 +1,4 @@
+# Linux-only packages.
+systemd
+dunst
+regolith

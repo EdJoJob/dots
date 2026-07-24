@@ -1,0 +1,15 @@
+# Packages stowed on every machine (one per line, # comments allowed).
+zsh
+git
+tmux
+vim
+ssh
+bin
+dircolors
+direnv
+ptpython
+latex
+psql
+ruff
+topgrade
+mise
