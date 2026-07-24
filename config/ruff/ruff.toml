@@ -1,0 +1,32 @@
+# Global ruff config — carries over the intent of the flake8/isort configs it replaces.
+# Origins: python/flake8.symlink and python/isort.cfg.symlink at d1d6e3d.
+
+# flake8 max-line-length = 100 (isort had line_length = 88; ruff has a single knob, flake8 wins)
+line-length = 100
+
+# flake8 exclude — ruff's defaults already cover the VCS dirs, __pycache__, .tox, .eggs
+extend-exclude = ["*.egg", "*.spec", ".filesdst", "NB-PKG-INFO"]
+
+[lint]
+# pyflakes/pycodestyle (flake8 core) + pydocstyle (flake8 ignored D105, so D was in play)
+# + TID251 for the flake8-tidy-imports banned-modules rule + isort
+select = ["E", "W", "F", "D", "TID251", "I"]
+# flake8: ignore = D105 (missing docstring in magic method)
+ignore = ["D105"]
+
+[lint.pydocstyle]
+# flake8-docstrings default convention; also resolves ruff's D203/D211 + D212/D213 conflicts
+convention = "pep257"
+
+[lint.flake8-tidy-imports.banned-api]
+# flake8 banned-modules: mock = Use unittest.mock
+"mock".msg = "Use unittest.mock"
+
+[lint.isort]
+# isort combine_as_imports = True
+combine-as-imports = true
+# isort order_by_type = True (ruff default, kept explicit)
+order-by-type = true
+# isort multi_line_output = 3 + include_trailing_comma = True: ruff's only isort
+# mode is vertical-hanging-indent with trailing commas — nothing to set.
+# isort combine_star / force_grid_wrap = 2: no ruff equivalent, dropped.
