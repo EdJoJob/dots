@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Sync every lieer-managed Gmail account under ~/mail (any dir holding a
+# .gmailieer.json). Used by the launchd agent on macOS (com.edjojob.gmi-sync);
+# on Linux the per-account lieer-sync@.timer units are the native route, but
+# this works there too if a single timer is preferred.
+set -u
+
+# launchd starts agents with a minimal PATH; find pipx/brew installs.
+PATH="$HOME/.local/share/mise/shims:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PATH
+
+command -v gmi >/dev/null 2>&1 || {
+    echo "gmi-sync-all: gmi not installed (pipx install lieer)" >&2
+    exit 0
+}
+
+MAILDIR="${MAILDIR_ROOT:-$HOME/mail}"
+[ -d "$MAILDIR" ] || exit 0
+
+rc=0
+for d in "$MAILDIR"/*/; do
+    [ -f "$d/.gmailieer.json" ] || continue
+    # gmi holds its own per-repo lock, so overlapping runs are safe
+    ( cd "$d" && gmi sync ) || { echo "gmi-sync-all: sync failed for $d" >&2; rc=1; }
+done
+exit $rc

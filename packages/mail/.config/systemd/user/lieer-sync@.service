@@ -1,0 +1,11 @@
+[Unit]
+Description=Lieer (gmi) sync for account %i
+Documentation=https://lieer.gaute.vetsj.com/
+ConditionPathIsDirectory=%h/mail/%i
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/mail/%i
+# gmi is usually pipx-installed (~/.local/bin); distro installs live in /usr/bin
+Environment=PATH=%h/.local/share/mise/shims:%h/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/env gmi sync

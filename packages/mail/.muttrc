@@ -52,8 +52,25 @@ unset wait_key
 
 timeout-hook 'exec sync-mailbox'
 
+# Notmuch / lieer virtual folders
+# ----------------------------------------------------
+# Modern Gmail flow: gmi (lieer) syncs each account into ~/mail/<account>/,
+# Gmail labels <-> notmuch tags (see docs/MAIL.md).  Per-account
+# virtual-mailboxes, change-vfolder F-keys and move-to-label macros live in
+# ~/.local_muttrc (examples in templates/local-dots/packages/mail/).
+#
+# Guarded with ifdef so a neomutt built without notmuch support skips the
+# block entirely (the nm_* variables do not exist there and a bare `set`
+# would abort config parsing).  With notmuch compiled in but no database
+# yet, these settings are inert until a vfolder is opened.
+ifdef notmuch 'set nm_default_url = "notmuch://$HOME/mail"'
+# virtual_spoolfile makes neomutt open the first *defined* virtual mailbox
+# as the spool; with no virtual-mailboxes defined it falls back to
+# $spoolfile, so a maildir-only setup is unaffected.
+ifdef notmuch 'set virtual_spoolfile = yes'
+
 # Folder hooks for multiple accounts
-source ~/.muttrc_local
+source `test -f ~/.local_muttrc && echo ~/.local_muttrc || echo /dev/null`
 folder-hook 'INBOX' '\
   set status_format    = "%f · Messages: %?M?(filter: %V) %M of ?%m · New: %n · Flag: %F · Tag: %t · Del: %d %*· $from · (%P) "; \
   set ts_status_format = "NeoMutt with %?m?%m messages&no messages?%?n? [%n NEW]? - $from"; \
@@ -319,7 +336,7 @@ macro compose Y "<first-entry><enter-command>set wait_key=no<enter>\
 <pipe-entry>pandoc -o /tmp/neomutt-alternative.html<enter>\
 <attach-file>/tmp/neomutt-alternative.html<enter>\
 <toggle-unlink><toggle-disposition>\
-<tag-entry><first-entry><tag-entry><group-alternatives>
+<tag-entry><first-entry><tag-entry><group-alternatives>"
 
 
 
@@ -340,8 +357,6 @@ macro index            L "\
 <enter-command>push              \"<change-vfolder>\$my_query\"          <enter><enter>\
 <enter-command>unset             my_query                                       <enter>"  'Query notmuch'
 
-macro index,pager    \cA "<pipe-message>~/.bin/mutt-add-todo.py<enter>"   'Add todo'
-
 # Contact groups
 # group -group internal `khard email --remove-first-line -p | awk '/@/{printf "-rx %s ", $1} END { print ""} '`
 
@@ -349,9 +364,11 @@ macro index,pager    \cA "<pipe-message>~/.bin/mutt-add-todo.py<enter>"   'Add t
 folder-hook '.*' '\
   unsubjectrx *'
 
-# Trigger changing folder to default
+# Trigger changing folder to default (maildir era).  Lieer/notmuch setups:
+# `set my_skip_maildir_startup = yes` in ~/.local_muttrc suppresses this
+# push so startup lands in the first virtual mailbox ($virtual_spoolfile).
 set folder = ~/.mutt/$from
-push "<change-folder>~/.mutt/$from/INBOX<enter>"
+ifndef my_skip_maildir_startup 'push "<change-folder>~/.mutt/$from/INBOX<enter>"'
 
 # vim: set ft=neomuttrc:
 

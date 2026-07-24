@@ -1,0 +1,11 @@
+[Unit]
+Description=Lieer sync timer for account %i
+
+[Timer]
+OnBootSec=2m
+OnUnitInactiveSec=5m
+RandomizedDelaySec=1m
+Unit=lieer-sync@%i.service
+
+[Install]
+WantedBy=timers.target

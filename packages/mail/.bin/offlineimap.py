@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from subprocess import check_output
 import sys
@@ -12,14 +12,14 @@ def get_pass(kind, account):
                 kind=kind, account=account
             ),
             shell=True,
-        ).splitlines()[0]
+        ).splitlines()[0].decode()
     else:
         return check_output(
             "secret-tool lookup {kind}-pass '{account}'".format(
                 kind=kind, account=account
             ),
             shell=True,
-        ).splitlines()[0]
+        ).splitlines()[0].decode()
 
 
 if __name__ == "__main__":

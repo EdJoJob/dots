@@ -1,0 +1,30 @@
+# Example ~/.notmuch-config for the lieer (gmi) setup — one Gmail account
+# per directory under ~/mail, labels <-> tags.  See docs/MAIL.md.
+
+[database]
+# Absolute path; notmuch >= 0.32 also interprets a relative path as
+# relative to $HOME (and defaults to $HOME/mail when unset entirely).
+path=/home/USERNAME/mail
+
+[user]
+name=Firstname Lastname
+primary_email=personal@example.com
+other_email=work@example.com
+
+[new]
+# lieer recommends a bare 'new' tag: gmi itself translates Gmail labels to
+# tags for the mail it pulls, so new.tags only applies to messages that
+# `notmuch new` discovers outside gmi's control.
+tags=new
+# Keep lieer's state/credential files out of the index.
+ignore=/.*[.](json|lock|bak)$/
+
+[search]
+exclude_tags=deleted;spam;trash
+
+[maildir]
+# Sync maildir flags (S, R, F, T...) with the matching notmuch tags so
+# neomutt flag changes propagate into tags (and via gmi, into Gmail).
+synchronize_flags=true
+
+# vim: set ft=dosini:

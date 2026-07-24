@@ -1,8 +1,8 @@
 # from https://github.com/kmARC/dotfiles/blob/4727782af623449c86acf47fe5ac2c54b1fcc146/pdotfiles/offlineimaprc
 [general]
-metadata    = ~/.offlineimap
+metadata    = ~/.offlineimap-meta
 accounts    = example@gmail.com,example@mycompany.com
-pythonfile  = ~/bin/offlineimap.py
+pythonfile  = ~/.bin/offlineimap.py
 maxsyncaccounts = 3
 
 [Account example@gmail.com]

@@ -1,0 +1,57 @@
+# Per-account settings via folder-hooks. o365 sends through local davmail
+# (smtp 1025).
+
+folder-hook 'personal@example.com/INBOX' '\
+  set from = personal@example.com; \
+  set pgp_default_key = 0x0123456789ABCDEF; \
+  set pgp_sign_as = 0x0123456789ABCDEF; \
+  set pgp_self_encrypt = yes; \
+  my_hdr X-PGP-Key: https://example.com/pgp_keys.asc; \
+  source ~/.mutt/muttrc._gmail_'
+
+folder-hook 'work@example.com/INBOX' '\
+  set from = work@example.com; \
+  set pgp_default_key = 0x0123456789ABCDEF; \
+  set pgp_sign_as = 0x0123456789ABCDEF; \
+  set pgp_self_encrypt = yes; \
+  set smtp_url = "smtp://work@example.com@localhost:1025/"; \
+  my_hdr X-PGP-Key: https://example.com/pgp_keys.asc; \
+  source ~/.mutt/muttrc._o365_'
+
+macro index,pager <F2> '<change-folder>~/.mutt/personal@example.com/INBOX<enter>'
+macro index,pager <F3> '<change-folder>~/.mutt/work@example.com/INBOX<enter>'
+
+set realname = 'Firstname Lastname'
+
+set from = 'personal@example.com'
+source ~/.mutt/muttrc._gmail_
+
+# --- lieer / notmuch (modern Gmail flow; see docs/MAIL.md) -----------------
+# gmi syncs each account into its own directory under ~/mail (the notmuch
+# database root), so scope per-account vfolders with `path:<dir>/**` —
+# notmuch's path: prefix matches directories relative to the database root,
+# and `/**` recurses (cur/ new/ ...).  The directory name is whatever you
+# passed to `mkdir` before `gmi init` (here: personal, work).
+#
+# virtual-mailboxes "personal/INBOX"    "notmuch://?query=tag:inbox and path:personal/**"
+# virtual-mailboxes "personal/starred"  "notmuch://?query=tag:flagged and path:personal/**"
+# virtual-mailboxes "personal/archive"  "notmuch://?query=path:personal/** and not tag:trash"
+# virtual-mailboxes "work/INBOX"        "notmuch://?query=tag:inbox and path:work/**"
+#
+# Per-account identity, keyed on the vfolder name:
+# folder-hook 'personal/' 'set from = personal@example.com'
+# folder-hook 'work/'     'set from = work@example.com'
+#
+# F-keys switch accounts, mirroring the maildir F2/F3 above:
+# macro index,pager <F2> '<change-vfolder>personal/INBOX<enter>'
+# macro index,pager <F3> '<change-vfolder>work/INBOX<enter>'
+# macro index,pager <F4> '<change-vfolder>personal/archive<enter>'
+#
+# 'Move to a folder' = retag: drop inbox, add the target label-tag; the next
+# `gmi push` turns that into a Gmail label change.  <modify-labels-then-hide>
+# also removes the message from the current vfolder view.
+# macro index,pager ,mr "<modify-labels-then-hide>-inbox +receipts<enter><sync-mailbox>" 'move to receipts'
+#
+# Land in the first virtual mailbox at startup instead of the maildir INBOX
+# (suppresses the trailing push in ~/.muttrc):
+# set my_skip_maildir_startup = yes
