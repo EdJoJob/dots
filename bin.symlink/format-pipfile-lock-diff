@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 
 """Usage format-pipfile-lock-diff <(diff <(pipenv_versions <(git show master:Pipfile.lock)) <(pipenv_versions Pipfile.lock))"""
 import sys

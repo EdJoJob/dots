@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 echo STYLES
 echo
 echo -e "\e[1mbold\e[0m"
