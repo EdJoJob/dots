@@ -1,9 +1,0 @@
-#! /bin/zsh
-
-if [[ -n $JOIN_KEY ]]; then
-    curl -G \
-        --data-urlencode "deviceNames=Tab S6" \
-        --data-urlencode "text=NextPomodoro" \
-        --data-urlencode "apikey=$JOIN_KEY" \
-        "https://joinjoaomgcd.appspot.com/_ah/api/messaging/v1/sendPush"
-fi

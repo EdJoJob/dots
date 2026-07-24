@@ -1,9 +1,0 @@
-[submodule "tpm"]
-	path = tmux/tmux.symlink/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
-[submodule "firefox/vimperator.symlink/colors"]
-	path = firefox/vimperator.symlink/colors
-	url = https://github.com/vimpr/vimperator-colors
-[submodule "zsh/zi.symlink/bin"]
-	path = zsh/zi.bin
-	url = https://github.com/z-shell/zi.git

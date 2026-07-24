@@ -1,5 +1,0 @@
-#compdef n cluster-node
-
-_arguments "1:duty:(cloud-postgresql icinga swarm-host cloud-logging)"\
-    "2:cluster:(eevans)"\
-    "3:instance:(1 2 3 4)"
