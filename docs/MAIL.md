@@ -67,7 +67,11 @@ preferred over per-account units.
 
 1. Packages: `notmuch` (brew/apt/dnf) and lieer — installed via mise+uvx on
    every platform (`pipx:lieer` in the packaged mise config;
-   `install/tools.sh` / `mise install`).
+   `install/tools.sh` / `mise install`). macOS caveat: the `notmuch2`
+   python extension builds against brew's libnotmuch, which uv's isolated
+   build can't find on its own — if the install dies on `notmuch.h`:
+   `CFLAGS=-I/opt/homebrew/include LDFLAGS=-L/opt/homebrew/lib mise
+   install pipx:lieer`.
 2. `~/.notmuch-config` from
    `templates/local-dots/packages/mail/.notmuch-config`
    (database at `~/mail`, `maildir.synchronize_flags=true`, lieer's
