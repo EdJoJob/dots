@@ -208,13 +208,21 @@ function take() {
 alias c='clear'
 
 # Git {{{
+# Repo identity + ssh commit signing in one move (gpg.format=ssh is global;
+# the private keys live in the 1Password agent — only .pub files on disk).
 personal_repo() {
     git config user.email 'edjojob@gmail.com'
     git config user.name 'EdJoJob'
-    git config user.signingkey '0xF68AEAEA29DB923E'
+    git config user.signingkey "$HOME/.ssh/github/id_edjojob_github.pub"
     git config commit.gpgsign true
 }
-alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config user.name 'Edward Evans'; g config user.signingkey '0xF68AEAEA29DB923E'; g config commit.gpgsign true"
+work_repo() {
+    git config user.email 'edward.evans@aiven.io'
+    git config user.name 'Edward Evans'
+    git config user.signingkey "$HOME/.ssh/github/id_work_github.pub"
+    git config commit.gpgsign true
+}
+alias dco_repo="g config user.email 'edward.joshua.evans@gmail.com'; g config user.name 'Edward Evans'; g config user.signingkey \"$HOME/.ssh/github/id_edjojob_github.pub\"; g config commit.gpgsign true"
 ssh-allowed_signer() {
     echo "$(git config user.email) valid-after=\"$(date +'%Y%m%d')\",namespaces=\"git\" $(cat $(git config user.signingkey))" >> ~/.ssh/allowed_signers
 }
