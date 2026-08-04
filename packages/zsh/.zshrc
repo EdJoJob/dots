@@ -255,6 +255,63 @@ fixssh() {
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=yes
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# Escape-sequence hygiene for tmux control mode (`tmux -CC`, iTerm2's tmux
+# integration). A control-mode client gets pane bytes relayed untouched over
+# the control channel, so tmux neither unwraps the DCS `tmux;` passthrough nor
+# interprets DECSET 1004 the way it does for a normal client. Two consequences:
+#
+#  * The shell integration's escaped_printf wraps every OSC in
+#    ESC P tmux; ... ESC \ whenever $TERM is tmux*, which is always here
+#    (default-terminal tmux-256color). In control mode that wrapper is
+#    forwarded verbatim, so iTerm2 receives the OSC still wrapped: prompt
+#    marks never register — which breaks `it2-last-output --last/--command` —
+#    and fragments such as "1337;Re" (the head of ]1337;RemoteHost=, sent
+#    every precmd) surface as text. Send the OSCs bare when every attached
+#    client is control mode, wrapped otherwise.
+#
+#  * Focus reporting armed by an app that exited without disarming leaves
+#    iTerm2 sending ^[[I/^[[O into the pane indefinitely. Disarm before each
+#    prompt so fzf and other raw-tty readers start from a known state; the
+#    zle-side guard for events already in flight is in ~/.zsh_theme.
+# True only when no normal-mode client is attached, since one would still
+# need the passthrough wrapper. Empty $TMUX means no tmux, so not control mode.
+_tmux_control_mode_only() {
+    [[ -n $TMUX ]] && (( $+commands[tmux] )) || return 1
+    local -a modes
+    modes=( ${(f)"$(tmux list-clients -F '#{client_control_mode}' 2>/dev/null)"} )
+    (( $#modes )) && [[ -z ${modes:#1} ]]
+}
+
+# Disarming 1004 is unconditional — an app can orphan focus reporting in a
+# plain terminal too. The control-mode probe is one tmux round-trip per
+# prompt: its answer changes on detach/reattach, so it cannot be cached for
+# the life of the shell.
+_terminal_escape_hygiene() {
+    printf '\033[?1004l'
+    if _tmux_control_mode_only; then
+        _it2_osc_bare=1
+    else
+        _it2_osc_bare=
+    fi
+}
+
+if (( $+functions[escaped_printf] )); then
+    escaped_printf() {
+        if [[ -z $_it2_osc_bare && $TERM == tmux* ]]; then
+            printf "\033Ptmux;\033"
+            printf $@
+            printf "\033\\"
+        else
+            printf $@
+        fi
+    }
+fi
+
+# Seed the flag now; the hook keeps it current. Registered here so it precedes
+# iterm2_precmd, which _init_full_prompt moves to the end of precmd_functions.
+_terminal_escape_hygiene
+add-zsh-hook precmd _terminal_escape_hygiene
+
 if [[ -n $TMUX ]]; then
     fixssh
 fi

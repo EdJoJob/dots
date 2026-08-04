@@ -229,6 +229,29 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 export KEYTIMEOUT=100
 bindkey -v
+
+# Swallow terminal focus reporting (DECSET 1004) events, which arrive as
+# ^[[I on focus-in and ^[[O on focus-out. They reach zle whenever an app
+# armed 1004 and died without disarming it (nvim killed or ^Z'd): under
+# `tmux -CC` tmux forwards 1004h/1004l to iTerm2 verbatim rather than
+# filtering them, so iTerm2 — not tmux — holds the per-pane arming, and
+# tmux's focus-events option has no say in it.
+#
+# Unbound they are merely noisy in viins, but in vicmd `[` is undefined and
+# then `I` is vi-insert-bol / `O` is vi-open-line-above — so a focus-out
+# silently drops a newline into an empty buffer, which is why ^D starts
+# completing instead of exiting. ^[ is already a prefix here (arrow keys),
+# so binding these costs no extra KEYTIMEOUT wait.
+#
+# This only protects zle; the prompt-time disarm that also covers fzf and
+# other raw-tty readers lives in ~/.zshrc.
+_focus-event-ignore() { : }
+zle -N _focus-event-ignore
+for _fkm in main viins vicmd; do
+    bindkey -M $_fkm '^[[I' _focus-event-ignore
+    bindkey -M $_fkm '^[[O' _focus-event-ignore
+done
+unset _fkm
 #}}}
 #prompt {{{
 prompt_adam2_setup () { #{{{
