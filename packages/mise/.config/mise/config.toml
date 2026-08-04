@@ -34,3 +34,6 @@ topgrade = "latest"
 
 # prose linter (was an npm global)
 "npm:alex" = "latest"
+
+# markdown review UI — serves a doc for inline feedback (replaces npx invocation)
+"npm:md-feedback-ui" = "latest"
