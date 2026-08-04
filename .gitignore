@@ -4,6 +4,12 @@
 notes/
 /.claude/
 
+# Agent working memory, not history: plans and brainstorms are per-task
+# scratch shared between humans and agents. Durable docs are docs/decisions/
+# (ADRs) and READMEs — see docs/decisions/0013.
+docs/plans/
+docs/brainstorms/
+
 # nvim runtime artifacts (backup/swap/undo live in XDG state dirs, spell
 # compiles are derived; guards in case anything still writes into the tree)
 packages/vim/.config/nvim/spell/*.spl
