@@ -75,7 +75,18 @@ fi
 git_super_status() {
     (( ${+functions[gitstatus_query]} )) || return
     gitstatus_query -t 1 'THEME' 2>/dev/null || return
-    [[ $VCS_STATUS_RESULT == ok-sync ]] || return
+    case $VCS_STATUS_RESULT in
+        (ok-sync) _git_prompt_render ;;
+        # norepo-sync also fires when gitstatusd's libgit2 refuses the repo
+        # (e.g. extensions.relativeWorktrees, git 2.48+) — re-check with real
+        # git and render from porcelain instead
+        (norepo-sync) _git_prompt_fallback ;;
+    esac
+}
+
+# Renders from the VCS_STATUS_* contract (gitstatusd's, or the fallback's
+# dynamically-scoped locals)
+_git_prompt_render() {
     local reset="%{${reset_color}%}"
 
     local branch=$VCS_STATUS_LOCAL_BRANCH
@@ -121,6 +132,64 @@ git_super_status() {
 
     s+="${ZSH_THEME_GIT_PROMPT_SUFFIX}${reset}"
     echo -n "$s"
+}
+
+# Plain-git fallback for repos gitstatusd can't open. Populates the same
+# VCS_STATUS_* names as locals and renders through _git_prompt_render.
+_git_prompt_fallback() {
+    # pure-zsh upward walk: no fork on the common truly-not-a-repo prompt
+    local dir=$PWD
+    while [[ -n $dir && ! -e $dir/.git ]]; do dir=${dir%/*}; done
+    [[ -e $dir/.git ]] || return
+
+    local -a lines
+    lines=( ${(f)"$(git status --porcelain=v2 --branch 2>/dev/null)"} )
+    (( $#lines )) || return
+
+    local VCS_STATUS_LOCAL_BRANCH='' VCS_STATUS_COMMIT='' VCS_STATUS_ACTION=''
+    local VCS_STATUS_REMOTE_NAME='' VCS_STATUS_REMOTE_BRANCH=''
+    local -i VCS_STATUS_COMMITS_AHEAD=0 VCS_STATUS_COMMITS_BEHIND=0
+    local -i VCS_STATUS_NUM_STAGED=0 VCS_STATUS_NUM_UNSTAGED=0
+    local -i VCS_STATUS_NUM_CONFLICTED=0 VCS_STATUS_NUM_UNTRACKED=0
+    local line xy upstream
+    for line in $lines; do
+        case $line in
+            ('# branch.oid '*)  VCS_STATUS_COMMIT=${line#'# branch.oid '} ;;
+            ('# branch.head (detached)') ;;
+            ('# branch.head '*) VCS_STATUS_LOCAL_BRANCH=${line#'# branch.head '} ;;
+            ('# branch.upstream '*)
+                upstream=${line#'# branch.upstream '}
+                VCS_STATUS_REMOTE_NAME=${upstream%%/*}
+                VCS_STATUS_REMOTE_BRANCH=${upstream#*/}
+                ;;
+            ('# branch.ab '*)
+                local -a ab=( ${=${line#'# branch.ab '}} )
+                VCS_STATUS_COMMITS_AHEAD=${ab[1]#+}
+                VCS_STATUS_COMMITS_BEHIND=${ab[2]#-}
+                ;;
+            ([12]' '*)
+                xy=${${(s: :)line}[2]}
+                [[ $xy[1] != . ]] && (( ++VCS_STATUS_NUM_STAGED ))
+                [[ $xy[2] != . ]] && (( ++VCS_STATUS_NUM_UNSTAGED ))
+                ;;
+            ('u '*) (( ++VCS_STATUS_NUM_CONFLICTED )) ;;
+            ('? '*) (( ++VCS_STATUS_NUM_UNTRACKED )) ;;
+        esac
+    done
+
+    local VCS_STATUS_STASHES gitdir
+    VCS_STATUS_STASHES=$(git rev-list --walk-reflogs --count refs/stash 2>/dev/null) \
+        || VCS_STATUS_STASHES=0
+    gitdir=$(git rev-parse --git-dir 2>/dev/null) || return
+    if [[ -d $gitdir/rebase-merge || -d $gitdir/rebase-apply ]]; then
+        VCS_STATUS_ACTION=rebase
+    elif [[ -e $gitdir/MERGE_HEAD ]]; then
+        VCS_STATUS_ACTION=merge
+    elif [[ -e $gitdir/BISECT_LOG ]]; then
+        VCS_STATUS_ACTION=bisect
+    fi
+
+    _git_prompt_render
 }
 #}}}
 # Setup vim mode and rprompt {{{
