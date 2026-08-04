@@ -1,0 +1,143 @@
+#!/bin/sh
+# it2-cookie — cache a REUSABLE iTerm2 Python API cookie for ssh sessions.
+#
+# Plain `request cookie` mints a single-use cookie: the first API
+# connection consumes it and every later one gets 401. Remote clients
+# (e.g. it2-last-output over a forwarded port) need the reusable flavour.
+#
+#   it2-cookie            print the cached cookie; exit 1 if absent/stale
+#   it2-cookie --mint     request a reusable cookie (iTerm2 shows an
+#                         announcement bar — click "Forever" or "_24 Hours"),
+#                         cache it, and print it
+#   it2-cookie --startup  shell-startup mode: while the "allow all apps"
+#                         auth override is active, stay silent on iTerm2
+#                         versions without reusable cookies (nothing to do)
+#                         but nag once per shell after an upgrade adds them,
+#                         so the override gets unwound. Otherwise behaves
+#                         like the plain print mode.
+#
+# Cookies only live while iTerm2 runs, so the cache is keyed to the
+# current iTerm2 launch time and goes stale on restart — re-mint then.
+# Export for ssh:  export ITERM2_COOKIE="$(it2-cookie --startup)"  (~/.zsh_iterm_fzf)
+
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/it2-cookie"
+APP="/Applications/iTerm.app"
+SDEF="$APP/Contents/Resources/iTerm2.sdef"
+NOAUTH="$HOME/Library/Application Support/iTerm2/disable-automation-auth"
+
+# Fixture override for --check only. The detection used by --mint and
+# --startup always reads the installed sdef: a stale IT2_SDEF left exported
+# after testing would otherwise make --startup report support on a version
+# that lacks it, and --startup runs on every new shell — it would tell you to
+# unwind the "allow all apps" override that is currently your only working
+# auth, then exit 1 and unset ITERM2_COOKIE.
+check_sdef() { printf '%s' "${IT2_SDEF:-$SDEF}"; }
+
+iterm_version() {
+    plutil -extract CFBundleShortVersionString raw \
+        "$APP/Contents/Info.plist" 2>/dev/null || echo "unknown"
+}
+
+# Parameters the sdef exposes on `request cookie` — the command's own block,
+# not the whole file. A whole-file grep would report support because some
+# unrelated command happened to carry the attribute name.
+cookie_params() {
+    awk '/<command name="request cookie"/,/<\/command>/' "$1" 2>/dev/null |
+        sed -n 's/.*<parameter name="\([^"]*\)".*/\1/p'
+}
+
+# Returns 0 supported, 1 unsupported, 2 sdef unreadable — three outcomes, not
+# two. Today "unsupported" and "cannot see the sdef" are indistinguishable,
+# which is the failure mode that matters: this gate has never run against a
+# version that HAS the feature, so if the real attribute spelling differs it
+# fails closed and silent, and the upgrade path never activates.
+reusable_verdict() {
+    sdef=$1
+    [ -r "$sdef" ] || return 2
+    cookie_params "$sdef" | grep -qiE 'reusable' && return 0
+    return 1
+}
+
+supports_reusable() {
+    reusable_verdict "$SDEF"
+}
+
+if [ "$1" = "--check" ]; then
+    sdef=$(check_sdef)
+    printf 'iTerm2 version: %s\n' "$(iterm_version)"
+    printf 'sdef: %s\n' "$sdef"
+    reusable_verdict "$sdef"
+    case $? in
+        0) verdict="supported" ;;
+        1) verdict="unsupported (no reusable parameter on 'request cookie')" ;;
+        2) verdict="unknown (sdef unreadable)" ;;
+    esac
+    printf 'request cookie parameters:\n'
+    cookie_params "$sdef" | sed 's/^/  - /'
+    printf 'reusable cookies: %s\n' "$verdict"
+    if [ -n "$ITERM_SESSION_ID" ]; then
+        printf 'session id that would be sent: %s\n' "${ITERM_SESSION_ID##*:}"
+    fi
+    # Exit here, before the pid lookup and before the cache tail. Falling
+    # through would print the cached cookie to stdout alongside these
+    # diagnostics — and this is the command the activation checklist in
+    # docs/decisions/0012 tells you to run and share.
+    exit 0
+fi
+
+if [ "$1" = "--startup" ]; then
+    if [ -e "$NOAUTH" ]; then
+        if supports_reusable; then
+            echo "it2-cookie: iTerm2 now supports reusable API cookies — unwind the 'allow all apps' override (untick it in iTerm2 settings, or: sudo rm '$NOAUTH') and run: it2-cookie --mint" >&2
+            exit 1
+        fi
+        # allow-all covers auth on this version; nothing to export.
+        exit 0
+    fi
+    # Auth is required: fall through to the plain print mode so a missing
+    # or stale cookie nags at startup with the --mint hint.
+fi
+
+pid=$(ps -axo pid=,comm= | awk '$2 ~ /\/iTerm2$/ {print $1; exit}')
+if [ -z "$pid" ]; then
+    echo "it2-cookie: iTerm2 is not running" >&2
+    exit 1
+fi
+started=$(ps -o lstart= -p "$pid")
+
+if [ "$1" = "--mint" ]; then
+    # Reusable cookies need iTerm2 >= 3.7.0 beta; older versions silently
+    # ignore the parameter and mint a single-use cookie, which would burn
+    # on first connection while we cache it as if it were reusable.
+    if ! supports_reusable; then
+        echo "it2-cookie: iTerm2 $(iterm_version) exposes no reusable parameter on 'request cookie' (needs >= 3.7.0beta series); refusing to cache a single-use one. Run: it2-cookie --check" >&2
+        exit 1
+    fi
+    req='request cookie with reusable'
+    if [ -n "$ITERM_SESSION_ID" ] && cookie_params "$SDEF" | grep -qi 'session id'; then
+        # Show the grant announcement in the invoking pane; without this a
+        # missing "current session" silently falls back to single-use.
+        req="request cookie session id \"${ITERM_SESSION_ID##*:}\" with reusable"
+    fi
+    cookie=$(osascript -e "tell application \"iTerm2\" to $req") || {
+        echo "it2-cookie: cookie request denied or failed" >&2
+        exit 1
+    }
+    [ -n "$cookie" ] || { echo "it2-cookie: empty cookie returned" >&2; exit 1; }
+    umask 077
+    mkdir -p "$(dirname "$CACHE")" || {
+        echo "it2-cookie: cannot create $(dirname "$CACHE")" >&2
+        exit 1
+    }
+    printf '%s\n%s\n' "$started" "$cookie" > "$CACHE"
+fi
+
+[ -f "$CACHE" ] || {
+    echo "it2-cookie: no cached cookie; run: it2-cookie --mint" >&2
+    exit 1
+}
+if [ "$(sed -n 1p "$CACHE")" != "$started" ]; then
+    echo "it2-cookie: iTerm2 restarted since mint; run: it2-cookie --mint" >&2
+    exit 1
+fi
+sed -n 2p "$CACHE"

@@ -1,3 +1,4 @@
 # macOS-only packages.
-# iterm is opt-in: `dot link iterm` (AutoLaunch scripts for iTerm2).
+# iterm is opt-in: `dots link iterm iterm-client`.
+# The split is docs/decisions/0011-iterm-client-package-split.md.
 aerospace
