@@ -17,6 +17,7 @@ node_modules
 .vscode/
 .*.bkp
 
+**/.worktrees
 **/.claude/settings.local.json
-
+**/.claude/worktrees
 **/.claude/.cc-writes/
