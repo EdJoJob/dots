@@ -1,0 +1,273 @@
+#!/usr/bin/env python3
+# extract-tokens — turn CLI output (notably box-drawn tables) into
+# fzf-friendly TSV: value <TAB> label <TAB> context.
+#
+# Table handling is structural, not style-specific: any run of border/row
+# lines (unicode box drawing, or +---+/| ascii) forms a table. A separator
+# line *between* row groups marks the rows above it as the header, and each
+# cell is labelled by its column header plus the table's title (the nearest
+# preceding plain line). Header-less two-column tables are treated as
+# key/value: the value is labelled by its key, so typing the key
+# fuzzy-matches the value. "name (id)" cells also emit name/id parts.
+#
+# Plugins: every *.py file in $EXTRACT_TOKENS_PLUGIN_PATH (colon-separated
+# directories; defaults to $XDG_CONFIG_HOME/extract-tokens, falling back to
+# ~/.config/extract-tokens) is loaded and its
+#
+#     def extract(text: str, emit) -> None
+#
+# is called with the full input text and an emit(value, label, context="")
+# callback. Plugin tokens are emitted first, so they outrank table tokens
+# in fzf's --tiebreak=index ordering. A generic pass (urls, uuids, words)
+# runs last as fallback.
+
+import importlib.util
+import os
+import re
+import sys
+
+# OSC accepts either terminator: BEL (shell integration sends these every
+# precmd) or ST (rich/click/gh emit ST-terminated OSC-8 hyperlinks), and
+# the class stops at ESC so an unterminated sequence cannot swallow the
+# rest of the input. Note the ST branch is `\x1b\\` — one escaped
+# backslash in a raw string; doubling it would demand two literal
+# backslashes and never match.
+ANSI_RE = re.compile(r"\x1b(?:\[[0-9;:?]*[A-Za-z]|\][^\x07\x1b]*(?:\x07|\x1b\\))")
+SEP_CHARS = set(
+    "─━═┄┅┆┇┈┉┊┋╌╍╎╏"
+    "┌┐└┘┏┓┗┛╔╗╚╝"
+    "├┤┝┥┞┟┠┡┢┣┦┧┨┩┪┫╞╡╟╢"
+    "┬┭┮┯┰┱┲┳┴┵┶┷┸┹┺┻"
+    "┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋╪╫╬"
+    "+-=| "
+)
+ROW_SPLIT_RE = re.compile(r"[│┃║|]")
+ROW_START = "│┃║|"
+NAME_ID_RE = re.compile(r"^(\S.*?)\s+\((\d+)\)$")
+BRACKET_IDS_RE = re.compile(r"^\[([\d,\s]+)\]$")
+URL_RE = re.compile(r"https?://[^\s│┃║|]+")
+UUID_RE = re.compile(
+    r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}"
+    r"-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b"
+)
+TITLE_COUNT_RE = re.compile(r"\s*\(\d+[^)]*\)\s*$")
+TITLE_MAX_LEN = 48
+WORD_MIN_LEN = 5
+
+
+class Emitter:
+    def __init__(self):
+        self.rows = []
+        self.seen = set()
+        self.values = set()
+
+    def emit(self, value: str, label: str, context: str = "") -> None:
+        value = str(value).strip()
+        if not value:
+            return
+        key = (value, label)
+        if key in self.seen:
+            return
+        self.seen.add(key)
+        self.values.add(value)
+        self.rows.append((value, label, context))
+
+    def emit_cell(self, value: str, label: str, context: str) -> None:
+        self.emit(value, label, context)
+        m = NAME_ID_RE.match(value)
+        if m:
+            self.emit(m.group(1), f"{label} name".strip(), context)
+            self.emit(m.group(2), f"{label} id".strip(), context)
+        m = BRACKET_IDS_RE.match(value)
+        if m:
+            for part in re.findall(r"\d+", m.group(1)):
+                self.emit(part, f"{label} id".strip(), context)
+
+
+def is_separator(stripped: str) -> bool:
+    return all(c in SEP_CHARS for c in stripped)
+
+
+def is_row(stripped: str) -> bool:
+    return stripped[0] in ROW_START
+
+
+def row_cells(stripped: str) -> list[str]:
+    parts = [p.strip() for p in ROW_SPLIT_RE.split(stripped)]
+    if len(parts) > 2:  # drop the empty ends produced by border chars
+        if not parts[0]:
+            parts = parts[1:]
+        if parts and not parts[-1]:
+            parts = parts[:-1]
+    return parts
+
+
+def clean_title(line: str) -> str:
+    title = TITLE_COUNT_RE.sub("", line.strip()).lower()
+    return title if len(title) <= TITLE_MAX_LEN else ""
+
+
+def has_header(groups: list, seps: list) -> bool:
+    """Whether groups[0] is a header row rather than data.
+
+    A separator between row groups is not by itself a header marker: tables
+    drawn with a rule between *every* row (rich's show_lines=True) produce one
+    single-row group per data row, so counting groups cannot tell the two
+    shapes apart. The glyphs can — a header rule is drawn differently from a
+    row rule (rich's default HEAVY_HEAD uses a heavy rule after the header and
+    light rules between rows), so the separator closing group 0 differs from
+    the ones after it.
+
+    Known limitation: a header table whose header rule uses the same glyphs as
+    its row rules reads as header-less, and its column labels are lost. The
+    more precise alternative is to require a header group followed by a
+    separator *and* a multi-row group, but that fails on this same shape for
+    the same reason, so it buys nothing here.
+    """
+    if len(groups) < 2:
+        return False
+    if len(groups) == 2:
+        return True  # one internal separator: the conventional shape
+    first, rest = seps[0], [s for s in seps[1:] if s]
+    return bool(first and rest and any(set(first) != set(s) for s in rest))
+
+
+def analyze_table(block: list, title: str, out: Emitter) -> None:
+    # Group consecutive rows; separator lines between groups delimit them.
+    # Keep each closing separator's text — has_header needs the glyphs.
+    groups, seps, current = [], [], []
+    for kind, payload in block:
+        if kind == "row":
+            current.append(payload)
+        elif current:
+            groups.append(current)
+            seps.append(payload)
+            current = []
+    if current:
+        groups.append(current)
+        seps.append(None)
+    if not groups:
+        return
+
+    if has_header(groups, seps):
+        # Rows above the first internal separator are the header (possibly
+        # wrapped over several lines: join per column).
+        header_rows, data = groups[0], [r for g in groups[1:] for r in g]
+        width = max(len(r) for r in header_rows)
+        headers = [
+            " ".join(r[i] for r in header_rows if i < len(r) and r[i]).lower()
+            for i in range(width)
+        ]
+        for row in data:
+            for header, cell in zip(headers, row):
+                if cell:
+                    out.emit_cell(cell, header, title)
+        return
+
+    # Header-less. Flatten every group: with a rule between each row these are
+    # N single-row groups, and reading only groups[0] would emit row one and
+    # silently drop the rest.
+    rows = [r for g in groups for r in g]
+    if all(len(r) == 2 for r in rows):
+        # Two columns: key/value. The value is labelled by its key, and the
+        # table title still travels as context so --nth can match on it.
+        for key, value in rows:
+            if key:
+                out.emit_cell(value, key.lower(), title)
+    else:
+        for row in rows:
+            for cell in row:
+                if cell:
+                    out.emit_cell(cell, "", title)
+
+
+def parse(lines: list, out: Emitter) -> None:
+    title = ""
+    block = []
+
+    def flush():
+        nonlocal block
+        if block:
+            analyze_table(block, title, out)
+            block = []
+
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            flush()
+            continue
+        if is_separator(stripped):
+            block.append(("sep", stripped))
+        elif is_row(stripped):
+            block.append(("row", row_cells(stripped)))
+        else:
+            flush()
+            title = clean_title(stripped)
+    flush()
+
+
+def generic(text: str, out: Emitter) -> None:
+    def emit_unknown(value: str, label: str) -> None:
+        if value not in out.values:
+            out.emit(value, label)
+
+    for url in URL_RE.findall(text):
+        emit_unknown(url, "url")
+    for uuid in UUID_RE.findall(text):
+        emit_unknown(uuid, "uuid")
+    for word in re.split(r"[\s│┃║┌┐└┘┏┓┗┛├┤┡┩]+", text):
+        word = word.strip("()[]{}<>,;:'\"")
+        if len(word) >= WORD_MIN_LEN and not is_separator(word):
+            emit_unknown(word, "word")
+
+
+def plugin_functions():
+    path = os.environ.get("EXTRACT_TOKENS_PLUGIN_PATH") or os.path.join(
+        os.environ.get("XDG_CONFIG_HOME", os.path.expanduser("~/.config")),
+        "extract-tokens",
+    )
+    for directory in path.split(":"):
+        directory = os.path.expanduser(directory)
+        if not os.path.isdir(directory):
+            continue
+        for name in sorted(os.listdir(directory)):
+            if not name.endswith(".py"):
+                continue
+            file_path = os.path.join(directory, name)
+            try:
+                spec = importlib.util.spec_from_file_location(
+                    f"extract_tokens_plugin_{name[:-3]}", file_path
+                )
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+            except Exception as exc:
+                print(
+                    f"extract-tokens: plugin {file_path} failed: {exc}",
+                    file=sys.stderr,
+                )
+                continue
+            fn = getattr(module, "extract", None)
+            if callable(fn):
+                yield file_path, fn
+
+
+def main() -> None:
+    text = ANSI_RE.sub("", sys.stdin.read())
+    out = Emitter()
+    for file_path, fn in plugin_functions():
+        try:
+            fn(text, out.emit)
+        except Exception as exc:
+            print(
+                f"extract-tokens: plugin {file_path} raised: {exc}",
+                file=sys.stderr,
+            )
+    parse(text.splitlines(), out)
+    generic(text, out)
+    sys.stdout.write(
+        "".join(f"{v}\t{label}\t{ctx}\n" for v, label, ctx in out.rows)
+    )
+
+
+if __name__ == "__main__":
+    main()
