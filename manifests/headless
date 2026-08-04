@@ -1,0 +1,12 @@
+# Headless linux (dev containers, VMs). Activated per machine via
+# `echo headless > ~/.config/dots/manifest` (or DOTS_MANIFEST=headless);
+# replaces the common+linux selection entirely in this repo.
+bin
+dircolors
+direnv
+git
+gnupg
+ssh
+tmux
+vim
+zsh

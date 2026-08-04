@@ -25,7 +25,9 @@
 #
 # Environment: DOTS_REPO (default: derived from this script, then ~/dots),
 # DOTS_SIDECAR (default: ~/.config/dots/sidecar contents, then ~/src/local-dots,
-# then ~/dots-local).
+# then ~/dots-local), DOTS_MANIFEST (default: ~/.config/dots/manifest contents)
+# — a manifest variant name: any repo with manifests/<variant> uses that file
+# INSTEAD of common+platform; repos without it keep their default selection.
 
 set -euo pipefail
 
@@ -83,11 +85,29 @@ find_sidecar() {
     done
 }
 
+find_manifest() {
+    # Prints the manifest variant name, or nothing for the default
+    # (common + platform) selection.
+    if [ -n "${DOTS_MANIFEST:-}" ]; then
+        printf '%s\n' "$DOTS_MANIFEST"
+        return
+    fi
+    if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/dots/manifest" ]; then
+        head -n1 "${XDG_CONFIG_HOME:-$HOME/.config}/dots/manifest"
+    fi
+}
+
 MAIN_REPO=$(find_main_repo)
 SIDECAR=$(find_sidecar || true)
 if [ -n "$SIDECAR" ] && [ ! -d "$SIDECAR/packages" ]; then
     warn "side-car $SIDECAR exists but has no packages/ directory — ignoring (run 'dots sidecar-init')"
     SIDECAR=""
+fi
+MANIFEST=$(find_manifest || true)
+if [ -n "$MANIFEST" ] && [ ! -f "$MAIN_REPO/manifests/$MANIFEST" ] &&
+       { [ -z "$SIDECAR" ] || [ ! -f "$SIDECAR/manifests/$MANIFEST" ]; }; then
+    warn "manifest variant '$MANIFEST' found in no repo — using the default selection"
+    MANIFEST=""
 fi
 
 require_stow() {
@@ -98,10 +118,17 @@ require_stow() {
 # --- package selection ------------------------------------------------------
 
 packages_for() {
-    # $1 = repo root. Prints selected package names, one per line.
-    local repo=$1 f p
+    # $1 = repo root. Prints selected package names, one per line. An active
+    # manifest variant replaces common+platform in any repo that defines it;
+    # a repo without the variant file keeps its default selection.
+    local repo=$1 f p files
     if [ -d "$repo/manifests" ]; then
-        for f in "$repo/manifests/common" "$repo/manifests/$OS"; do
+        if [ -n "$MANIFEST" ] && [ -f "$repo/manifests/$MANIFEST" ]; then
+            files="$repo/manifests/$MANIFEST"
+        else
+            files="$repo/manifests/common $repo/manifests/$OS"
+        fi
+        for f in $files; do
             [ -f "$f" ] || continue
             sed -e 's/#.*//' -e 's/[[:space:]]*$//' -e '/^$/d' "$f"
         done
@@ -437,6 +464,7 @@ cmd_doctor() {
 
     info "main repo : $MAIN_REPO"
     info "side-car  : ${SIDECAR:-<none configured>}"
+    info "manifest  : ${MANIFEST:-<default: common + $OS>}"
     if command -v stow >/dev/null 2>&1; then
         info "stow      : $(stow --version | head -n1)"
     else

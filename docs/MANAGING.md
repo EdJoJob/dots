@@ -14,6 +14,12 @@ linked). Two source repos, one flow:
   literally: `packages/zsh/.zshrc` deploys to `~/.zshrc`.
 - **Manifests** (`manifests/common` + `manifests/darwin|linux`) pick which
   packages deploy on this machine. No manifests dir → all packages.
+- A **manifest variant** replaces that default per machine: `echo headless >
+  ~/.config/dots/manifest` (or `DOTS_MANIFEST=headless`) makes any repo with a
+  `manifests/headless` file use exactly that file — repos without it keep
+  their default selection. `manifests/headless` here is the minimal
+  container/VM set; a variant file may list side-car packages too, since
+  manifests select by name across both repos.
 - Stow always runs `--no-folding`: real directories are created and each file
   is linked individually. Both repos can therefore own different files under
   the same directory (`~/.config`, `~/.bin`, …), and nothing an application
