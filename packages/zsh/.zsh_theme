@@ -8,6 +8,7 @@ LONG_CMD_IGNORED+=(
     anon-ssh
     bat
     cat
+    claude
     diary
     docker
     fg
@@ -16,8 +17,6 @@ LONG_CMD_IGNORED+=(
     man
     neomutt
     nvim
-    pdiary
-    pwiki
     ssh
     sshpass
     sudoedit
@@ -25,12 +24,6 @@ LONG_CMD_IGNORED+=(
     tmux
     vi
     vim
-    wdiary
-    wiki
-    wwiki
-    zn
-    zs
-    zz
 )
 # -U: dedupe the array in place, keeping the first occurrence of each command
 typeset -U LONG_CMD_IGNORED

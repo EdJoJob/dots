@@ -113,21 +113,6 @@ export SHELL=${commands[zsh]}
 export EDITOR=${commands[nvim]:-${commands[vim]}}
 export VISUAL=${commands[nvim]:-${commands[vim]}}
 #}}}
-# ZETTEL ------------------------------{{{
-function zz() {
-    (cd ~/vaults/zettel && vi +VimwikiIndex)
-}
-function zn() {
-    (cd ~/vaults/zettel && vi +VimwikiIndex +"ZettelNew $@")
-}
-function zs() {
-    (cd ~/vaults/zettel && vi +VimwikiIndex +"ZettelOpen $@")
-}
-
-function diary() {
-    (cd ~/vaults/zettel/ && vi +VimwikiMakeDiaryNote)
-}
-# }}}
 alias rs="rsync --archive --verbose --address --human-readable --progress"
 # QUICK FILE ACCESS {{{
 alias .vimrc='vi ~/.config/nvim/init.lua'
