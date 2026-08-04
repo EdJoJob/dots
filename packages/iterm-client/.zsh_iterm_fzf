@@ -1,0 +1,117 @@
+# fzf token pickers over iTerm2-captured command output (extrakto-style).
+# Sourced from ~/.zsh_fzf when present; ships with the iterm-client
+# package so machines without it get no dead bindings. Requires the fzf
+# helpers (fzf-down, join-lines) defined in ~/.zsh_fzf.
+#
+# Tokens are "value <TAB> label <TAB> table" so typing a column name
+# (node id, container name, alert name, dest id, ...) or a key from a
+# key/value table fuzzy-matches its values. Selection lands in LBUFFER.
+# API auth today is the "allow all apps" override, so this exports nothing
+# and it2-cookie --startup stays silent. It is kept for the upgrade path:
+# once iTerm2 (>= 3.7.0beta) adds reusable cookies, --startup nags to
+# unwind the override, and after `it2-cookie --mint` the cached cookie is
+# exported here so ssh's SendEnv ITERM2_COOKIE carries it to remotes.
+if [[ -n "$ITERM_SESSION_ID" && -z "$ITERM2_COOKIE" ]] && (( $+commands[it2-cookie] )); then
+  # stderr passes through on purpose: --startup nags when the allow-all
+  # auth override should be unwound (post-upgrade) or a mint is needed.
+  export ITERM2_COOKIE="$(it2-cookie --startup)"
+  [[ -n "$ITERM2_COOKIE" ]] || unset ITERM2_COOKIE
+fi
+
+# ITERM_SESSION_ID marks a local iTerm2 shell; LC_TERMINAL survives ssh
+# (iTerm2 sends it, most sshds AcceptEnv LC_*).
+if [[ -n "$ITERM_SESSION_ID" || "$LC_TERMINAL" == iTerm2* ]] \
+    && (( $+commands[it2-last-output] )) \
+    && (( $+functions[fzf-down] && $+functions[join-lines] )); then
+  # Commands whose output stays relevant all session: `sd ...` or
+  # `<anything> service describe ...`. Override per machine if needed.
+  : ${IT2_DESCRIBE_RE:='^sd( |$)|\bservice describe\b'}
+
+  # Run the producer command ("$@") inside the substitution: piping into
+  # the function instead would leave extract-tokens reading the tty under
+  # ZLE, where a widget's command substitution does not see pipe stdin.
+  #
+  # Run it to completion *before* fzf starts, rather than as the head of a
+  # pipeline into fzf. Every stage of a pipeline is started at once, so fzf
+  # would be reading the tty while it2-last-output sits mid OSC 1337
+  # ReportVariable query on /dev/tty — two readers, one terminal, and
+  # whichever wins takes the reply. That is why the two failures always
+  # arrived together: the reply lands in fzf's search box as typed garbage
+  # ("1337;Re") and the query times out with nothing left to display.
+  # Capturing into a variable first is token-for-token identical to
+  # streaming, since extract-tokens parses the whole text in one pass.
+  #
+  # The producer's stderr goes to a file rather than /dev/null: when
+  # it2-last-output dies (unresolvable session, API unreachable) it prints
+  # why, and discarding that makes every failure look identical to "fzf
+  # exited instantly" — empty input, so fzf returns immediately. Report it
+  # with zle -M instead. Not straight to the tty: that would paint over the
+  # prompt zle is about to redraw.
+  #
+  # A file rather than folding stderr into stdout with 2>&1: it2-last-output's
+  # sh bootstrap runs `uv venv` and `uv pip install` with stderr passed
+  # through on a cold cache and then succeeds, so on a merged stream that
+  # progress output would arrive as bogus tokens on the first call in a fresh
+  # container. The exit status below says whether the run failed; it cannot
+  # say which bytes belonged to which stream.
+  _fzf-token-insert() {
+    local captured result problem errfile
+    local -i rc
+    errfile=$(mktemp "${TMPDIR:-/tmp}/fzf-token-insert.XXXXXX") || return 1
+    # always{}, since ^C while the producer runs abandons the widget and a
+    # plain rm on the next line would never execute — that leaks one file per
+    # interrupt. Scoped to just the part that needs the file, so it is gone
+    # before fzf starts.
+    {
+      captured=$("$@" 2>$errfile)
+      rc=$?  # must be read here: the next substitution overwrites $?
+      problem=$(<$errfile)
+    } always {
+      rm -f -- $errfile
+    }
+    # Exit status decides, not whether anything was captured. A producer that
+    # dies partway can still have written stdout first, and picking tokens out
+    # of a half-finished capture is worse than saying nothing happened.
+    if (( rc )); then
+      problem=${problem:-"$1 exited $rc"}
+      captured=
+    elif [[ -n $problem ]]; then
+      # Succeeded, so stderr was progress rather than a complaint — the sh
+      # bootstrap reports uv venv/pip there on a cold cache. Interrupting the
+      # prompt for it on the first call of a fresh container is just noise.
+      problem=
+    fi
+    # Nothing captured means nothing to pick, so skip fzf rather than
+    # flashing an empty picker that closes on its own.
+    if [[ -n $captured ]]; then
+      result=$(print -r -- "$captured" | extract-tokens |
+        fzf-down --multi --delimiter=$'\t' --nth=1,2,3 --tiebreak=index |
+        cut -f1 | join-lines)
+    elif [[ -z $problem ]]; then
+      problem="no output captured"
+    fi
+    zle reset-prompt
+    [[ -n $problem ]] && zle -M -- "${problem//$'\n'/ }"
+    LBUFFER+=$result
+  }
+
+  _it2-describe-or-last() {
+    it2-last-output --command "$IT2_DESCRIBE_RE" 2>/dev/null ||
+      it2-last-output --last
+  }
+
+  # ^X^S: newest `sd`/`service describe` output; falls back to the
+  # last command's output when none has been captured.
+  fzf-describe-token-widget() {
+    _fzf-token-insert _it2-describe-or-last
+  }
+  # ^X^A: fallback — tokens from the whole recent buffer, no prompt
+  # marks needed (covers output older than the last command).
+  fzf-output-token-widget() {
+    _fzf-token-insert it2-last-output -n 2000
+  }
+  zle -N fzf-describe-token-widget
+  zle -N fzf-output-token-widget
+  bindkey '^x^s' fzf-describe-token-widget
+  bindkey '^x^a' fzf-output-token-widget
+fi

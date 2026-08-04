@@ -5,7 +5,10 @@ bin
 dircolors
 direnv
 git
-gnupg
+# The client half only: no local iTerm2 here, just a reachable API.
+# See docs/decisions/0011-iterm-client-package-split.md.
+iterm-client
+# gnupg
 ssh
 tmux
 vim

@@ -1,0 +1,539 @@
+#!/bin/sh
+# it2-last-output — repeat recent output from the current iTerm2 session.
+#
+# Modes:
+#   (default)        dump the last -n lines of the buffer
+#   --last           output of the previous command (shell-integration
+#                    prompt marks; falls back to the buffer tail when no
+#                    marks exist in this session)
+#   --command REGEX  walk back to the newest command matching REGEX and
+#                    print its output; exit 2 if none is found
+#
+# Note: anything the shell theme prints between the end of a command and
+# the next prompt mark (preexec/precmd timestamps, the first line of a
+# multi-line prompt) lies inside iTerm2's output range and is included.
+#
+# Requirements: iTerm2 Python API enabled (Settings > General > Magic) and
+# shell integration sourced for prompt-scoped capture.
+#
+# Over SSH (no local API socket) the iterm2 library falls back to
+# ws://localhost:1912, so it works if the ssh connection forwards that
+# port to the local API socket:
+#
+#     # ~/.ssh/config on the Mac
+#     Host devbox
+#         RemoteForward 1912 /Users/<you>/Library/Application Support/iTerm2/private/socket
+#
+# Auth today relies on iTerm2's "Allow all apps to connect" override
+# (Settings > General > Magic); no ITERM2_COOKIE is needed, locally or
+# remotely. Once iTerm2 (>= 3.7.0beta) adds reusable cookies the override
+# should be unwound and a cookie minted with `it2-cookie --mint`:
+# ~/.zsh_iterm_fzf exports it locally and `SendEnv ITERM2_COOKIE` (plus
+# sshd `AcceptEnv`) carries it to remotes. Both modes work here — an
+# ITERM2_COOKIE already in the environment is sent as a header; only the
+# library's AppleScript cookie minting is stubbed out below, because
+# off-mac it dies with FileNotFoundError before the connection is even
+# attempted, and the cookies it mints are single-use anyway.
+#
+# The target session is found from $ITERM_SESSION_ID when set — though never
+# inside tmux, where it names whatever pane the server inherited it from;
+# otherwise from this pane's cached id; otherwise by asking the terminal
+# itself over the tty (OSC 1337 ReportVariable, which crosses both ssh and
+# tmux -CC), the answer being cached to keep that query off every call.
+# Outside tmux a last resort takes the frontmost window's active session;
+# inside tmux that would silently target whichever window was clicked last,
+# so it fails loudly there instead.
+
+''':'
+# sh bootstrap: uv builds the venv once, then python runs directly.
+# Deliberately NOT `uv run --script`: uv (<=0.11.32) never exits after its
+# child reads a raw-mode /dev/tty reply, wedging every tty-query call.
+#
+# Gate on the payload, not on the interpreter: `uv venv` creates bin/python
+# before `uv pip install` runs, so a first run whose install died (offline,
+# ^C) would leave a venv that passes an -x check forever and then fail with
+# ModuleNotFoundError on every later run. The two steps are guarded
+# separately because `uv venv` is NOT idempotent — it exits non-zero on an
+# existing path, so reusing one branch for both would break every call once
+# the probe starts failing.
+VENV="${XDG_CACHE_HOME:-$HOME/.cache}/it2-last-output/venv"
+PY="$VENV/bin/python"
+if ! "$PY" -c 'import iterm2' 2>/dev/null; then
+    [ -x "$PY" ] || uv venv --quiet "$VENV" >&2 || exit 1
+    uv pip install --quiet --python "$PY" iterm2 >&2 || exit 1
+fi
+exec "$PY" "$0" "$@"
+':'''
+
+import argparse
+import base64
+import os
+import re
+import select
+import sys
+import termios
+import time
+import tty as tty_mod
+
+import iterm2
+import iterm2.auth
+
+# Never mint cookies via AppleScript. Auth relies on the "Allow all apps
+# to connect" override on the mac running iTerm2; the library cannot see
+# that override from a remote host (it checks a local file) and would try
+# /usr/bin/osascript instead, which dies off-mac with FileNotFoundError
+# before the connection is attempted. Returning False means "use whatever
+# ITERM2_COOKIE the environment already has, or none".
+iterm2.auth.authenticate = lambda *_args, **_kwargs: False
+
+
+def positive_int(value):
+    """argparse type for -n.
+
+    Without this, `-n 0` slices rows[0:] and returns the whole buffer, and a
+    negative value slices from the front and returns the oldest lines — both
+    silently, since argparse accepts either.
+    """
+    number = int(value)
+    if number < 1:
+        raise argparse.ArgumentTypeError("must be 1 or greater")
+    return number
+
+
+def die(msg: str, code: int = 1) -> None:
+    print(f"it2-last-output: {msg}", file=sys.stderr)
+    finish(code)
+
+
+def finish(code: int) -> None:
+    # Exit without unwinding: the iterm2 library's websocket/asyncio
+    # teardown intermittently never returns (worst on a pty), and there is
+    # nothing to clean up — tty state is restored right after the session
+    # query and the OS closes the socket. sys.exit would hang here.
+    sys.stdout.flush()
+    sys.stderr.flush()
+    os._exit(code)
+
+
+def tty_name():
+    """Path of the controlling terminal, or None.
+
+    Not just ttyname(0): called from a zle widget this sits at the head of a
+    pipeline, and any redirection of stdin would otherwise cost us the cache
+    key and put the OSC query back on every invocation.
+    """
+    for fd in (0, 1, 2):
+        try:
+            name = os.ttyname(fd)
+        except OSError:
+            continue
+        # ttyname on a descriptor opened from /dev/tty answers "/dev/tty" on
+        # macOS — the same string in every pane. Better no cache key than one
+        # that collides, since a wrong hit targets another pane's session.
+        if name != "/dev/tty":
+            return name
+    return None
+
+
+def session_cache_path():
+    """Cache file holding this pane's resolved iTerm2 session id.
+
+    The OSC query below is the expensive and racy part of resolution: it
+    costs an ssh round trip, and if it times out the reply lands in whatever
+    reads the tty next — zle, or the fzf the calling widget just started,
+    where it shows up as typed garbage like "1337;Re". Caching makes it run
+    once per pane instead of once per widget invocation.
+
+    Keyed by tmux pane where there is one (stable and unique per pane, and
+    qualified by the server socket so two servers cannot collide on %0),
+    otherwise by controlling tty.
+    """
+    key = os.environ.get("TMUX_PANE") or ""
+    if key:
+        key = os.environ.get("TMUX", "").partition(",")[0] + key
+    else:
+        key = tty_name()
+        if not key:
+            return None
+    base = os.environ.get("XDG_CACHE_HOME") or os.path.join(
+        os.path.expanduser("~"), ".cache"
+    )
+    directory = os.path.join(base, "it2-last-output", "sessions")
+    try:
+        os.makedirs(directory, exist_ok=True)
+    except OSError:
+        return None
+    return os.path.join(directory, re.sub(r"[^A-Za-z0-9_.%-]", "_", key))
+
+
+def cache_read(path):
+    if not path:
+        return None
+    try:
+        with open(path) as handle:
+            return handle.read().strip() or None
+    except OSError:
+        return None
+
+
+def cache_write(path, value) -> None:
+    if not path:
+        return
+    try:
+        with open(path, "w") as handle:
+            handle.write(value)
+    except OSError:
+        pass
+
+
+def tty_session_id(timeout: float = 2.0):
+    """Ask the terminal for its session id via OSC 1337 ReportVariable.
+
+    Pure tty traffic, so it works over ssh where ITERM_SESSION_ID is not
+    forwarded — including under `tmux -CC`, which relays the OSC to iTerm2
+    verbatim. Returns None on any failure (no tty, not iTerm2, timeout).
+
+    The default timeout is generous because the round trip crosses ssh and
+    the tmux control channel; a reply that arrives after we give up is
+    indistinguishable from typed input to the next reader, so it is worth
+    waiting for. `timeout` is an overall deadline, not a per-read one, so a
+    trickle of unrelated bytes cannot extend it indefinitely.
+    """
+    try:
+        fd = os.open("/dev/tty", os.O_RDWR | os.O_NOCTTY)
+    except OSError:
+        return None
+    try:
+        old = termios.tcgetattr(fd)
+    except termios.error:
+        os.close(fd)
+        return None
+    try:
+        tty_mod.setraw(fd)
+        name = base64.b64encode(b"session.id").decode()
+        os.write(fd, f"\x1b]1337;ReportVariable={name}\x07".encode())
+        deadline = time.monotonic() + timeout
+        buf = b""
+        while b"\x07" not in buf and b"\x1b\\" not in buf:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                drain(fd)
+                return None
+            readable, _, _ = select.select([fd], [], [], remaining)
+            if not readable:
+                drain(fd)
+                return None
+            buf += os.read(fd, 1024)
+        m = re.search(rb"1337;ReportVariable=([A-Za-z0-9+/=]+)", buf)
+        if not m:
+            return None
+        return base64.b64decode(m.group(1)).decode().strip() or None
+    except OSError:
+        return None
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old)
+        os.close(fd)
+
+
+def drain(fd, grace: float = 0.3) -> None:
+    """Best-effort mop-up of a reply that arrived after we stopped waiting.
+
+    Anything still queued would otherwise be delivered to the next tty
+    reader as input. This cannot be airtight — a reply slower than `grace`
+    still escapes — which is why the resolved id is cached.
+    """
+    deadline = time.monotonic() + grace
+    try:
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                return
+            readable, _, _ = select.select([fd], [], [], remaining)
+            if not readable:
+                return
+            if not os.read(fd, 4096):
+                return
+    except OSError:
+        return
+
+
+def join_lines(lines) -> str:
+    # Rejoin soft-wrapped display lines (e.g. wide tables in a narrow pane)
+    # into logical lines so downstream parsing sees unbroken rows.
+    parts = []
+    for line in lines:
+        parts.append(line.string)
+        if getattr(line, "hard_eol", True):
+            parts.append("\n")
+    return "".join(parts).rstrip("\n")
+
+
+def prompt_window(start_y, end_y, end_x, overflow):
+    """Absolute (first_line, count) for a prompt's output range, or None.
+
+    iTerm2 puts both sides of this arithmetic in one absolute space, and
+    getting that wrong is invisible until a pane overflows its scrollback:
+
+      * async_get_contents(first_line, n) takes absolute line numbers and
+        first_line must be >= overflow, or it silently returns fewer lines
+        than asked for (iterm2/session.py, async_get_contents).
+      * Coord.y — behind prompt.output_range — is in the same space, and its
+        numbering is stable: "y=0 describes the first line ... the Nth line is
+        always the Nth line, even if it's not the Nth *visible* line"
+        (iterm2/api_pb2.pyi, class Coord).
+
+    So start_y needs no conversion; it only needs clamping up to overflow when
+    the head of the output has already aged out. The clamp shortens the count
+    by exactly what it skips — applying it twice would drop real lines.
+    """
+    n = end_y - start_y + (1 if end_x > 0 else 0)
+    first = start_y
+    if first < overflow:  # output partially trimmed from scrollback
+        n -= overflow - first
+        first = overflow
+    if n <= 0:
+        return None
+    return first, n
+
+
+def tail_window(requested_lines, mutable, scrollback, overflow):
+    """Absolute (first_line, count) for the buffer tail.
+
+    `mutable + scrollback` counts the lines still retained, so the retained
+    range is [overflow, overflow + total) — a count, not a starting point.
+    Over-fetch one screen because the mutable area's tail is blank rows below
+    the cursor; the caller drops those and keeps the last -n logical lines.
+    """
+    total = scrollback + mutable
+    fetch = min(requested_lines + mutable, total)
+    return overflow + total - fetch, fetch
+
+
+async def output_lines(session, start_y, end_y, end_x):
+    # line_info and get_contents share a Transaction because the library
+    # requires it — overflow drifts while a pane is still producing output,
+    # and the prompt walk above this makes many round trips before we get
+    # here, so reading it any earlier would use a stale value.
+    async with iterm2.Transaction(session.connection):
+        info = await session.async_get_line_info()
+        window = prompt_window(start_y, end_y, end_x, info.overflow)
+        if window is None:
+            return None
+        lines = await session.async_get_contents(*window)
+    return join_lines(lines)
+
+
+async def last_command_output(
+    connection, session, session_id, command_re=None, max_walk=200,
+    skip_newest=False,
+):
+    try:
+        prompt_ids = await iterm2.async_list_prompts(connection, session_id) or []
+    except Exception:
+        return None
+    # Walk newest to oldest for the newest prompt that produced output (and,
+    # with --command, whose command line matches the pattern). iTerm2 reports
+    # every prompt's output_range.end as the current buffer end, so a
+    # command's real output must be clamped at the next (newer) prompt.
+    #
+    # Two prompts are never match candidates (but still clamp):
+    #  - the newest prompt of our own session: it is either this very
+    #    invocation (run as a command, it would match itself and return its
+    #    own not-yet-written output) or the prompt being edited;
+    #  - any historical it2-last-output invocation, whose command line would
+    #    self-match substring patterns like --command cat.
+    next_prompt_start = None
+    clamp_stale = False
+    for index, prompt_id in enumerate(reversed(prompt_ids[-max_walk:])):
+        prompt = await iterm2.async_get_prompt_by_id(
+            connection, session_id, prompt_id
+        )
+        if prompt is None:
+            # Its prompt_range is unknowable, so the clamp for the next
+            # (older) candidate would be a prompt two positions newer.
+            # Refuse that one candidate rather than leaving the range
+            # unbounded: dropping the clamp entirely returns everything to
+            # the buffer end, which is worse than a range one prompt too wide.
+            clamp_stale = True
+            continue
+        command = prompt.command or ""
+        candidate = not (skip_newest and index == 0) and not clamp_stale
+        clamp_stale = False
+        if "it2-last-output" in command:
+            candidate = False
+        rng = prompt.output_range
+        if candidate and rng and (not command_re or command_re.search(command)):
+            end_y, end_x = rng.end.y, rng.end.x
+            if next_prompt_start is not None and next_prompt_start < end_y:
+                end_y, end_x = next_prompt_start, 0
+            if end_y > rng.start.y or (end_y == rng.start.y and end_x > 0):
+                return await output_lines(
+                    session, rng.start.y, end_y, end_x
+                )
+        if prompt.prompt_range:
+            next_prompt_start = prompt.prompt_range.start.y
+    return None
+
+
+async def amain(connection):
+    args = amain.args
+    app = await iterm2.async_get_app(connection)
+
+    def find(prefix):
+        found = None
+        for window in app.windows:
+            for tab in window.tabs:
+                for candidate in tab.sessions:
+                    if candidate.session_id.startswith(prefix):
+                        found = candidate
+        return found
+
+    # Inside tmux, ITERM_SESSION_ID is whatever the server inherited when it
+    # started — it names one pane's session at best and is stale at worst, so
+    # it is not a usable answer for "which session is this pane".
+    env_id = (
+        ""
+        if os.environ.get("TMUX")
+        else os.environ.get("ITERM_SESSION_ID", "").rpartition(":")[2]
+    )
+    requested = args.session or env_id
+    cache = None if args.session else session_cache_path()
+    session = find(requested) if requested else None
+    if session is None and requested:
+        die(f"session {requested} not found")
+
+    if session is None:
+        # A cached id goes stale when the pane closes or the tmux window is
+        # rebuilt, so a miss re-queries rather than failing.
+        cached = cache_read(cache)
+        if cached:
+            session = find(cached)
+            if session is None:
+                cache_write(cache, "")
+        if session is None:
+            queried = tty_session_id()
+            if queried:
+                session = find(queried)
+                if session is None:
+                    die(f"session {queried} not found")
+                cache_write(cache, session.session_id)
+
+    if session is None:
+        # Falling back to the frontmost window silently targets whichever
+        # window was last clicked, which races the user's own focus changes;
+        # from a zle widget the symptom is fzf exiting instantly on empty
+        # input, or tokens from an unrelated pane. Only trust it outside
+        # tmux, where there is no pane-to-session mapping to get wrong.
+        if os.environ.get("TMUX"):
+            die(
+                "cannot resolve this tmux pane's iTerm2 session: no usable "
+                "ITERM_SESSION_ID and the OSC 1337 ReportVariable query went "
+                "unanswered. Under `tmux -CC` that query reaches iTerm2 only "
+                "if the shell is sending OSCs unwrapped in control mode (see "
+                "escaped_printf in ~/.zshrc); under a normal client it cannot "
+                "work at all, so run this from a control-mode client."
+            )
+        window = app.current_terminal_window
+        session = window.current_tab.current_session if window else None
+        if session is None:
+            die(
+                "cannot determine target session: no ITERM_SESSION_ID, "
+                "tty query unanswered, and no active window"
+            )
+    session_id = session.session_id
+
+    # Without --session the resolved session is our own by construction,
+    # so its newest prompt is this invocation / the prompt being edited.
+    # env_id, not the raw variable: inside tmux the inherited value names
+    # some other pane, so it cannot vouch for an explicit --session.
+    is_own = args.session is None or (
+        bool(env_id) and session_id.startswith(env_id)
+    )
+    text = None
+    if args.last or args.command_re:
+        text = await last_command_output(
+            connection,
+            session,
+            session_id,
+            command_re=args.command_re,
+            max_walk=args.max_walk,
+            skip_newest=is_own,
+        )
+    if text is None and args.command_re:
+        # No prompt matched the requested command; that's a miss, not a
+        # reason to dump unrelated output.
+        die("no captured command matching pattern", code=2)
+    if text is None:
+        async with iterm2.Transaction(connection):
+            info = await session.async_get_line_info()
+            first, fetch = tail_window(
+                args.lines,
+                info.mutable_area_height,
+                info.scrollback_buffer_height,
+                info.overflow,
+            )
+            lines = await session.async_get_contents(first, fetch)
+        rows = join_lines(lines).split("\n")
+        while rows and not rows[-1].strip("\x00 \t"):
+            rows.pop()
+        text = "\n".join(rows[-args.lines:])
+    print(text)
+    finish(0)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Repeat recent output from this iTerm2 session."
+    )
+    parser.add_argument(
+        "-n",
+        "--lines",
+        type=positive_int,
+        default=500,
+        help="lines of buffer tail in the default/fallback mode (default 500)",
+    )
+    parser.add_argument(
+        "--last",
+        action="store_true",
+        help="print the previous command's output (needs prompt marks; "
+        "falls back to the buffer tail without them)",
+    )
+    parser.add_argument(
+        "-c",
+        "--command",
+        metavar="REGEX",
+        help="walk back to the newest captured command matching REGEX and "
+        "print its output; exit 2 if none is found",
+    )
+    parser.add_argument(
+        "--session",
+        metavar="ID",
+        help="target session id (or unique prefix); default: this session",
+    )
+    parser.add_argument(
+        "--max-walk",
+        type=int,
+        default=200,
+        help="how many prompts back to search (default 200)",
+    )
+    args = parser.parse_args()
+    try:
+        args.command_re = re.compile(args.command) if args.command else None
+    except re.error as exc:
+        die(f"bad --command regex: {exc}")
+    amain.args = args
+    try:
+        iterm2.run_until_complete(amain)
+    except Exception as exc:
+        die(
+            f"cannot connect to iTerm2 API ({exc}); enable the Python API "
+            "and 'Allow all apps to connect' (Settings > General > Magic) "
+            "on the mac. Over SSH, forward port 1912 to the API socket "
+            "(see script header). A stale ITERM2_COOKIE in the environment "
+            "can also 401 — unset it (allow-all mode) or re-mint with "
+            "`it2-cookie --mint` (reusable-cookie mode)."
+        )
+
+
+if __name__ == "__main__":
+    main()

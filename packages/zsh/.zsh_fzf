@@ -93,4 +93,9 @@ if (( $+commands[fzf] )); then
     }
     bind-git-helper f b t r s w
     unset -f bind-git-helper
+
+    # Terminal-specific fzf widgets ship with their terminal's package
+    # (e.g. ~/.zsh_iterm_fzf from the iterm package) and rely on the
+    # helpers above, so source them last.
+    test -e ~/.zsh_iterm_fzf && source ~/.zsh_iterm_fzf
 fi
