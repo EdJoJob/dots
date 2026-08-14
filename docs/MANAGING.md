@@ -39,6 +39,13 @@ dots list                # per-file state: linked / unlinked / CONFLICT
 dots doctor              # full diagnosis, incl. broken and pre-migration links
 ```
 
+zsh tab-completion for all of the above ships in `packages/zsh/.zfunc/_dots`
+(see [0014](decisions/0014-dots-zsh-completion.md)). Package names are globbed
+live, so they never need regenerating: `dots link <TAB>` offers packages from
+this repo and the side-car, while `dots adopt -p <TAB>` offers only the repo
+that `-s` selects. If a stale completion cache hides it after a fresh install,
+`rm -f ~/.zcompdump*` once.
+
 ### Adding a brand-new config file
 
 Put it at its literal path inside a package and relink:

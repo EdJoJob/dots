@@ -1,0 +1,138 @@
+#compdef dots
+# Completion for dots (see docs/decisions/0014-dots-zsh-completion.md).
+#
+# Package names are globbed from packages/*/ on every <TAB> rather than baked
+# into a list, so they cannot go stale. Repo resolution mirrors dots' own
+# find_main_repo/find_sidecar; keep the two in step.
+
+_dots_main_repo() {
+    # Prints the main repo root, or nothing if none can be resolved.
+    local dir
+    if [[ -n ${DOTS_REPO:-} ]]; then
+        [[ -d $DOTS_REPO/packages ]] && print -r -- $DOTS_REPO
+        return
+    fi
+    if (( $+commands[dots] )); then
+        dir=${commands[dots]:A:h}
+        [[ -d $dir/packages ]] && { print -r -- $dir; return }
+    fi
+    [[ -d $HOME/dots/packages ]] && print -r -- $HOME/dots
+}
+
+_dots_sidecar_repo() {
+    # Prints the side-car root, or nothing if none is configured/present.
+    local cand conf
+    local -a lines
+    if [[ -n ${DOTS_SIDECAR:-} ]]; then
+        # dots takes DOTS_SIDECAR unconditionally, then warns and ignores it
+        # when packages/ is missing — offer names only when it is real.
+        [[ -d $DOTS_SIDECAR/packages ]] && print -r -- $DOTS_SIDECAR
+        return
+    fi
+    conf=${XDG_CONFIG_HOME:-$HOME/.config}/dots/sidecar
+    if [[ -f $conf ]]; then
+        lines=( ${(f)"$(<$conf)"} )
+        cand=${lines[1]}
+        cand=${cand/#\~/$HOME}
+        if [[ -n $cand ]]; then
+            [[ -d $cand/packages ]] && print -r -- $cand
+            return
+        fi
+    fi
+    for cand in $HOME/src/local-dots $HOME/dots-local; do
+        [[ -d $cand/packages ]] && { print -r -- $cand; return }
+    done
+}
+
+_dots_pkg_names() {
+    # $@ = repo roots (empty entries ignored). Prints deduped package names.
+    local repo
+    local -a pkgs
+    for repo in "$@"; do
+        [[ -n $repo && -d $repo/packages ]] || continue
+        pkgs+=( $repo/packages/*(N/:t) )
+    done
+    (( $#pkgs )) && print -rl -- ${(u)pkgs}
+}
+
+_dots_stow_packages() {
+    # link/unlink/relink/restow route each name to whichever repo defines it,
+    # so offer the union. Deliberately every packages/*/ dir, not the manifest
+    # selection — dots accepts opt-in packages the manifests omit.
+    local -a pkgs
+    pkgs=( ${(f)"$(_dots_pkg_names "$(_dots_main_repo)" "$(_dots_sidecar_repo)")"} )
+    _wanted packages expl 'package' compadd -a pkgs
+}
+
+_dots_adopt_packages() {
+    # adopt writes into exactly one repo, picked by -s/--sidecar. Offering the
+    # other repo's names would invite adopting into the wrong repo.
+    local -a pkgs
+    if (( ${words[(I)-s|--sidecar]} )); then
+        pkgs=( ${(f)"$(_dots_pkg_names "$(_dots_sidecar_repo)")"} )
+        _wanted packages expl 'side-car package' compadd -a pkgs
+    else
+        pkgs=( ${(f)"$(_dots_pkg_names "$(_dots_main_repo)")"} )
+        _wanted packages expl 'package' compadd -a pkgs
+    fi
+}
+
+_dots() {
+    local curcontext=$curcontext state line ret=1
+    local -a subcommands
+    subcommands=(
+        'link:stow packages into $HOME'
+        'unlink:remove the links stow created'
+        'relink:restow — prune stale links, add new files'
+        'restow:alias for relink'
+        'adopt:move an existing $HOME file into a package'
+        'doctor:diagnose conflicts, broken links, missing files, tool versions'
+        'migrate-legacy:remove symlinks left by the pre-stow layout'
+        'list:show packages and per-file deploy state'
+        'sidecar-init:clone the side-car repo, or scaffold a new one'
+        'help:show usage'
+    )
+
+    _arguments -C \
+        '(- *)'{-h,--help}'[show usage]' \
+        '1: :->command' \
+        '*:: :->args' && return 0
+
+    case $state in
+        command)
+            _describe -t commands 'dots command' subcommands && ret=0
+            ;;
+        args)
+            case $words[1] in
+                link|unlink|relink|restow)
+                    _arguments \
+                        '(-n --dry-run)'{-n,--dry-run}'[show what would change, change nothing]' \
+                        '*: :_dots_stow_packages' && ret=0
+                    ;;
+                adopt)
+                    # positionals must be regular files under $HOME: cmd_adopt
+                    # rejects symlinks and anything that is not a plain file
+                    _arguments \
+                        '(-s --sidecar)'{-s,--sidecar}'[adopt into the side-car repo]' \
+                        '(-p --package)'{-p,--package}'[target package]:package:_dots_adopt_packages' \
+                        '*:file:_files -g "*(.)"' && ret=0
+                    ;;
+                migrate-legacy)
+                    # takes no positionals — it dies on any non-option word
+                    _arguments \
+                        '(-n --dry-run)'{-n,--dry-run}'[show what would be removed]' && ret=0
+                    ;;
+                sidecar-init)
+                    _arguments '1:side-car url or path:_files -/' && ret=0
+                    ;;
+                doctor|list|help)
+                    ret=0   # no options, no arguments
+                    ;;
+            esac
+            ;;
+    esac
+
+    return ret
+}
+
+_dots "$@"
