@@ -3,7 +3,9 @@
 local opt = vim.opt
 
 -- Providers ------------------------------------------------------------
-vim.g.python3_host_prog = '~/.local/neovim/bin/python3'
+-- Nothing here needs the python3 provider since snippets moved to LuaSnip;
+-- disabling it outright skips the pynvim probe and process at startup
+vim.g.loaded_python3_provider = 0
 
 -- Basic ----------------------------------------------------------------
 opt.title = true                 -- set the title of the terminal window

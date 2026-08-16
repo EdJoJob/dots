@@ -82,24 +82,6 @@ fi
 info "deploying symlinks (dots link $DRY)"
 ./dots link $DRY
 
-# --- nvim python provider ------------------------------------------------------
-# UltiSnips (and anything else using the python3 provider) reads
-# g:python3_host_prog = ~/.local/neovim/bin/python3 — provision that venv.
-
-if [ -z "$DRY" ] && command -v python3 >/dev/null 2>&1; then
-    NVIM_VENV="$HOME/.local/neovim"
-    if [ ! -x "$NVIM_VENV/bin/python3" ]; then
-        info "creating nvim python provider venv at ~/.local/neovim"
-        python3 -m venv "$NVIM_VENV" ||
-            info "venv creation failed (Debian/Ubuntu: apt install python3-venv) — nvim python plugins will be inert"
-    fi
-    if [ -x "$NVIM_VENV/bin/python3" ] && ! "$NVIM_VENV/bin/python3" -c 'import pynvim' 2>/dev/null; then
-        info "installing pynvim into the provider venv"
-        "$NVIM_VENV/bin/python3" -m pip install --quiet --upgrade pip pynvim ||
-            info "pynvim install failed (non-fatal); re-run install.sh to retry"
-    fi
-fi
-
 # --- terminfo ----------------------------------------------------------------
 
 if [ -z "$DRY" ] && command -v tic >/dev/null 2>&1; then
