@@ -44,8 +44,6 @@ gnupg2
 htop
 # htop: requires EPEL on RHEL
 jq
-neovim
-# neovim: requires EPEL on RHEL
 notmuch
 # notmuch: Fedora; spotty in EPEL — on RHEL verify availability first
 # lieer: via mise+uvx (install/tools.sh) — same as every platform

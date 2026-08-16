@@ -16,6 +16,17 @@ uv = "latest"       # pipx: backend (via uvx)
 # updater (replaces the old update-all script)
 topgrade = "latest"
 
+# editor + its build deps. nvim is mise-managed on every platform because the
+# nvim config tracks nvim-treesitter's main branch, which hard-requires nvim
+# >= 0.12; distro repos lag (Fedora 42 ships 0.11.5, where vim.list is absent
+# and every parser install dies in config.lua). aqua pulls the official
+# release tarball, runtime files included, so VIMRUNTIME stays consistent.
+"aqua:neovim/neovim" = "latest"
+# tree-sitter CLI: nvim-treesitter main compiles parsers locally and needs
+# this >= 0.26.1. Upstream is explicit that the npm build is NOT supported.
+# Also needs a C compiler — an OS package (install/packages-*.txt).
+"aqua:tree-sitter/tree-sitter" = "latest"
+
 # git
 "github:tummychow/git-absorb" = "latest"
 
