@@ -34,7 +34,6 @@ topgrade = "latest"
 "pipx:proselint" = "latest"
 "pipx:rstcheck" = "latest"
 "pipx:yq" = "latest"
-"pipx:lieer" = "latest"     # gmi — gmail <-> notmuch sync (docs/MAIL.md)
 
 # nvim language servers (gopls stays an OS package — properly packaged everywhere)
 "npm:pyright" = "latest"
