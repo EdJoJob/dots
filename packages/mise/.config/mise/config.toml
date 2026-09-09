@@ -31,7 +31,6 @@ topgrade = "latest"
 "github:tummychow/git-absorb" = "latest"
 
 # python tools (uvx)
-"pipx:proselint" = "latest"
 "pipx:rstcheck" = "latest"
 "pipx:yq" = "latest"
 
@@ -41,9 +40,6 @@ topgrade = "latest"
 "npm:yaml-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:vim-language-server" = "latest"
-
-# prose linter (was an npm global)
-"npm:alex" = "latest"
 
 # markdown review UI — serves a doc for inline feedback (replaces npx invocation)
 "npm:md-feedback-ui" = "latest"
