@@ -13,7 +13,9 @@
     # remote HEAD if known (git remote set-head origin --auto to refresh), else master
     mainline = !git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | sed 's|^origin/||' | grep . || echo master
     blog = !git -C ${GIT_PREFIX:-.} log --graph --date=relative --format=eevans ${GIT_MAINLINE:-$(git mainline)}...HEAD
+    bblog = !git -C ${GIT_PREFIX:-.} log --graph --date=relative --format=eevans ${GIT_MAINLINE:-$(git mainline)}..HEAD
     bdiff = !git -C ${GIT_PREFIX:-.} diff ${GIT_MAINLINE:-$(git mainline)}...HEAD
+    bbdiff = !git -C ${GIT_PREFIX:-.} diff ${GIT_MAINLINE:-$(git mainline)}..HEAD
     up = !git pull --all --rebase --prune $@ && git submodule sync --recursive && git submodule update --init --recursive
     out = !git fetch && git log origin/${GIT_MAINLINE:-$(git mainline)}..
     in = !git fetch && git log ..origin/${GIT_MAINLINE:-$(git mainline)}
