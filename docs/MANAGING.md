@@ -113,8 +113,16 @@ secret get <name>      # runtime read: ~30ms, no TTY, daemon-safe while logged i
 secret ls              # map entries and their seeded/MISSING state
 ```
 
-The map (side-car `core` package) holds only *references* (`name op://ref`),
-never values. Rotation = rotate in 1Password, re-run `secret seed`.
+The map (side-car `core` package) holds only *references*
+(`name op://ref [@account]`), never values. Rotation = rotate in 1Password,
+re-run `secret seed`.
+
+With more than one 1Password account signed in (e.g. personal
+`my.1password.com` plus work `aiven.1password.eu`), end each entry with
+`@<account>`. Vault names like `Private` and `Employee` are not unique
+across accounts, so without it `op` resolves against `OP_ACCOUNT` or its own
+default and the read fails or, worse, hits the wrong item. The ref itself
+runs to the `@` or to end of line, so item names with spaces need no quoting.
 
 The tradeoff to know: the same ACL property that makes reads prompt-free
 means **any process running as your logged-in user can silently read every

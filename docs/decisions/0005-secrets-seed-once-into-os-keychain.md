@@ -33,9 +33,16 @@ status quo being replaced.
 The `secret` helper (`bin` package):
 
 - `secret seed` reads `~/.config/dots/secrets.map` (side-car-owned,
-  `name → op://` reference) through 1Password **once** at install/rotation
-  time and stores each value in the login keychain (macOS `security`,
-  Linux `secret-tool`/libsecret).
+  `name <op://ref> [@account]`) through 1Password
+  **once** at install/rotation time and stores each value in the login
+  keychain (macOS `security`, Linux `secret-tool`/libsecret).
+- The trailing `@account` exists because vault names are not unique across
+  1Password accounts (a personal and a work tenant both have a `Private`
+  or `Employee` vault). Where given it becomes `op --account <acct> read`;
+  where omitted `op` picks `OP_ACCOUNT` or its default account, which is
+  the pre-multi-account behaviour and stays valid for single-account boxes.
+  It is a sigil rather than a third column because 1Password item names may
+  contain spaces, so the reference has to own the rest of the line.
 - `secret get <name>` is the only runtime read: ~30ms, non-interactive,
   readable by launchd agents / systemd user units while logged in. Items
   are created and read by the same binary, so the macOS keychain ACL never
