@@ -138,10 +138,7 @@ hash -d zettel=~/vaults/zettel
 #}}}
 # Plugins Settings ---------------------{{{
 # zsh-syntax-highlighting {{{
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-export ZSH_HIGHLIGHT_HIGHLIGHTERS
-# -A: associative array the syntax-highlighting plugin reads, keyed by style name
-typeset -A ZSH_HIGHLIGHT_STYLES
+zstyle ':fsh:config' bracket-highlighting enabled
 # }}}
 #}}}
 # zsh core settings --------------------{{{
