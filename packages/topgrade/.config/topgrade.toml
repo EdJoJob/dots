@@ -6,7 +6,8 @@
 # Respect the committed lazy-lock.json: topgrade's own vim/nvim step would
 # run an unpinned update. Day-to-day is `Lazy! restore` (below); deliberate
 # upgrades are `:Lazy update` followed by committing the new lockfile.
-disable = ["vim", "helix"]
+disable = ["vim", "helix", "pipx", "shell", "node", "yarn", "pnpm", "uv", "git_repos"]
+last = ["system"]
 cleanup = true
 
 [commands]
